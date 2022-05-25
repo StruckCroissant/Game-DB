@@ -1,4 +1,4 @@
-package com.StruckCroissant.GameDB.GameDB;
+package com.StruckCroissant.GameDB;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

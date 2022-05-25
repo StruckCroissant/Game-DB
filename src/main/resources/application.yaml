@@ -1,0 +1,6 @@
+app:
+  datasource:
+    jdbc-url: "jdbc:mariadb://localhost:3306/gamedb"
+    username: root
+    password: GameDBr00tPass
+
