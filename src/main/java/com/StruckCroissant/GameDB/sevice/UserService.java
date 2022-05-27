@@ -18,7 +18,7 @@ public class UserService {
     private final UserDao userDao;
 
     @Autowired
-    public UserService(@Qualifier("postgres-db") UserDao userDao) {
+    public UserService(@Qualifier("db-user") UserDao userDao) {
         this.userDao = userDao;
     }
 
@@ -30,15 +30,15 @@ public class UserService {
         return userDao.selectAllUsers();
     }
 
-    public Optional<User> getUserById(UUID id){
+    public User getUserById(int id){
         return userDao.selectUserById(id);
     }
 
-    public int deleteUser(UUID id){
+    public int deleteUser(int id){
         return userDao.deleteUserById(id);
     }
 
-    public int updateUser(UUID id, User newUser){
+    public int updateUser(int id, User newUser){
         return userDao.updateUserById(id, newUser);
     }
 }

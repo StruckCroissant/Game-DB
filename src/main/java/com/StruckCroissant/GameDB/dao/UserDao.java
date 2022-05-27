@@ -7,18 +7,13 @@ import com.StruckCroissant.GameDB.model.User;
 
 public interface UserDao {
 
-    int insertUser(UUID id, User user);
-
-    default int insertUser(User user){
-        UUID id = UUID.randomUUID();
-        return insertUser(id, user);
-    }
+    int insertUser(User user);
 
     List<User> selectAllUsers();
 
-    Optional<User> selectUserById(UUID id);
+    User selectUserById(int id);
 
-    int deleteUserById(UUID id);
+    int deleteUserById(int id);
 
-    int updateUserById(UUID id, User user);
+    int updateUserById(int id, User user);
 }
