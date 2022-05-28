@@ -8,7 +8,6 @@ spring.flyway:
   user: "root"
   password: "mariadb"
   url: jdbc:mariadb://localhost:3306/gamedb
-  locations: classpath:db/migration
   baselineOnMigrate: true
 
 
