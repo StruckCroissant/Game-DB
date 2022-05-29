@@ -1,0 +1,13 @@
+app:
+  datasource:
+    jdbc-url: "jdbc:mariadb://localhost:3306/gamedb"
+    username: root
+    password: mariadb
+spring.flyway:
+  enabled: true
+  user: "root"
+  password: "mariadb"
+  url: jdbc:mariadb://localhost:3306/gamedb
+  baselineOnMigrate: true
+
+
