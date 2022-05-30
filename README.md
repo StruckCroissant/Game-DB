@@ -1,4 +1,5 @@
 # Game-DB
+[![Discord](https://img.shields.io/discord/900430987987681330?label=Discord&logo=discord)](https://discord.gg/jx3JQZDwR8)
 **A web-based game search engine powered by Spring, Java, MySQL, and Angular**
 
 ### Description
