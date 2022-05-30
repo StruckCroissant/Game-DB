@@ -1,4 +1,4 @@
-angular.module("index", ["$scope"])
-    .controller("index", function($scope) {
-        $scope.greeting = {id: 'xxx', content: 'Hello World!'}
+angular.module("uiApp", [])
+    .controller("hello", function($scope) {
+        $scope.testGreeting = {id: 'xxx', content: 'Hello World!'}
     });
