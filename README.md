@@ -1,6 +1,6 @@
 # Game-DB
 [![Discord](https://img.shields.io/discord/900430987987681330?label=Discord&logo=discord)](https://discord.gg/jx3JQZDwR8)
-## **A web-based game search engine powered by Spring, Java, MySQL, and Angular**
+## **A web-based game search engine powered by Spring Boot, Angular, Java, and MySQL**
 
 ### Description
 Welcome! This project is a web-app that I initially started in a databases class. 
