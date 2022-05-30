@@ -8,5 +8,5 @@ It used to be a Java Swing app, and now the aim is to expand it into a webapp an
 
 ### Stack
 As of right now the project has a Spring-boot & MariaDB based backend and a AngularJS based frontend. There are some
-additional plugins on the backend such as Thymeleaf and Flyway. At present the MariaDB database is deployed in a docker
+additional plugins on the backend such as Flyway. At present the MariaDB database is deployed in a docker
 container.
