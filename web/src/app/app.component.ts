@@ -9,6 +9,8 @@ import {HttpErrorResponse} from "@angular/common/http";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit{
+  public title: string = "GameDB-web";
+
   public users: User[] | undefined;
 
   constructor(private userService: UserService){}

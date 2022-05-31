@@ -94,6 +94,7 @@
               "src/assets"
             ],
             "styles": [
+              "styles/bootstrap-5.2.0-beta1-dist/css/bootstrap.min.css",
               "src/styles.css"
             ],
             "scripts": []
