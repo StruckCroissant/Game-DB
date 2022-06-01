@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {User} from "./user";
-import {UserService} from "./user.service";
+import {UserInterface} from "./services/userInterface";
+import {UserService} from "./services/user.service";
 import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
@@ -11,7 +11,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 export class AppComponent implements OnInit{
   public title: string = "GameDB-web";
 
-  public users: User[] | undefined;
+  public users: UserInterface[] | undefined;
 
   constructor(private userService: UserService){}
 
@@ -20,13 +20,9 @@ export class AppComponent implements OnInit{
   }
 
   public getUsers(): void {
-    this.userService.getAllUsers().subscribe(
-      (response: User[]) => {
-        this.users = response;
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-    );
+    this.userService.getAllUsers().subscribe({
+      next: (response: UserInterface[]) =>{ this.users = response;},
+      error: (error: HttpErrorResponse) => {alert(error.message);}
+    });
   }
 }

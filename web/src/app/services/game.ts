@@ -1,4 +1,4 @@
-export interface Game {
+export interface GameInterface {
     name: string;
     cost: string;
     discountedCost: string;
