@@ -13,6 +13,8 @@ public interface UserDao {
 
     User selectUserById(int id);
 
+    User selectUserByUsername(String username);
+
     int deleteUserById(int id);
 
     int updateUserById(int id, User user);

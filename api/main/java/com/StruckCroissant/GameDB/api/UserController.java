@@ -25,23 +25,28 @@ public class UserController {
         userService.addUser(user);
     }
 
-    @GetMapping
+    @GetMapping(path = "/all")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
 
-    @GetMapping(path = "{id}")
-    public User getUserById(@PathVariable("id") int id) {
+    @GetMapping(path = "/byId")
+    public User getUserById(@RequestParam("id") int id) {
         return userService.getUserById(id);
     }
 
-    @DeleteMapping(path = "{id}")
-    public void deleteUserById(@PathVariable("id") int id){
+    @GetMapping(path = "/byUsername")
+    public User getUserByUsername(@RequestParam("username") String username) {
+        return userService.getUserByUsername(username);
+    }
+
+    @DeleteMapping(path = "/byId")
+    public void deleteUserById(@RequestParam("id") int id){
         userService.deleteUser(id);
     }
 
-    @PutMapping(path = "{id}")
-    public void updateUser(@PathVariable("id") int id, @Valid @NonNull @RequestBody User userToUpdate){
+    @PutMapping(path = "/byId")
+    public void updateUser(@RequestParam("id") int id, @Valid @NonNull @RequestBody User userToUpdate){
         userService.updateUser(id, userToUpdate);
     }
 }

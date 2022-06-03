@@ -4,10 +4,7 @@ import com.StruckCroissant.GameDB.model.Game;
 import com.StruckCroissant.GameDB.sevice.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,8 +24,8 @@ public class GameController {
         return gameService.getAllGames();
     }
 
-    @GetMapping(path = "{id}")
-    public Game getGameById(@PathVariable("id") int id){
+    @GetMapping(path = "/byId")
+    public Game getGameById(@RequestParam("id") int id){
         return gameService.getGameById(id);
     }
 }

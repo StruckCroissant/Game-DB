@@ -43,13 +43,24 @@ public class UserDAOImpl implements UserDao{
 
     @Override
     public User selectUserById(int id) {
-        final String sql = "SELECT uid, username FROM user WHERE uid = ?";
+        final String sql = "SELECT uid, username FROM user WHERE uid = ? LIMIT 1";
         return jdbcTemplate.query(sql, (resultSet) -> {
             resultSet.first();
             int uid = resultSet.getInt("uid");
             String username = resultSet.getString("username");
             return new User(uid, username);
         }, id);
+    }
+
+    @Override
+    public User selectUserByUsername(String inputUsername) {
+        final String sql = "SELECT uid, username FROM user WHERE username = ? LIMIT 1";
+        return jdbcTemplate.query(sql, (resultSet) -> {
+            resultSet.first();
+            int uid = resultSet.getInt("uid");
+            String username = resultSet.getString("username");
+            return new User(uid, username);
+        }, inputUsername);
     }
 
     @Override

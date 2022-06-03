@@ -1,0 +1,38 @@
+body{
+  background-color: darkgrey;
+}
+
+.parent {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px;
+  background-color: gray;
+  height: 50%;
+  width: 50%;
+  max-height: 500px;
+  max-width: 500px;
+  border-radius: 7px;
+}
+
+.greeting {
+  background:whitesmoke;
+  text-align:center;
+  padding: 5px;
+  font-size: 140%;
+  border-radius: 5px;
+}
+
+#user-label {
+  font-size: 20px;
+  color: whitesmoke;
+}
+
+#username-input{
+
+}
+
+#signin-btn{
+  white-space:nowrap;
+}
