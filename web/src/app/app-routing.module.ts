@@ -5,17 +5,22 @@ import {GameDetailsPageComponent} from "./components/game-details-page/game-deta
 import {SavedGamesPageComponent} from "./components/saved-games-page/saved-games-page.component";
 import {SearchGamesPageComponent} from "./components/search-games-page/search-games-page.component";
 import {MissingPageComponent} from "./components/missing-page/missing-page.component";
+import {NavbarPartialComponent} from "./components/navbar-partial/navbar-partial.component";
 
 const routes: Routes = [{
-  path: 'login-component', component: LoginPageComponent
+  path: 'login', component: LoginPageComponent
 }, {
-  path: 'game-component', component: GameDetailsPageComponent
+  path: 'game-details', component: GameDetailsPageComponent
 }, {
-  path: 'saved-games-component', component: SavedGamesPageComponent
+  path: 'saved-games', component: SavedGamesPageComponent
 }, {
-  path: 'search-games-component', component: SearchGamesPageComponent
+  path: 'search-games', component: SearchGamesPageComponent
 },{
-  path: 'missing-page-component', component: MissingPageComponent
+  path: 'missing-page', component: MissingPageComponent
+},{
+  path: 'navbar', component: NavbarPartialComponent
+},{
+  path:'', redirectTo:'login', pathMatch: 'full'
 }];
 
 @NgModule({

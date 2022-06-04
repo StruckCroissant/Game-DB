@@ -53,4 +53,12 @@ public class UserController {
     public void updateUser(@RequestParam("id") int id, @Valid @NonNull @RequestBody User userToUpdate){
         userService.updateUser(id, userToUpdate);
     }
+
+    @PutMapping(path = "/login")
+    public HashMap<String, Object> loginUser(@RequestParam("username") String username) {
+        if(userService.getUserByUsername(username) == null){
+            userService.addUser(new User(username));
+        }
+        return new MetadataHandler(userService.getUserByUsername(username)).getBody();
+    }
 }

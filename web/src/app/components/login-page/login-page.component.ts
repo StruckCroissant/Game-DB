@@ -1,32 +1,48 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit, Output} from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { User } from '../../common/user';
-import {map} from "rxjs";
+import { ApiResponse } from '../../common/api-response';
+import {map, Subscription} from "rxjs";
+import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
+import {ActivatedRoute, NavigationExtras, Router} from "@angular/router";
+import {UserAuthService} from "../../services/user-auth.service";
 
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.css']
 })
-export class LoginPageComponent implements OnInit {
-  username: string = '';
-  user: User | unknown;
+export class LoginPageComponent implements OnInit, OnDestroy {
+  usernameInput: String = '';
 
-  constructor(private service: UserService) { }
+  userSubscription: Subscription | undefined;
 
-  ngOnInit(): void {
+  constructor(private userService: UserService, private userAuthService: UserAuthService,
+              private router: Router, private route: ActivatedRoute) { }
+
+  ngOnInit(): void { }
+
+  ngOnDestroy(): void{
+    this.userSubscription?.unsubscribe();
   }
 
-  printUserDetails() {
-    this.service.getUserByUsername(this.username).subscribe({
-      next: (user) => {
-        this.user = user;
-        console.log(this.user);
+  loginUser(): void {
+    this.userService.loginUser(this.usernameInput).subscribe({
+      next: (response: ApiResponse) => {
+        let inputUser: User = response.data as unknown as User;
+        this.userAuthService.changeUser(inputUser);
+
+        console.log(inputUser);
+        this.gotoMainPage();
       },
-      error: (error) => {
-        console.log(error);
+      error: (error: HttpErrorResponse) => {
+        console.log(error.message);
       }
     });
+  }
+
+  private gotoMainPage(): void {
+    this.router.navigate(['/navbar']);
   }
 }
 
