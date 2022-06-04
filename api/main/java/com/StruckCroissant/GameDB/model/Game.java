@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotBlank;
 
-public class Game {
+public class Game implements DbModelObj{
 
     @NotBlank
     private final int gid;

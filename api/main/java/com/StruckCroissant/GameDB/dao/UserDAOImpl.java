@@ -2,6 +2,7 @@ package com.StruckCroissant.GameDB.dao;
 
 import com.StruckCroissant.GameDB.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.CallableStatementCreator;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
@@ -45,10 +46,13 @@ public class UserDAOImpl implements UserDao{
     public User selectUserById(int id) {
         final String sql = "SELECT uid, username FROM user WHERE uid = ? LIMIT 1";
         return jdbcTemplate.query(sql, (resultSet) -> {
-            resultSet.first();
-            int uid = resultSet.getInt("uid");
-            String username = resultSet.getString("username");
-            return new User(uid, username);
+            if (resultSet.next()) {
+                int uid = resultSet.getInt("uid");
+                String username = resultSet.getString("username");
+                return new User(uid, username);
+            } else {
+                return null;
+            }
         }, id);
     }
 
@@ -56,11 +60,15 @@ public class UserDAOImpl implements UserDao{
     public User selectUserByUsername(String inputUsername) {
         final String sql = "SELECT uid, username FROM user WHERE username = ? LIMIT 1";
         return jdbcTemplate.query(sql, (resultSet) -> {
-            resultSet.first();
-            int uid = resultSet.getInt("uid");
-            String username = resultSet.getString("username");
-            return new User(uid, username);
+            if(resultSet.next()){
+                int uid = resultSet.getInt("uid");
+                String username = resultSet.getString("username");
+                return new User(uid, username);
+            } else {
+                return null;
+            }
         }, inputUsername);
+
     }
 
     @Override

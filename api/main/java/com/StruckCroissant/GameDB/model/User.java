@@ -6,7 +6,7 @@ import java.util.Optional;
 import java.util.UUID;
 import javax.validation.constraints.NotBlank;
 
-public class User {
+public class User implements DbModelObj{
 
     private final Integer id;
     @NotBlank

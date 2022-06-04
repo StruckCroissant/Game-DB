@@ -36,8 +36,11 @@ public class GameDAOImpl implements GameDao{
         final String sql = "SELECT gid, gname, cost, discounted_cost, url, age_rating, indie," +
                 "description, rdate, rawgId FROM game WHERE gid = ? LIMIT 1";
         return jdbcTemplate.query(sql, (resultSet) -> {
-            resultSet.first();
-            return getGame(resultSet);
+            if (resultSet.next()) {
+                return getGame(resultSet);
+            } else {
+                return null;
+            }
         }, id);
     }
 
