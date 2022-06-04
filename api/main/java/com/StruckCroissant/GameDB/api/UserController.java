@@ -4,6 +4,8 @@ import com.StruckCroissant.GameDB.model.DbModelObj;
 import com.StruckCroissant.GameDB.model.User;
 import com.StruckCroissant.GameDB.sevice.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,11 +19,8 @@ public class UserController {
 
     private final UserService userService;
 
-    private final MetadataHandler metadataHandler;
-
     @Autowired
-    public UserController(UserService userService, MetadataHandler metadataHandler) {
-        this.metadataHandler = metadataHandler;
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
@@ -32,17 +31,17 @@ public class UserController {
 
     @GetMapping(path = "/all")
     public HashMap<String, Object> getAllUsers() {
-        return metadataHandler.addMetadata(userService.getAllUsers());
+        return new MetadataHandler(userService.getAllUsers()).getBody();
     }
 
     @GetMapping(path = "/byId")
     public HashMap<String, Object> getUserById(@RequestParam("id") int id) {
-        return metadataHandler.addMetadata(userService.getUserById(id));
+        return new MetadataHandler(userService.getUserById(id)).getBody();
     }
 
     @GetMapping(path = "/byUsername")
     public HashMap<String, Object> getUserByUsername(@RequestParam("username") String username) {
-        return metadataHandler.addMetadata(userService.getUserByUsername(username));
+        return new MetadataHandler(userService.getUserByUsername(username)).getBody();
     }
 
     @DeleteMapping(path = "/byId")

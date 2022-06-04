@@ -14,21 +14,18 @@ public class GameController {
 
     private final GameService gameService;
 
-    private final MetadataHandler metadataHandler;
-
     @Autowired
-    public GameController(GameService gameService, MetadataHandler metadataHandler) {
+    public GameController(GameService gameService) {
         this.gameService = gameService;
-        this.metadataHandler = metadataHandler;
     }
 
     @GetMapping(path = "/all")
     public HashMap<String, Object> getAllGames(){
-        return metadataHandler.addMetadata(gameService.getAllGames());
+        return new MetadataHandler(gameService.getAllGames()).getBody();
     }
 
     @GetMapping(path = "/byId")
     public HashMap<String, Object> getGameById(@RequestParam("id") int id){
-        return metadataHandler.addMetadata(gameService.getGameById(id));
+        return new MetadataHandler(gameService.getGameById(id)).getBody();
     }
 }

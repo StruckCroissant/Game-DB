@@ -1,30 +1,42 @@
 package com.StruckCroissant.GameDB.api;
 
 import com.StruckCroissant.GameDB.model.DbModelObj;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
 
-@Service
 public class MetadataHandler {
-    public HashMap<String, Object> addMetadata(Object obj){
-        HashMap<String, Object> response = new HashMap<String,Object>();
-        HashMap<String, Object> metadata = new HashMap<String,Object>();
-        if(obj == null){
-            return null;
-        } else if(obj instanceof List){
-            metadata.put("_records", ((List<?>) obj).size());
 
-            response.put("data", obj);
-            response.put("metadata", metadata);
-        } else if(obj instanceof DbModelObj) {
-            metadata.put("_records", 1);
+    private HashMap<String, Object> metadata = new HashMap<String, Object>();
+    private HashMap<String, Object> body = new HashMap<String, Object>();
 
-            response.put("data", obj);
-            response.put("metadata", metadata);
+    private Object data = null;
+
+    public MetadataHandler(DbModelObj obj) {
+        this.data = obj;
+
+        if (this.data == null) {
+            this.metadata.put("_records", 0);
+        } else {
+            this.metadata.put("_records", 1);
         }
 
-        return response;
+        this.body.put("data", this.data);
+        this.body.put("metadata", this.metadata);
+    }
+
+    public MetadataHandler(List list) {
+        this.data = list;
+        this.metadata.put("_records", ((List<?>) list).size());
+
+        this.body.put("data", this.data);
+        this.body.put("metadata", this.metadata);
+    }
+
+    public HashMap<String, Object> getBody() {
+        return body;
     }
 }
