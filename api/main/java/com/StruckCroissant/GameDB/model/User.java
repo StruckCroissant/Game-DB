@@ -8,23 +8,23 @@ import javax.validation.constraints.NotBlank;
 
 public class User implements DbModelObj{
 
-    private final Integer id;
+    private final Integer uid;
     @NotBlank
     private final String username;
 
     public User(@JsonProperty("id") int id,
                 @JsonProperty("username") String username) {
-        this.id = id;
+        this.uid = id;
         this.username = username;
     }
 
     public User(@JsonProperty("username") String username) {
-        this.id = null;
+        this.uid = null;
         this.username = username;
     }
 
     public Integer getId() {
-        return id;
+        return this.uid;
     }
 
     public String getUsername() {
@@ -34,8 +34,8 @@ public class User implements DbModelObj{
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
+                "id=" + this.uid +
+                ", username='" + this.username + '\'' +
                 '}';
     }
 }
