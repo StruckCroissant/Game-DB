@@ -36,8 +36,4 @@ export class UserService {
   public updateUser(user: User): Observable<ApiResponse> {
     return this.http.put<ApiResponse>(`${this.apiServerUrl}`, user);
   }
-
-  public loginUser(username: String): Observable<ApiResponse> {
-    return this.http.put<ApiResponse>(`${this.apiServerUrl}/login?username=${username}`, username);
-  }
 }

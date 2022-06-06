@@ -6,4 +6,6 @@ export interface ApiResponse {
     _records: number,
   },
   data: Array<Game | User>,
+  loginSuccess: boolean,
+  registerSuccess: boolean,
 }

@@ -12,15 +12,21 @@ public class User implements DbModelObj{
     @NotBlank
     private final String username;
 
+    @NotBlank
+    private final String password;
+
     public User(@JsonProperty("id") int id,
-                @JsonProperty("username") String username) {
+                @JsonProperty("username") String username,
+                @JsonProperty("password") String password) {
         this.uid = id;
         this.username = username;
+        this.password = password;
     }
 
-    public User(@JsonProperty("username") String username) {
+    public User(@JsonProperty("username") String username, String password) {
         this.uid = null;
         this.username = username;
+        this.password = password;
     }
 
     public Integer getId() {
@@ -29,6 +35,10 @@ public class User implements DbModelObj{
 
     public String getUsername() {
         return username;
+    }
+
+    public Object getPassword() {
+        return password;
     }
 
     @Override

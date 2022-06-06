@@ -13,7 +13,8 @@ import {UserAuthService} from "../../services/user-auth.service";
   styleUrls: ['./login-page.component.css']
 })
 export class LoginPageComponent implements OnInit, OnDestroy {
-  usernameInput: String = '';
+  usernameInput: string = '';
+  passwordInput: string = '';
 
   userSubscription: Subscription | undefined;
 
@@ -27,13 +28,17 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   }
 
   loginUser(): void {
-    this.userService.loginUser(this.usernameInput).subscribe({
-      next: (response: ApiResponse) => {
-        let inputUser: User = response.data as unknown as User;
-        this.userAuthService.changeUser(inputUser);
+    let currentUser = new User(this.usernameInput, this.passwordInput);
 
-        console.log(inputUser);
-        this.gotoMainPage();
+    this.userAuthService.loginUser(currentUser).subscribe({
+      next: (response) => {
+        if(response.loginSuccess){
+          this.userAuthService.changeUser(currentUser);
+          window.alert("Login success!");
+          this.gotoMainPage();
+        } else {
+          window.alert("Username or password is invalid! Please try again")
+        }
       },
       error: (error: HttpErrorResponse) => {
         console.log(error.message);

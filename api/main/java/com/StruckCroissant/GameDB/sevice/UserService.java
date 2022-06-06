@@ -34,7 +34,7 @@ public class UserService {
         return userDao.selectUserById(id);
     }
 
-    public User getUserByUsername(String username){return userDao.selectUserByUsername(username);}
+    //public User getUserByUsername(String username){return userDao.selectUserByUsername(username);}
 
     public int deleteUser(int id){
         return userDao.deleteUserById(id);
@@ -42,5 +42,13 @@ public class UserService {
 
     public int updateUser(int id, User newUser){
         return userDao.updateUserById(id, newUser);
+    }
+
+    public boolean registerUser(User user) {
+        return userDao.registerNewUser(user);
+    }
+
+    public boolean loginUser(User user) {
+        return userDao.loginUser(user);
     }
 }

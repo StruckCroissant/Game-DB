@@ -1,21 +1,18 @@
 package com.StruckCroissant.GameDB.api;
 
 import com.StruckCroissant.GameDB.model.DbModelObj;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
 
-public class MetadataHandler {
+public class SqlMetadataHandler {
 
-    private HashMap<String, Object> metadata = new HashMap<String, Object>();
-    private HashMap<String, Object> body = new HashMap<String, Object>();
+    private final HashMap<String, Object> metadata = new HashMap<String, Object>();
+    private final HashMap<String, Object> body = new HashMap<String, Object>();
 
-    private Object data = null;
+    private Object data;
 
-    public MetadataHandler(DbModelObj obj) {
+    public SqlMetadataHandler(DbModelObj obj) {
         this.data = obj;
 
         if (this.data == null) {
@@ -28,7 +25,7 @@ public class MetadataHandler {
         this.body.put("metadata", this.metadata);
     }
 
-    public MetadataHandler(List list) {
+    public SqlMetadataHandler(List list) {
         this.data = list;
         this.metadata.put("_records", ((List<?>) list).size());
 

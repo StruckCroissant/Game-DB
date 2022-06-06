@@ -12,6 +12,7 @@ import { SearchGamesPageComponent } from './components/search-games-page/search-
 import { GameDetailsPageComponent } from './components/game-details-page/game-details-page.component';
 import { MissingPageComponent } from './components/missing-page/missing-page.component';
 import { NavbarPartialComponent } from './components/navbar-partial/navbar-partial.component';
+import { RegisterPageComponent } from './components/register-page/register-page.component';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { NavbarPartialComponent } from './components/navbar-partial/navbar-parti
     GameDetailsPageComponent,
     MissingPageComponent,
     NavbarPartialComponent,
+    RegisterPageComponent,
   ],
   imports: [
     BrowserModule,

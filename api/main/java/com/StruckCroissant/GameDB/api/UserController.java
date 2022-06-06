@@ -1,17 +1,13 @@
 package com.StruckCroissant.GameDB.api;
 
-import com.StruckCroissant.GameDB.model.DbModelObj;
 import com.StruckCroissant.GameDB.model.User;
 import com.StruckCroissant.GameDB.sevice.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashMap;
-import java.util.List;
 
 @RequestMapping("api/v1/user")
 @RestController
@@ -31,18 +27,21 @@ public class UserController {
 
     @GetMapping(path = "/all")
     public HashMap<String, Object> getAllUsers() {
-        return new MetadataHandler(userService.getAllUsers()).getBody();
+        return new SqlMetadataHandler(userService.getAllUsers()).getBody();
     }
 
     @GetMapping(path = "/byId")
     public HashMap<String, Object> getUserById(@RequestParam("id") int id) {
-        return new MetadataHandler(userService.getUserById(id)).getBody();
+        return new SqlMetadataHandler(userService.getUserById(id)).getBody();
     }
 
+    /*
     @GetMapping(path = "/byUsername")
     public HashMap<String, Object> getUserByUsername(@RequestParam("username") String username) {
-        return new MetadataHandler(userService.getUserByUsername(username)).getBody();
+        return new SqlMetadataHandler(userService.getUserByUsername(username)).getBody();
     }
+
+     */
 
     @DeleteMapping(path = "/byId")
     public void deleteUserById(@RequestParam("id") int id){
@@ -54,11 +53,19 @@ public class UserController {
         userService.updateUser(id, userToUpdate);
     }
 
-    @PutMapping(path = "/login")
-    public HashMap<String, Object> loginUser(@RequestParam("username") String username) {
-        if(userService.getUserByUsername(username) == null){
-            userService.addUser(new User(username));
-        }
-        return new MetadataHandler(userService.getUserByUsername(username)).getBody();
+
+    @PostMapping(path = "/login")
+    public HashMap<String, Object> loginUser(@RequestBody User user) {
+        HashMap<String, Object> response = new HashMap<String, Object>();
+        response.put("loginSuccess", userService.loginUser(user));
+        return response;
+    }
+
+
+    @PostMapping("/register")
+    public HashMap<String, Object> registerUser(@RequestBody User newUser){
+        HashMap<String, Object> response = new HashMap<String, Object>();
+        response.put("registerSuccess", userService.registerUser(newUser));
+        return response;
     }
 }
