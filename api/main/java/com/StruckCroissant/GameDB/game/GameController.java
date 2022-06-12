@@ -1,15 +1,15 @@
-package com.StruckCroissant.GameDB.api;
+package com.StruckCroissant.GameDB.game;
 
-import com.StruckCroissant.GameDB.sevice.GameService;
+import com.StruckCroissant.GameDB.game.models.Game;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 
 @RequestMapping("api/v1/game")
 @RestController
 public class GameController {
-
     private final GameService gameService;
 
     @Autowired
@@ -18,12 +18,12 @@ public class GameController {
     }
 
     @GetMapping(path = "/all")
-    public HashMap<String, Object> getAllGames(){
-        return new SqlMetadataHandler(gameService.getAllGames()).getBody();
+    public List<Game> getAllGames(){
+        return gameService.getAllGames();
     }
 
     @GetMapping(path = "/byId")
-    public HashMap<String, Object> getGameById(@RequestParam("id") int id){
-        return new SqlMetadataHandler(gameService.getGameById(id)).getBody();
+    public Game getGameById(@RequestParam("id") int id){
+        return gameService.getGameById(id); // TODO: Return Optional<Game>
     }
 }

@@ -1,23 +1,25 @@
-package com.StruckCroissant.GameDB.dao;
+package com.StruckCroissant.GameDB.user;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
-import com.StruckCroissant.GameDB.model.User;
+
+import com.StruckCroissant.GameDB.user.models.User;
 
 public interface UserDao {
-
+    // TODO all return Optional<>
     int insertUser(User user);
 
     List<User> selectAllUsers();
 
-    User selectUserById(int id);
+    Optional<User> selectUserById(int id);
 
-    //User selectUserByUsername(String username);
+    Optional<User> selectUserByUsername(String username);
 
     int deleteUserById(int id);
 
     int updateUserById(int id, User user);
+
+    int updateUser(User user);
 
     boolean registerNewUser(User user);
 

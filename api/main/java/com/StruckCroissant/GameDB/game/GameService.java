@@ -1,7 +1,6 @@
-package com.StruckCroissant.GameDB.sevice;
+package com.StruckCroissant.GameDB.game;
 
-import com.StruckCroissant.GameDB.dao.GameDao;
-import com.StruckCroissant.GameDB.model.Game;
+import com.StruckCroissant.GameDB.game.models.Game;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -10,7 +9,6 @@ import java.util.List;
 
 @Service
 public class GameService {
-
     private final GameDao gameDao;
 
     @Autowired

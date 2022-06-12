@@ -1,18 +1,18 @@
-package com.StruckCroissant.GameDB.api;
+package com.StruckCroissant.GameDB.user;
 
-import com.StruckCroissant.GameDB.model.User;
-import com.StruckCroissant.GameDB.sevice.UserService;
+import com.StruckCroissant.GameDB.user.models.User;
+import com.StruckCroissant.GameDB.user.models.UserRegistrationRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashMap;
+import java.util.List;
 
 @RequestMapping("api/v1/user")
 @RestController
 public class UserController {
-
     private final UserService userService;
 
     @Autowired
@@ -26,33 +26,9 @@ public class UserController {
     }
 
     @GetMapping(path = "/all")
-    public HashMap<String, Object> getAllUsers() {
-        return new SqlMetadataHandler(userService.getAllUsers()).getBody();
+    public List<User> getAllUsers() {
+        return userService.getAllUsers();
     }
-
-    @GetMapping(path = "/byId")
-    public HashMap<String, Object> getUserById(@RequestParam("id") int id) {
-        return new SqlMetadataHandler(userService.getUserById(id)).getBody();
-    }
-
-    /*
-    @GetMapping(path = "/byUsername")
-    public HashMap<String, Object> getUserByUsername(@RequestParam("username") String username) {
-        return new SqlMetadataHandler(userService.getUserByUsername(username)).getBody();
-    }
-
-     */
-
-    @DeleteMapping(path = "/byId")
-    public void deleteUserById(@RequestParam("id") int id){
-        userService.deleteUser(id);
-    }
-
-    @PutMapping(path = "/byId")
-    public void updateUser(@RequestParam("id") int id, @Valid @NonNull @RequestBody User userToUpdate){
-        userService.updateUser(id, userToUpdate);
-    }
-
 
     @PostMapping(path = "/login")
     public HashMap<String, Object> loginUser(@RequestBody User user) {
@@ -63,9 +39,38 @@ public class UserController {
 
 
     @PostMapping("/register")
-    public HashMap<String, Object> registerUser(@RequestBody User newUser){
-        HashMap<String, Object> response = new HashMap<String, Object>();
-        response.put("registerSuccess", userService.registerUser(newUser));
-        return response;
+    public String registerUser(@RequestBody UserRegistrationRequest request){
+        return userService.registerUser(request);
     }
+
+    /*
+    @GetMapping(path = "/byId")
+    public HashMap<String, Object> getUserById(@RequestParam("id") int id) {
+        return new SqlMetadataHandler(userService.getUserById(id)).getBody();
+    }
+
+     */
+
+    /*
+    @GetMapping(path = "/byUsername")
+    public HashMap<String, Object> getUserByUsername(@RequestParam("username") String username) {
+        return new SqlMetadataHandler(userService.getUserByUsername(username)).getBody();
+    }
+
+     */
+
+    /*
+    @DeleteMapping(path = "/byId")
+    public void deleteUserById(@RequestParam("id") int id){
+        userService.deleteUser(id);
+    }
+
+     */
+
+    /*
+    @PutMapping(path = "/byId")
+    public void updateUser(@RequestParam("id") int id, @Valid @NonNull @RequestBody User userToUpdate){
+        userService.updateUser(id, userToUpdate);
+    }
+     */
 }

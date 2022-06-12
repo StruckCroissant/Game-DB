@@ -13,7 +13,6 @@ import java.util.Arrays;
 @SpringBootApplication
 @RestController
 public class GameDbApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(GameDbApplication.class, args);
 	}

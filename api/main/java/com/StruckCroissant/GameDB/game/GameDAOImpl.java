@@ -1,7 +1,6 @@
-package com.StruckCroissant.GameDB.dao;
+package com.StruckCroissant.GameDB.game;
 
-import com.StruckCroissant.GameDB.model.Game;
-import org.jetbrains.annotations.NotNull;
+import com.StruckCroissant.GameDB.game.models.Game;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -13,8 +12,7 @@ import java.util.List;
 
 @Service
 @Repository("db-game")
-public class GameDAOImpl implements GameDao{
-
+public class GameDAOImpl implements GameDao {
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
