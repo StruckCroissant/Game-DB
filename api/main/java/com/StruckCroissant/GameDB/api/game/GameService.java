@@ -1,6 +1,6 @@
-package com.StruckCroissant.GameDB.game;
+package com.StruckCroissant.GameDB.api.game;
 
-import com.StruckCroissant.GameDB.game.models.Game;
+import com.StruckCroissant.GameDB.api.game.models.Game;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;

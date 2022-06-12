@@ -1,10 +1,9 @@
-package com.StruckCroissant.GameDB.game;
+package com.StruckCroissant.GameDB.api.game;
 
-import com.StruckCroissant.GameDB.game.models.Game;
+import com.StruckCroissant.GameDB.api.game.models.Game;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 
 @RequestMapping("api/v1/game")

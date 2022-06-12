@@ -1,6 +1,6 @@
 package com.StruckCroissant.GameDB.security.config;
 
-import com.StruckCroissant.GameDB.user.UserService;
+import com.StruckCroissant.GameDB.api.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

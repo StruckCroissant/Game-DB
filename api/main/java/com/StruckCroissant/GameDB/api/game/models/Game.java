@@ -1,12 +1,11 @@
-package com.StruckCroissant.GameDB.game.models;
+package com.StruckCroissant.GameDB.api.game.models;
 
-import com.StruckCroissant.GameDB.models_generic.DbModelObj;
+import com.StruckCroissant.GameDB.api.models_generic.DbModelObj;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotBlank;
 
 public class Game implements DbModelObj {
-    // TODO document
     @NotBlank
     private final int gid;
 

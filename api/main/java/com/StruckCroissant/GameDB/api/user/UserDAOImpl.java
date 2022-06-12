@@ -1,7 +1,7 @@
-package com.StruckCroissant.GameDB.user;
+package com.StruckCroissant.GameDB.api.user;
 
-import com.StruckCroissant.GameDB.user.models.User;
-import com.StruckCroissant.GameDB.user.models.UserRoleEnum;
+import com.StruckCroissant.GameDB.api.user.models.User;
+import com.StruckCroissant.GameDB.api.user.models.UserRoleEnum;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;

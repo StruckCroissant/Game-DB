@@ -1,7 +1,6 @@
-package com.StruckCroissant.GameDB.user.models;
+package com.StruckCroissant.GameDB.api.user.models;
 
 public class UserRegistrationRequest {
-    // TODO document
     private final String username;
     private final String password;
     private final String email;

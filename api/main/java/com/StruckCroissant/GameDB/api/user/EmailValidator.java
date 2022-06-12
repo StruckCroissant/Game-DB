@@ -1,4 +1,4 @@
-package com.StruckCroissant.GameDB.user;
+package com.StruckCroissant.GameDB.api.user;
 
 import org.springframework.stereotype.Service;
 
