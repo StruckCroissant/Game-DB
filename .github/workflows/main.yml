@@ -6,9 +6,10 @@ jobs:
   build:
     runs-on: "ubuntu-latest"
     steps:
-      - uses: alstr/todo-to-issue-action@2b1af285f4b0bfd0def9cc244b38b97ca780c60a
+      - uses: "actions/checkout@main"
       - name: "TODO to Issue"
+        uses: "alstr/todo-to-issue-action@v4.6.6"
+        id: "todo"
         with:
-          AUTO_ASSIGN: 
-            StruckCroissant
+          AUTO_ASSIGN: "StruckCroissant"
           
