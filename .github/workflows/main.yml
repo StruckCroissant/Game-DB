@@ -12,4 +12,4 @@ jobs:
         id: "todo"
         with:
           AUTO_ASSIGN: "StruckCroissant"
-          
+          IGNORE: "GAME-DB/web/src/styles/bootstrap-5.2.0-beta1-dist/js/"
