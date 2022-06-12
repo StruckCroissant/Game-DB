@@ -1,0 +1,14 @@
+name: TODO to Issue
+  # You may pin to the exact commit or the version.
+  # uses: alstr/todo-to-issue-action@2b1af285f4b0bfd0def9cc244b38b97ca780c60a
+on: ["push"]
+jobs:
+  build:
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: alstr/todo-to-issue-action@2b1af285f4b0bfd0def9cc244b38b97ca780c60a
+      - name: "TODO to Issue"
+        with:
+          AUTO_ASSIGN: 
+            StruckCroissant
+          
