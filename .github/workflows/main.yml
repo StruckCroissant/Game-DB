@@ -10,12 +10,5 @@ jobs:
         with:
           AUTO_ASSIGN: "StruckCroissant"
           IGNORE: "GAME-DB/web/src/styles/bootstrap-5.2.0-beta1-dist/js/"
-  formatting:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2 # v2 minimum required
-      - uses: axel-op/googlejavaformat-action@v3
-        with:
-          args: "--set-exit-if-changed"
 
   
