@@ -3,7 +3,7 @@ package com.StruckCroissant.GameDB.api.user;
 import java.util.List;
 import java.util.Optional;
 
-import com.StruckCroissant.GameDB.api.user.models.User;
+import com.StruckCroissant.GameDB.api.models.User;
 
 public interface UserDao {
     // TODO all return Optional<>

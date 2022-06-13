@@ -1,6 +1,6 @@
 package com.StruckCroissant.GameDB.api.game;
 
-import com.StruckCroissant.GameDB.api.game.models.Game;
+import com.StruckCroissant.GameDB.api.models.Game;
 
 import java.util.List;
 

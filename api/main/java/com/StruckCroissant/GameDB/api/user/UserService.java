@@ -1,8 +1,8 @@
 package com.StruckCroissant.GameDB.api.user;
 
-import com.StruckCroissant.GameDB.api.user.models.User;
-import com.StruckCroissant.GameDB.api.user.models.UserRegistrationRequest;
-import com.StruckCroissant.GameDB.api.user.models.UserRoleEnum;
+import com.StruckCroissant.GameDB.api.models.User;
+import com.StruckCroissant.GameDB.api.models.UserRegistrationRequest;
+import com.StruckCroissant.GameDB.api.models.UserRoleEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;

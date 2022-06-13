@@ -1,7 +1,7 @@
 package com.StruckCroissant.GameDB.api.user;
 
-import com.StruckCroissant.GameDB.api.user.models.User;
-import com.StruckCroissant.GameDB.api.user.models.UserRegistrationRequest;
+import com.StruckCroissant.GameDB.api.models.User;
+import com.StruckCroissant.GameDB.api.models.UserRegistrationRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +37,7 @@ public class UserController {
         return response;
     }
 
-
+    // TODO split user functions into access & registration
     @PostMapping("/register")
     public String registerUser(@RequestBody UserRegistrationRequest request){
         return userService.registerUser(request);

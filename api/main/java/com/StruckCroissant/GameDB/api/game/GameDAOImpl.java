@@ -1,6 +1,6 @@
 package com.StruckCroissant.GameDB.api.game;
 
-import com.StruckCroissant.GameDB.api.game.models.Game;
+import com.StruckCroissant.GameDB.api.models.Game;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;

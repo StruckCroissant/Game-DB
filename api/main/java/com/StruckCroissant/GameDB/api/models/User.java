@@ -1,6 +1,5 @@
-package com.StruckCroissant.GameDB.api.user.models;
+package com.StruckCroissant.GameDB.api.models;
 
-import com.StruckCroissant.GameDB.api.models_generic.DbModelObj;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
