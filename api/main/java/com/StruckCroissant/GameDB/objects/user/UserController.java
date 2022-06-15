@@ -1,12 +1,8 @@
-package com.StruckCroissant.GameDB.api.user;
+package com.StruckCroissant.GameDB.objects.user;
 
-import com.StruckCroissant.GameDB.api.models.User;
-import com.StruckCroissant.GameDB.api.models.UserRegistrationRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,11 +14,6 @@ public class UserController {
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
-    }
-
-    @PostMapping
-    public void addUser(@Valid @NonNull @RequestBody User user){
-        userService.addUser(user);
     }
 
     @GetMapping(path = "/all")
@@ -38,10 +29,6 @@ public class UserController {
     }
 
     // TODO split user functions into access & registration
-    @PostMapping("/register")
-    public String registerUser(@RequestBody UserRegistrationRequest request){
-        return userService.registerUser(request);
-    }
 
     /*
     @GetMapping(path = "/byId")

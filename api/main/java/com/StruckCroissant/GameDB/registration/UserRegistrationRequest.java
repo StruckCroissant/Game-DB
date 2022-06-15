@@ -1,4 +1,4 @@
-package com.StruckCroissant.GameDB.api.models;
+package com.StruckCroissant.GameDB.registration;
 
 public class UserRegistrationRequest {
     private final String username;

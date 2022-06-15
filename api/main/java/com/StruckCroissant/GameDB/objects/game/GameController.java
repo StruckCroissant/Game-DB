@@ -1,6 +1,5 @@
-package com.StruckCroissant.GameDB.api.game;
+package com.StruckCroissant.GameDB.objects.game;
 
-import com.StruckCroissant.GameDB.api.models.Game;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

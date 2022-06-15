@@ -1,6 +1,5 @@
-package com.StruckCroissant.GameDB.api.game;
+package com.StruckCroissant.GameDB.objects.game;
 
-import com.StruckCroissant.GameDB.api.models.Game;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -24,9 +23,7 @@ public class GameDAOImpl implements GameDao {
     public List<Game> selectAllGames() {
         final String sql = "SELECT gid, gname, cost, discounted_cost, url, age_rating, indie," +
                 "description, rdate, rawgId FROM game";
-        return jdbcTemplate.query(sql, (resultSet, i) -> {
-            return getGame(resultSet);
-        });
+        return jdbcTemplate.query(sql, (resultSet, i) -> getGame(resultSet));
     }
 
     @Override

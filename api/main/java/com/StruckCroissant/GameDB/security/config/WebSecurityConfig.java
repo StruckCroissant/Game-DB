@@ -1,6 +1,6 @@
 package com.StruckCroissant.GameDB.security.config;
 
-import com.StruckCroissant.GameDB.api.user.UserService;
+import com.StruckCroissant.GameDB.objects.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,10 +28,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
     // TODO make configure file for endpoint constants
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        // TODO handle login and auth requests through front-end webpages
         http
                 .csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/api/v*/user/**")
+                    .antMatchers("/api/v*/register/**")
                     .permitAll()
                 .anyRequest()
                 .authenticated();

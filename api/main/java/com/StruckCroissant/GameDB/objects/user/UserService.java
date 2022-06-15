@@ -1,8 +1,7 @@
-package com.StruckCroissant.GameDB.api.user;
+package com.StruckCroissant.GameDB.objects.user;
 
-import com.StruckCroissant.GameDB.api.models.User;
-import com.StruckCroissant.GameDB.api.models.UserRegistrationRequest;
-import com.StruckCroissant.GameDB.api.models.UserRoleEnum;
+import com.StruckCroissant.GameDB.registration.EmailValidator;
+import com.StruckCroissant.GameDB.registration.token.ConfirmationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,19 +43,6 @@ public class UserService implements UserDetailsService {
         return userDao.insertUser(user);
     }
 
-    public String registerUser(UserRegistrationRequest request) {
-        boolean isValidEmail = emailValidator.test(request.getEmail());
-        if(!isValidEmail) {
-            throw new IllegalStateException("email not valid");
-        }
-        User newUser = new User(
-                request.getUsername(), request.getPassword(),
-                request.getEmail(), UserRoleEnum.USER,
-                false, true);
-
-        return signUpUser(newUser);
-    }
-
     public boolean loginUser(User user) {
         return userDao.loginUser(user);
     }
@@ -84,7 +71,12 @@ public class UserService implements UserDetailsService {
 
         String token = UUID.randomUUID().toString();
 
-        // TODO fill in token system
+        ConfirmationToken confirmationToken = new ConfirmationToken(
+                token,
+                LocalDateTime.now(),
+                LocalDateTime.now().plusMinutes(15),
+                user
+        );
 
         return token;
     }

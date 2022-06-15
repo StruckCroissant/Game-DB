@@ -1,7 +1,5 @@
-package com.StruckCroissant.GameDB.api.user;
+package com.StruckCroissant.GameDB.objects.user;
 
-import com.StruckCroissant.GameDB.api.models.User;
-import com.StruckCroissant.GameDB.api.models.UserRoleEnum;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -26,7 +24,7 @@ public class UserDAOImpl implements UserDao {
     @Override
     public int insertUser(User user) {
         final String sql;
-        if(user.getId() == null){ // Might not need due to Auto_inc - including for posterity
+        if(user.getId().isPresent()){ // Might not need due to Auto_inc - including for posterity
             sql = "INSERT INTO user (uid, username, password, email) VALUES (?, ?, ?, ?)";
             return jdbcTemplate.update(sql, user.getId(), user.getUsername(), user.getPassword(), user.getEmail());
         } else {
@@ -39,9 +37,7 @@ public class UserDAOImpl implements UserDao {
     public List<User> selectAllUsers() {
         final String sql = "SELECT u.uid, u.username, u.password, u.email, u.locked, u.enabled, r.role " +
                 "FROM user u, role r where u.uid = r.uid";
-        return jdbcTemplate.query(sql, (resultSet, i) -> {
-            return getUser(resultSet);
-        });
+        return jdbcTemplate.query(sql, (resultSet, i) -> getUser(resultSet));
     }
 
     @Override
@@ -107,29 +103,31 @@ public class UserDAOImpl implements UserDao {
     }
 
     @Override
-    public int updateUser(User user){
+    public boolean updateUser(User user){
         final String SQL_INSERT_USER =
                 "INSERT INTO user (username, password, email, locked, enabled) VALUES (?, ?, ?, ?, ?);";
         final String SQL_INSERT_ROLE_USER =
                 "INSERT INTO role (uid, role) VALUES (?, ?);";
 
-        int query1 = 0;
-        int query2 = 0;
+        boolean insertSuccess = false;
 
         // TODO handle duplicate email
-        query1 = jdbcTemplate.update(SQL_INSERT_USER,
+        jdbcTemplate.update(SQL_INSERT_USER,
                 user.getUsername(),
                 user.getPassword(),
                 user.getEmail(),
                 !user.isAccountNonLocked(),
                 user.isEnabled());
-        final int UID = getUidByUsername(user.getUsername()).get();
+        final int UID = getUidByUsername(user.getUsername()).orElse(-1);
 
-        if(query1 == 1){// TODO find a better implementation for swapping this UID
-            query2 = jdbcTemplate.update(SQL_INSERT_ROLE_USER, UID, user.getRole().toString());
+        if(UID != -1){// TODO find a better implementation for swapping this UID
+            if (jdbcTemplate.update(
+                    SQL_INSERT_ROLE_USER, UID, user.getRole().toString()) == 1){
+                insertSuccess = true;
+            }
         }
 
-        return (query2 == 1) ? 1 : 0;
+        return insertSuccess;
     }
 
     @Override
