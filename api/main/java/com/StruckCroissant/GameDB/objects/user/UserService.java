@@ -4,6 +4,8 @@ import com.StruckCroissant.GameDB.registration.EmailValidator;
 import com.StruckCroissant.GameDB.registration.token.ConfirmationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -47,11 +50,31 @@ public class UserService implements UserDetailsService {
         return userDao.loginUser(user);
     }
 
+    private static List<GrantedAuthority> getAuthorities (List<String> roles) {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        for (String role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role));
+        }
+        return authorities;
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userDao.selectUserByUsername(username)
+
+        User user = userDao.selectUserByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(
                         String.format(USER_NOT_FOUND_MSG, username)));
+
+        boolean enabled = true;
+        boolean accountNonExpired = true;
+        boolean credentialsNonExpired = true;
+        boolean accountNonLocked = true;
+
+        List<String> authorities = new ArrayList<String>();
+        authorities.add(user.getRole().toString());
+
+        return new org.springframework.security.core.userdetails.User(
+                user.getUsername(), user.getPassword(), enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, getAuthorities(authorities));
     }
 
     public String signUpUser(User user) {

@@ -1,6 +1,7 @@
 package com.StruckCroissant.GameDB.security.config;
 
 import com.StruckCroissant.GameDB.objects.user.UserService;
+import com.StruckCroissant.GameDB.security.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,10 +20,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    public WebSecurityConfig(UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public WebSecurityConfig(UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.passwordEncoder = passwordEncoder;
     }
 
     // TODO make configure file for endpoint constants
@@ -35,7 +39,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
                     .antMatchers("/api/v*/register/**").anonymous() // Difference between anonymous & permit all?
                     .antMatchers("/api/v*/login/**").permitAll()
                 .anyRequest()
-                .authenticated();
+                .authenticated().and()
+                .formLogin();
 
     }
 
