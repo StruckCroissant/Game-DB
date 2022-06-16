@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RegistrationController {
 
-    private final RegistrationService registrationService;
+  private final RegistrationService registrationService;
 
-    public RegistrationController(RegistrationService registrationService) {
-        this.registrationService = registrationService;
-    }
+  public RegistrationController(RegistrationService registrationService) {
+    this.registrationService = registrationService;
+  }
 
-    @PostMapping("/register")
-    public String registerUser(@RequestBody UserRegistrationRequest request){
-        return registrationService.registerUser(request);
-    }
+  @PostMapping("/register")
+  public String registerUser(@RequestBody UserRegistrationRequest request) {
+    return registrationService.registerUser(request);
+  }
 }

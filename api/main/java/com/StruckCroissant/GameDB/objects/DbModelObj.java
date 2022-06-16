@@ -1,2 +1,3 @@
 package com.StruckCroissant.GameDB.objects;
-public interface DbModelObj { }
+
+public interface DbModelObj {}
