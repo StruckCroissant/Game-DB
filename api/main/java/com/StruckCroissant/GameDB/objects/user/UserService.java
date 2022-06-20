@@ -4,6 +4,7 @@ import com.StruckCroissant.GameDB.registration.token.ConfirmationToken;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -52,13 +53,13 @@ public class UserService implements UserDetailsService {
   }
 
   @Override
-  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
 
     User user =
         userDao
             .selectUserByUsername(username)
-            .orElseThrow(
-                () -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, username)));
+                .orElseThrow(() ->
+                  new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, username)));
 
     boolean enabled = true;
     boolean accountNonExpired = true;
@@ -78,7 +79,7 @@ public class UserService implements UserDetailsService {
         getAuthorities(authorities));
   }
 
-  public String signUpUser(User user) {
+  public Boolean signUpUser(User user) {
     boolean userExists = userDao.selectUserByUsername(user.getUsername()).isPresent();
 
     if (userExists) {
@@ -91,13 +92,7 @@ public class UserService implements UserDetailsService {
 
     userDao.updateUser(user);
 
-    String token = UUID.randomUUID().toString();
-
-    ConfirmationToken confirmationToken =
-        new ConfirmationToken(
-            token, LocalDateTime.now(), LocalDateTime.now().plusMinutes(15), user);
-
-    return token;
+    return true;
   }
 
   /*

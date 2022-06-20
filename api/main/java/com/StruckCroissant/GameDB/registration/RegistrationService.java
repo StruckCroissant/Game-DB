@@ -20,10 +20,10 @@ public class RegistrationService {
     this.userService = userService;
   }
 
-  public String registerUser(UserRegistrationRequest request) {
+  public boolean registerUser(UserRegistrationRequest request) {
 
     // Prompts user service to sign up the user & returns token if successful
-    String token =
+    Boolean registerSuccess =
         userService.signUpUser(
             new User(
                 request.getUsername(),
@@ -32,6 +32,6 @@ public class RegistrationService {
                 false,
                 true));
 
-    return token;
+    return registerSuccess;
   }
 }

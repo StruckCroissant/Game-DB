@@ -39,6 +39,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     http.csrf()
         .disable()
         .authorizeRequests()
+        .antMatchers("/api/v*/user/**")
+        .anonymous()
         .antMatchers("/api/v*/register/**")
         .anonymous() // Difference between anonymous & permit all?
         .antMatchers("/api/v*/login/**")

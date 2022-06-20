@@ -3,6 +3,8 @@ package com.StruckCroissant.GameDB.objects.game;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -27,11 +29,11 @@ public class GameDAOImpl implements GameDao {
   }
 
   @Override
-  public Game selectGameById(int id) {
+  public Optional<Game> selectGameById(int id) {
     final String sql =
         "SELECT gid, gname, cost, discounted_cost, url, age_rating, indie,"
             + "description, rdate, rawgId FROM game WHERE gid = ? LIMIT 1";
-    return jdbcTemplate.query(
+    return Optional.ofNullable(jdbcTemplate.query(
         sql,
         (resultSet) -> {
           if (resultSet.next()) {
@@ -40,7 +42,7 @@ public class GameDAOImpl implements GameDao {
             return null;
           }
         },
-        id);
+        id));
   }
 
   private Game getGame(ResultSet resultSet) throws SQLException {
