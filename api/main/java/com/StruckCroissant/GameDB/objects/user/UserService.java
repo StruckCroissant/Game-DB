@@ -1,11 +1,7 @@
 package com.StruckCroissant.GameDB.objects.user;
 
-import com.StruckCroissant.GameDB.registration.token.ConfirmationToken;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.GrantedAuthority;
@@ -52,13 +48,13 @@ public class UserService implements UserDetailsService {
   }
 
   @Override
-  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
     User user =
         userDao
             .selectUserByUsername(username)
-                .orElseThrow(() ->
-                  new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, username)));
+            .orElseThrow(
+                () -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, username)));
 
     boolean enabled = true;
     boolean accountNonExpired = true;
