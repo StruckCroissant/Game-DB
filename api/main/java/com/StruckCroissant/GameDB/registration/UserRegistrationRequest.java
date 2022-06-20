@@ -3,12 +3,10 @@ package com.StruckCroissant.GameDB.registration;
 public class UserRegistrationRequest {
   private final String username;
   private final String password;
-  private final String email;
 
-  public UserRegistrationRequest(String username, String password, String email) {
+  public UserRegistrationRequest(String username, String password) {
     this.username = username;
     this.password = password;
-    this.email = email;
   }
 
   public String getUsername() {
@@ -19,22 +17,11 @@ public class UserRegistrationRequest {
     return password;
   }
 
-  public String getEmail() {
-    return email;
-  }
-
   @Override
   public String toString() {
-    return "UserRegistrationRequest{"
-        + "username='"
-        + username
-        + '\''
-        + ", password='"
-        + password
-        + '\''
-        + ", email='"
-        + email
-        + '\''
-        + '}';
+    return "UserRegistrationRequest{" +
+            "username='" + username + '\'' +
+            ", password='" + password + '\'' +
+            '}';
   }
 }

@@ -16,9 +16,8 @@ public class User implements DbModelObj, UserDetails {
 
   @NotBlank private String password;
 
-  @NotBlank private final String email;
-
   private UserRoleEnum userRole;
+
   private Boolean locked;
 
   private Boolean enabled;
@@ -27,14 +26,12 @@ public class User implements DbModelObj, UserDetails {
       @JsonProperty("id") int id,
       @JsonProperty("username") String username,
       @JsonProperty("password") String password,
-      @JsonProperty("email") String email,
       @JsonProperty("role") UserRoleEnum role,
       @JsonProperty("locked") Boolean locked,
       @JsonProperty("enabled") Boolean enabled) {
     this.uid = id;
     this.username = username;
     this.password = password;
-    this.email = email;
     this.userRole = role;
     this.locked = locked;
     this.enabled = enabled;
@@ -43,14 +40,12 @@ public class User implements DbModelObj, UserDetails {
   public User(
       @JsonProperty("username") String username,
       @JsonProperty("password") String password,
-      @JsonProperty("email") String email,
       @JsonProperty("role") UserRoleEnum role,
       @JsonProperty("locked") Boolean locked,
       @JsonProperty("enabled") Boolean enabled) {
     this.uid = null;
     this.username = username;
     this.password = password;
-    this.email = email;
     this.userRole = role;
     this.locked = locked;
     this.enabled = enabled;
@@ -66,10 +61,6 @@ public class User implements DbModelObj, UserDetails {
 
   public String getPassword() {
     return password;
-  }
-
-  public String getEmail() {
-    return this.email;
   }
 
   public UserRoleEnum getRole() {

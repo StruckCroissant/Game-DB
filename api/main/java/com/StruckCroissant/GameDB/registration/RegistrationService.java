@@ -9,26 +9,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class RegistrationService {
 
-  private final EmailValidator emailValidator;
-
   private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
   private final UserService userService;
 
   RegistrationService(
-      EmailValidator emailValidator,
       BCryptPasswordEncoder bCryptPasswordEncoder,
       UserService userService) {
-    this.emailValidator = emailValidator;
     this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     this.userService = userService;
   }
 
   public String registerUser(UserRegistrationRequest request) {
-    boolean isValidEmail = emailValidator.test(request.getEmail());
-    if (!isValidEmail) {
-      throw new IllegalStateException("email not valid");
-    }
 
     // Prompts user service to sign up the user & returns token if successful
     String token =
@@ -36,7 +28,6 @@ public class RegistrationService {
             new User(
                 request.getUsername(),
                 request.getPassword(),
-                request.getEmail(),
                 UserRoleEnum.USER,
                 false,
                 true));

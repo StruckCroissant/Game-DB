@@ -1,6 +1,5 @@
 package com.StruckCroissant.GameDB.objects.user;
 
-import com.StruckCroissant.GameDB.registration.EmailValidator;
 import com.StruckCroissant.GameDB.registration.token.ConfirmationToken;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -20,8 +19,6 @@ import org.springframework.stereotype.Service;
 public class UserService implements UserDetailsService {
   private final UserDao userDao;
 
-  private final EmailValidator emailValidator;
-
   private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
   private static final String USER_NOT_FOUND_MSG = "user with username %s not found";
@@ -29,10 +26,8 @@ public class UserService implements UserDetailsService {
   @Autowired
   public UserService(
       @Qualifier("db-user") UserDao userDao,
-      EmailValidator emailValidator,
       BCryptPasswordEncoder bCryptPasswordEncoder) {
     this.userDao = userDao;
-    this.emailValidator = emailValidator;
     this.bCryptPasswordEncoder = bCryptPasswordEncoder;
   }
 

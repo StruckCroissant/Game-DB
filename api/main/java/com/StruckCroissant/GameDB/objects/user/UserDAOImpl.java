@@ -24,19 +24,19 @@ public class UserDAOImpl implements UserDao {
   public int insertUser(User user) {
     final String sql;
     if (user.getId().isPresent()) { // Might not need due to Auto_inc - including for posterity
-      sql = "INSERT INTO user (uid, username, password, email) VALUES (?, ?, ?, ?)";
+      sql = "INSERT INTO user (uid, username, password) VALUES (?, ?, ?)";
       return jdbcTemplate.update(
-          sql, user.getId(), user.getUsername(), user.getPassword(), user.getEmail());
+          sql, user.getId(), user.getUsername(), user.getPassword());
     } else {
-      sql = "INSERT INTO user (username, password, email) VALUES (?, ?, ?)";
-      return jdbcTemplate.update(sql, user.getUsername(), user.getPassword(), user.getEmail());
+      sql = "INSERT INTO user (username, password) VALUES (?, ?)";
+      return jdbcTemplate.update(sql, user.getUsername(), user.getPassword());
     }
   }
 
   @Override
   public List<User> selectAllUsers() {
     final String sql =
-        "SELECT u.uid, u.username, u.password, u.email, u.locked, u.enabled, r.role "
+        "SELECT u.uid, u.username, u.password, u.locked, u.enabled, r.role "
             + "FROM user u, role r where u.uid = r.uid";
     return jdbcTemplate.query(sql, (resultSet, i) -> getUser(resultSet));
   }
@@ -44,7 +44,7 @@ public class UserDAOImpl implements UserDao {
   @Override
   public Optional<User> selectUserById(int id) {
     final String sql =
-        "SELECT u.uid, u.username, u.password, u.email, u.locked, u.enabled, r.role "
+        "SELECT u.uid, u.username, u.password, u.locked, u.enabled, r.role "
             + "FROM user u, role r WHERE u.uid = ? AND u.uid = r.uid LIMIT 1";
     return Optional.ofNullable(
         jdbcTemplate.query(
@@ -64,17 +64,16 @@ public class UserDAOImpl implements UserDao {
     int uid = resultSet.getInt("uid");
     String username = resultSet.getString("username");
     String password = resultSet.getString("password");
-    String email = resultSet.getString("email");
     UserRoleEnum role = UserRoleEnum.valueOf(resultSet.getString("role"));
     Boolean locked = resultSet.getBoolean("locked");
     Boolean enabled = resultSet.getBoolean("enabled");
-    return new User(uid, username, password, email, role, locked, enabled);
+    return new User(uid, username, password, role, locked, enabled);
   }
 
   @Override
   public Optional<User> selectUserByUsername(String username) {
     final String sql =
-        "SELECT u.uid, u.username, u.password, u.email, u.locked, u.enabled, r.role FROM user u,"
+        "SELECT u.uid, u.username, u.password, u.locked, u.enabled, r.role FROM user u,"
             + " role r WHERE u.username = ? AND u.uid = r.uid LIMIT 1";
     return Optional.ofNullable(
         jdbcTemplate.query(
@@ -119,17 +118,15 @@ public class UserDAOImpl implements UserDao {
   @Override
   public boolean updateUser(User user) {
     final String SQL_INSERT_USER =
-        "INSERT INTO user (username, password, email, locked, enabled) VALUES (?, ?, ?, ?, ?);";
+        "INSERT INTO user (username, password, locked, enabled) VALUES (?, ?, ?, ?);";
     final String SQL_INSERT_ROLE_USER = "INSERT INTO role (uid, role) VALUES (?, ?);";
 
     boolean insertSuccess = false;
 
-    // TODO handle duplicate email
     jdbcTemplate.update(
         SQL_INSERT_USER,
         user.getUsername(),
         user.getPassword(),
-        user.getEmail(),
         !user.isAccountNonLocked(),
         user.isEnabled());
     final int UID = getUidByUsername(user.getUsername()).orElse(-1);
