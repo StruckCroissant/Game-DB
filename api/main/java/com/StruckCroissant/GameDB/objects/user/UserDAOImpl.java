@@ -25,8 +25,7 @@ public class UserDAOImpl implements UserDao {
     final String sql;
     if (user.getId().isPresent()) { // Might not need due to Auto_inc - including for posterity
       sql = "INSERT INTO user (uid, username, password) VALUES (?, ?, ?)";
-      return jdbcTemplate.update(
-          sql, user.getId(), user.getUsername(), user.getPassword());
+      return jdbcTemplate.update(sql, user.getId(), user.getUsername(), user.getPassword());
     } else {
       sql = "INSERT INTO user (username, password) VALUES (?, ?)";
       return jdbcTemplate.update(sql, user.getUsername(), user.getPassword());

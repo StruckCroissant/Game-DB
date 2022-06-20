@@ -19,9 +19,13 @@ public class UserRegistrationRequest {
 
   @Override
   public String toString() {
-    return "UserRegistrationRequest{" +
-            "username='" + username + '\'' +
-            ", password='" + password + '\'' +
-            '}';
+    return "UserRegistrationRequest{"
+        + "username='"
+        + username
+        + '\''
+        + ", password='"
+        + password
+        + '\''
+        + '}';
   }
 }

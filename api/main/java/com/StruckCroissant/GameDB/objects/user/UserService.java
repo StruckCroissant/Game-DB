@@ -25,8 +25,7 @@ public class UserService implements UserDetailsService {
 
   @Autowired
   public UserService(
-      @Qualifier("db-user") UserDao userDao,
-      BCryptPasswordEncoder bCryptPasswordEncoder) {
+      @Qualifier("db-user") UserDao userDao, BCryptPasswordEncoder bCryptPasswordEncoder) {
     this.userDao = userDao;
     this.bCryptPasswordEncoder = bCryptPasswordEncoder;
   }

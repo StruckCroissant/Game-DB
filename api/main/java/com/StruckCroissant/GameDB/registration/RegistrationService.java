@@ -13,9 +13,7 @@ public class RegistrationService {
 
   private final UserService userService;
 
-  RegistrationService(
-      BCryptPasswordEncoder bCryptPasswordEncoder,
-      UserService userService) {
+  RegistrationService(BCryptPasswordEncoder bCryptPasswordEncoder, UserService userService) {
     this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     this.userService = userService;
   }
@@ -25,12 +23,7 @@ public class RegistrationService {
     // Prompts user service to sign up the user & returns token if successful
     String token =
         userService.signUpUser(
-            new User(
-                request.getUsername(),
-                request.getPassword(),
-                UserRoleEnum.USER,
-                false,
-                true));
+            new User(request.getUsername(), request.getPassword(), UserRoleEnum.USER, false, true));
 
     return token;
   }
