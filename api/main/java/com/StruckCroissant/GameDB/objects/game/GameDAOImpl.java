@@ -10,16 +10,31 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+/**
+ * Data Access Implementation for accessing Game objects.
+ *
+ * @author Dakota Vaughn
+ * @since 2022-06-20
+ */
 @Service
 @Repository("db-game")
 public class GameDAOImpl implements GameDao {
   private final JdbcTemplate jdbcTemplate;
 
+  /**
+   * Constructor that initializes Object with a
+   * jdbcTemplate via Autowire
+   * @param jdbcTemplate SQL execution object
+   */
   @Autowired
   public GameDAOImpl(JdbcTemplate jdbcTemplate) {
     this.jdbcTemplate = jdbcTemplate;
   }
 
+  /**
+   * Selects all games from database
+   * @return List<Game>
+   */
   @Override
   public List<Game> selectAllGames() {
     final String sql =
@@ -28,6 +43,11 @@ public class GameDAOImpl implements GameDao {
     return jdbcTemplate.query(sql, (resultSet, i) -> getGame(resultSet));
   }
 
+  /**
+   * Selects game from database by id
+   * @param id game id
+   * @return Optional<Game>
+   */
   @Override
   public Optional<Game> selectGameById(int id) {
     final String sql =
@@ -45,6 +65,12 @@ public class GameDAOImpl implements GameDao {
         id));
   }
 
+  /**
+   * Private method that extracts game object from resultSet
+   * @param resultSet jdbcTemplate resultSet cursor
+   * @return Game
+   * @throws SQLException generic SQL exception
+   */
   private Game getGame(ResultSet resultSet) throws SQLException {
     int gid = resultSet.getInt("gid");
     String gname = resultSet.getString("gname");

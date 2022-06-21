@@ -48,11 +48,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .anyRequest()
         .authenticated()
         .and()
-        .formLogin();
+            .httpBasic();
   }
 
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    // Database auth works - uncomment if needed
+    //auth.inMemoryAuthentication().withUser("user").password("{noop}password").roles("USER");
     auth.authenticationProvider(daoAuthenticationProvider());
   }
 
