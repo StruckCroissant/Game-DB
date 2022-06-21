@@ -21,8 +21,8 @@ public class GameDAOImpl implements GameDao {
   private final JdbcTemplate jdbcTemplate;
 
   /**
-   * Constructor that initializes Object with a
-   * jdbcTemplate via Autowire
+   * Constructor that initializes Object with a jdbcTemplate via Autowire
+   *
    * @param jdbcTemplate SQL execution object
    */
   @Autowired
@@ -32,6 +32,7 @@ public class GameDAOImpl implements GameDao {
 
   /**
    * Selects all games from database
+   *
    * @return List<Game>
    */
   @Override
@@ -44,6 +45,7 @@ public class GameDAOImpl implements GameDao {
 
   /**
    * Selects game from database by id
+   *
    * @param id game id
    * @return Optional<Game>
    */
@@ -67,6 +69,7 @@ public class GameDAOImpl implements GameDao {
 
   /**
    * Private method that extracts game object from resultSet
+   *
    * @param resultSet jdbcTemplate resultSet cursor
    * @return Game
    * @throws SQLException generic SQL exception

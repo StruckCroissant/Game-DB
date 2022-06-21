@@ -1,8 +1,7 @@
 package com.StruckCroissant.GameDB.objects;
 
 /**
- * Provides generic exception for use by Game and
- * User objects.
+ * Provides generic exception for use by Game and User objects.
  *
  * @author Dakota Vaughn
  * @since 2022-06-20

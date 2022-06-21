@@ -5,8 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.constraints.NotBlank;
 
 /**
- * Provides a game db object for completing transactions
- * within the API.
+ * Provides a game db object for completing transactions within the API.
  *
  * @author Dakota
  * @since 2022-06-20
@@ -34,6 +33,7 @@ public class Game implements DbModelObj {
 
   /**
    * Constructor creates a new game object from parameters
+   *
    * @param gid game id
    * @param gname game name
    * @param cost game cost
@@ -70,6 +70,7 @@ public class Game implements DbModelObj {
 
   /**
    * returns id
+   *
    * @return int id
    */
   public int getGid() {
@@ -78,6 +79,7 @@ public class Game implements DbModelObj {
 
   /**
    * returns name
+   *
    * @return String gname
    */
   public String getGname() {
@@ -86,6 +88,7 @@ public class Game implements DbModelObj {
 
   /**
    * returns cost
+   *
    * @return String cost
    */
   public String getCost() {
@@ -94,6 +97,7 @@ public class Game implements DbModelObj {
 
   /**
    * returns discounted cost
+   *
    * @return String discountedCost
    */
   public String getDiscountedCost() {
@@ -102,6 +106,7 @@ public class Game implements DbModelObj {
 
   /**
    * returns url
+   *
    * @return String url
    */
   public String getUrl() {
@@ -110,6 +115,7 @@ public class Game implements DbModelObj {
 
   /**
    * returns age rating
+   *
    * @return String age_rating
    */
   public String getAge_rating() {
@@ -118,6 +124,7 @@ public class Game implements DbModelObj {
 
   /**
    * returns game description
+   *
    * @return String description
    */
   public String getDescription() {
@@ -126,6 +133,7 @@ public class Game implements DbModelObj {
 
   /**
    * returns release date
+   *
    * @return String releaseDate
    */
   public String getReleaseDate() {
@@ -134,6 +142,7 @@ public class Game implements DbModelObj {
 
   /**
    * returns rawg id
+   *
    * @return float rawgId
    */
   public float getRawgId() {
@@ -142,6 +151,7 @@ public class Game implements DbModelObj {
 
   /**
    * returns object toString printout
+   *
    * @return String
    */
   @Override

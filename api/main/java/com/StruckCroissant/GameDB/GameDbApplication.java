@@ -10,10 +10,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 /**
- * GameDbApplication is the entrance point to the Spring-Boot API.
- * Contains a cors filter to facilitate communication with the front-end
+ * GameDbApplication is the entrance point to the Spring-Boot API. Contains a cors filter to
+ * facilitate communication with the front-end @Author Dakota Vaughn
  *
- * @Author Dakota Vaughn
  * @since 2022-06-20
  */
 @SpringBootApplication

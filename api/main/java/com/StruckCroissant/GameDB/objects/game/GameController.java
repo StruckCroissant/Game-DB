@@ -5,9 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * Controller for retrieving information about games.
- * It contains simple endpoints for retrieving Game objects.
- * All calls are passed to the gameService for retrieval.
+ * Controller for retrieving information about games. It contains simple endpoints for retrieving
+ * Game objects. All calls are passed to the gameService for retrieval.
  *
  * @author Dakota Vaughn
  * @since 2022-06-20
@@ -20,8 +19,8 @@ public class GameController {
   private final GameService gameService;
 
   /**
-   * Autowired constructor retrieves gameService
-   * via Autowire
+   * Autowired constructor retrieves gameService via Autowire
+   *
    * @param gameService game service object
    */
   @Autowired
@@ -31,6 +30,7 @@ public class GameController {
 
   /**
    * Returns all game objects in DB
+   *
    * @return List<Game>
    */
   @GetMapping(path = "/all")
@@ -40,6 +40,7 @@ public class GameController {
 
   /**
    * Returns game object when given an id
+   *
    * @param id game id
    * @return Game
    */

@@ -18,6 +18,7 @@ public class GameService {
 
   /**
    * Autowired constructor accesses GameDao
+   *
    * @param gameDao game dao object
    */
   @Autowired
@@ -27,6 +28,7 @@ public class GameService {
 
   /**
    * Calls gameDao to select all games in database
+   *
    * @return List<Game>
    */
   public List<Game> getAllGames() {
@@ -35,6 +37,7 @@ public class GameService {
 
   /**
    * Calls gameDao to select game by passed id
+   *
    * @param id game int pk
    * @return Game
    */

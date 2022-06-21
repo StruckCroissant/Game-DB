@@ -5,6 +5,7 @@ import java.util.Optional;
 
 /**
  * Interface for Game Data Access Object
+ *
  * @author Dakota Vaughn
  * @since 2022-06-20
  */
