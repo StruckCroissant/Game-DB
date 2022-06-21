@@ -4,7 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -53,16 +52,17 @@ public class GameDAOImpl implements GameDao {
     final String sql =
         "SELECT gid, gname, cost, discounted_cost, url, age_rating, indie,"
             + "description, rdate, rawgId FROM game WHERE gid = ? LIMIT 1";
-    return Optional.ofNullable(jdbcTemplate.query(
-        sql,
-        (resultSet) -> {
-          if (resultSet.next()) {
-            return getGame(resultSet);
-          } else {
-            return null;
-          }
-        },
-        id));
+    return Optional.ofNullable(
+        jdbcTemplate.query(
+            sql,
+            (resultSet) -> {
+              if (resultSet.next()) {
+                return getGame(resultSet);
+              } else {
+                return null;
+              }
+            },
+            id));
   }
 
   /**
