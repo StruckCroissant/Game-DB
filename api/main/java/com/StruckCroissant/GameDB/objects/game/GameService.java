@@ -1,6 +1,6 @@
 package com.StruckCroissant.GameDB.objects.game;
 
-import com.StruckCroissant.GameDB.exceptions.GameNotFoundException;
+import com.StruckCroissant.GameDB.exception.GameNotFoundException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -40,10 +40,11 @@ public class GameService {
    *
    * @param id game int pk
    * @return Game
+   * @throws GameNotFoundException missing game exception
    */
-  public Game getGameById(int id) {
+  public Game getGameById(int id) throws GameNotFoundException{
     Game game =
-        gameDao.selectGameById(id).orElseThrow(() -> new GameNotFoundException("Game not found!"));
+        gameDao.selectGameById(id).orElseThrow(() -> new GameNotFoundException("Game id {" + id + "} not found"));
     return gameDao.selectGameById(id).get();
   }
 }
