@@ -127,8 +127,7 @@ public class UserDAOImpl implements UserDao {
         user.getUsername(),
         user.getPassword(),
         !user.isAccountNonLocked(),
-        user.isEnabled()
-    );
+        user.isEnabled());
     Optional<Integer> uidOpt = getUidByUsername(user.getUsername());
 
     if (uidOpt.isPresent()) {
