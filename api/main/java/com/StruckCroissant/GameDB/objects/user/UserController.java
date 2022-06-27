@@ -20,6 +20,4 @@ public class UserController {
   public List<User> getAllUsers() {
     return userService.getAllUsers();
   }
-
-  // TODO split user functions into access & registration
 }
