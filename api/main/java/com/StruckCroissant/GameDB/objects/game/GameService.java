@@ -42,9 +42,11 @@ public class GameService {
    * @return Game
    * @throws GameNotFoundException missing game exception
    */
-  public Game getGameById(int id) throws GameNotFoundException{
+  public Game getGameById(int id) throws GameNotFoundException {
     Game game =
-        gameDao.selectGameById(id).orElseThrow(() -> new GameNotFoundException("Game id {" + id + "} not found"));
+        gameDao
+            .selectGameById(id)
+            .orElseThrow(() -> new GameNotFoundException("Game id {" + id + "} not found"));
     return gameDao.selectGameById(id).get();
   }
 }
