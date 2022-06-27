@@ -128,10 +128,12 @@ public class UserDAOImpl implements UserDao {
         user.getUsername(),
         user.getPassword(),
         !user.isAccountNonLocked(),
-        user.isEnabled());
-    final int UID = getUidByUsername(user.getUsername()).orElse(-1);
+        user.isEnabled()
+    );
+    Optional<Integer> uidOpt = getUidByUsername(user.getUsername());
 
-    if (UID != -1) { // TODO find a better implementation for swapping this UID
+    if (uidOpt.isPresent()) {
+      int UID = uidOpt.get();
       if (jdbcTemplate.update(SQL_INSERT_ROLE_USER, UID, user.getRole().toString()) == 1) {
         insertSuccess = true;
       }
