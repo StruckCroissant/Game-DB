@@ -2,22 +2,19 @@ package com.StruckCroissant.GameDB.objects.user;
 
 import com.StruckCroissant.GameDB.objects.DbModelObj;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Optional;
+import javax.validation.constraints.NotBlank;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.validation.constraints.NotBlank;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Optional;
-
 public class User implements DbModelObj, UserDetails {
   private final Integer uid;
-  @NotBlank
-  private final String username;
+  @NotBlank private final String username;
 
-  @NotBlank
-  private String password;
+  @NotBlank private String password;
 
   private final UserRoleEnum userRole;
 

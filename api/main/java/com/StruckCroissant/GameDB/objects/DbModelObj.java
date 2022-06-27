@@ -8,5 +8,4 @@ package com.StruckCroissant.GameDB.objects;
  * @see com.StruckCroissant.GameDB.objects.user.User
  * @since 2022-06-20
  */
-public interface DbModelObj {
-}
+public interface DbModelObj {}
