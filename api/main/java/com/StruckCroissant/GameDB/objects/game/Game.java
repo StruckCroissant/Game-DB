@@ -2,6 +2,7 @@ package com.StruckCroissant.GameDB.objects.game;
 
 import com.StruckCroissant.GameDB.objects.DbModelObj;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.validation.constraints.NotBlank;
 
 /**
@@ -11,15 +12,18 @@ import javax.validation.constraints.NotBlank;
  * @since 2022-06-20
  */
 public class Game implements DbModelObj {
-  @NotBlank private final int gid;
+  @NotBlank
+  private final int gid;
 
-  @NotBlank private final String gname;
+  @NotBlank
+  private final String gname;
 
   private final String cost;
 
   private final String discountedCost;
 
-  @NotBlank private final String url;
+  @NotBlank
+  private final String url;
 
   private final String age_rating;
 
@@ -29,21 +33,22 @@ public class Game implements DbModelObj {
 
   private final String release_date;
 
-  @NotBlank private final float rawgId;
+  @NotBlank
+  private final float rawgId;
 
   /**
    * Constructor creates a new game object from parameters
    *
-   * @param gid game id
-   * @param gname game name
-   * @param cost game cost
+   * @param gid            game id
+   * @param gname          game name
+   * @param cost           game cost
    * @param discountedCost game discounted cost
-   * @param url game url
-   * @param ageRating game age rating
-   * @param indie game indie status (T/F)
-   * @param description game description
-   * @param releaseDate game release date
-   * @param rawgId game rawg ID
+   * @param url            game url
+   * @param ageRating      game age rating
+   * @param indie          game indie status (T/F)
+   * @param description    game description
+   * @param releaseDate    game release date
+   * @param rawgId         game rawg ID
    */
   public Game(
       @JsonProperty("gid") int gid,

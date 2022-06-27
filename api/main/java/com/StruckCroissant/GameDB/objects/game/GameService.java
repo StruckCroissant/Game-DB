@@ -1,10 +1,11 @@
 package com.StruckCroissant.GameDB.objects.game;
 
 import com.StruckCroissant.GameDB.exception.GameNotFoundException;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Responsible for providing business logic for game retrieval

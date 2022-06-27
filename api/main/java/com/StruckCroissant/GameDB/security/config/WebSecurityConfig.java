@@ -54,7 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
     // Database auth works - uncomment if needed
-    // auth.inMemoryAuthentication().withUser("user").password("{noop}password").roles("USER");
+    auth.inMemoryAuthentication().withUser("user").password("{noop}password").roles("USER");
     auth.authenticationProvider(daoAuthenticationProvider());
   }
 

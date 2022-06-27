@@ -2,25 +2,28 @@ package com.StruckCroissant.GameDB.objects.user;
 
 import com.StruckCroissant.GameDB.objects.DbModelObj;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Optional;
-import javax.validation.constraints.NotBlank;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.validation.constraints.NotBlank;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Optional;
+
 public class User implements DbModelObj, UserDetails {
   private final Integer uid;
-  @NotBlank private final String username;
+  @NotBlank
+  private final String username;
 
-  @NotBlank private String password;
+  @NotBlank
+  private String password;
 
-  private UserRoleEnum userRole;
+  private final UserRoleEnum userRole;
 
-  private Boolean locked;
+  private final Boolean locked;
 
-  private Boolean enabled;
+  private final Boolean enabled;
 
   public User(
       @JsonProperty("id") int id,
@@ -63,6 +66,10 @@ public class User implements DbModelObj, UserDetails {
     return password;
   }
 
+  public void setPassword(String encodedPassword) {
+    this.password = encodedPassword;
+  }
+
   public UserRoleEnum getRole() {
     return this.userRole;
   }
@@ -96,9 +103,5 @@ public class User implements DbModelObj, UserDetails {
   @Override
   public String toString() {
     return "User{" + "id=" + this.uid + ", username='" + this.username + '\'' + '}';
-  }
-
-  public void setPassword(String encodedPassword) {
-    this.password = encodedPassword;
   }
 }

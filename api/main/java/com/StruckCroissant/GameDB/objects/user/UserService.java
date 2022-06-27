@@ -1,7 +1,5 @@
 package com.StruckCroissant.GameDB.objects.user;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,13 +10,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class UserService implements UserDetailsService {
-  private final UserDao userDao;
-
-  private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
   private static final String USER_NOT_FOUND_MSG = "user with username %s not found";
+  private final UserDao userDao;
+  private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
   @Autowired
   public UserService(
@@ -29,14 +28,6 @@ public class UserService implements UserDetailsService {
 
   public List<User> getAllUsers() {
     return userDao.selectAllUsers();
-  }
-
-  public int addUser(User user) {
-    return userDao.insertUser(user);
-  }
-
-  public boolean loginUser(User user) {
-    return userDao.loginUser(user);
   }
 
   private static List<GrantedAuthority> getAuthorities(List<String> roles) {
