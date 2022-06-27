@@ -3,6 +3,10 @@ app:
     jdbc-url: "jdbc:mariadb://localhost:3306/gamedb"
     username: root
     password: mariadb
+server:
+  error:
+    include-details: always
+    include-message: always
 
 
 
