@@ -1,5 +1,7 @@
 package com.StruckCroissant.GameDB.objects.user;
 
+import com.StruckCroissant.GameDB.objects.game.Game;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -24,4 +26,6 @@ public interface UserDao {
   boolean userIsUnique(User user);
 
   boolean loginUser(User user);
+
+  List<Game> selectSavedGames(int uid);
 }

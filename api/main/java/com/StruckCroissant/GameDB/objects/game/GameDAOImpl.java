@@ -40,7 +40,7 @@ public class GameDAOImpl implements GameDao {
     final String sql =
         "SELECT gid, gname, cost, discounted_cost, url, age_rating, indie,"
             + "description, rdate, rawgId FROM game";
-    return jdbcTemplate.query(sql, (resultSet, i) -> getGame(resultSet));
+    return jdbcTemplate.query(sql, (resultSet, i) -> getGameFromResultSet(resultSet));
   }
 
   /**
@@ -59,7 +59,7 @@ public class GameDAOImpl implements GameDao {
             sql,
             (resultSet) -> {
               if (resultSet.next()) {
-                return getGame(resultSet);
+                return getGameFromResultSet(resultSet);
               } else {
                 return null;
               }
@@ -74,7 +74,7 @@ public class GameDAOImpl implements GameDao {
    * @return Game
    * @throws SQLException generic SQL exception
    */
-  private Game getGame(ResultSet resultSet) throws SQLException {
+  private Game getGameFromResultSet(ResultSet resultSet) throws SQLException {
     int gid = resultSet.getInt("gid");
     String gname = resultSet.getString("gname");
     String cost = resultSet.getString("cost");

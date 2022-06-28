@@ -18,7 +18,7 @@ public class GameNotFoundException extends RuntimeException {
   private final String message;
 
   public GameNotFoundException(String message) {
-    super(message); // Neither message shows up in the http response?
+    super(message);
     this.message = message;
   }
 }

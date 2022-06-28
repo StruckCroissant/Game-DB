@@ -2,6 +2,8 @@ package com.StruckCroissant.GameDB.objects.user;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.StruckCroissant.GameDB.objects.game.Game;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.GrantedAuthority;
@@ -78,6 +80,11 @@ public class UserService implements UserDetailsService {
     userDao.updateUser(user);
 
     return true;
+  }
+
+  public List<Game> getSavedGames(int uid) {
+    // TODO confirm user unique
+    return userDao.selectSavedGames(uid);
   }
 
   /*

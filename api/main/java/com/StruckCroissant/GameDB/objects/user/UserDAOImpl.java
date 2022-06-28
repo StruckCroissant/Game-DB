@@ -4,6 +4,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
+
+import com.StruckCroissant.GameDB.objects.game.Game;
+import com.StruckCroissant.GameDB.objects.game.GameDao;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -103,6 +106,28 @@ public class UserDAOImpl implements UserDao {
   }
 
   @Override
+  public List<Game> selectSavedGames(int uid) {
+    final String sql = """
+        SELECT
+            g.`gid`,
+            g.`gname`,
+            g.`cost`,
+            g.`discounted_cost`,
+            g.`url`,
+            g.`age_rating`,
+            g.`indie`,
+            g.`description`,
+            g.`rdate`,
+            g.`rawgId`
+        FROM
+            game g
+            INNER JOIN plays p ON g.gid = p.gid
+            INNER JOIN user u ON p.uid = u.uid
+        WHERE u.uid = ?;""";
+    return jdbcTemplate.query(sql, (resultSet, i) -> getGameFromResultSet(resultSet), uid);
+  }
+
+  @Override
   public int deleteUserById(int id) {
     final String sql = "DELETE FROM user WHERE uid = ?";
     return jdbcTemplate.update(sql, id);
@@ -185,5 +210,21 @@ public class UserDAOImpl implements UserDao {
             user.getPassword());
     assert amnt != null;
     return amnt == 1;
+  }
+
+  private Game getGameFromResultSet(ResultSet resultSet) throws SQLException {
+    int gid = resultSet.getInt("gid");
+    String gname = resultSet.getString("gname");
+    String cost = resultSet.getString("cost");
+    String discountedCost = resultSet.getString("discounted_cost");
+    String url = resultSet.getString("url");
+    String ageRating = resultSet.getString("age_rating");
+    int indie = resultSet.getInt("indie");
+    String description = resultSet.getString("description");
+    String rdate = resultSet.getString("rdate");
+    float rawgId = resultSet.getFloat("rawgId");
+
+    return new Game(
+        gid, gname, cost, discountedCost, url, ageRating, indie, description, rdate, rawgId);
   }
 }

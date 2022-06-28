@@ -40,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .disable()
         .authorizeRequests()
         .antMatchers("/api/v*/user/**")
-        .anonymous()
+        .authenticated()
         .antMatchers("/api/v*/register/**")
         .anonymous() // Difference between anonymous & permit all?
         .antMatchers("/api/v*/login/**")
@@ -53,7 +53,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    // Database auth works - uncomment if needed
     auth.inMemoryAuthentication().withUser("user").password("{noop}password").roles("USER");
     auth.authenticationProvider(daoAuthenticationProvider());
   }
