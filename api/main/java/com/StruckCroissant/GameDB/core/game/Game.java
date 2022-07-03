@@ -1,6 +1,6 @@
-package com.StruckCroissant.GameDB.objects.game;
+package com.StruckCroissant.GameDB.core.game;
 
-import com.StruckCroissant.GameDB.objects.DbModelObj;
+import com.StruckCroissant.GameDB.core.DbModelObj;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.constraints.NotBlank;
 

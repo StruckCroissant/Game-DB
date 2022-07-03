@@ -1,10 +1,9 @@
 package com.StruckCroissant.GameDB.registration;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin("http://localhost:4200")// Replace with proxy
 @RequestMapping("/api/v1/")
 @RestController
 public class RegistrationController {
@@ -16,6 +15,7 @@ public class RegistrationController {
   }
 
   @PostMapping("/register")
+  @ResponseStatus(HttpStatus.OK)
   public boolean registerUser(@RequestBody UserRegistrationRequest request) {
     return registrationService.registerUser(request);
   }

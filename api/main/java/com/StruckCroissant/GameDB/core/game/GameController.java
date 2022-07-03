@@ -1,11 +1,8 @@
-package com.StruckCroissant.GameDB.objects.game;
+package com.StruckCroissant.GameDB.core.game;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Controller for retrieving information about games. It contains simple endpoints for retrieving
@@ -16,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @see GameService
  * @since 2022-06-20
  */
+
+@CrossOrigin("http://localhost:4200")// Replace with proxy later
 @RequestMapping("api/v1/game")
 @RestController
 public class GameController {

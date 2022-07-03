@@ -1,11 +1,9 @@
-import {Component, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { User } from '../../common/user';
-import { ApiResponse } from '../../common/api-response';
-import {map, Subscription} from "rxjs";
-import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
-import {ActivatedRoute, NavigationExtras, Router} from "@angular/router";
-import {UserAuthService} from "../../services/user-auth.service";
+import {Subscription} from "rxjs";
+import {ActivatedRoute, Router} from "@angular/router";
+import {AuthenticationService} from "../../services/authentication.service";
 
 @Component({
   selector: 'app-login-page',
@@ -13,12 +11,14 @@ import {UserAuthService} from "../../services/user-auth.service";
   styleUrls: ['./login-page.component.css']
 })
 export class LoginPageComponent implements OnInit, OnDestroy {
-  usernameInput: string = '';
-  passwordInput: string = '';
+  credentials = {
+    username: '',
+    password: ''
+  };
 
   userSubscription: Subscription | undefined;
 
-  constructor(private userService: UserService, private userAuthService: UserAuthService,
+  constructor(private userService: UserService, private userAuthService: AuthenticationService,
               private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void { }
@@ -27,23 +27,11 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     this.userSubscription?.unsubscribe();
   }
 
-  loginUser(): void {
-    let currentUser = new User(this.usernameInput, this.passwordInput);
-
-    this.userAuthService.loginUser(currentUser).subscribe({
-      next: (response) => {
-        if(response.loginSuccess){
-          this.userAuthService.changeUser(currentUser);
-          window.alert("Login success!");
-          this.gotoMainPage();
-        } else {
-          window.alert("Username or password is invalid! Please try again")
-        }
-      },
-      error: (error: HttpErrorResponse) => {
-        console.log(error.message);
-      }
+  loginUser(): boolean {
+    this.userAuthService.authenticate(this.credentials, () => {
+      this.gotoMainPage();
     });
+    return false;
   }
 
   private gotoMainPage(): void {

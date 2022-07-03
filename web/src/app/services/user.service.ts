@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpResponse} from '@angular/common/http';
-import {Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
 import { User } from '../common/user';
-import { ApiResponse } from "../common/api-response";
 import { environment } from "src/environments/environment";
 
 @Injectable({
@@ -13,27 +12,15 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  public addUser(user: User): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(`${this.apiServerUrl}`, user);
+  public getAllUsers(): Observable<HttpResponse<any>> {
+    return this.http.get<HttpResponse<any>>(`${this.apiServerUrl}/all`);
   }
 
-  public getAllUsers(): Observable<ApiResponse> {
-    return this.http.get<ApiResponse>(`${this.apiServerUrl}/all`);
+  public deleteUserById(uid: number): Observable<HttpResponse<any>> {
+    return this.http.delete<HttpResponse<any>>(`${this.apiServerUrl}/byId?id=${uid}`);
   }
 
-  public getUserById(uid: number): Observable<ApiResponse> {
-    return this.http.get<ApiResponse>(`${this.apiServerUrl}/byId?id=${uid}`);
-  }
-
-  public getUserByUsername(username: string): Observable<ApiResponse> {
-    return this.http.get<ApiResponse>(`${this.apiServerUrl}/byUsername?username=${username}`);
-  }
-
-  public deleteUserById(uid: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiServerUrl}/byId?id=${uid}`);
-  }
-
-  public updateUser(user: User): Observable<ApiResponse> {
-    return this.http.put<ApiResponse>(`${this.apiServerUrl}`, user);
+  public updateUser(user: User): Observable<HttpResponse<any>> {
+    return this.http.put<HttpResponse<any>>(`${this.apiServerUrl}`, user);
   }
 }

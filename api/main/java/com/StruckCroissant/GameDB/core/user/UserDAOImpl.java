@@ -1,12 +1,11 @@
-package com.StruckCroissant.GameDB.objects.user;
+package com.StruckCroissant.GameDB.core.user;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-import com.StruckCroissant.GameDB.objects.game.Game;
-import com.StruckCroissant.GameDB.objects.game.GameDao;
+import com.StruckCroissant.GameDB.core.game.Game;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -191,24 +190,6 @@ public class UserDAOImpl implements UserDao {
             user.getUsername());
     assert amnt != null;
     return amnt == 0;
-  }
-
-  public boolean loginUser(User user) {
-    final String sql = "SELECT COUNT(*) FROM user WHERE username = ? AND password = ?";
-    Integer amnt =
-        jdbcTemplate.query(
-            sql,
-            (resultSet) -> {
-              if (resultSet.next()) {
-                return resultSet.getInt("count(*)");
-              } else {
-                return null;
-              }
-            },
-            user.getUsername(),
-            user.getPassword());
-    assert amnt != null;
-    return amnt == 1;
   }
 
   private Game getGameFromResultSet(ResultSet resultSet) throws SQLException {

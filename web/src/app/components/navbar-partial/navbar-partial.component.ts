@@ -1,8 +1,8 @@
-import {Component, Input, OnInit, Output} from '@angular/core';
-import {ActivatedRoute, Navigation, Router} from "@angular/router";
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from "@angular/router";
 import {User} from "../../common/user";
 import {Observable, Subscription} from "rxjs";
-import {UserAuthService} from "../../services/user-auth.service";
+import {AuthenticationService} from "../../services/authentication.service";
 
 @Component({
   selector: 'app-navbar-partial',
@@ -17,7 +17,7 @@ export class NavbarPartialComponent implements OnInit {
   sidebarClosed = false;
 
   constructor(private route: ActivatedRoute, private router: Router,
-              private userAuthService: UserAuthService) { }
+              private userAuthService: AuthenticationService) { }
 
   ngOnInit(): void {
     this.currentUserSubscription = this.userAuthService.currentUser.subscribe({

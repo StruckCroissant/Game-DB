@@ -1,4 +1,4 @@
-package com.StruckCroissant.GameDB.objects.game;
+package com.StruckCroissant.GameDB.core.game;
 
 import com.StruckCroissant.GameDB.exception.GameNotFoundException;
 import java.util.List;
@@ -43,10 +43,8 @@ public class GameService {
    * @throws GameNotFoundException missing game exception
    */
   public Game getGameById(int id) throws GameNotFoundException {
-    Game game =
-        gameDao
-            .selectGameById(id)
-            .orElseThrow(() -> new GameNotFoundException("Game id {" + id + "} not found"));
-    return gameDao.selectGameById(id).get();
+    return gameDao
+        .selectGameById(id)
+        .orElseThrow(() -> new GameNotFoundException("Game id {" + id + "} not found"));
   }
 }
