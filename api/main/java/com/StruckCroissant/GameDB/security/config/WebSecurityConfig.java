@@ -2,6 +2,7 @@ package com.StruckCroissant.GameDB.security.config;
 
 import com.StruckCroissant.GameDB.core.user.UserService;
 import com.StruckCroissant.GameDB.security.PasswordEncoder;
+import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,9 +16,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
-
-import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -43,18 +41,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     // TODO handle login and auth requests through front-end webpages
-    http
-      .cors()
-    .and()
-      .httpBasic()
-    .and()
-      .authorizeRequests()
-        .antMatchers(HttpMethod.POST, "/api/v*/login", "/api/v*/register").permitAll()
-        .anyRequest().authenticated()
-    .and()
-      .csrf()
-        .disable()
-    ;
+    http.cors()
+        .and()
+        .httpBasic()
+        .and()
+        .authorizeRequests()
+        .antMatchers(HttpMethod.POST, "/api/v*/login", "/api/v*/register")
+        .permitAll()
+        .anyRequest()
+        .authenticated()
+        .and()
+        .csrf()
+        .disable();
 
     /*
     http.csrf()
@@ -90,7 +88,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration corsConfiguration = new CorsConfiguration();
-    //corsConfiguration.setAllowCredentials(true);
+    // corsConfiguration.setAllowCredentials(true);
     corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
     corsConfiguration.setAllowedHeaders(
         Arrays.asList(
@@ -114,7 +112,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "Access-Control-Allow-Origin",
             "Access-Control-Allow-Credentials",
             "x-auth-token"));
-    corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH","DELETE", "OPTIONS"));
+    corsConfiguration.setAllowedMethods(
+        Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
     UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource =
         new UrlBasedCorsConfigurationSource();
     urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);

@@ -1,9 +1,8 @@
 package com.StruckCroissant.GameDB.core.user;
 
+import com.StruckCroissant.GameDB.core.game.Game;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.StruckCroissant.GameDB.core.game.Game;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -68,10 +67,13 @@ public class UserService implements UserDetailsService {
   }
 
   public Boolean signUpUser(User user) {
-    userDao.selectUserByUsername(user.getUsername())
-        .ifPresent(u -> {
-          throw new RuntimeException(String.format("User with username %s already exists", user.getUsername()));
-        });
+    userDao
+        .selectUserByUsername(user.getUsername())
+        .ifPresent(
+            u -> {
+              throw new RuntimeException(
+                  String.format("User with username %s already exists", user.getUsername()));
+            });
 
     String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
 
@@ -87,10 +89,13 @@ public class UserService implements UserDetailsService {
     return userDao.selectSavedGames(uid);
   }
 
-  public User getUserById(int id){
-      return userDao.selectUserById(id).orElseThrow(() -> {
-          throw new ResourceNotFoundException(String.format("User with id %s not found", id));
-      });
+  public User getUserById(int id) {
+    return userDao
+        .selectUserById(id)
+        .orElseThrow(
+            () -> {
+              throw new ResourceNotFoundException(String.format("User with id %s not found", id));
+            });
   }
 
   /*

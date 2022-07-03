@@ -1,7 +1,6 @@
 package com.StruckCroissant.GameDB.core.user;
 
 import com.StruckCroissant.GameDB.core.game.Game;
-
 import java.util.List;
 import java.util.Optional;
 

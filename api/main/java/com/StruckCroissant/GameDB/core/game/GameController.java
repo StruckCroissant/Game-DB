@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.*;
  * @see GameService
  * @since 2022-06-20
  */
-
-@CrossOrigin("http://localhost:4200")// Replace with proxy later
+@CrossOrigin("http://localhost:4200") // Replace with proxy later
 @RequestMapping("api/v1/game")
 @RestController
 public class GameController {

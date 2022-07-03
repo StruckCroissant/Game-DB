@@ -1,11 +1,10 @@
 package com.StruckCroissant.GameDB.core.user;
 
+import com.StruckCroissant.GameDB.core.game.Game;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
-
-import com.StruckCroissant.GameDB.core.game.Game;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -106,7 +105,8 @@ public class UserDAOImpl implements UserDao {
 
   @Override
   public List<Game> selectSavedGames(int uid) {
-    final String sql = """
+    final String sql =
+        """
         SELECT
             g.gid,
             g.gname,

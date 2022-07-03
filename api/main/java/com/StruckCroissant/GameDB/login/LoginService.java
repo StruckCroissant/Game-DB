@@ -9,8 +9,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class LoginService {
 
@@ -26,12 +24,13 @@ public class LoginService {
 
   public boolean login(UserLoginRequest request) {
     User user =
-        userDao.selectUserByUsername(request.getUsername()).orElseThrow(
-            () -> {
-              throw new UsernameNotFoundException(
-                  String.format("user with username %s not found", request.getUsername()));
-            }
-        );
+        userDao
+            .selectUserByUsername(request.getUsername())
+            .orElseThrow(
+                () -> {
+                  throw new UsernameNotFoundException(
+                      String.format("user with username %s not found", request.getUsername()));
+                });
     return passwordEncoder.matches(request.getPassword(), user.getPassword());
   }
 }

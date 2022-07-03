@@ -21,9 +21,13 @@ public class UserLoginRequest {
 
   @Override
   public String toString() {
-    return "UserLoginRequest{" +
-        "username='" + username + '\'' +
-        ", password='" + password + '\'' +
-        '}';
+    return "UserLoginRequest{"
+        + "username='"
+        + username
+        + '\''
+        + ", password='"
+        + password
+        + '\''
+        + '}';
   }
 }

@@ -3,7 +3,7 @@ package com.StruckCroissant.GameDB.login;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin("http://localhost:4200")// Replace with proxy later
+@CrossOrigin("http://localhost:4200") // Replace with proxy later
 @RequestMapping("/api/v1/")
 @RestController
 public class LoginController {
