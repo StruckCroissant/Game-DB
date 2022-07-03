@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {UserAuthService} from "../../services/user-auth.service";
-import {User} from "../../common/user";
-import {ApiResponse} from "../../common/api-response";
+import {AuthenticationService} from "../../services/authentication.service";
 import {Router} from "@angular/router";
 
 @Component({
@@ -10,26 +8,28 @@ import {Router} from "@angular/router";
   styleUrls: ['./register-page.component.css']
 })
 export class RegisterPageComponent implements OnInit {
-  usernameInput: string | unknown;
-  passwordInput: string | unknown;
+  usernameInput: string = '';
+  passwordInput: string = '';
 
-  constructor(private userAuthService: UserAuthService, private router: Router) { }
+  constructor(private userAuthService: AuthenticationService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
   registerUser() {
+    console.log(this.passwordInput);
     this.userAuthService.registerUser(
-      new User(this.usernameInput as string, this.passwordInput as string)).subscribe({
-      next: (response: ApiResponse) => {
-        if(response.registerSuccess){
+      {username: this.usernameInput, password: this.passwordInput}).subscribe({
+      next: (response) => {
+        if(response.status === 200){
           window.alert("Register success! You may now log in with your new account");
           this.gotoLoginPage();
-        } else {
-          window.alert("Registration unsuccessful. User already exists");
         }
       },
       error: (err) => {
+        if(err.status === 500){
+          window.alert("Registration unsuccessful. User already exists");
+        }
         console.log(err);
       }
     });

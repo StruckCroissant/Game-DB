@@ -1,4 +1,4 @@
-package com.StruckCroissant.GameDB.objects.game;
+package com.StruckCroissant.GameDB.core.game;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

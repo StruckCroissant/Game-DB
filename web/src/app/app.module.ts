@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
+import {Injectable, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule, HttpInterceptor} from '@angular/common/http';
 import {FormsModule} from "@angular/forms";
 
 import {AppRoutingModule} from "./app-routing.module";
@@ -14,6 +14,15 @@ import { MissingPageComponent } from './components/missing-page/missing-page.com
 import { NavbarPartialComponent } from './components/navbar-partial/navbar-partial.component';
 import { RegisterPageComponent } from './components/register-page/register-page.component';
 
+@Injectable()
+export class XhrInterceptor implements HttpInterceptor {
+  intercept(req: import("@angular/common/http").HttpRequest<any>, next: import("@angular/common/http").HttpHandler): import("rxjs").Observable<import("@angular/common/http").HttpEvent<any>> {
+    const xhr = req.clone({
+      headers: req.headers.set('X-Requested-With', 'XMLHttpRequest')
+    });
+    return next.handle(xhr);
+  }
+}
 
 @NgModule({
   declarations: [
@@ -36,7 +45,9 @@ import { RegisterPageComponent } from './components/register-page/register-page.
     BrowserModule,
     HttpClientModule,
     UserService,
+    { provide: HTTP_INTERCEPTORS, useClass: XhrInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })
+
 export class AppModule { }

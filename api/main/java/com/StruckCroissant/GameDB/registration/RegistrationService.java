@@ -1,8 +1,8 @@
 package com.StruckCroissant.GameDB.registration;
 
-import com.StruckCroissant.GameDB.objects.user.User;
-import com.StruckCroissant.GameDB.objects.user.UserRoleEnum;
-import com.StruckCroissant.GameDB.objects.user.UserService;
+import com.StruckCroissant.GameDB.core.user.User;
+import com.StruckCroissant.GameDB.core.user.UserRoleEnum;
+import com.StruckCroissant.GameDB.core.user.UserService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,11 +20,8 @@ public class RegistrationService {
 
   public boolean registerUser(UserRegistrationRequest request) {
 
-    // Prompts user service to sign up the user & returns token if successful
-    Boolean registerSuccess =
-        userService.signUpUser(
-            new User(request.getUsername(), request.getPassword(), UserRoleEnum.USER, false, true));
-
-    return registerSuccess;
+    // Prompts user service to sign up the user
+    return userService.signUpUser(
+        new User(request.getUsername(), request.getPassword(), UserRoleEnum.USER, false, true));
   }
 }
