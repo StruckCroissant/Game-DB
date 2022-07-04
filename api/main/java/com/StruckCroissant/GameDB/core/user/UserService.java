@@ -73,8 +73,7 @@ public class UserService implements UserDetailsService {
             u -> {
               throw new RuntimeException(
                   String.format("User with username %s already exists", user.getUsername()));
-            }
-            );
+            });
 
     String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
 
