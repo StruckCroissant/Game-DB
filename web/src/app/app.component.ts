@@ -13,11 +13,12 @@ export class AppComponent implements OnInit{
 
   constructor(private authService: AuthenticationService, private router: Router, private http: HttpClient) {
     this.authService.authenticate(undefined, undefined);
+
   }
 
   logout() {
     this.http.post('logout', {}).subscribe(() => {
-      this.authService.authenticated = false;
+      this.authService.setAuthenticated(false);
       this.router.navigateByUrl('/login');
     });
   }

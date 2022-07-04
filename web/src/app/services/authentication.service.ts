@@ -44,8 +44,9 @@ export class AuthenticationService {
       {headers: headers}).subscribe(
       {
         next: (res) => {
-          this.authenticated = res.hasOwnProperty('username');
-          callback && callback();
+          console.log(res);
+          this.authenticated = res != null;
+          return callback && callback();
         },
         error: (err) => {
           console.log(err.message);
@@ -53,5 +54,27 @@ export class AuthenticationService {
       }
 
     );
+  }
+
+  getAuthUser(): string | null {
+    if(localStorage.getItem('username')) {
+      return localStorage.getItem('username');
+    }
+    return null;
+  }
+
+  setAuthUser(username: string): void {
+    localStorage.setItem('username', username);
+  }
+
+  setAuthenticated(authenticated: boolean): void {
+    localStorage.setItem('authenticated', JSON.stringify(authenticated));
+  }
+
+  getAuthenticated(): boolean {
+    if(localStorage.getItem('authenticated')) {
+      return JSON.parse(localStorage.getItem('authenticated') || 'false');
+    }
+    return false;
   }
 }

@@ -20,6 +20,7 @@ export class HomeComponent implements OnInit {
               private userAuthService: AuthenticationService) { }
 
   ngOnInit(): void {
+    // replace with local storage
     this.currentUserSubscription = this.userAuthService.currentUser.subscribe({
       next: (user) => {
         this.currentUser = user;
@@ -27,11 +28,12 @@ export class HomeComponent implements OnInit {
     });
   }
 
-
-
   toggleSidebar(): void {
     console.log("toggled");
     this.sidebarClosed = !this.sidebarClosed;
   }
 
+  authenticated(): boolean {
+    return this.userAuthService.authenticated;
+  }
 }

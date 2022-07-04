@@ -39,6 +39,7 @@ public class UserController {
     return userService.getSavedGames(uid);
   }
 
+  // Gets principal from Spring Security and returns the user object
   @GetMapping()
   public Principal user(Principal user) {
     return user;
