@@ -11,7 +11,7 @@ import { SavedGamesPageComponent } from './components/saved-games-page/saved-gam
 import { SearchGamesPageComponent } from './components/search-games-page/search-games-page.component';
 import { GameDetailsPageComponent } from './components/game-details-page/game-details-page.component';
 import { MissingPageComponent } from './components/missing-page/missing-page.component';
-import { NavbarPartialComponent } from './components/navbar-partial/navbar-partial.component';
+import { HomeComponent } from './components/home/home.component';
 import { RegisterPageComponent } from './components/register-page/register-page.component';
 
 @Injectable()
@@ -32,7 +32,7 @@ export class XhrInterceptor implements HttpInterceptor {
     SearchGamesPageComponent,
     GameDetailsPageComponent,
     MissingPageComponent,
-    NavbarPartialComponent,
+    HomeComponent,
     RegisterPageComponent,
   ],
   imports: [

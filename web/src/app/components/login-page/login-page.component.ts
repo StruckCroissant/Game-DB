@@ -35,7 +35,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   }
 
   private gotoMainPage(): void {
-    this.router.navigate(['/navbar']);
+    this.router.navigate(['/home']);
   }
 }
 

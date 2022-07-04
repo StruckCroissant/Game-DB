@@ -6,10 +6,10 @@ import {AuthenticationService} from "../../services/authentication.service";
 
 @Component({
   selector: 'app-navbar-partial',
-  templateUrl: './navbar-partial.component.html',
-  styleUrls: ['./navbar-partial.component.css']
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
 })
-export class NavbarPartialComponent implements OnInit {
+export class HomeComponent implements OnInit {
 
   currentUser: User | unknown;
   currentUserSubscription: Subscription | undefined;

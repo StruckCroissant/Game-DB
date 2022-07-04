@@ -5,7 +5,7 @@ import {GameDetailsPageComponent} from "./components/game-details-page/game-deta
 import {SavedGamesPageComponent} from "./components/saved-games-page/saved-games-page.component";
 import {SearchGamesPageComponent} from "./components/search-games-page/search-games-page.component";
 import {MissingPageComponent} from "./components/missing-page/missing-page.component";
-import {NavbarPartialComponent} from "./components/navbar-partial/navbar-partial.component";
+import {HomeComponent} from "./components/home/home.component";
 import {RegisterPageComponent} from "./components/register-page/register-page.component";
 
 const routes: Routes = [{
@@ -13,7 +13,7 @@ const routes: Routes = [{
 }, {
   path: 'register', component: RegisterPageComponent
 },{
-  path: 'navbar', component: NavbarPartialComponent,
+  path: 'home', component: HomeComponent,
   children: [
     {path: 'game-details', component: GameDetailsPageComponent},
     {path: 'saved-games', component: SavedGamesPageComponent},
