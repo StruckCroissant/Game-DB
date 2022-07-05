@@ -4,7 +4,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: mariadb
-      MYSQL_DATABASE: gamedb
+      MYSQL_DATABASE: gamedb_db
       MYSQL_USER: admin
       MYSQL_PASSWORD: password
     volumes:
