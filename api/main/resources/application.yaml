@@ -8,7 +8,7 @@ server:
     include-details: always
     include-message: always
   port: 9191
-spring:
+spring: # TODO Combine spring & app settings
   flyway:
     enabled: true
     validate-on-migrate: true

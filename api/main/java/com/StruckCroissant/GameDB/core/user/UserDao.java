@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserDao {
-  // TODO all return Optional<>
   int insertUser(User user);
 
   List<User> selectAllUsers();
