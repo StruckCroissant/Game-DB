@@ -1,8 +1,12 @@
 package com.StruckCroissant.GameDB;
 
 import ch.vorburger.exec.ManagedProcessException;
+import ch.vorburger.mariadb4j.DB;
+import ch.vorburger.mariadb4j.DBConfiguration;
 import ch.vorburger.mariadb4j.DBConfigurationBuilder;
+import ch.vorburger.mariadb4j.MariaDB4jService;
 import ch.vorburger.mariadb4j.springframework.MariaDB4jSpringService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -15,28 +19,34 @@ import javax.sql.DataSource;
 @PropertySource("classpath:test.properties")
 public class testDbConfig {
 
-  @Bean(name = "testDbService")
-  public MariaDB4jSpringService mariaDB4jSpringService() {
-    return new MariaDB4jSpringService();
+  @Bean
+  public DBConfigurationBuilder dbConfig(@Value("${test.datasource.port}") int datasourcePort) {
+    DBConfigurationBuilder config = DBConfigurationBuilder.newBuilder();
+    config.setPort(datasourcePort);
+    config.setSecurityDisabled(true);
+    return config;
   }
 
-  @Bean(name = "testDbDatasource")
+  @Bean
   public DataSource dataSource(
-      @Qualifier("testDbService") MariaDB4jSpringService mariaDB4jSpringService,
-      @Value("${app.datasource.name}") String databaseName,
-      @Value("${app.datasource.username}") String datasourcePassword,
-      @Value("${app.datasource.driver-class-name}") String datasourceDriver
+      @Autowired DBConfigurationBuilder dbConfig,
+      @Value("${test.datasource.name}") String databaseName,
+      @Value("${test.datasource.username}") String datasourceUsername,
+      @Value("${test.datasource.username}") String datasourcePassword,
+      @Value("${test.datasource.driver-class-name}") String datasourceDriver
   ) throws ManagedProcessException {
-    mariaDB4jSpringService.getDB().createDB(databaseName);
-    mariaDB4jSpringService.getDB().source("db/init/gamedb_seed.sql", databaseName);
+    DB db = DB.newEmbeddedDB(dbConfig.build());
+    db.start();
+    db.createDB(databaseName, "root", "");
+    db.source("db/init/gamedb_seed.sql", databaseName);
 
 
-    DBConfigurationBuilder dbConfigurationBuilder = mariaDB4jSpringService.getConfiguration();
+    DBConfiguration dbConfiguration = db.getConfiguration();
 
     return DataSourceBuilder.create()
         .driverClassName(datasourceDriver)
-        .url(dbConfigurationBuilder.getURL(databaseName))
-        .username(datasourcePassword)
+        .url(dbConfiguration.getURL(databaseName))
+        .username(datasourceUsername)
         .password(datasourcePassword)
         .build();
   }

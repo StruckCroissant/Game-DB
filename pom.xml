@@ -33,7 +33,7 @@
 		</dependency>
 		<dependency>
 			<groupId>ch.vorburger.mariaDB4j</groupId>
-			<artifactId>mariaDB4j-springboot</artifactId>
+			<artifactId>mariaDB4j</artifactId>
 			<version>2.5.3</version>
 		</dependency>
 		<dependency>
