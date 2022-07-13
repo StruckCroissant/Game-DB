@@ -1,5 +1,7 @@
 package com.StruckCroissant.GameDB.core.user;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
 import com.StruckCroissant.GameDB.testDbConfig;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -10,9 +12,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
 
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -28,15 +27,15 @@ class UserDAOImplTest {
   @Test
   void shouldSignupNewUser() {
     // given
-      String test_username = "testuser123";
-      String test_password = "password";
-      User user = new User(test_username, test_password, UserRoleEnum.USER, false, true);
-      underTest.updateUser(user);
+    String test_username = "testuser123";
+    String test_password = "password";
+    User user = new User(test_username, test_password, UserRoleEnum.USER, false, true);
+    underTest.updateUser(user);
 
     // when
-      boolean userExists = underTest.selectUserByUsername(test_username).isPresent();
+    boolean userExists = underTest.selectUserByUsername(test_username).isPresent();
 
     // then
-      assertThat(userExists).isTrue();
+    assertThat(userExists).isTrue();
   }
 }
