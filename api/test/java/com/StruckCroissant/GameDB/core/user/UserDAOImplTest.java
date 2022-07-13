@@ -28,11 +28,13 @@ class UserDAOImplTest {
   @Test
   void shouldSignupNewUser() {
     // given
-      User user = new User("testuser123", "password", UserRoleEnum.USER, false, true);
+      String test_username = "testuser123";
+      String test_password = "password";
+      User user = new User(test_username, test_password, UserRoleEnum.USER, false, true);
       underTest.updateUser(user);
 
     // when
-      boolean userExists = underTest.selectUserByUsername("username").isPresent();
+      boolean userExists = underTest.selectUserByUsername(test_username).isPresent();
 
     // then
       assertThat(userExists).isTrue();
