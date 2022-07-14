@@ -4,16 +4,12 @@ import ch.vorburger.exec.ManagedProcessException;
 import ch.vorburger.mariadb4j.DB;
 import ch.vorburger.mariadb4j.DBConfiguration;
 import ch.vorburger.mariadb4j.DBConfigurationBuilder;
-import ch.vorburger.mariadb4j.MariaDB4jService;
-import ch.vorburger.mariadb4j.springframework.MariaDB4jSpringService;
+import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.*;
 import org.springframework.jdbc.core.JdbcTemplate;
-
-import javax.sql.DataSource;
 
 @Configuration
 @PropertySource("classpath:test.properties")
@@ -33,13 +29,12 @@ public class testDbConfig {
       @Value("${test.datasource.name}") String databaseName,
       @Value("${test.datasource.username}") String datasourceUsername,
       @Value("${test.datasource.username}") String datasourcePassword,
-      @Value("${test.datasource.driver-class-name}") String datasourceDriver
-  ) throws ManagedProcessException {
+      @Value("${test.datasource.driver-class-name}") String datasourceDriver)
+      throws ManagedProcessException {
     DB db = DB.newEmbeddedDB(dbConfig.build());
     db.start();
     db.createDB(databaseName, "root", "");
     db.source("db/init/gamedb_seed.sql", databaseName);
-
 
     DBConfiguration dbConfiguration = db.getConfiguration();
 
