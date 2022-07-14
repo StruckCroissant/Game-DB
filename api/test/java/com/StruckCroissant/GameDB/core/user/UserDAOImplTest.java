@@ -28,7 +28,7 @@ class UserDAOImplTest {
   @Test
   void shouldSignupNewUser() {
     // given
-      String test_username = "testuser123";
+      String test_username = "new_account_420";
       String test_password = "password";
       User user = new User(test_username, test_password, UserRoleEnum.USER, false, true);
       underTest.updateUser(user);
@@ -38,5 +38,22 @@ class UserDAOImplTest {
 
     // then
       assertThat(userExists).isTrue();
+  }
+
+  @Test
+  void shouldDeleteUser() {
+    // given
+      String test_username = "delete_me";
+      String test_password = "password";
+      User user = new User(test_username, test_password, UserRoleEnum.USER, false, true);
+      underTest.updateUser(user);
+      User userToDelete = underTest.selectUserByUsername(test_username).get();
+
+    // when
+      underTest.deleteUserById(userToDelete.getId().get());
+      boolean userExists = underTest.selectUserByUsername(test_username).isPresent();
+
+    // then
+      assertThat(userExists).isFalse();
   }
 }
