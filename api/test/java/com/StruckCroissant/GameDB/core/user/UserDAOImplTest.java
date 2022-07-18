@@ -1,7 +1,10 @@
 package com.StruckCroissant.GameDB.core.user;
 
-import com.StruckCroissant.GameDB.core.game.Game;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
 import com.StruckCroissant.GameDB.TestDbConfig;
+import com.StruckCroissant.GameDB.core.game.Game;
+import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Order;
@@ -16,18 +19,12 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.jdbc.JdbcTestUtils;
 
-import java.util.List;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
-
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
 @TestPropertySource(locations = "classpath:test.properties")
 @ContextConfiguration(classes = {TestDbConfig.class, UserDAOImpl.class})
 class UserDAOImplTest {
   // TODO - add tests for exception handling
-
 
   @Qualifier("db-user")
   @Autowired
@@ -38,7 +35,7 @@ class UserDAOImplTest {
   private JdbcTemplate jdbcTemplate;
 
   @AfterEach
-  void tearDown(){
+  void tearDown() {
     JdbcTestUtils.deleteFromTables(jdbcTemplate, "user");
   }
 
@@ -63,10 +60,10 @@ class UserDAOImplTest {
 
   @NotNull
   private Integer getTestUidFromUsernameDb(String test_username) {
-    return underTest.selectUserByUsername(test_username).flatMap(User::getId)
-        .orElseThrow(
-            () -> new IllegalStateException("User not found in DB")
-        );
+    return underTest
+        .selectUserByUsername(test_username)
+        .flatMap(User::getId)
+        .orElseThrow(() -> new IllegalStateException("User not found in DB"));
   }
 
   @Test
@@ -85,132 +82,128 @@ class UserDAOImplTest {
   @Test
   void shouldGetUidFromuser() {
     // given
-      String test_username = insertDefaultUserDb();
+    String test_username = insertDefaultUserDb();
 
     // when
-      int uid = underTest.selectUserByUsername(test_username).flatMap(User::getId).orElse(0);
+    int uid = underTest.selectUserByUsername(test_username).flatMap(User::getId).orElse(0);
 
     // then
-      assertThat(uid).isNotEqualTo(0);
+    assertThat(uid).isNotEqualTo(0);
   }
 
-
   @Test
-  void shouldUpdateUser(){
+  void shouldUpdateUser() {
     // given
-      // Init user
-      String test_username = insertDefaultUserDb();
-      int initUidDb = getTestUidFromUsernameDb(test_username);
+    // Init user
+    String test_username = insertDefaultUserDb();
+    int initUidDb = getTestUidFromUsernameDb(test_username);
 
-      // Updated user
-      String new_username = "new_account_420_updated";
-      String new_password = "password_updated";
-      User updatedUser = new User(new_username, new_password, UserRoleEnum.USER, false, true);
+    // Updated user
+    String new_username = "new_account_420_updated";
+    String new_password = "password_updated";
+    User updatedUser = new User(new_username, new_password, UserRoleEnum.USER, false, true);
 
-      // Updated user
-      underTest.updateUserById(initUidDb, updatedUser);
-      User updatedUserDb = getTestUserFromUidDb(initUidDb);
-      int updatedUidDb = getUidFromUserObj(updatedUserDb);
+    // Updated user
+    underTest.updateUserById(initUidDb, updatedUser);
+    User updatedUserDb = getTestUserFromUidDb(initUidDb);
+    int updatedUidDb = getUidFromUserObj(updatedUserDb);
 
     // then
-      assertThat(updatedUidDb).isEqualTo(initUidDb);
-      assertThat(updatedUserDb.getUsername()).isEqualTo(new_username);
-      assertThat(updatedUserDb.getPassword()).isEqualTo(new_password);
+    assertThat(updatedUidDb).isEqualTo(initUidDb);
+    assertThat(updatedUserDb.getUsername()).isEqualTo(new_username);
+    assertThat(updatedUserDb.getPassword()).isEqualTo(new_password);
   }
 
   private User getTestUserFromUidDb(int initUidDb) {
-    return underTest.selectUserById(initUidDb).orElseThrow(
-        () -> new RuntimeException("User not found in database")
-    );
+    return underTest
+        .selectUserById(initUidDb)
+        .orElseThrow(() -> new RuntimeException("User not found in database"));
   }
 
   @Test
   void shouldDeleteUser() {
     // given
-      String test_username = insertDefaultUserDb();
-      User userFromDb = underTest.selectUserByUsername(test_username).get();
-      int uidFromDb = getUidFromUserObj(userFromDb);
+    String test_username = insertDefaultUserDb();
+    User userFromDb = underTest.selectUserByUsername(test_username).get();
+    int uidFromDb = getUidFromUserObj(userFromDb);
 
     // when
-      underTest.deleteUserById(uidFromDb);
-      boolean userExists = underTest.selectUserByUsername(test_username).isPresent();
+    underTest.deleteUserById(uidFromDb);
+    boolean userExists = underTest.selectUserByUsername(test_username).isPresent();
 
     // then
-      assertThat(userExists).isFalse();
+    assertThat(userExists).isFalse();
   }
 
   @Test
   void shouldGetSavedGames() {
     // given
-      int[] games = {1, 2, 3}; // Test games
+    int[] games = {1, 2, 3}; // Test games
 
-      String test_username = insertDefaultUserDb();
-      User userFromDb = underTest.selectUserByUsername(test_username).orElseThrow();
-      int uid = getUidFromUserObj(userFromDb);
+    String test_username = insertDefaultUserDb();
+    User userFromDb = underTest.selectUserByUsername(test_username).orElseThrow();
+    int uid = getUidFromUserObj(userFromDb);
 
     // when
-      for(int gid: games){
-        underTest.insertSavedGame(uid, gid);
-      }
+    for (int gid : games) {
+      underTest.insertSavedGame(uid, gid);
+    }
 
-    //then
-      assertThat(underTest.selectSavedGames(uid).size()).isNotEqualTo(0);
-      underTest.selectSavedGames(uid).forEach(
-          g -> assertThat(g).isExactlyInstanceOf(Game.class)
-      );
+    // then
+    assertThat(underTest.selectSavedGames(uid).size()).isNotEqualTo(0);
+    underTest.selectSavedGames(uid).forEach(g -> assertThat(g).isExactlyInstanceOf(Game.class));
   }
 
   @Test
   void shouldDeleteSavedGame() {
     // given
-      int[] games = {1, 2, 3}; // Test games
+    int[] games = {1, 2, 3}; // Test games
 
-      String test_username = insertDefaultUserDb();
-      User userFromDb = underTest.selectUserByUsername(test_username).orElseThrow();
-      int uid = getUidFromUserObj(userFromDb);
+    String test_username = insertDefaultUserDb();
+    User userFromDb = underTest.selectUserByUsername(test_username).orElseThrow();
+    int uid = getUidFromUserObj(userFromDb);
 
     // when
-      for(int gid: games){
-        underTest.insertSavedGame(uid, gid);
-      }
-      underTest.deleteSavedGame(uid, games[0]);
-      underTest.deleteSavedGame(uid, games[1]);
-      underTest.deleteSavedGame(uid, games[2]);
+    for (int gid : games) {
+      underTest.insertSavedGame(uid, gid);
+    }
+    underTest.deleteSavedGame(uid, games[0]);
+    underTest.deleteSavedGame(uid, games[1]);
+    underTest.deleteSavedGame(uid, games[2]);
 
-    //then
-      assertThat(underTest.selectSavedGames(uid).size()).isEqualTo(0);
+    // then
+    assertThat(underTest.selectSavedGames(uid).size()).isEqualTo(0);
   }
 
   @Test
   void shouldDetectNonUniqueUser() {
     // given
-      String test_username = insertDefaultUserDb();
-      User userFromDb = underTest.selectUserByUsername(test_username).orElseThrow();
+    String test_username = insertDefaultUserDb();
+    User userFromDb = underTest.selectUserByUsername(test_username).orElseThrow();
 
     // when
-      boolean userIsUnique = underTest.userIsUnique(userFromDb);
+    boolean userIsUnique = underTest.userIsUnique(userFromDb);
 
     // then
-      assertThat(userIsUnique).isFalse();
+    assertThat(userIsUnique).isFalse();
   }
 
   @Test
-  void shouldSelectAllUsers(){
+  void shouldSelectAllUsers() {
     // given
-      String test_username = insertUserDb("test_username1");
-      String test_username2 = insertUserDb("test_username2");
-      String test_username3 = insertUserDb("test_username3");
+    String test_username = insertUserDb("test_username1");
+    String test_username2 = insertUserDb("test_username2");
+    String test_username3 = insertUserDb("test_username3");
 
     // when
-      List<User> users = underTest.selectAllUsers();
+    List<User> users = underTest.selectAllUsers();
 
     // then
-      assertThat(users.size()).isEqualTo(3);
-      users.forEach(
+    assertThat(users.size()).isEqualTo(3);
+    users.forEach(
         (User u) -> {
           assertThat(u).isExactlyInstanceOf(User.class);
           assertThat(u.getUsername()).isIn(test_username, test_username2, test_username3);
-        }
-      );
+        });
   }
 }
