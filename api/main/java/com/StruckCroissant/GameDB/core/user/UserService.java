@@ -53,7 +53,7 @@ public class UserService implements UserDetailsService {
     boolean credentialsNonExpired = true;
     boolean accountNonLocked = true;
 
-    List<String> authorities = new ArrayList<String>();
+    List<String> authorities = new ArrayList<>();
     authorities.add(user.getRole().toString());
 
     return new org.springframework.security.core.userdetails.User(
@@ -79,7 +79,7 @@ public class UserService implements UserDetailsService {
 
     user.setPassword(encodedPassword);
 
-    userDao.updateUser(user);
+    userDao.insertUser(user);
 
     return true;
   }

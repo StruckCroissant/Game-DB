@@ -22,18 +22,6 @@ public class UserDAOImpl implements UserDao {
   }
 
   @Override
-  public int insertUser(User user) {
-    final String sql;
-    if (user.getId().isPresent()) { // Might not need due to Auto_inc - including for posterity
-      sql = "INSERT INTO user (uid, username, password) VALUES (?, ?, ?)";
-      return jdbcTemplate.update(sql, user.getId(), user.getUsername(), user.getPassword());
-    } else {
-      sql = "INSERT INTO user (username, password) VALUES (?, ?)";
-      return jdbcTemplate.update(sql, user.getUsername(), user.getPassword());
-    }
-  }
-
-  @Override
   public List<User> selectAllUsers() {
     final String sql =
         "SELECT u.uid, u.username, u.password, u.locked, u.enabled, r.role "
@@ -103,6 +91,11 @@ public class UserDAOImpl implements UserDao {
             username));
   }
 
+  public void insertSavedGame(int uid, int gid) {
+    final String sql = "INSERT INTO plays (uid, gid) VALUES (?, ?)";
+    jdbcTemplate.update(sql, uid, gid);
+  }
+
   @Override
   public List<Game> selectSavedGames(int uid) {
     final String sql =
@@ -127,6 +120,12 @@ public class UserDAOImpl implements UserDao {
   }
 
   @Override
+  public int deleteSavedGame(int uid, int gid) {
+    final String sql = "DELETE FROM plays WHERE uid = ? AND gid = ?";
+    return jdbcTemplate.update(sql, uid, gid);
+  }
+
+  @Override
   public int deleteUserById(int id) {
     final String sql = "DELETE FROM user WHERE uid = ?";
     return jdbcTemplate.update(sql, id);
@@ -134,12 +133,32 @@ public class UserDAOImpl implements UserDao {
 
   @Override
   public int updateUserById(int id, User user) {
-    final String sql = "UPDATE user SET username = ? WHERE uid = ?";
-    return jdbcTemplate.update(sql, user.getUsername(), id);
+    final String sql = """
+    UPDATE
+      user u join role r
+      on u.uid = r.uid
+    SET
+      u.username = ?,
+      u.password = ?,
+      u.locked = ?,
+      u.enabled = ?,
+      r.role = ?
+    WHERE
+      u.uid = ?
+    ;
+    """;
+    return jdbcTemplate.update(sql,
+        user.getUsername(),
+        user.getPassword(),
+        user.isAccountNonLocked(),
+        user.isEnabled(),
+        user.getRole().toString(),
+        id
+    );
   }
 
   @Override
-  public boolean updateUser(User user) {
+  public boolean insertUser(User user) {
     final String SQL_INSERT_USER =
         "INSERT INTO user (username, password, locked, enabled) VALUES (?, ?, ?, ?);";
     final String SQL_INSERT_ROLE_USER = "INSERT INTO role (uid, role) VALUES (?, ?);";
@@ -165,18 +184,13 @@ public class UserDAOImpl implements UserDao {
   }
 
   @Override
-  public boolean registerNewUser(User user) {
-    if (userIsUnique(user)) {
-      insertUser(user);
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  @Override
   public boolean userIsUnique(User user) {
-    final String sql = "SELECT COUNT(*) FROM user WHERE username = ?";
+    final String sql = "SELECT COUNT(*) FROM user WHERE username = ? OR uid = ?";
+    String username = user.getUsername();
+    int uid = user.getId().orElseThrow(
+        () -> new IllegalArgumentException("User id cannot be null")
+    );
+
     Integer amnt =
         jdbcTemplate.query(
             sql,
@@ -187,7 +201,9 @@ public class UserDAOImpl implements UserDao {
                 return null;
               }
             },
-            user.getUsername());
+            username,
+            uid
+        );
     assert amnt != null;
     return amnt == 0;
   }

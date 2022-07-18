@@ -5,36 +5,41 @@ import ch.vorburger.mariadb4j.DB;
 import ch.vorburger.mariadb4j.DBConfiguration;
 import ch.vorburger.mariadb4j.DBConfigurationBuilder;
 import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 @Configuration
 @PropertySource("classpath:test.properties")
-public class testDbConfig {
+public class TestDbConfig {
 
   @Bean
-  public DBConfigurationBuilder dbConfig(@Value("${test.datasource.port}") int datasourcePort) {
+  public DBConfiguration dbConfig(@Value("${test.datasource.port}") int datasourcePort) {
     DBConfigurationBuilder config = DBConfigurationBuilder.newBuilder();
     config.setPort(datasourcePort);
     config.setSecurityDisabled(true);
-    return config;
+    return config.build();
   }
 
   @Bean
   public DataSource dataSource(
-      @Autowired DBConfigurationBuilder dbConfig,
+      @Autowired DBConfiguration dbConfig,
       @Value("${test.datasource.name}") String databaseName,
       @Value("${test.datasource.username}") String datasourceUsername,
       @Value("${test.datasource.username}") String datasourcePassword,
       @Value("${test.datasource.driver-class-name}") String datasourceDriver)
       throws ManagedProcessException {
-    DB db = DB.newEmbeddedDB(dbConfig.build());
+    DB db = DB.newEmbeddedDB(dbConfig);
     db.start();
     db.createDB(databaseName, "root", "");
-    db.source("db/init/gamedb_seed.sql", databaseName);
+    db.source("db/init/schema.sql", databaseName);
 
     DBConfiguration dbConfiguration = db.getConfiguration();
 
@@ -46,7 +51,7 @@ public class testDbConfig {
         .build();
   }
 
-  @Bean
+  @Bean("testTemplate")
   public JdbcTemplate jdbcTemplate(DataSource dataSource) {
     return new JdbcTemplate(dataSource);
   }

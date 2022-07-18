@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserDao {
-  int insertUser(User user);
 
   List<User> selectAllUsers();
 
@@ -17,11 +16,11 @@ public interface UserDao {
 
   int updateUserById(int id, User user);
 
-  boolean updateUser(User user);
-
-  boolean registerNewUser(User user);
+  boolean insertUser(User user);
 
   boolean userIsUnique(User user);
 
   List<Game> selectSavedGames(int uid);
+
+  int deleteSavedGame(int uid, int gid);
 }
