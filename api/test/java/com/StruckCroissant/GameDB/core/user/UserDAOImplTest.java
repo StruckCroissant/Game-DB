@@ -19,6 +19,7 @@ import org.springframework.test.jdbc.JdbcTestUtils;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 
 
 @SpringBootTest
@@ -212,5 +213,17 @@ class UserDAOImplTest {
           assertThat(u.getUsername()).isIn(test_username, test_username2, test_username3);
         }
       );
+  }
+
+  @Test
+  void shouldThrowOnNullId(){
+    // given
+      User user = new User("test_username", "test_password", UserRoleEnum.USER, false, true);
+
+    // when
+      Throwable thrown = catchThrowable(() -> underTest.userIsUnique(user));
+
+    // then
+      assertThat(thrown).isExactlyInstanceOf(IllegalArgumentException.class);
   }
 }
