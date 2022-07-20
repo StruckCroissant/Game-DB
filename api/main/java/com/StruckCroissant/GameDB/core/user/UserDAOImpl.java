@@ -133,7 +133,8 @@ public class UserDAOImpl implements UserDao {
 
   @Override
   public int updateUserById(int id, User user) {
-    final String sql = """
+    final String sql =
+        """
     UPDATE
       user u join role r
       on u.uid = r.uid
@@ -147,14 +148,14 @@ public class UserDAOImpl implements UserDao {
       u.uid = ?
     ;
     """;
-    return jdbcTemplate.update(sql,
+    return jdbcTemplate.update(
+        sql,
         user.getUsername(),
         user.getPassword(),
         user.isAccountNonLocked(),
         user.isEnabled(),
         user.getRole().toString(),
-        id
-    );
+        id);
   }
 
   @Override
@@ -187,9 +188,8 @@ public class UserDAOImpl implements UserDao {
   public boolean userIsUnique(User user) {
     final String sql = "SELECT COUNT(*) FROM user WHERE username = ? OR uid = ?";
     String username = user.getUsername();
-    int uid = user.getId().orElseThrow(
-        () -> new IllegalArgumentException("User id cannot be null")
-    );
+    int uid =
+        user.getId().orElseThrow(() -> new IllegalArgumentException("User id cannot be null"));
 
     Integer amnt =
         jdbcTemplate.query(
@@ -202,8 +202,7 @@ public class UserDAOImpl implements UserDao {
               }
             },
             username,
-            uid
-        );
+            uid);
     assert amnt != null;
     return amnt == 0;
   }
