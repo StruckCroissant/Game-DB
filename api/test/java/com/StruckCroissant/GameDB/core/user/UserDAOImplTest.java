@@ -25,7 +25,6 @@ import org.springframework.test.jdbc.JdbcTestUtils;
 @TestPropertySource(locations = "classpath:test.properties")
 @ContextConfiguration(classes = {TestDbConfig.class, UserDAOImpl.class})
 class UserDAOImplTest {
-  // TODO - add tests for exception handling
 
   @Qualifier("db-user")
   @Autowired
