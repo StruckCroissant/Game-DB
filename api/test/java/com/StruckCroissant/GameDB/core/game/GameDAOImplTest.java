@@ -1,8 +1,11 @@
 package com.StruckCroissant.GameDB.core.game;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
 import com.StruckCroissant.GameDB.TestDbConfig;
-import com.StruckCroissant.GameDB.core.user.UserDAOImpl;
-import com.StruckCroissant.GameDB.exception.GameNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +15,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -35,49 +31,37 @@ public class GameDAOImplTest {
   private JdbcTemplate jdbcTemplate;
 
   @Test
-  public void shouldGetAllGames(){
-    //given
-      //nothing
-    //when
-      List<Game> allGames = underTest.selectAllGames();
+  public void shouldGetAllGames() {
+    // given
+    // nothing
+    // when
+    List<Game> allGames = underTest.selectAllGames();
 
-    //then
-      allGames.forEach(
-          (game) -> assertThat(game).isInstanceOf(Game.class)
-      );
-      assertThat(allGames.size()).isGreaterThanOrEqualTo(30250);
-
+    // then
+    allGames.forEach((game) -> assertThat(game).isInstanceOf(Game.class));
+    assertThat(allGames.size()).isGreaterThanOrEqualTo(30250);
   }
 
   @Test
-  public void shouldGetGameById(){
-    //given
-      int[] validGames = {
-          1, 2, 3, 4, 5
-      };
-      int[] invalidGames = {
-          -4, -56, -3, 879627
-      };
-      List<Optional<Game>> validResult = new ArrayList<>();
-      List<Optional<Game>> invalidResult = new ArrayList<>();
+  public void shouldGetGameById() {
+    // given
+    int[] validGames = {1, 2, 3, 4, 5};
+    int[] invalidGames = {-4, -56, -3, 879627};
+    List<Optional<Game>> validResult = new ArrayList<>();
+    List<Optional<Game>> invalidResult = new ArrayList<>();
 
-    //when
-      for(int gameInt: validGames){
-        Optional<Game> currentGameOpt = underTest.selectGameById(gameInt);
-        validResult.add(currentGameOpt);
-      }
-      for(int gameInt: invalidGames){
-        Optional<Game> currentGameOpt = underTest.selectGameById(gameInt);
-        invalidResult.add(currentGameOpt);
-      }
+    // when
+    for (int gameInt : validGames) {
+      Optional<Game> currentGameOpt = underTest.selectGameById(gameInt);
+      validResult.add(currentGameOpt);
+    }
+    for (int gameInt : invalidGames) {
+      Optional<Game> currentGameOpt = underTest.selectGameById(gameInt);
+      invalidResult.add(currentGameOpt);
+    }
 
-    //then
-      validResult.forEach(
-          (gameOpt) -> assertThat(gameOpt).get().isInstanceOf(Game.class)
-      );
-      invalidResult.forEach(
-          (gameOpt) -> assertThat(gameOpt).isEmpty()
-      );
+    // then
+    validResult.forEach((gameOpt) -> assertThat(gameOpt).get().isInstanceOf(Game.class));
+    invalidResult.forEach((gameOpt) -> assertThat(gameOpt).isEmpty());
   }
-
 }
