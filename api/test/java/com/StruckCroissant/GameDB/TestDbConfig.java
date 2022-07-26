@@ -16,9 +16,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class TestDbConfig {
 
   @Bean
-  public DBConfiguration dbConfig(@Value("${test.datasource.port}") int datasourcePort) {
+  public DBConfiguration dbConfig() {
     DBConfigurationBuilder config = DBConfigurationBuilder.newBuilder();
-    config.setPort(datasourcePort);
+    //Port not set to allow new instances to be generated for batch of tests
     config.setSecurityDisabled(true);
     return config.build();
   }
