@@ -18,7 +18,7 @@ public class TestDbConfig {
   @Bean
   public DBConfiguration dbConfig() {
     DBConfigurationBuilder config = DBConfigurationBuilder.newBuilder();
-    //Port not set to allow new instances to be generated for batch of tests
+    // Port not set to allow new instances to be generated for batch of tests
     config.setSecurityDisabled(true);
     return config.build();
   }
