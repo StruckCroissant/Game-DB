@@ -1,11 +1,13 @@
 package com.StruckCroissant.GameDB;
 
-import org.junit.jupiter.api.Test;
+
+import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class GameDbApplicationTests {
+public class GameDbApplicationTests {
+  public GameDbApplicationTests() {}
 
   @Test
-  void contextLoads() {}
+  public void contextLoads() {}
 }

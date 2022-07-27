@@ -7,24 +7,24 @@ import com.StruckCroissant.GameDB.TestDbConfig;
 import com.StruckCroissant.GameDB.core.game.Game;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.annotation.Order;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.jdbc.JdbcTestUtils;
 
-@SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
 @TestPropertySource(locations = "classpath:test.properties")
 @ContextConfiguration(classes = {TestDbConfig.class, UserDAOImpl.class})
-class UserDAOImplTest {
+@SpringBootTest
+public class UserDAOImplTest {
 
   @Qualifier("db-user")
   @Autowired
@@ -34,32 +34,32 @@ class UserDAOImplTest {
   @Autowired
   private JdbcTemplate jdbcTemplate;
 
-  @AfterEach
-  void tearDown() {
+  @Before
+  public void tearDown() {
     JdbcTestUtils.deleteFromTables(jdbcTemplate, "user");
   }
 
   @NotNull
-  private String insertDefaultUserDb() {
+  public String insertDefaultUserDb() {
     User user = new User("test_username", "test_password", UserRoleEnum.USER, false, true);
     underTest.insertUser(user);
     return "test_username";
   }
 
   @NotNull
-  private String insertUserDb(String username) {
+  public String insertUserDb(String username) {
     User user = new User(username, "test_password", UserRoleEnum.USER, false, true);
     underTest.insertUser(user);
     return username;
   }
 
   @NotNull
-  private Integer getUidFromUserObj(User userFromDb) {
+  public Integer getUidFromUserObj(User userFromDb) {
     return userFromDb.getId().orElseThrow();
   }
 
   @NotNull
-  private Integer getTestUidFromUsernameDb(String test_username) {
+  public Integer getTestUidFromUsernameDb(String test_username) {
     return underTest
         .selectUserByUsername(test_username)
         .flatMap(User::getId)
@@ -68,7 +68,7 @@ class UserDAOImplTest {
 
   @Test
   @Order(1)
-  void shouldInsertAndSelectNewUser() {
+  public void shouldInsertAndSelectNewUser() {
     // given
     String test_username = insertDefaultUserDb();
 
@@ -80,7 +80,7 @@ class UserDAOImplTest {
   }
 
   @Test
-  void shouldGetUidFromuser() {
+  public void shouldGetUidFromuser() {
     // given
     String test_username = insertDefaultUserDb();
 
@@ -92,7 +92,7 @@ class UserDAOImplTest {
   }
 
   @Test
-  void shouldUpdateUser() {
+  public void shouldUpdateUser() {
     // given
     // Init user
     String test_username = insertDefaultUserDb();
@@ -114,14 +114,14 @@ class UserDAOImplTest {
     assertThat(updatedUserDb.getPassword()).isEqualTo(new_password);
   }
 
-  private User getTestUserFromUidDb(int initUidDb) {
+  public User getTestUserFromUidDb(int initUidDb) {
     return underTest
         .selectUserById(initUidDb)
         .orElseThrow(() -> new RuntimeException("User not found in database"));
   }
 
   @Test
-  void shouldDeleteUser() {
+  public void shouldDeleteUser() {
     // given
     String test_username = insertDefaultUserDb();
     User userFromDb = underTest.selectUserByUsername(test_username).get();
@@ -136,7 +136,7 @@ class UserDAOImplTest {
   }
 
   @Test
-  void shouldGetSavedGames() {
+  public void shouldGetSavedGames() {
     // given
     int[] games = {1, 2, 3}; // Test games
 
@@ -155,7 +155,7 @@ class UserDAOImplTest {
   }
 
   @Test
-  void shouldDeleteSavedGame() {
+  public void shouldDeleteSavedGame() {
     // given
     int[] games = {1, 2, 3}; // Test games
 
@@ -176,7 +176,7 @@ class UserDAOImplTest {
   }
 
   @Test
-  void shouldDetectNonUniqueUser() {
+  public void shouldDetectNonUniqueUser() {
     // given
     String test_username = insertDefaultUserDb();
     User userFromDb = underTest.selectUserByUsername(test_username).orElseThrow();
@@ -189,7 +189,7 @@ class UserDAOImplTest {
   }
 
   @Test
-  void shouldSelectAllUsers() {
+  public void shouldSelectAllUsers() {
     // given
     String test_username = insertUserDb("test_username1");
     String test_username2 = insertUserDb("test_username2");
@@ -208,7 +208,7 @@ class UserDAOImplTest {
   }
 
   @Test
-  void shouldThrowOnNullId() {
+  public void shouldThrowOnNullId() {
     // given
     User user = new User("test_username", "test_password", UserRoleEnum.USER, false, true);
 

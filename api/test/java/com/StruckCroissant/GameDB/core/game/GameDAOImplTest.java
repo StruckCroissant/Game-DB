@@ -16,15 +16,15 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
 @TestPropertySource(locations = "classpath:test.properties")
 @ContextConfiguration(classes = {TestDbConfig.class, GameDAOImpl.class})
+@SpringBootTest
 public class GameDAOImplTest {
 
   @Qualifier("db-game")
   @Autowired
-  GameDAOImpl underTest;
+  private GameDAOImpl underTest;
 
   @Qualifier("testTemplate")
   @Autowired
