@@ -1,6 +1,5 @@
 package com.StruckCroissant.GameDB;
 
-
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
