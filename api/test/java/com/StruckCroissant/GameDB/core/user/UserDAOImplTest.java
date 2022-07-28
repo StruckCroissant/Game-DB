@@ -7,7 +7,7 @@ import com.StruckCroissant.GameDB.TestDbConfig;
 import com.StruckCroissant.GameDB.core.game.Game;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
-import org.junit.Before;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ public class UserDAOImplTest {
   @Autowired
   private JdbcTemplate jdbcTemplate;
 
-  @Before
+  @After
   public void tearDown() {
     JdbcTestUtils.deleteFromTables(jdbcTemplate, "user");
   }
