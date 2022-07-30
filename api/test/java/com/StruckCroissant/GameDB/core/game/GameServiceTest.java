@@ -1,22 +1,18 @@
 package com.StruckCroissant.GameDB.core.game;
 
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
+
+import java.util.Optional;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.test.util.ReflectionTestUtils;
-
-import java.util.Optional;
-
-import static org.junit.Assert.*;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.*;
 
 public class GameServiceTest {
 
-  @Mock
-  private GameDAOImpl gameDao;
+  @Mock private GameDAOImpl gameDao;
   private AutoCloseable autoCloseable;
   private GameService underTest;
 
@@ -43,18 +39,7 @@ public class GameServiceTest {
   public void canGetGameById() {
     // given
     int expectedId = 1;
-    Game game = new Game(
-        1,
-        "gname",
-        "desc",
-        "cost",
-        "url",
-        "Rating",
-        1,
-        "Desc",
-        "rdate",
-        26890
-    );
+    Game game = new Game(1, "gname", "desc", "cost", "url", "Rating", 1, "Desc", "rdate", 26890);
     when(gameDao.selectGameById(game.getGid())).thenReturn(Optional.of(game));
 
     // when

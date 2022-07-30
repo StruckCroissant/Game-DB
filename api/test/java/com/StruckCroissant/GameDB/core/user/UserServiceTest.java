@@ -2,7 +2,11 @@ package com.StruckCroissant.GameDB.core.user;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+import java.util.Optional;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,22 +14,15 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.util.Optional;
-
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 public class UserServiceTest {
 
-  @Mock
-  private UserDAOImpl userDao;
+  @Mock private UserDAOImpl userDao;
   private BCryptPasswordEncoder bCryptPasswordEncoder;
   private AutoCloseable autoCloseable;
   private UserService underTest;
 
   @Before
-  public void setUp(){
+  public void setUp() {
     autoCloseable = MockitoAnnotations.openMocks(this);
     bCryptPasswordEncoder = new BCryptPasswordEncoder();
     underTest = new UserService(userDao, bCryptPasswordEncoder);
@@ -37,14 +34,7 @@ public class UserServiceTest {
   }
 
   private User getTestUser() {
-    return new User(
-        1,
-        "testUsername",
-        "testPassword",
-        UserRoleEnum.USER,
-        false,
-        true
-    );
+    return new User(1, "testUsername", "testPassword", UserRoleEnum.USER, false, true);
   }
 
   @Test
