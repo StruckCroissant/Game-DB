@@ -79,9 +79,7 @@ public class UserService implements UserDetailsService {
 
     user.setPassword(encodedPassword);
 
-    userDao.insertUser(user);
-
-    return true;
+    return userDao.insertUser(user);
   }
 
   public List<Game> getSavedGames(int uid) {

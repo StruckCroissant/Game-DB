@@ -55,7 +55,7 @@ public class GameServiceTest {
         "rdate",
         26890
     );
-    when(gameDao.selectGameById(expectedId)).thenReturn(Optional.of(game));
+    when(gameDao.selectGameById(game.getGid())).thenReturn(Optional.of(game));
 
     // when
     underTest.getGameById(expectedId);
