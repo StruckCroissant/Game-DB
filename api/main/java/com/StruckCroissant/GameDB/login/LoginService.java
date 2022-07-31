@@ -17,7 +17,7 @@ public class LoginService {
   private final BCryptPasswordEncoder passwordEncoder;
 
   @Autowired
-  public LoginService(@Qualifier("db-user") UserDao userDao, PasswordEncoder passwordEncoder) {
+  public LoginService(@Qualifier("db-user") UserDao userDao, BCryptPasswordEncoder passwordEncoder) {
     this.passwordEncoder = passwordEncoder;
     this.userDao = userDao;
   }
