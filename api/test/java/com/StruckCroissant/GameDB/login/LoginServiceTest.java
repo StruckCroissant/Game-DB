@@ -1,8 +1,15 @@
 package com.StruckCroissant.GameDB.login;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import com.StruckCroissant.GameDB.core.user.User;
 import com.StruckCroissant.GameDB.core.user.UserDAOImpl;
 import com.StruckCroissant.GameDB.core.user.UserRoleEnum;
+import java.util.Optional;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,18 +18,9 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.util.Optional;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 public class LoginServiceTest {
 
-  @Mock
-  private UserDAOImpl userDao;
+  @Mock private UserDAOImpl userDao;
   private BCryptPasswordEncoder bCryptPasswordEncoder;
   private AutoCloseable autoCloseable;
   private LoginService underTest;
@@ -41,14 +39,7 @@ public class LoginServiceTest {
 
   private User getTestUser() {
     String encodedPass = bCryptPasswordEncoder.encode("testPassword");
-    return new User(
-        1,
-        "testUsername",
-        encodedPass,
-        UserRoleEnum.USER,
-        false,
-        true
-    );
+    return new User(1, "testUsername", encodedPass, UserRoleEnum.USER, false, true);
   }
 
   @Test
@@ -59,9 +50,8 @@ public class LoginServiceTest {
     UserLoginRequest req = new UserLoginRequest(testUsername, testPassword);
 
     User testReturnUser = getTestUser();
-    when(
-        userDao.selectUserByUsername(testReturnUser.getUsername())
-    ).thenReturn(Optional.of(testReturnUser));
+    when(userDao.selectUserByUsername(testReturnUser.getUsername()))
+        .thenReturn(Optional.of(testReturnUser));
 
     // when
     boolean loginSuccess = underTest.login(req);
@@ -79,9 +69,8 @@ public class LoginServiceTest {
     UserLoginRequest req = new UserLoginRequest(testUsername, incorrectTestPassword);
 
     User testReturnUser = getTestUser();
-    when(
-        userDao.selectUserByUsername(testReturnUser.getUsername())
-    ).thenReturn(Optional.of(testReturnUser));
+    when(userDao.selectUserByUsername(testReturnUser.getUsername()))
+        .thenReturn(Optional.of(testReturnUser));
 
     // when
     boolean loginSuccess = underTest.login(req);
@@ -99,9 +88,8 @@ public class LoginServiceTest {
     UserLoginRequest req = new UserLoginRequest(incorrectTestUsername, testPassword);
 
     User testReturnUser = getTestUser();
-    when(
-        userDao.selectUserByUsername(testReturnUser.getUsername())
-    ).thenReturn(Optional.of(testReturnUser));
+    when(userDao.selectUserByUsername(testReturnUser.getUsername()))
+        .thenReturn(Optional.of(testReturnUser));
 
     // when
     Throwable thrown = catchThrowable(() -> underTest.login(req));

@@ -2,7 +2,6 @@ package com.StruckCroissant.GameDB.login;
 
 import com.StruckCroissant.GameDB.core.user.User;
 import com.StruckCroissant.GameDB.core.user.UserDao;
-import com.StruckCroissant.GameDB.security.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,7 +16,8 @@ public class LoginService {
   private final BCryptPasswordEncoder passwordEncoder;
 
   @Autowired
-  public LoginService(@Qualifier("db-user") UserDao userDao, BCryptPasswordEncoder passwordEncoder) {
+  public LoginService(
+      @Qualifier("db-user") UserDao userDao, BCryptPasswordEncoder passwordEncoder) {
     this.passwordEncoder = passwordEncoder;
     this.userDao = userDao;
   }
