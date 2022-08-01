@@ -13,6 +13,7 @@ import java.util.Optional;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -57,8 +58,13 @@ public class LoginServiceTest {
     boolean loginSuccess = underTest.login(req);
 
     // then
-    assertTrue(loginSuccess);
-    verify(userDao).selectUserByUsername(testUsername);
+    ArgumentCaptor<String> usernameCaptor = ArgumentCaptor.forClass(String.class);
+
+    verify(userDao).selectUserByUsername(usernameCaptor.capture());
+    String capturedUsername = usernameCaptor.getValue();
+
+    assertThat(loginSuccess).isTrue();
+    assertThat(capturedUsername).isEqualTo(testUsername);
   }
 
   @Test
@@ -76,8 +82,13 @@ public class LoginServiceTest {
     boolean loginSuccess = underTest.login(req);
 
     // then
-    assertFalse(loginSuccess);
-    verify(userDao).selectUserByUsername(testUsername);
+    ArgumentCaptor<String> usernameCaptor = ArgumentCaptor.forClass(String.class);
+
+    verify(userDao).selectUserByUsername(usernameCaptor.capture());
+    String capturedUsername = usernameCaptor.getValue();
+
+    assertThat(loginSuccess).isFalse();
+    assertThat(capturedUsername).isEqualTo(testUsername);
   }
 
   @Test
@@ -95,7 +106,12 @@ public class LoginServiceTest {
     Throwable thrown = catchThrowable(() -> underTest.login(req));
 
     // then
-    verify(userDao).selectUserByUsername(incorrectTestUsername);
+    ArgumentCaptor<String> usernameCaptor = ArgumentCaptor.forClass(String.class);
+
+    verify(userDao).selectUserByUsername(usernameCaptor.capture());
+    String capturedIncorrectUsername = usernameCaptor.getValue();
+
     assertThat(thrown).isExactlyInstanceOf(UsernameNotFoundException.class);
+    assertThat(capturedIncorrectUsername).isEqualTo(incorrectTestUsername);
   }
 }

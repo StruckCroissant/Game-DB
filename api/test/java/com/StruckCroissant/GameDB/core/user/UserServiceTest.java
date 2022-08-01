@@ -10,6 +10,7 @@ import java.util.Optional;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -56,7 +57,12 @@ public class UserServiceTest {
     underTest.loadUserByUsername(testUsername);
 
     // then
-    verify(userDao).selectUserByUsername(testUsername);
+    ArgumentCaptor<String> usernameCaptor = ArgumentCaptor.forClass(String.class);
+
+    verify(userDao).selectUserByUsername(usernameCaptor.capture());
+    String capturedUsername = usernameCaptor.getValue();
+
+    assertThat(capturedUsername).isEqualTo(testUsername);
   }
 
   @Test
@@ -69,7 +75,11 @@ public class UserServiceTest {
     underTest.signUpUser(user);
 
     // then
-    verify(userDao).insertUser(user);
+    ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
+    verify(userDao).insertUser(userCaptor.capture());
+
+    User capturedUser = userCaptor.getValue();
+    assertThat(capturedUser).isEqualTo(user);
   }
 
   @Test
@@ -100,13 +110,18 @@ public class UserServiceTest {
   @Test
   public void getUserById() {
     // given
-    int testUid = 1;
+    Integer testUid = 1;
     when(userDao.selectUserById(testUid)).thenReturn(Optional.of(getTestUser()));
 
     // when
     underTest.getUserById(testUid);
 
     // then
-    verify(userDao).selectUserById(testUid);
+    ArgumentCaptor<Integer> integerCaptor = ArgumentCaptor.forClass(Integer.class);
+
+    verify(userDao).selectUserById(integerCaptor.capture());
+    Integer capturedUid = integerCaptor.getValue();
+
+    assertThat(capturedUid).isEqualTo(testUid);
   }
 }
