@@ -48,8 +48,7 @@ public class GameServiceTest {
     underTest.getGameById(gid);
 
     // then
-    ArgumentCaptor<Integer> gidArgumentCaptor =
-        ArgumentCaptor.forClass(Integer.class);
+    ArgumentCaptor<Integer> gidArgumentCaptor = ArgumentCaptor.forClass(Integer.class);
 
     verify(gameDao).selectGameById(gidArgumentCaptor.capture());
     int capturedGid = gidArgumentCaptor.getValue();
