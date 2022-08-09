@@ -1,5 +1,10 @@
 package com.StruckCroissant.GameDB.registration;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import com.StruckCroissant.GameDB.core.user.User;
 import com.StruckCroissant.GameDB.core.user.UserRoleEnum;
 import com.StruckCroissant.GameDB.core.user.UserService;
@@ -11,19 +16,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import static org.junit.Assert.*;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 public class RegistrationServiceTest {
 
-  @Mock
-  private UserService userService;
+  @Mock private UserService userService;
   private AutoCloseable autoCloseable;
   private BCryptPasswordEncoder bCryptPasswordEncoder;
   private RegistrationService underTest;
-
 
   @Before
   public void setUp() {
@@ -52,9 +50,8 @@ public class RegistrationServiceTest {
     // when
     underTest.registerUser(request);
 
-    //then
-    ArgumentCaptor<User> userRegisterCaptor =
-        ArgumentCaptor.forClass(User.class);
+    // then
+    ArgumentCaptor<User> userRegisterCaptor = ArgumentCaptor.forClass(User.class);
 
     verify(userService).signUpUser(userRegisterCaptor.capture());
     User capturedUser = userRegisterCaptor.getValue();
