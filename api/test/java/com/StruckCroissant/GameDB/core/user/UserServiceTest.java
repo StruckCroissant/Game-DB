@@ -13,6 +13,8 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class UserServiceTest {
@@ -66,6 +68,19 @@ public class UserServiceTest {
   }
 
   @Test
+  public void willThrowExceptionIfUserNotFound() {
+    // given
+    String testUsername = "testUsername";
+    when(userDao.selectUserByUsername(testUsername)).thenReturn(Optional.empty());
+
+    // when
+    Throwable thrown = catchThrowable(() -> underTest.loadUserByUsername(testUsername));
+
+    // then
+    assertThat(thrown).isInstanceOf(UsernameNotFoundException.class);
+  }
+
+  @Test
   public void canSignUpUser() {
     // given
     User user = getTestUser();
@@ -83,7 +98,7 @@ public class UserServiceTest {
   }
 
   @Test
-  public void canDetectNonUniqueUser() {
+  public void willThrowOnNonUniqueUser() {
     // given
     User user = getTestUser();
     when(userDao.selectUserByUsername(user.getUsername())).thenReturn(Optional.of(user));
@@ -123,5 +138,18 @@ public class UserServiceTest {
     Integer capturedUid = integerCaptor.getValue();
 
     assertThat(capturedUid).isEqualTo(testUid);
+  }
+
+  @Test
+  public void willThrowExceptionIfUserNotFoundById() {
+    // given
+    int testUid = 1;
+    when(userDao.selectUserById(testUid)).thenReturn(Optional.empty());
+
+    // when
+    Throwable thrown = catchThrowable(() -> underTest.getUserById(testUid));
+
+    // then
+    assertThat(thrown).isExactlyInstanceOf(ResourceNotFoundException.class);
   }
 }
