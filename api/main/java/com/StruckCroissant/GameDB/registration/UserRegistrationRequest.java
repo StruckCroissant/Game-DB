@@ -1,6 +1,7 @@
 package com.StruckCroissant.GameDB.registration;
 
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 public class UserRegistrationRequest {
 
@@ -31,5 +32,18 @@ public class UserRegistrationRequest {
         + password
         + '\''
         + '}';
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    UserRegistrationRequest that = (UserRegistrationRequest) o;
+    return username.equals(that.username) && password.equals(that.password);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(username, password);
   }
 }
