@@ -6,15 +6,19 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class User implements DbModelObj, UserDetails {
   private final Integer uid;
-  @NotBlank private final String username;
+  @NotBlank
+  private final String username;
 
-  @NotBlank private String password;
+  @NotBlank
+  private String password;
 
   private final UserRoleEnum userRole;
 
