@@ -4,11 +4,9 @@ import javax.validation.constraints.NotNull;
 
 public class UserRegistrationRequest {
 
-  @NotNull
-  private final String username;
+  @NotNull private final String username;
 
-  @NotNull
-  private final String password;
+  @NotNull private final String password;
 
   public UserRegistrationRequest(String username, String password) {
     this.username = username;
