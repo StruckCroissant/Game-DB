@@ -1,16 +1,20 @@
 package com.StruckCroissant.GameDB.core.user;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.StruckCroissant.GameDB.core.game.Game;
 import com.StruckCroissant.GameDB.security.PasswordEncoder;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.bytebuddy.asm.Advice;
+import java.util.List;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -22,32 +26,18 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.security.Principal;
-import java.util.List;
-
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
-
 @RunWith(SpringRunner.class)
 @WebMvcTest(UserController.class)
 @AutoConfigureMockMvc(addFilters = false)
 public class UserControllerTest {
 
-  @Autowired
-  private MockMvc mockMvc;
+  @Autowired private MockMvc mockMvc;
 
-  @Autowired
-  private ObjectMapper objectMapper;
+  @Autowired private ObjectMapper objectMapper;
 
-  @MockBean
-  private UserService userService;
+  @MockBean private UserService userService;
 
-  @MockBean
-  private PasswordEncoder passwordEncoder;
+  @MockBean private PasswordEncoder passwordEncoder;
 
   private AutoCloseable autoCloseable;
 
@@ -68,11 +58,9 @@ public class UserControllerTest {
   @Test
   public void whenGetAllUsers_thenReturns200() throws Exception {
     // when
-    mockMvc.perform(
-        MockMvcRequestBuilders.get(ALL_URL)
-            .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk()
-    );
+    mockMvc
+        .perform(MockMvcRequestBuilders.get(ALL_URL).accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk());
 
     // then
     verify(userService).getAllUsers();
@@ -84,22 +72,17 @@ public class UserControllerTest {
     final String URL_WITH_PARAMS = BY_ID_URL + "?id=1";
 
     // when then
-    mockMvc.perform(
-        MockMvcRequestBuilders
-            .get(URL_WITH_PARAMS)
-            .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk()
-    );
+    mockMvc
+        .perform(MockMvcRequestBuilders.get(URL_WITH_PARAMS).accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk());
   }
 
   @Test
   public void whenGetUserByNullUid_ThenReturns400() throws Exception {
     // when then
-    mockMvc.perform(
-        MockMvcRequestBuilders.get(BY_ID_URL)
-            .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isBadRequest()
-    );
+    mockMvc
+        .perform(MockMvcRequestBuilders.get(BY_ID_URL).accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest());
   }
 
   @Test
@@ -110,12 +93,9 @@ public class UserControllerTest {
     when(userService.getUserById(UID)).thenThrow(new ResourceNotFoundException("User not found"));
 
     // when
-    mockMvc.perform(
-        MockMvcRequestBuilders
-            .get(URL_WITH_PARAMS)
-            .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isNotFound()
-    );
+    mockMvc
+        .perform(MockMvcRequestBuilders.get(URL_WITH_PARAMS).accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound());
 
     // then
     ArgumentCaptor<Integer> argumentCaptor = ArgumentCaptor.forClass(Integer.class);
@@ -130,27 +110,13 @@ public class UserControllerTest {
     // given
     final int UID = 1;
     final String URL_WITH_PARAMS = BASE_URL + "/saved-games?id=" + UID;
-    final Game GAME = new Game(
-        1,
-        "Test Game",
-        "420.00",
-        null,
-        null,
-        null,
-        1,
-        null,
-        null,
-        42069
-    );
+    final Game GAME = new Game(1, "Test Game", "420.00", null, null, null, 1, null, null, 42069);
     when(userService.getSavedGames(UID)).thenReturn(List.of(GAME));
 
     // when
-    mockMvc.perform(
-        MockMvcRequestBuilders
-            .get(URL_WITH_PARAMS)
-            .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk()
-    );
+    mockMvc
+        .perform(MockMvcRequestBuilders.get(URL_WITH_PARAMS).accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk());
 
     // then
     ArgumentCaptor<Integer> argumentCaptor = ArgumentCaptor.forClass(Integer.class);
@@ -163,11 +129,11 @@ public class UserControllerTest {
   @Test
   public void whenGetSavedGamesNullUid_ThenReturns400() throws Exception {
     // when then
-    mockMvc.perform(
-        MockMvcRequestBuilders.get(BASE_URL + "/saved-games")
-            .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isBadRequest()
-    );
+    mockMvc
+        .perform(
+            MockMvcRequestBuilders.get(BASE_URL + "/saved-games")
+                .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest());
   }
 
   @Test
@@ -178,12 +144,9 @@ public class UserControllerTest {
     when(userService.getSavedGames(UID)).thenThrow(new ResourceNotFoundException("User not found"));
 
     // when
-    mockMvc.perform(
-        MockMvcRequestBuilders
-            .get(URL_WITH_PARAMS)
-            .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isNotFound()
-    );
+    mockMvc
+        .perform(MockMvcRequestBuilders.get(URL_WITH_PARAMS).accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound());
 
     // then
     ArgumentCaptor<Integer> argumentCaptor = ArgumentCaptor.forClass(Integer.class);

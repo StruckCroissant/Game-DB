@@ -1,22 +1,19 @@
 package com.StruckCroissant.GameDB.core.game;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import com.StruckCroissant.GameDB.core.user.UserService;
 import com.StruckCroissant.GameDB.exception.GameNotFoundException;
 import com.StruckCroissant.GameDB.security.PasswordEncoder;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -59,33 +56,27 @@ public class GameControllerTest {
   @Test
   public void whenGetAllGames_thenReturns200() throws Exception {
     // when
-    mockMvc.perform(
-        MockMvcRequestBuilders
-            .get(ALL_URL)
-            .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk()
-    );
+    mockMvc
+        .perform(MockMvcRequestBuilders.get(ALL_URL).accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk());
 
     // then
     verify(gameService).getAllGames();
   }
 
   @Test
-  public void whenGetGameByPresentId_thenReturns200() throws Exception{
+  public void whenGetGameByPresentId_thenReturns200() throws Exception {
     // given
     final String URL_WITH_PARAMS = BY_ID_URL + "?id=1";
 
     // when
-    mockMvc.perform(
-        MockMvcRequestBuilders
-            .get(URL_WITH_PARAMS)
-            .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk()
-    );
+    mockMvc
+        .perform(MockMvcRequestBuilders.get(URL_WITH_PARAMS).accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk());
   }
 
   @Test
-  public void whenGetGameByAbsentId_thenReturns404() throws Exception{
+  public void whenGetGameByAbsentId_thenReturns404() throws Exception {
     // given
     final Integer GID = -1;
 
@@ -93,12 +84,9 @@ public class GameControllerTest {
     when(gameService.getGameById(GID)).thenThrow(new GameNotFoundException("Game not found"));
 
     // when
-    mockMvc.perform(
-        MockMvcRequestBuilders
-            .get(URL_WITH_PARAMS)
-            .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isNotFound()
-    );
+    mockMvc
+        .perform(MockMvcRequestBuilders.get(URL_WITH_PARAMS).accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound());
 
     // then
     ArgumentCaptor<Integer> argumentCaptor = ArgumentCaptor.forClass(Integer.class);
@@ -106,22 +94,18 @@ public class GameControllerTest {
     Integer capturedValue = argumentCaptor.getValue();
 
     assertThat(capturedValue).isEqualTo(GID);
-
   }
 
   @Test
-  public void whenGetGameById_thenMapsGameService() throws Exception{
+  public void whenGetGameById_thenMapsGameService() throws Exception {
     // given
     final String URL_WITH_PARAMS = BY_ID_URL + "?id=1";
     final Integer GID = 1;
 
     // when
-    mockMvc.perform(
-        MockMvcRequestBuilders
-            .get(URL_WITH_PARAMS)
-            .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk()
-    );
+    mockMvc
+        .perform(MockMvcRequestBuilders.get(URL_WITH_PARAMS).accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk());
 
     // then
     ArgumentCaptor<Integer> argumentCaptor = ArgumentCaptor.forClass(Integer.class);
