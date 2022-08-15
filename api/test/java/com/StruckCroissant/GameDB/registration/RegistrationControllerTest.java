@@ -15,6 +15,7 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -25,6 +26,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(value = RegistrationController.class)
+@AutoConfigureMockMvc(addFilters = false)
 public class RegistrationControllerTest {
 
   @Autowired private MockMvc mockMvc;
@@ -61,7 +63,8 @@ public class RegistrationControllerTest {
             MockMvcRequestBuilders.post(URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(req)))
-        .andExpect(status().isOk());
+                .andExpect(status().isOk()
+        );
   }
 
   @Test
@@ -75,7 +78,8 @@ public class RegistrationControllerTest {
             MockMvcRequestBuilders.post(URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(req)))
-        .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest()
+        );
   }
 
   @Test
@@ -89,7 +93,8 @@ public class RegistrationControllerTest {
             MockMvcRequestBuilders.post(URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(req)))
-        .andExpect(status().isOk());
+                .andExpect(status().isOk()
+        );
 
     // then
     ArgumentCaptor<UserRegistrationRequest> userArgumentCaptor =
@@ -112,7 +117,7 @@ public class RegistrationControllerTest {
                 MockMvcRequestBuilders.post(URL)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(req)))
-            .andExpect(status().isOk())
+                    .andExpect(status().isOk())
             .andReturn();
 
     // then

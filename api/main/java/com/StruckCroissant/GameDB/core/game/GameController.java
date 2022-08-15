@@ -47,6 +47,6 @@ public class GameController {
    */
   @GetMapping(path = "/byId")
   public Game getGameById(@RequestParam("id") int id) {
-    return gameService.getGameById(id); // TODO: Return Optional<Game>
+    return gameService.getGameById(id);
   }
 }
