@@ -30,8 +30,8 @@ public class UserController {
   }
 
   @GetMapping(path = "/byId")
-  public User getUserById(@RequestParam("id") int id) {
-    return userService.getUserById(id);
+  public User getUserById(@RequestParam("id") int uid) {
+    return userService.getUserById(uid);
   }
 
   @GetMapping(path = "/saved-games")
