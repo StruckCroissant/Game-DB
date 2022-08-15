@@ -63,8 +63,7 @@ public class RegistrationControllerTest {
             MockMvcRequestBuilders.post(URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(req)))
-                .andExpect(status().isOk()
-        );
+        .andExpect(status().isOk());
   }
 
   @Test
@@ -78,8 +77,7 @@ public class RegistrationControllerTest {
             MockMvcRequestBuilders.post(URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(req)))
-                .andExpect(status().isBadRequest()
-        );
+        .andExpect(status().isBadRequest());
   }
 
   @Test
@@ -93,8 +91,7 @@ public class RegistrationControllerTest {
             MockMvcRequestBuilders.post(URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(req)))
-                .andExpect(status().isOk()
-        );
+        .andExpect(status().isOk());
 
     // then
     ArgumentCaptor<UserRegistrationRequest> userArgumentCaptor =
@@ -117,7 +114,7 @@ public class RegistrationControllerTest {
                 MockMvcRequestBuilders.post(URL)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(req)))
-                    .andExpect(status().isOk())
+            .andExpect(status().isOk())
             .andReturn();
 
     // then
