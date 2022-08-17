@@ -1,13 +1,8 @@
-package com.StruckCroissant.GameDB.registration;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+package com.StruckCroissant.GameDB.login;
 
 import com.StruckCroissant.GameDB.core.user.UserService;
-import com.StruckCroissant.GameDB.login.UserLoginRequest;
 import com.StruckCroissant.GameDB.security.PasswordEncoder;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
 import org.junit.Before;
@@ -22,30 +17,35 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
 @RunWith(SpringJUnit4ClassRunner.class)
-@WebMvcTest(value = RegistrationController.class)
+@WebMvcTest(value = LoginController.class)
 @AutoConfigureMockMvc(addFilters = false)
-public class RegistrationControllerTest {
+public class LoginControllerTest {
 
   @Autowired private MockMvc mockMvc;
 
   @Autowired private ObjectMapper objectMapper;
 
-  @MockBean private RegistrationService registrationService;
+  @MockBean
+  private LoginService loginService;
 
   @MockBean private UserService userService;
 
   @MockBean private PasswordEncoder passwordEncoder;
 
-  public static final String URL = "/api/v1/register";
+  public static final String URL = "/api/v1/login";
 
   private AutoCloseable autoCloseable;
 
   @Before
-  public void setUp() {
+  public void setUp() throws Exception {
     autoCloseable = MockitoAnnotations.openMocks(this);
   }
 
@@ -55,10 +55,11 @@ public class RegistrationControllerTest {
   }
 
   @Test
-  public void whenValidRegister_thenReturns200() throws Exception {
+  public void whenValidLogin_thenReturns200() throws Exception {
     // given
-    UserRegistrationRequest req = new UserRegistrationRequest("testUsername", "testPassword");
+    UserLoginRequest req = new UserLoginRequest("testUsername", "testPassword");
 
+    // when
     mockMvc
         .perform(
             MockMvcRequestBuilders.post(URL)
@@ -68,11 +69,11 @@ public class RegistrationControllerTest {
   }
 
   @Test
-  public void whenNullValueRegister_thenReturns400() throws Exception {
+  public void whenBlankValueLogin_thenReturns401() throws Exception {
     // given
-    UserRegistrationRequest req = new UserRegistrationRequest(null, "testPassword");
+    UserLoginRequest req = new UserLoginRequest("", "testPassword");
 
-    // when then
+    // when
     mockMvc
         .perform(
             MockMvcRequestBuilders.post(URL)
@@ -82,11 +83,11 @@ public class RegistrationControllerTest {
   }
 
   @Test
-  public void whenBlankValueRegister_thenReturns400() throws Exception {
+  public void whenNullValueLogin_thenReturns401() throws Exception {
     // given
-    UserRegistrationRequest req = new UserRegistrationRequest("", "testPassword");
+    UserLoginRequest req = new UserLoginRequest(null, "testPassword");
 
-    // when then
+    // when
     mockMvc
         .perform(
             MockMvcRequestBuilders.post(URL)
@@ -96,9 +97,9 @@ public class RegistrationControllerTest {
   }
 
   @Test
-  public void whenValidInput_thenMapsRegisterService() throws Exception {
+  public void whenValidInput_thenMapsLoginService() throws Exception {
     // given
-    UserRegistrationRequest req = new UserRegistrationRequest("testUsername", "testPassword");
+    UserLoginRequest req = new UserLoginRequest("testUsername", "testPassword");
 
     // when
     mockMvc
@@ -109,31 +110,10 @@ public class RegistrationControllerTest {
         .andExpect(status().isOk());
 
     // then
-    ArgumentCaptor<UserRegistrationRequest> userArgumentCaptor =
-        ArgumentCaptor.forClass(UserRegistrationRequest.class);
-    verify(registrationService).registerUser(userArgumentCaptor.capture());
-    UserRegistrationRequest capturedUser = userArgumentCaptor.getValue();
+    ArgumentCaptor<UserLoginRequest> userArgumentCaptor = ArgumentCaptor.forClass(UserLoginRequest.class);
+    verify(loginService).login(userArgumentCaptor.capture());
+    UserLoginRequest userLoginRequest = userArgumentCaptor.getValue();
 
-    assertThat(capturedUser).isEqualTo(req);
-  }
-
-  @Test
-  public void whenValidInput_thenReturnsTrue() throws Exception {
-    // given
-    UserRegistrationRequest req = new UserRegistrationRequest("testUsername", "testPassword");
-    given(registrationService.registerUser(req)).willReturn(true);
-
-    // when
-    MvcResult mvcResult =
-        mockMvc
-            .perform(
-                MockMvcRequestBuilders.post(URL)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(req)))
-            .andExpect(status().isOk())
-            .andReturn();
-
-    // then
-    assertThat(mvcResult.getResponse().getContentAsString()).isEqualToIgnoringWhitespace("true");
+    assertThat(userLoginRequest).isEqualTo(req);
   }
 }

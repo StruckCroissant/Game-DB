@@ -1,13 +1,14 @@
 package com.StruckCroissant.GameDB.registration;
 
 import java.util.Objects;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 public class UserRegistrationRequest {
 
-  @NotNull private final String username;
+  @NotBlank private final String username;
 
-  @NotNull private final String password;
+  @NotBlank private final String password;
 
   public UserRegistrationRequest(String username, String password) {
     this.username = username;

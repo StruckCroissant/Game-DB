@@ -1,9 +1,14 @@
 package com.StruckCroissant.GameDB.login;
 
+import javax.validation.constraints.NotBlank;
+import java.util.Objects;
+
 public class UserLoginRequest {
 
+  @NotBlank
   private final String username;
 
+  @NotBlank
   private final String password;
 
   public UserLoginRequest(String username, String password) {
@@ -29,5 +34,18 @@ public class UserLoginRequest {
         + password
         + '\''
         + '}';
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof UserLoginRequest)) return false;
+    UserLoginRequest that = (UserLoginRequest) o;
+    return username.equals(that.username) && password.equals(that.password);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(username, password);
   }
 }

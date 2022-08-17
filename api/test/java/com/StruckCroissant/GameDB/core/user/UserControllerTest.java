@@ -9,12 +9,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.StruckCroissant.GameDB.core.game.Game;
 import com.StruckCroissant.GameDB.security.PasswordEncoder;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.security.Principal;
 import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -24,6 +27,7 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 @RunWith(SpringRunner.class)
@@ -38,6 +42,9 @@ public class UserControllerTest {
   @MockBean private UserService userService;
 
   @MockBean private PasswordEncoder passwordEncoder;
+
+  @MockBean
+  private Principal principal;
 
   private AutoCloseable autoCloseable;
 
@@ -156,5 +163,17 @@ public class UserControllerTest {
     assertThat(capturedGid).isEqualTo(UID);
   }
 
-  // TODO add tests for principal
+
+  @Test
+  public void whenGetPrincpal_ThenReturnsPrincipal() throws Exception {
+    // when
+    MvcResult result = mockMvc
+        .perform(
+            MockMvcRequestBuilders.get(BASE_URL)
+                .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk()
+        ).andReturn();
+    // TODO add tests for principal accessor
+  }
+
 }
