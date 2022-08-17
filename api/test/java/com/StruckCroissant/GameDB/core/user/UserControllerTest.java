@@ -9,7 +9,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.StruckCroissant.GameDB.core.game.Game;
 import com.StruckCroissant.GameDB.security.PasswordEncoder;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.security.Principal;
 import java.util.List;
 import org.junit.After;
@@ -17,7 +16,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -43,8 +41,7 @@ public class UserControllerTest {
 
   @MockBean private PasswordEncoder passwordEncoder;
 
-  @MockBean
-  private Principal principal;
+  @MockBean private Principal principal;
 
   private AutoCloseable autoCloseable;
 
@@ -163,17 +160,14 @@ public class UserControllerTest {
     assertThat(capturedGid).isEqualTo(UID);
   }
 
-
   @Test
   public void whenGetPrincpal_ThenReturnsPrincipal() throws Exception {
     // when
-    MvcResult result = mockMvc
-        .perform(
-            MockMvcRequestBuilders.get(BASE_URL)
-                .accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk()
-        ).andReturn();
+    MvcResult result =
+        mockMvc
+            .perform(MockMvcRequestBuilders.get(BASE_URL).accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andReturn();
     // TODO add tests for principal accessor
   }
-
 }

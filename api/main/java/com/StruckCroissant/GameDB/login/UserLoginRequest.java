@@ -1,15 +1,13 @@
 package com.StruckCroissant.GameDB.login;
 
-import javax.validation.constraints.NotBlank;
 import java.util.Objects;
+import javax.validation.constraints.NotBlank;
 
 public class UserLoginRequest {
 
-  @NotBlank
-  private final String username;
+  @NotBlank private final String username;
 
-  @NotBlank
-  private final String password;
+  @NotBlank private final String password;
 
   public UserLoginRequest(String username, String password) {
     this.username = username;

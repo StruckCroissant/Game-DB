@@ -1,8 +1,12 @@
 package com.StruckCroissant.GameDB.login;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.StruckCroissant.GameDB.core.user.UserService;
 import com.StruckCroissant.GameDB.security.PasswordEncoder;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
 import org.junit.Before;
@@ -19,11 +23,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(value = LoginController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -33,8 +32,7 @@ public class LoginControllerTest {
 
   @Autowired private ObjectMapper objectMapper;
 
-  @MockBean
-  private LoginService loginService;
+  @MockBean private LoginService loginService;
 
   @MockBean private UserService userService;
 
@@ -110,7 +108,8 @@ public class LoginControllerTest {
         .andExpect(status().isOk());
 
     // then
-    ArgumentCaptor<UserLoginRequest> userArgumentCaptor = ArgumentCaptor.forClass(UserLoginRequest.class);
+    ArgumentCaptor<UserLoginRequest> userArgumentCaptor =
+        ArgumentCaptor.forClass(UserLoginRequest.class);
     verify(loginService).login(userArgumentCaptor.capture());
     UserLoginRequest userLoginRequest = userArgumentCaptor.getValue();
 

@@ -17,15 +17,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 @RunWith(Suite.class)
 @SpringBootTest
 @Suite.SuiteClasses({
-    GameControllerTest.class,
-    GameServiceTest.class,
-    GameDAOImplTest.class,
-    UserControllerTest.class,
-    UserServiceTest.class,
-    LoginControllerTest.class,
-    LoginServiceTest.class,
-    RegistrationControllerTest.class,
-    RegistrationServiceTest.class
+  GameControllerTest.class,
+  GameServiceTest.class,
+  GameDAOImplTest.class,
+  UserControllerTest.class,
+  UserServiceTest.class,
+  LoginControllerTest.class,
+  LoginServiceTest.class,
+  RegistrationControllerTest.class,
+  RegistrationServiceTest.class
 })
 public class GameDbApplicationTests {
   public GameDbApplicationTests() {}
