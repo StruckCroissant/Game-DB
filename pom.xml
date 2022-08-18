@@ -97,10 +97,8 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<add>
-								<addClasspath>true</addClasspath>
-								<mainClass>com.StruckCroissant.Game-DB.Application</mainClass>
-							</add>
+							<addClasspath>true</addClasspath>
+							<mainClass>com.StruckCroissant.Game-DB.Application</mainClass>
 						</manifest>
 					</archive>
 					<excludes>
