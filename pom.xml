@@ -101,12 +101,6 @@
 							<mainClass>com.StruckCroissant.Game-DB.Application</mainClass>
 						</manifest>
 					</archive>
-					<excludes>
-						<exclude>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</exclude>
-					</excludes>
 				</configuration>
 			</plugin>
 			<plugin>
