@@ -92,10 +92,18 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
 				<configuration>
 					<excludes>
+						<archive>
+							<manifest>
+								<add>
+									<addClasspath>true</addClasspath>
+									<mainClass>com.StruckCroissant.Game-DB.Application</mainClass>
+								</add>
+							</manifest>
+						</archive>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
