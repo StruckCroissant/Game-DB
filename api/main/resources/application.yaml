@@ -1,0 +1,21 @@
+app:
+  datasource:
+    jdbc-url: "jdbc:mariadb://localhost:3306/gamedb_db"
+    username: root
+    password: mariadb
+server:
+  error:
+    include-details: always
+    include-message: always
+  port: 9191
+spring: # TODO Combine spring & app settings
+  flyway:
+    enabled: true
+    validate-on-migrate: true
+    user: root
+    password: mariadb
+    url: "jdbc:mariadb://localhost:3306/gamedb_db"
+    baseline-on-migrate: true
+
+
+
