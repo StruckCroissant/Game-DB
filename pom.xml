@@ -15,6 +15,8 @@
 	<description>Game Database Search Engine</description>
 	<properties>
 		<java.version>17</java.version>
+		<testClassesDirectory>target/test-classes</testClassesDirectory>
+		<src.dir>api/main/java</src.dir>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -90,6 +92,7 @@
         </dependency>
     </dependencies>
 	<build>
+		<sourceDirectory>${src.dir}</sourceDirectory>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -109,6 +112,7 @@
 				<version>8.0.5</version>
 			</plugin>
 		</plugins>
+
 	</build>
 
 </project>
