@@ -95,15 +95,15 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
 				<configuration>
+					<archive>
+						<manifest>
+							<add>
+								<addClasspath>true</addClasspath>
+								<mainClass>com.StruckCroissant.Game-DB.Application</mainClass>
+							</add>
+						</manifest>
+					</archive>
 					<excludes>
-						<archive>
-							<manifest>
-								<add>
-									<addClasspath>true</addClasspath>
-									<mainClass>com.StruckCroissant.Game-DB.Application</mainClass>
-								</add>
-							</manifest>
-						</archive>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
