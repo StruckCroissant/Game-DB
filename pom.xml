@@ -90,6 +90,26 @@
         </dependency>
     </dependencies>
 	<build>
+		<sourceDirectory>
+			${project.basedir}/api/main/java
+		</sourceDirectory>
+		<testSourceDirectory>
+			${project.basedir}/api/test/java
+		</testSourceDirectory>
+		<resources>
+			<resource>
+				<directory>
+					${project.basedir}/api/main/resources
+				</directory>
+			</resource>
+		</resources>
+		<testResources>
+			<testResource>
+				<directory>
+					${project.basedir}/api/test/resources
+				</directory>
+			</testResource>
+		</testResources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
