@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {User} from "../../common/user";
-import {Observable, Subscription} from "rxjs";
+import {Subscription} from "rxjs";
 import {AuthenticationService} from "../../services/authentication.service";
 
 @Component({
@@ -19,21 +19,15 @@ export class HomeComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router,
               private userAuthService: AuthenticationService) { }
 
-  ngOnInit(): void {
-    // replace with local storage
-    this.currentUserSubscription = this.userAuthService.currentUser.subscribe({
-      next: (user) => {
-        this.currentUser = user;
-      }
-    });
-  }
+  ngOnInit(): void {}
 
   toggleSidebar(): void {
     console.log("toggled");
     this.sidebarClosed = !this.sidebarClosed;
   }
 
-  authenticated(): boolean {
-    return this.userAuthService.authenticated;
+  logout(): void {
+    this.userAuthService.logout();
+    this.router.navigate(['/login']);
   }
 }

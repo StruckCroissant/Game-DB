@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpResponse} from "@angular/common/http";
-import {BehaviorSubject, Observable} from "rxjs";
+import {Observable} from "rxjs";
 import {User} from "../common/user";
 import {environment} from "../../environments/environment";
+import {UserCredentials} from "../common/user-credentials";
+import {PrincipalResponse} from "../common/principal-response";
 
 @Injectable({
   providedIn: 'root'
@@ -10,15 +12,11 @@ import {environment} from "../../environments/environment";
 export class AuthenticationService {
   private apiServerUrl = environment.apiBaseUrl;
 
-  authenticated = false;
-  private default = new BehaviorSubject({username: '', password: ''});
-  currentUser = this.default.asObservable();
+  private authenticated: boolean = false;
+
+  private authHeaders: HttpHeaders = new HttpHeaders();
 
   constructor(private http: HttpClient) { }
-
-  changeUser(user: User) {
-    this.default.next(user);
-  }
 
   public loginUser(user: User): Observable<HttpResponse<any>> {
     return this.http.post<HttpResponse<any>>(
@@ -26,26 +24,33 @@ export class AuthenticationService {
       {observe: 'response'});
   }
 
-  public registerUser(user: User): Observable<HttpResponse<any>> {
+  public registerUser(credentials: UserCredentials): Observable<HttpResponse<any>> {
     return this.http.post<HttpResponse<any>>(
       `${this.apiServerUrl}/register`,
-      user,
+      credentials,
       {observe: 'response'}
     );
   }
 
   authenticate(credentials: any, callback: any) {
-    const headers = new HttpHeaders(credentials ? {
-      authorization : 'Basic ' + btoa(credentials.username + ':' + credentials.password)
+    let userAuthData: string = '';
+    this.authHeaders = new HttpHeaders(credentials ? {
+      authorization : (userAuthData = 'Basic ' + btoa(credentials.username + ':' + credentials.password))
     }: {});
 
-    this.http.get(
+    this.http.get<PrincipalResponse>(
       this.apiServerUrl + '/user',
-      {headers: headers}).subscribe(
+      {headers: this.authHeaders}).subscribe(
       {
         next: (res) => {
-          console.log(res);
-          this.authenticated = res != null;
+          this.authenticated = res != null; // todo: instead of null, check 'authenticated' field in response
+          if(this.authenticated) {
+            let user: User = {
+              authData: userAuthData,
+              username: res.name
+            }
+            localStorage.setItem('user', JSON.stringify(user));
+          }
           return callback && callback();
         },
         error: (err) => {
@@ -56,25 +61,8 @@ export class AuthenticationService {
     );
   }
 
-  getAuthUser(): string | null {
-    if(localStorage.getItem('username')) {
-      return localStorage.getItem('username');
-    }
-    return null;
-  }
-
-  setAuthUser(username: string): void {
-    localStorage.setItem('username', username);
-  }
-
-  setAuthenticated(authenticated: boolean): void {
-    localStorage.setItem('authenticated', JSON.stringify(authenticated));
-  }
-
-  getAuthenticated(): boolean {
-    if(localStorage.getItem('authenticated')) {
-      return JSON.parse(localStorage.getItem('authenticated') || 'false');
-    }
-    return false;
+  logout() {
+    this.authenticated = false;
+    localStorage.removeItem('user');
   }
 }

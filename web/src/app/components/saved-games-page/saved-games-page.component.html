@@ -1,1 +1,31 @@
-<p>saved-games-page works!</p>
+<div class="d-flex flex-column">
+  <div class="align-self-center">
+    {{user}}'s saved games
+  </div>
+</div>
+<div class="d-flex flex-row justify-content-center">
+  <input class="d-flex flex-fill" [(ngModel)]="gameSearch" (input)="logSearch()">
+  <button (click)="searchGames()">Search</button>
+</div>
+<div>
+<div *ngFor="let game of games">
+    <div class="d-flex flex-row justify-content-center">
+      <div class="d-flex flex-column">
+        <div class="align-self-center">
+          {{game.name}}
+        </div>
+        <div class="align-self-center">
+          {{game.description}}
+        </div>
+      </div>
+      <div class="d-flex flex-column">
+        <div class="align-self-center">
+          <button>Delete</button>
+        </div>
+        <div class="align-self-center">
+          <button>Edit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

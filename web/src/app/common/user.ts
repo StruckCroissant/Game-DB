@@ -1,5 +1,4 @@
 export interface User {
-  id?: number;
+  authData: string;
   username: string;
-  password: string;
 }
