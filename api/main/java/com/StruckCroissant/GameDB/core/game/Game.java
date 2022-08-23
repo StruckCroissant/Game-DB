@@ -3,6 +3,8 @@ package com.StruckCroissant.GameDB.core.game;
 import com.StruckCroissant.GameDB.core.DbModelObj;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * Provides a game db object for completing transactions within the API.
@@ -11,7 +13,8 @@ import javax.validation.constraints.NotBlank;
  * @since 2022-06-20
  */
 public class Game implements DbModelObj {
-  @NotBlank private final int gid;
+  @NotNull
+  private final int gid;
 
   @NotBlank private final String gname;
 
@@ -27,6 +30,8 @@ public class Game implements DbModelObj {
 
   private final String description;
 
+  private final List<String> genres;
+
   private final String release_date;
 
   @NotBlank private final float rawgId;
@@ -34,28 +39,29 @@ public class Game implements DbModelObj {
   /**
    * Constructor creates a new game object from parameters
    *
-   * @param gid game id
-   * @param gname game name
-   * @param cost game cost
+   * @param gid            game id
+   * @param gname          game name
+   * @param cost           game cost
    * @param discountedCost game discounted cost
-   * @param url game url
-   * @param ageRating game age rating
-   * @param indie game indie status (T/F)
-   * @param description game description
-   * @param releaseDate game release date
-   * @param rawgId game rawg ID
+   * @param url            game url
+   * @param ageRating      game age rating
+   * @param indie          game indie status (T/F)
+   * @param description    game description
+   * @param genres
+   * @param releaseDate    game release date
+   * @param rawgId         game rawg ID
    */
   public Game(
-      @JsonProperty("gid") int gid,
-      @JsonProperty("gname") String gname,
-      @JsonProperty("cost") String cost,
-      @JsonProperty("discountedCost") String discountedCost,
-      @JsonProperty("url") String url,
-      @JsonProperty("ageRating") String ageRating,
-      @JsonProperty("indie") int indie,
-      @JsonProperty("description") String description,
-      @JsonProperty("releaseDate") String releaseDate,
-      @JsonProperty("rawgId") float rawgId) {
+          @JsonProperty("gid") int gid,
+          @JsonProperty("gname") String gname,
+          @JsonProperty("cost") String cost,
+          @JsonProperty("discountedCost") String discountedCost,
+          @JsonProperty("url") String url,
+          @JsonProperty("ageRating") String ageRating,
+          @JsonProperty("indie") int indie,
+          @JsonProperty("description") String description,
+          List<String> genres, @JsonProperty("releaseDate") String releaseDate,
+          @JsonProperty("rawgId") float rawgId) {
     this.gid = gid;
     this.gname = gname;
     this.cost = cost;
@@ -64,6 +70,7 @@ public class Game implements DbModelObj {
     this.age_rating = ageRating;
     this.indie = indie;
     this.description = description;
+    this.genres = genres;
     this.release_date = releaseDate;
     this.rawgId = rawgId;
   }
@@ -138,6 +145,15 @@ public class Game implements DbModelObj {
    */
   public String getReleaseDate() {
     return release_date;
+  }
+
+  /**
+   * returns genres
+   *
+   * @return List<String> genres
+   */
+  public List<String> getGenres() {
+    return genres;
   }
 
   /**

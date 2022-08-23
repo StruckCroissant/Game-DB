@@ -3,6 +3,7 @@ package com.StruckCroissant.GameDB.core.user;
 import com.StruckCroissant.GameDB.core.game.Game;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
@@ -98,24 +99,28 @@ public class UserDAOImpl implements UserDao {
 
   @Override
   public List<Game> selectSavedGames(int uid) {
-    final String sql =
-        """
-        SELECT
-            g.gid,
-            g.gname,
-            g.cost,
-            g.discounted_cost,
-            g.url,
-            g.age_rating,
-            g.indie,
-            g.description,
-            g.rdate,
-            g.rawgId
-        FROM
-            game g
-            INNER JOIN plays p ON g.gid = p.gid
-            INNER JOIN user u ON p.uid = u.uid
-        WHERE u.uid = ?;""";
+    final String sql = """
+    SELECT
+        g.gid,
+        g.gname,
+        g.cost,
+        g.discounted_cost,
+        g.url,
+        g.age_rating,
+        g.indie,
+        g.description,
+        GROUP_CONCAT(gn.genre_name) as genres,
+        g.rdate,
+        g.rawgId
+    FROM
+        game g LEFT JOIN gamegenre ggn ON
+            g.gid = ggn.gid
+        LEFT JOIN genre gn ON
+            gn.genre_id = ggn.genre_id
+        INNER JOIN plays p ON g.gid = p.gid
+        INNER JOIN user u ON p.uid = u.uid
+    WHERE u.uid = ?;
+    """;
     return jdbcTemplate.query(sql, (resultSet, i) -> getGameFromResultSet(resultSet), uid);
   }
 
@@ -216,10 +221,18 @@ public class UserDAOImpl implements UserDao {
     String ageRating = resultSet.getString("age_rating");
     int indie = resultSet.getInt("indie");
     String description = resultSet.getString("description");
+    String genresJoined = resultSet.getString("genres");
     String rdate = resultSet.getString("rdate");
     float rawgId = resultSet.getFloat("rawgId");
 
+    List<String> genres = List.of("NULL");
+    if(genresJoined != null){
+      genres = Arrays.asList(
+              genresJoined.split(",")
+      );
+    }
+
     return new Game(
-        gid, gname, cost, discountedCost, url, ageRating, indie, description, rdate, rawgId);
+            gid, gname, cost, discountedCost, url, ageRating, indie, description, genres, rdate, rawgId);
   }
 }

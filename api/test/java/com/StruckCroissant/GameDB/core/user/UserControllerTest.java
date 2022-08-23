@@ -1,7 +1,6 @@
 package com.StruckCroissant.GameDB.core.user;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -10,6 +9,7 @@ import com.StruckCroissant.GameDB.core.game.Game;
 import com.StruckCroissant.GameDB.security.PasswordEncoder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.List;
 import org.junit.After;
 import org.junit.Before;
@@ -114,7 +114,7 @@ public class UserControllerTest {
     // given
     final int UID = 1;
     final String URL_WITH_PARAMS = BASE_URL + "/saved-games?id=" + UID;
-    final Game GAME = new Game(1, "Test Game", "420.00", null, null, null, 1, null, null, 42069);
+    final Game GAME = new Game(1, "Test Game", "420.00", null, null, null, 1, null, Arrays.asList("Action", "Adventure"), null, 42069);
     when(userService.getSavedGames(UID)).thenReturn(List.of(GAME));
 
     // when

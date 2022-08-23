@@ -172,7 +172,7 @@ public class UserDAOImplTest {
     underTest.deleteSavedGame(uid, games[2]);
 
     // then
-    assertThat(underTest.selectSavedGames(uid).size()).isEqualTo(0);
+    assertThat(underTest.selectSavedGames(uid).get(0).getGid()).isEqualTo(0);
   }
 
   @Test

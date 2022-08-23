@@ -2,6 +2,7 @@ package com.StruckCroissant.GameDB.core.game;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +38,27 @@ public class GameDAOImpl implements GameDao {
    */
   @Override
   public List<Game> selectAllGames() {
-    final String sql =
-        "SELECT gid, gname, cost, discounted_cost, url, age_rating, indie,"
-            + "description, rdate, rawgId FROM game";
+    final String sql = """
+    SELECT
+        g.gid,
+        g.gname,
+        g.cost,
+        g.discounted_cost,
+        g.url,
+        g.age_rating,
+        g.indie,
+        g.description,
+        GROUP_CONCAT(gn.genre_name) as genres,
+        g.rdate,
+        g.rawgId
+    FROM
+        game g LEFT JOIN gamegenre ggn ON
+            g.gid = ggn.gid
+        LEFT JOIN genre gn ON
+            gn.genre_id = ggn.genre_id
+    GROUP BY g.gid
+    ;
+    """;
     return jdbcTemplate.query(sql, (resultSet, i) -> getGameFromResultSet(resultSet));
   }
 
@@ -51,9 +70,30 @@ public class GameDAOImpl implements GameDao {
    */
   @Override
   public Optional<Game> selectGameById(int id) {
-    final String sql =
-        "SELECT gid, gname, cost, discounted_cost, url, age_rating, indie,"
-            + "description, rdate, rawgId FROM game WHERE gid = ? LIMIT 1";
+    final String sql = """
+    SELECT
+        g.gid,
+        g.gname,
+        g.cost,
+        g.discounted_cost,
+        g.url,
+        g.age_rating,
+        g.indie,
+        g.description,
+        GROUP_CONCAT(gn.genre_name) as genres,
+        g.rdate,
+        g.rawgId
+    FROM
+        game g LEFT JOIN gamegenre ggn ON
+            g.gid = ggn.gid
+        LEFT JOIN genre gn ON
+            gn.genre_id = ggn.genre_id
+    WHERE g.gid = ?
+    GROUP BY
+        g.gid
+    LIMIT 1
+    ;
+    """;
     return Optional.ofNullable(
         jdbcTemplate.query(
             sql,
@@ -85,8 +125,16 @@ public class GameDAOImpl implements GameDao {
     String description = resultSet.getString("description");
     String rdate = resultSet.getString("rdate");
     float rawgId = resultSet.getFloat("rawgId");
+    String genresJoined = resultSet.getString("genres");
+
+    List<String> genres = List.of("NULL");
+    if(genresJoined != null){
+      genres = Arrays.asList(
+              genresJoined.split(",")
+      );
+    }
 
     return new Game(
-        gid, gname, cost, discountedCost, url, ageRating, indie, description, rdate, rawgId);
+        gid, gname, cost, discountedCost, url, ageRating, indie, description, genres, rdate, rawgId);
   }
 }
