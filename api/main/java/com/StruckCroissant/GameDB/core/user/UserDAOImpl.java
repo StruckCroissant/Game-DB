@@ -99,7 +99,8 @@ public class UserDAOImpl implements UserDao {
 
   @Override
   public List<Game> selectSavedGames(int uid) {
-    final String sql = """
+    final String sql =
+        """
     SELECT
         g.gid,
         g.gname,
@@ -226,13 +227,21 @@ public class UserDAOImpl implements UserDao {
     float rawgId = resultSet.getFloat("rawgId");
 
     List<String> genres = List.of("NULL");
-    if(genresJoined != null){
-      genres = Arrays.asList(
-              genresJoined.split(",")
-      );
+    if (genresJoined != null) {
+      genres = Arrays.asList(genresJoined.split(","));
     }
 
     return new Game(
-            gid, gname, cost, discountedCost, url, ageRating, indie, description, genres, rdate, rawgId);
+        gid,
+        gname,
+        cost,
+        discountedCost,
+        url,
+        ageRating,
+        indie,
+        description,
+        genres,
+        rdate,
+        rawgId);
   }
 }
