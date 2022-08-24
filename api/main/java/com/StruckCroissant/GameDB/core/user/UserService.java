@@ -83,7 +83,13 @@ public class UserService implements UserDetailsService {
   }
 
   public List<Game> getSavedGames(int uid) {
-    // TODO confirm user unique
+    // Check if user in db; will throw when not in db
+    User userFromDb = getUserById(uid);
+
+    List<Game> result = userDao.selectSavedGames(uid);
+    if(result.get(0).getGid() == 0){
+      return new ArrayList<Game>();
+    }
     return userDao.selectSavedGames(uid);
   }
 

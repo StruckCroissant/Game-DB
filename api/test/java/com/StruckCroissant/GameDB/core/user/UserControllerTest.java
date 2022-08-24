@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -141,6 +142,26 @@ public class UserControllerTest {
   }
 
   @Test
+  public void whenGetNonSignedUpUid_ThenResturns400() throws Exception {
+    // given
+    final Integer UID = 1;
+    final String URL_WITH_PARAMS = BASE_URL + "/saved-games?id=" + UID;
+    when(userService.getSavedGames(UID)).thenThrow(new ResourceNotFoundException("User not found"));
+
+    // when
+    mockMvc
+            .perform(MockMvcRequestBuilders.get(URL_WITH_PARAMS).accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isNotFound());
+
+    // then
+    ArgumentCaptor<Integer> argumentCaptor = ArgumentCaptor.forClass(Integer.class);
+    verify(userService).getSavedGames(argumentCaptor.capture());
+    Integer capturedGid = argumentCaptor.getValue();
+
+    assertThat(capturedGid).isEqualTo(UID);
+  }
+
+  @Test
   public void whenGetSavedGamesAbsentUid_ThenReturns404() throws Exception {
     // given
     final Integer UID = 1;
@@ -149,8 +170,8 @@ public class UserControllerTest {
 
     // when
     mockMvc
-        .perform(MockMvcRequestBuilders.get(URL_WITH_PARAMS).accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isNotFound());
+            .perform(MockMvcRequestBuilders.get(URL_WITH_PARAMS).accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isNotFound());
 
     // then
     ArgumentCaptor<Integer> argumentCaptor = ArgumentCaptor.forClass(Integer.class);
