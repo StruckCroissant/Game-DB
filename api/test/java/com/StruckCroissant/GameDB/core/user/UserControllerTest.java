@@ -11,7 +11,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -162,8 +161,8 @@ public class UserControllerTest {
 
     // when
     mockMvc
-            .perform(MockMvcRequestBuilders.get(URL_WITH_PARAMS).accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isNotFound());
+        .perform(MockMvcRequestBuilders.get(URL_WITH_PARAMS).accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound());
 
     // then
     ArgumentCaptor<Integer> argumentCaptor = ArgumentCaptor.forClass(Integer.class);
@@ -182,8 +181,8 @@ public class UserControllerTest {
 
     // when
     mockMvc
-            .perform(MockMvcRequestBuilders.get(URL_WITH_PARAMS).accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isNotFound());
+        .perform(MockMvcRequestBuilders.get(URL_WITH_PARAMS).accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound());
 
     // then
     ArgumentCaptor<Integer> argumentCaptor = ArgumentCaptor.forClass(Integer.class);
