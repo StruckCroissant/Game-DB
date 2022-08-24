@@ -38,7 +38,8 @@ public class GameDAOImpl implements GameDao {
    */
   @Override
   public List<Game> selectAllGames() {
-    final String sql = """
+    final String sql =
+        """
     SELECT
         g.gid,
         g.gname,
@@ -70,7 +71,8 @@ public class GameDAOImpl implements GameDao {
    */
   @Override
   public Optional<Game> selectGameById(int id) {
-    final String sql = """
+    final String sql =
+        """
     SELECT
         g.gid,
         g.gname,
@@ -128,13 +130,21 @@ public class GameDAOImpl implements GameDao {
     String genresJoined = resultSet.getString("genres");
 
     List<String> genres = List.of("NULL");
-    if(genresJoined != null){
-      genres = Arrays.asList(
-              genresJoined.split(",")
-      );
+    if (genresJoined != null) {
+      genres = Arrays.asList(genresJoined.split(","));
     }
 
     return new Game(
-        gid, gname, cost, discountedCost, url, ageRating, indie, description, genres, rdate, rawgId);
+        gid,
+        gname,
+        cost,
+        discountedCost,
+        url,
+        ageRating,
+        indie,
+        description,
+        genres,
+        rdate,
+        rawgId);
   }
 }

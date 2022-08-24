@@ -2,9 +2,9 @@ package com.StruckCroissant.GameDB.core.game;
 
 import com.StruckCroissant.GameDB.core.DbModelObj;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 /**
  * Provides a game db object for completing transactions within the API.
@@ -13,8 +13,7 @@ import java.util.List;
  * @since 2022-06-20
  */
 public class Game implements DbModelObj {
-  @NotNull
-  private final int gid;
+  @NotNull private final int gid;
 
   @NotBlank private final String gname;
 
@@ -39,29 +38,30 @@ public class Game implements DbModelObj {
   /**
    * Constructor creates a new game object from parameters
    *
-   * @param gid            game id
-   * @param gname          game name
-   * @param cost           game cost
+   * @param gid game id
+   * @param gname game name
+   * @param cost game cost
    * @param discountedCost game discounted cost
-   * @param url            game url
-   * @param ageRating      game age rating
-   * @param indie          game indie status (T/F)
-   * @param description    game description
+   * @param url game url
+   * @param ageRating game age rating
+   * @param indie game indie status (T/F)
+   * @param description game description
    * @param genres
-   * @param releaseDate    game release date
-   * @param rawgId         game rawg ID
+   * @param releaseDate game release date
+   * @param rawgId game rawg ID
    */
   public Game(
-          @JsonProperty("gid") int gid,
-          @JsonProperty("gname") String gname,
-          @JsonProperty("cost") String cost,
-          @JsonProperty("discountedCost") String discountedCost,
-          @JsonProperty("url") String url,
-          @JsonProperty("ageRating") String ageRating,
-          @JsonProperty("indie") int indie,
-          @JsonProperty("description") String description,
-          List<String> genres, @JsonProperty("releaseDate") String releaseDate,
-          @JsonProperty("rawgId") float rawgId) {
+      @JsonProperty("gid") int gid,
+      @JsonProperty("gname") String gname,
+      @JsonProperty("cost") String cost,
+      @JsonProperty("discountedCost") String discountedCost,
+      @JsonProperty("url") String url,
+      @JsonProperty("ageRating") String ageRating,
+      @JsonProperty("indie") int indie,
+      @JsonProperty("description") String description,
+      List<String> genres,
+      @JsonProperty("releaseDate") String releaseDate,
+      @JsonProperty("rawgId") float rawgId) {
     this.gid = gid;
     this.gname = gname;
     this.cost = cost;

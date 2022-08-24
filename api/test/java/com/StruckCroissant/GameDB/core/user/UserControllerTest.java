@@ -115,7 +115,19 @@ public class UserControllerTest {
     // given
     final int UID = 1;
     final String URL_WITH_PARAMS = BASE_URL + "/saved-games?id=" + UID;
-    final Game GAME = new Game(1, "Test Game", "420.00", null, null, null, 1, null, Arrays.asList("Action", "Adventure"), null, 42069);
+    final Game GAME =
+        new Game(
+            1,
+            "Test Game",
+            "420.00",
+            null,
+            null,
+            null,
+            1,
+            null,
+            Arrays.asList("Action", "Adventure"),
+            null,
+            42069);
     when(userService.getSavedGames(UID)).thenReturn(List.of(GAME));
 
     // when

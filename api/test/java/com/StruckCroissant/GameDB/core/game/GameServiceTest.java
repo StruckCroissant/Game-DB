@@ -42,7 +42,19 @@ public class GameServiceTest {
   public void canGetGameById() {
     // given
     Integer gid = 1;
-    Game game = new Game(1, "gname", "desc", "cost", "url", "Rating", 1, "Desc", Arrays.asList("Action", "Adventure"), "rdate", 26890);
+    Game game =
+        new Game(
+            1,
+            "gname",
+            "desc",
+            "cost",
+            "url",
+            "Rating",
+            1,
+            "Desc",
+            Arrays.asList("Action", "Adventure"),
+            "rdate",
+            26890);
     when(gameDao.selectGameById(game.getGid())).thenReturn(Optional.of(game));
 
     // when
