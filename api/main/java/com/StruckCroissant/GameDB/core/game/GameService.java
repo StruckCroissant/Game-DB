@@ -47,4 +47,8 @@ public class GameService {
         .selectGameById(id)
         .orElseThrow(() -> new GameNotFoundException("Game id {" + id + "} not found"));
   }
+
+  public List<Game> getRelatedGames(int id) throws GameNotFoundException {
+    return gameDao.selectRelatedGames(id);
+  }
 }

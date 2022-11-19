@@ -19,7 +19,11 @@ export class RegisterPageComponent implements OnInit {
   registerUser() {
     console.log(this.passwordInput);
     this.userAuthService.registerUser(
-      {username: this.usernameInput, password: this.passwordInput}).subscribe({
+      {
+        username: this.usernameInput,
+        password: this.passwordInput
+      }
+    ).subscribe({
       next: (response) => {
         if(response.status === 200){
           window.alert("Register success! You may now log in with your new account");

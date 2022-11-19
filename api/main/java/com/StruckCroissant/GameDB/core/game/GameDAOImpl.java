@@ -2,6 +2,7 @@ package com.StruckCroissant.GameDB.core.game;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -107,6 +108,32 @@ public class GameDAOImpl implements GameDao {
               }
             },
             id));
+  }
+
+  @Override
+  public List<Game> selectRelatedGames(int id) {
+    final String SQL = """
+    SELECT
+      b.gid,
+      GROUP(b.genre_id),
+      COUNT(b.genre_id)
+    FROM
+    (
+         SELECT gg.*
+         FROM game ga
+                  INNER JOIN gamegenre gg on ga.gid = gg.gid
+         WHERE ga.gid = 5689
+    ) a inner join (
+        SELECT gg.*
+        FROM game ga
+                 INNER JOIN gamegenre gg on ga.gid = gg.gid
+    ) b on a.genre_id = b.genre_id
+    GROUP BY a.gid, b.gid
+    HAVING count(b.genre_id) >= 2
+    LIMIT 10
+    ;
+    """;
+    return new ArrayList<Game>();
   }
 
   /**
