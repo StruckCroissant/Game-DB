@@ -112,7 +112,8 @@ public class GameDAOImpl implements GameDao {
 
   @Override
   public List<Game> selectRelatedGames(int id) {
-    final String SQL = """
+    final String SQL =
+        """
     SELECT
       b.gid,
       GROUP(b.genre_id),
