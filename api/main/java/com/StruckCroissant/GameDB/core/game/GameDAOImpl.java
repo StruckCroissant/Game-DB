@@ -114,26 +114,29 @@ public class GameDAOImpl implements GameDao {
   public List<Game> selectRelatedGames(int id) {
     final String SQL =
         """
-    SELECT
-      b.gid,
-      GROUP(b.genre_id),
-      COUNT(b.genre_id)
-    FROM
-    (
-         SELECT gg.*
-         FROM game ga
-                  INNER JOIN gamegenre gg on ga.gid = gg.gid
-         WHERE ga.gid = 5689
-    ) a inner join (
-        SELECT gg.*
-        FROM game ga
-                 INNER JOIN gamegenre gg on ga.gid = gg.gid
-    ) b on a.genre_id = b.genre_id
-    GROUP BY a.gid, b.gid
-    HAVING count(b.genre_id) >= 2
-    LIMIT 10
-    ;
-    """;
+        select
+        b.gid,
+        group_concat(g.genre_name) as genres,
+        count(b.genre_id) as matches
+        from
+        (
+             select gg.*
+             from game ga
+                      inner join gamegenre gg on ga.gid = gg.gid
+             where ga.gid = 8903
+        ) a inner join (
+            select gg.*
+            from game ga
+                     inner join gamegenre gg on ga.gid = gg.gid
+            where ga.gid <> 8903
+        ) b on a.genre_id = b.genre_id
+        inner join genre g on g.genre_id = b.genre_id
+        group by a.gid, b.gid
+        having matches >= 2
+        order by matches desc
+        limit 10;
+        ;
+        """;
     return new ArrayList<Game>();
   }
 
