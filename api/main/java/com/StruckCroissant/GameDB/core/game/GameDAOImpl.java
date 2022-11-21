@@ -114,30 +114,33 @@ public class GameDAOImpl implements GameDao {
   public List<Game> selectRelatedGames(int id) {
     final String SQL =
         """
-        select
-        b.gid,
-        group_concat(g.genre_name) as genres,
-        count(b.genre_id) as matches
-        from
-        (
-             select gg.*
-             from game ga
-                      inner join gamegenre gg on ga.gid = gg.gid
-             where ga.gid = 8903
-        ) a inner join (
-            select gg.*
-            from game ga
-                     inner join gamegenre gg on ga.gid = gg.gid
-            where ga.gid <> 8903
-        ) b on a.genre_id = b.genre_id
-        inner join genre g on g.genre_id = b.genre_id
-        group by a.gid, b.gid
-        having matches >= 2
-        order by matches desc
-        limit 10;
-        ;
-        """;
-    return new ArrayList<Game>();
+        SELECT
+            g.gid,
+            g.gname,
+            g.cost,
+            g.discounted_cost,
+            g.url,
+            g.age_rating,
+            g.indie,
+            g.description,
+            g.rdate,
+            g.rawgId,
+            group_concat(gen.genre_name) AS genres
+        FROM
+            gamegenre gm1 INNER JOIN
+              gamegenre gm2 ON
+                gm1.genre_id = gm2.genre_id AND gm1.gid <> gm2.gid
+            INNER JOIN
+              game g ON gm2.gid = g.gid
+            INNER JOIN
+              genre gen on gm2.genre_id = gen.genre_id
+        WHERE
+            gm1.gid = ?
+        group by gm2.gid
+        order by COUNT(gm2.genre_id) DESC
+        LIMIT 10;
+       """;
+    return jdbcTemplate.query(SQL, (resultSet, i) -> getGameFromResultSet(resultSet), id);
   }
 
   /**
