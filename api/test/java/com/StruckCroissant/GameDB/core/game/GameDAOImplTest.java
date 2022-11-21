@@ -64,4 +64,17 @@ public class GameDAOImplTest {
     validResult.forEach((gameOpt) -> assertThat(gameOpt).get().isInstanceOf(Game.class));
     invalidResult.forEach((gameOpt) -> assertThat(gameOpt).isEmpty());
   }
+
+  @Test
+  public void shouldGetRelatedGames() {
+    // given
+    int id = 40;
+
+    // when
+    List<Game> result = underTest.selectRelatedGames(id);
+
+    // then
+    assertThat(result.size()).isGreaterThan(0);
+    result.forEach((game) -> assertThat(game).isInstanceOf(Game.class));
+  }
 }

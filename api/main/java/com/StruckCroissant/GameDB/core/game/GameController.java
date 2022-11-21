@@ -49,4 +49,9 @@ public class GameController {
   public Game getGameById(@RequestParam("id") int id) {
     return gameService.getGameById(id);
   }
+
+  @GetMapping(path = "/related")
+  public List<Game> getRelatedGames(@RequestParam("id") int id) {
+    return gameService.getRelatedGames(id);
+  }
 }
