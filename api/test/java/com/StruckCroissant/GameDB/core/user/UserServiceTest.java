@@ -2,7 +2,6 @@ package com.StruckCroissant.GameDB.core.user;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -113,13 +112,14 @@ public class UserServiceTest {
   @Test
   public void canGetSavedGames() {
     // given
-    int testUid = 1;
+    User user = getTestUser();
+    when(userDao.selectUserById(user.getId().get())).thenReturn(Optional.of(user));
 
     // when
-    underTest.getSavedGames(testUid);
+    underTest.getSavedGames(user.getId().get());
 
     // then
-    verify(userDao).selectSavedGames(testUid);
+    verify(userDao).selectSavedGames(user.getId().get());
   }
 
   @Test
