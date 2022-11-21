@@ -40,7 +40,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   // TODO make configure file for endpoint constants
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    // TODO handle login and auth requests through front-end webpages
     http.cors()
         .and()
         .httpBasic()
