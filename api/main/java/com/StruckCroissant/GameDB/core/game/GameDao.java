@@ -15,4 +15,6 @@ public interface GameDao {
   List<Game> selectAllGames();
 
   Optional<Game> selectGameById(int id);
+
+  List<Game> selectRelatedGames(int id);
 }
