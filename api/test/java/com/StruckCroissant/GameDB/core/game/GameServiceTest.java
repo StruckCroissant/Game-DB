@@ -1,11 +1,14 @@
 package com.StruckCroissant.GameDB.core.game;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.Optional;
+
+import com.StruckCroissant.GameDB.exception.GameNotFoundException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,20 +44,8 @@ public class GameServiceTest {
   @Test
   public void canGetGameById() {
     // given
-    Integer gid = 1;
-    Game game =
-        new Game(
-            1,
-            "gname",
-            "desc",
-            "cost",
-            "url",
-            "Rating",
-            1,
-            "Desc",
-            Arrays.asList("Action", "Adventure"),
-            "rdate",
-            26890);
+    Game game = getTestGame();
+    int gid = game.getGid();
     when(gameDao.selectGameById(game.getGid())).thenReturn(Optional.of(game));
 
     // when
@@ -67,5 +58,55 @@ public class GameServiceTest {
     int capturedGid = gidArgumentCaptor.getValue();
 
     assertThat(capturedGid).isEqualTo(gid);
+  }
+
+  @Test
+  public void shouldGetRelatedGames() {
+    // given
+    Game game = getTestGame();
+    int gid = game.getGid();
+    when(gameDao.selectRelatedGames(gid))
+        .thenReturn(
+            Arrays.stream(new Game[]{game}).toList());
+    when(gameDao.selectGameById(gid)).thenReturn(Optional.of(game));
+
+    // when
+    underTest.getRelatedGames(gid);
+
+    // then
+    ArgumentCaptor<Integer> gidArgumentCaptor = ArgumentCaptor.forClass(Integer.class);
+
+    verify(gameDao).selectRelatedGames(gidArgumentCaptor.capture());
+    int capturedGid = gidArgumentCaptor.getValue();
+
+    assertThat(capturedGid).isEqualTo(gid);
+  }
+
+  @Test
+  public void shouldThrowException_onInvalidRelatedGid() {
+    // given
+    int gid = -1;
+    when(gameDao.selectGameById(gid)).thenReturn(Optional.empty());
+
+    // when
+    Throwable thrown = catchThrowable(() -> underTest.getRelatedGames(gid));
+
+    // then
+    assertThat(thrown).isExactlyInstanceOf(GameNotFoundException.class);
+  }
+
+  private Game getTestGame() {
+    return new Game(
+        1,
+        "gname",
+        "desc",
+        "cost",
+        "url",
+        "Rating",
+        1,
+        "Desc",
+        Arrays.asList("Action", "Adventure"),
+        "rdate",
+        26890);
   }
 }
