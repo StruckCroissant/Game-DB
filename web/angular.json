@@ -27,7 +27,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.css"
             ],
             "scripts": []
           },
@@ -95,17 +95,12 @@
             ],
             "styles": [
               "styles/bootstrap-5.2.0-beta1-dist/css/bootstrap.min.css",
-              "src/styles.scss"
+              "src/styles.css"
             ],
             "scripts": []
           }
         }
       }
-    }
-  },
-  "schematics": {
-    "@schematics/angular:component": {
-      "style": "scss"
     }
   },
   "defaultProject": "gamedb-webapp"
