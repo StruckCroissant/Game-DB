@@ -30,7 +30,9 @@
 							"src/assets"
 						],
 						"styles": [
-							"src/styles.scss"
+              "src/styles/fontawesome-free-6.2.1-web/scss/fontawesome.scss",
+              "src/styles/bootstrap-5.2.0-beta1-dist/css/bootstrap.min.css",
+              "src/styles.scss"
 						],
 						"scripts": []
 					},
@@ -97,6 +99,7 @@
 							"src/assets"
 						],
 						"styles": [
+              "styles/fontawesome-free-6.2.1-web/scss/fontawesome.scss",
 							"styles/bootstrap-5.2.0-beta1-dist/css/bootstrap.min.css",
 							"src/styles.scss"
 						],
