@@ -6,7 +6,7 @@ import {GameService} from "../../services/game.service";
 @Component({
   selector: 'app-saved-games-page',
   templateUrl: './saved-games-page.component.html',
-  styleUrls: ['./saved-games-page.component.css']
+  styleUrls: ['./saved-games-page.component.scss']
 })
 export class SavedGamesPageComponent implements OnInit {
   gameSearch: string = '';
