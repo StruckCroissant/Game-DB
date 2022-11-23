@@ -30,11 +30,13 @@
 							"src/assets"
 						],
 						"styles": [
-              "src/styles/fontawesome-free-6.2.1-web/scss/fontawesome.scss",
-              "src/styles/bootstrap-5.2.0-beta1-dist/css/bootstrap.min.css",
-              "src/styles.scss"
+              "src/styles.scss",
+              "src/assets/fontawesome-free-6.2.1-web/css/all.css",
+              "src/assets/bootstrap-5.2.0-beta1-dist/css/bootstrap.min.css"
 						],
-						"scripts": []
+						"scripts": [
+              "src/assets/bootstrap-5.2.0-beta1-dist/js/bootstrap.js"
+            ]
 					},
 					"configurations": {
 						"production": {
@@ -99,8 +101,8 @@
 							"src/assets"
 						],
 						"styles": [
-              "styles/fontawesome-free-6.2.1-web/scss/fontawesome.scss",
-							"styles/bootstrap-5.2.0-beta1-dist/css/bootstrap.min.css",
+              "src/assets/fontawesome-free-6.2.1-web/scss/fontawesome.scss",
+							"src/assets/bootstrap-5.2.0-beta1-dist/css/bootstrap.min.css",
 							"src/styles.scss"
 						],
 						"scripts": []
