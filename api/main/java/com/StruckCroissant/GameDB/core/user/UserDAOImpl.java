@@ -1,12 +1,11 @@
 package com.StruckCroissant.GameDB.core.user;
 
 import com.StruckCroissant.GameDB.core.game.Game;
+import com.StruckCroissant.GameDB.core.game.SQLGameAccessor;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
-
-import com.StruckCroissant.GameDB.core.game.SQLGameAccessor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -126,7 +125,8 @@ public class UserDAOImpl implements UserDao {
         INNER JOIN user u ON p.uid = u.uid
     WHERE u.uid = ?;
     """;
-    return jdbcTemplate.query(sql, (resultSet, i) -> SQLGameAccessor.getGameFromResultSet(resultSet), uid);
+    return jdbcTemplate.query(
+        sql, (resultSet, i) -> SQLGameAccessor.getGameFromResultSet(resultSet), uid);
   }
 
   @Override

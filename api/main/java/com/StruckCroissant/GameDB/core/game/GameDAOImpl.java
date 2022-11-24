@@ -60,7 +60,8 @@ public class GameDAOImpl implements GameDao {
     GROUP BY g.gid
     ;
     """;
-    return jdbcTemplate.query(sql, (resultSet, i) -> SQLGameAccessor.getGameFromResultSet(resultSet));
+    return jdbcTemplate.query(
+        sql, (resultSet, i) -> SQLGameAccessor.getGameFromResultSet(resultSet));
   }
 
   /**
@@ -145,6 +146,7 @@ public class GameDAOImpl implements GameDao {
         order by COUNT(gm2.genre_id) DESC
         LIMIT 10;
        """;
-    return jdbcTemplate.query(SQL, (resultSet, i) -> SQLGameAccessor.getGameFromResultSet(resultSet), id);
+    return jdbcTemplate.query(
+        SQL, (resultSet, i) -> SQLGameAccessor.getGameFromResultSet(resultSet), id);
   }
 }

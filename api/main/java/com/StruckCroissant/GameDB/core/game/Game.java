@@ -184,22 +184,41 @@ public class Game implements DbModelObj {
    *
    * @return String
    */
-
   @Override
   public String toString() {
-    return "Game{" +
-        "gid=" + gid +
-        ", gname='" + gname + '\'' +
-        ", cost='" + cost + '\'' +
-        ", discountedCost='" + discountedCost + '\'' +
-        ", url='" + url + '\'' +
-        ", age_rating='" + age_rating + '\'' +
-        ", indie=" + indie +
-        ", description='" + description + '\'' +
-        ", genres=" + genres +
-        ", release_date='" + release_date + '\'' +
-        ", rawgId=" + rawgId +
-        ", franchise='" + franchise + '\'' +
-        '}';
+    return "Game{"
+        + "gid="
+        + gid
+        + ", gname='"
+        + gname
+        + '\''
+        + ", cost='"
+        + cost
+        + '\''
+        + ", discountedCost='"
+        + discountedCost
+        + '\''
+        + ", url='"
+        + url
+        + '\''
+        + ", age_rating='"
+        + age_rating
+        + '\''
+        + ", indie="
+        + indie
+        + ", description='"
+        + description
+        + '\''
+        + ", genres="
+        + genres
+        + ", release_date='"
+        + release_date
+        + '\''
+        + ", rawgId="
+        + rawgId
+        + ", franchise='"
+        + franchise
+        + '\''
+        + '}';
   }
 }
