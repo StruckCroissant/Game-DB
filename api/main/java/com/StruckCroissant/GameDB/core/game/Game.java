@@ -3,8 +3,6 @@ package com.StruckCroissant.GameDB.core.game;
 import com.StruckCroissant.GameDB.core.DbModelObj;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 /**
  * Provides a game db object for completing transactions within the API.
@@ -13,15 +11,15 @@ import javax.validation.constraints.NotNull;
  * @since 2022-06-20
  */
 public class Game implements DbModelObj {
-  @NotNull private final int gid;
+  private final int gid;
 
-  @NotBlank private final String gname;
+  private final String gname;
 
   private final String cost;
 
   private final String discountedCost;
 
-  @NotBlank private final String url;
+  private final String url;
 
   private final String age_rating;
 
@@ -33,7 +31,7 @@ public class Game implements DbModelObj {
 
   private final String release_date;
 
-  @NotBlank private final float rawgId;
+  private final float rawgId;
 
   private final String franchise;
 
