@@ -103,6 +103,7 @@ public class GameServiceTest {
         1,
         "Desc",
         Arrays.asList("Action", "Adventure"),
+        "franchise",
         "rdate",
         26890);
   }

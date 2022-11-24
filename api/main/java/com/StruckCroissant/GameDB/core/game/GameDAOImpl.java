@@ -1,8 +1,5 @@
 package com.StruckCroissant.GameDB.core.game;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +47,7 @@ public class GameDAOImpl implements GameDao {
         g.indie,
         g.description,
         GROUP_CONCAT(gn.genre_name) as genres,
+        f.fname as franchise,
         g.rdate,
         g.rawgId
     FROM
@@ -57,10 +55,13 @@ public class GameDAOImpl implements GameDao {
             g.gid = ggn.gid
         LEFT JOIN genre gn ON
             gn.genre_id = ggn.genre_id
+        LEFT JOIN franchise f ON
+            g.gid = f.gid
     GROUP BY g.gid
     ;
     """;
-    return jdbcTemplate.query(sql, (resultSet, i) -> getGameFromResultSet(resultSet));
+    return jdbcTemplate.query(
+        sql, (resultSet, i) -> SQLGameAccessor.getGameFromResultSet(resultSet));
   }
 
   /**
@@ -83,6 +84,7 @@ public class GameDAOImpl implements GameDao {
         g.indie,
         g.description,
         GROUP_CONCAT(gn.genre_name) as genres,
+        f.fname as franchise,
         g.rdate,
         g.rawgId
     FROM
@@ -90,6 +92,8 @@ public class GameDAOImpl implements GameDao {
             g.gid = ggn.gid
         LEFT JOIN genre gn ON
             gn.genre_id = ggn.genre_id
+        LEFT JOIN franchise f ON
+            g.gid = f.gid
     WHERE g.gid = ?
     GROUP BY
         g.gid
@@ -101,7 +105,7 @@ public class GameDAOImpl implements GameDao {
             sql,
             (resultSet) -> {
               if (resultSet.next()) {
-                return getGameFromResultSet(resultSet);
+                return SQLGameAccessor.getGameFromResultSet(resultSet);
               } else {
                 return null;
               }
@@ -124,7 +128,8 @@ public class GameDAOImpl implements GameDao {
             g.description,
             g.rdate,
             g.rawgId,
-            group_concat(gen.genre_name) AS genres
+            group_concat(gen.genre_name) AS genres,
+            f.fname as franchise
         FROM
             gamegenre gm1 INNER JOIN
               gamegenre gm2 ON
@@ -133,51 +138,15 @@ public class GameDAOImpl implements GameDao {
               game g ON gm2.gid = g.gid
             INNER JOIN
               genre gen on gm2.genre_id = gen.genre_id
+            LEFT JOIN franchise f ON
+              g.gid = f.gid
         WHERE
             gm1.gid = ?
         group by gm2.gid
         order by COUNT(gm2.genre_id) DESC
         LIMIT 10;
        """;
-    return jdbcTemplate.query(SQL, (resultSet, i) -> getGameFromResultSet(resultSet), id);
-  }
-
-  /**
-   * Private method that extracts game object from resultSet
-   *
-   * @param resultSet jdbcTemplate resultSet cursor
-   * @return Game
-   * @throws SQLException generic SQL exception
-   */
-  private Game getGameFromResultSet(ResultSet resultSet) throws SQLException {
-    int gid = resultSet.getInt("gid");
-    String gname = resultSet.getString("gname");
-    String cost = resultSet.getString("cost");
-    String discountedCost = resultSet.getString("discounted_cost");
-    String url = resultSet.getString("url");
-    String ageRating = resultSet.getString("age_rating");
-    int indie = resultSet.getInt("indie");
-    String description = resultSet.getString("description");
-    String rdate = resultSet.getString("rdate");
-    float rawgId = resultSet.getFloat("rawgId");
-    String genresJoined = resultSet.getString("genres");
-
-    List<String> genres = List.of("NULL");
-    if (genresJoined != null) {
-      genres = Arrays.asList(genresJoined.split(","));
-    }
-
-    return new Game(
-        gid,
-        gname,
-        cost,
-        discountedCost,
-        url,
-        ageRating,
-        indie,
-        description,
-        genres,
-        rdate,
-        rawgId);
+    return jdbcTemplate.query(
+        SQL, (resultSet, i) -> SQLGameAccessor.getGameFromResultSet(resultSet), id);
   }
 }

@@ -3,8 +3,6 @@ package com.StruckCroissant.GameDB.core.game;
 import com.StruckCroissant.GameDB.core.DbModelObj;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 /**
  * Provides a game db object for completing transactions within the API.
@@ -13,15 +11,15 @@ import javax.validation.constraints.NotNull;
  * @since 2022-06-20
  */
 public class Game implements DbModelObj {
-  @NotNull private final int gid;
+  private final int gid;
 
-  @NotBlank private final String gname;
+  private final String gname;
 
   private final String cost;
 
   private final String discountedCost;
 
-  @NotBlank private final String url;
+  private final String url;
 
   private final String age_rating;
 
@@ -33,7 +31,9 @@ public class Game implements DbModelObj {
 
   private final String release_date;
 
-  @NotBlank private final float rawgId;
+  private final float rawgId;
+
+  private final String franchise;
 
   /**
    * Constructor creates a new game object from parameters
@@ -46,7 +46,8 @@ public class Game implements DbModelObj {
    * @param ageRating game age rating
    * @param indie game indie status (T/F)
    * @param description game description
-   * @param genres
+   * @param genres game genres
+   * @param franchise game franchise
    * @param releaseDate game release date
    * @param rawgId game rawg ID
    */
@@ -60,6 +61,7 @@ public class Game implements DbModelObj {
       @JsonProperty("indie") int indie,
       @JsonProperty("description") String description,
       List<String> genres,
+      @JsonProperty("franchise") String franchise,
       @JsonProperty("releaseDate") String releaseDate,
       @JsonProperty("rawgId") float rawgId) {
     this.gid = gid;
@@ -71,6 +73,7 @@ public class Game implements DbModelObj {
     this.indie = indie;
     this.description = description;
     this.genres = genres;
+    this.franchise = franchise;
     this.release_date = releaseDate;
     this.rawgId = rawgId;
   }
@@ -157,6 +160,15 @@ public class Game implements DbModelObj {
   }
 
   /**
+   * returns franchise
+   *
+   * @return String franchise
+   */
+  public String getFranchise() {
+    return franchise;
+  }
+
+  /**
    * returns rawg id
    *
    * @return float rawgId
@@ -187,16 +199,24 @@ public class Game implements DbModelObj {
         + ", url='"
         + url
         + '\''
-        + ", age_rating="
+        + ", age_rating='"
         + age_rating
+        + '\''
+        + ", indie="
+        + indie
         + ", description='"
         + description
         + '\''
+        + ", genres="
+        + genres
         + ", release_date='"
         + release_date
         + '\''
         + ", rawgId="
         + rawgId
+        + ", franchise='"
+        + franchise
+        + '\''
         + '}';
   }
 }
