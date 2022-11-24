@@ -35,6 +35,8 @@ public class Game implements DbModelObj {
 
   @NotBlank private final float rawgId;
 
+  private final String franchise;
+
   /**
    * Constructor creates a new game object from parameters
    *
@@ -46,7 +48,8 @@ public class Game implements DbModelObj {
    * @param ageRating game age rating
    * @param indie game indie status (T/F)
    * @param description game description
-   * @param genres
+   * @param genres game genres
+   * @param franchise game franchise
    * @param releaseDate game release date
    * @param rawgId game rawg ID
    */
@@ -60,6 +63,7 @@ public class Game implements DbModelObj {
       @JsonProperty("indie") int indie,
       @JsonProperty("description") String description,
       List<String> genres,
+      @JsonProperty("franchise") String franchise,
       @JsonProperty("releaseDate") String releaseDate,
       @JsonProperty("rawgId") float rawgId) {
     this.gid = gid;
@@ -71,6 +75,7 @@ public class Game implements DbModelObj {
     this.indie = indie;
     this.description = description;
     this.genres = genres;
+    this.franchise = franchise;
     this.release_date = releaseDate;
     this.rawgId = rawgId;
   }
@@ -157,6 +162,15 @@ public class Game implements DbModelObj {
   }
 
   /**
+   * returns franchise
+   *
+   * @return String franchise
+   */
+  public String getFranchise() {
+    return franchise;
+  }
+
+  /**
    * returns rawg id
    *
    * @return float rawgId
@@ -170,33 +184,22 @@ public class Game implements DbModelObj {
    *
    * @return String
    */
+
   @Override
   public String toString() {
-    return "Game{"
-        + "gid="
-        + gid
-        + ", gname='"
-        + gname
-        + '\''
-        + ", cost='"
-        + cost
-        + '\''
-        + ", discountedCost='"
-        + discountedCost
-        + '\''
-        + ", url='"
-        + url
-        + '\''
-        + ", age_rating="
-        + age_rating
-        + ", description='"
-        + description
-        + '\''
-        + ", release_date='"
-        + release_date
-        + '\''
-        + ", rawgId="
-        + rawgId
-        + '}';
+    return "Game{" +
+        "gid=" + gid +
+        ", gname='" + gname + '\'' +
+        ", cost='" + cost + '\'' +
+        ", discountedCost='" + discountedCost + '\'' +
+        ", url='" + url + '\'' +
+        ", age_rating='" + age_rating + '\'' +
+        ", indie=" + indie +
+        ", description='" + description + '\'' +
+        ", genres=" + genres +
+        ", release_date='" + release_date + '\'' +
+        ", rawgId=" + rawgId +
+        ", franchise='" + franchise + '\'' +
+        '}';
   }
 }

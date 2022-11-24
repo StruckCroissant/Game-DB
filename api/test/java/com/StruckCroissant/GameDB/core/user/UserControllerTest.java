@@ -126,6 +126,7 @@ public class UserControllerTest {
             null,
             Arrays.asList("Action", "Adventure"),
             null,
+            "Test franchise",
             42069);
     when(userService.getSavedGames(UID)).thenReturn(List.of(GAME));
 
