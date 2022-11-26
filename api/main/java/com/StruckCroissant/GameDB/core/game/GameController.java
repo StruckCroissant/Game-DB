@@ -1,6 +1,8 @@
 package com.StruckCroissant.GameDB.core.game;
 
 import java.util.List;
+
+import com.StruckCroissant.GameDB.core.CoreController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin("http://localhost:4200") // Replace with proxy later
 @RequestMapping("${game_url}")
 @RestController
-public class GameController {
+public class GameController extends CoreController {
   private final GameService gameService;
 
   /**

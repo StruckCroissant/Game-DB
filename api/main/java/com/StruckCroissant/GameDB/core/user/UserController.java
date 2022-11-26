@@ -1,5 +1,6 @@
 package com.StruckCroissant.GameDB.core.user;
 
+import com.StruckCroissant.GameDB.core.CoreController;
 import com.StruckCroissant.GameDB.core.game.Game;
 import java.security.Principal;
 import java.util.List;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
       "x-xsrf-token"
     }) // Replace with proxy later
 @RestController
-public class UserController {
+public class UserController extends CoreController {
   private final UserService userService;
 
   @Autowired
