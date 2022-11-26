@@ -1,4 +1,3 @@
 package com.StruckCroissant.GameDB.core;
 
-public abstract class CoreController {
-}
+public abstract class CoreController {}
