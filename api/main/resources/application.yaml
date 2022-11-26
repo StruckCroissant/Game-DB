@@ -4,6 +4,7 @@ app:
     username: root
     password: mariadb
 server:
+  servlet.context-path: /v1/api
   error:
     include-details: always
     include-message: always
@@ -16,6 +17,7 @@ spring: # TODO Combine spring & app settings
     password: mariadb
     url: "jdbc:mariadb://localhost:3316/gamedb_db"
     baseline-on-migrate: true
+
 
 
 

@@ -6,7 +6,7 @@ import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.StruckCroissant.GameDB.core.user.UserService;
-import com.StruckCroissant.GameDB.security.PasswordEncoder;
+import com.StruckCroissant.GameDB.config.security.PasswordEncoder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
 import org.junit.Before;

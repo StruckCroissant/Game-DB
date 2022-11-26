@@ -1,14 +1,13 @@
 package com.StruckCroissant.GameDB.core.game;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.StruckCroissant.GameDB.core.user.UserService;
 import com.StruckCroissant.GameDB.exception.GameNotFoundException;
-import com.StruckCroissant.GameDB.security.PasswordEncoder;
+import com.StruckCroissant.GameDB.config.security.PasswordEncoder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

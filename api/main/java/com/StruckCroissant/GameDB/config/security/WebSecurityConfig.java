@@ -1,7 +1,7 @@
-package com.StruckCroissant.GameDB.security.config;
+package com.StruckCroissant.GameDB.config.security;
 
 import com.StruckCroissant.GameDB.core.user.UserService;
-import com.StruckCroissant.GameDB.security.PasswordEncoder;
+import com.StruckCroissant.GameDB.config.security.PasswordEncoder;
 import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
