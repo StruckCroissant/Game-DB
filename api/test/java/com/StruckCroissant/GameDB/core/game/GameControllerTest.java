@@ -38,7 +38,7 @@ public class GameControllerTest {
 
   private AutoCloseable autoCloseable;
 
-  private final String BASE_URL = "/api/v1/game";
+  private final String BASE_URL = "/game";
   private final String ALL_URL = BASE_URL + "/all";
   private final String BY_ID_URL = BASE_URL + "/byId";
 

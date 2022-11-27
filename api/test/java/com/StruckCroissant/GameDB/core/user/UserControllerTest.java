@@ -45,7 +45,7 @@ public class UserControllerTest {
 
   private AutoCloseable autoCloseable;
 
-  private final String BASE_URL = "/api/v1/user";
+  private final String BASE_URL = "/user";
   private final String ALL_URL = BASE_URL + "/all";
   private final String BY_ID_URL = BASE_URL + "/byId";
 
