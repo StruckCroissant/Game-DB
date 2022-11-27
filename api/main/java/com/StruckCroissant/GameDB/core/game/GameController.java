@@ -1,8 +1,7 @@
 package com.StruckCroissant.GameDB.core.game;
 
-import java.util.List;
-
 import com.StruckCroissant.GameDB.core.GameDBCoreController;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
