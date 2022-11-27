@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin("http://localhost:4200") // Replace with proxy later
-@RequestMapping("/api/v1/")
+@RequestMapping()
 @RestController
 public class LoginController {
 
