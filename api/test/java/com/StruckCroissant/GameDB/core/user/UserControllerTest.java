@@ -5,8 +5,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.StruckCroissant.GameDB.core.game.Game;
 import com.StruckCroissant.GameDB.config.security.PasswordEncoder;
+import com.StruckCroissant.GameDB.core.game.Game;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.security.Principal;
 import java.util.Arrays;
