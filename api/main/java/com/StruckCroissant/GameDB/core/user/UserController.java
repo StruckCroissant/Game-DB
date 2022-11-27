@@ -1,12 +1,13 @@
 package com.StruckCroissant.GameDB.core.user;
 
+import com.StruckCroissant.GameDB.core.GameDBCoreController;
 import com.StruckCroissant.GameDB.core.game.Game;
 import java.security.Principal;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("api/v1/user")
+@RequestMapping("/user")
 @CrossOrigin(
     origins = "*",
     maxAge = 3600,
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
       "x-xsrf-token"
     }) // Replace with proxy later
 @RestController
-public class UserController {
+public class UserController extends GameDBCoreController {
   private final UserService userService;
 
   @Autowired

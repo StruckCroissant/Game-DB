@@ -5,8 +5,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.StruckCroissant.GameDB.config.security.PasswordEncoder;
 import com.StruckCroissant.GameDB.core.game.Game;
-import com.StruckCroissant.GameDB.security.PasswordEncoder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.security.Principal;
 import java.util.Arrays;
@@ -45,7 +45,7 @@ public class UserControllerTest {
 
   private AutoCloseable autoCloseable;
 
-  private final String BASE_URL = "/api/v1/user";
+  private final String BASE_URL = "/user";
   private final String ALL_URL = BASE_URL + "/all";
   private final String BY_ID_URL = BASE_URL + "/byId";
 
