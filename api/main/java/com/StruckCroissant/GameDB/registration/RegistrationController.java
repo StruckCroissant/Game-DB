@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin("http://localhost:4200") // Replace with proxy
-@RequestMapping()
+@RequestMapping
 @RestController
 public class RegistrationController {
 

@@ -4,7 +4,7 @@ app:
     username: root
     password: mariadb
 server:
-  servlet.context-path: /v1/api
+  servlet.context-path: /api/v1
   error:
     include-details: always
     include-message: always
