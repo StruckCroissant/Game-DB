@@ -39,7 +39,7 @@ public class RegistrationControllerTest {
 
   @MockBean private PasswordEncoder passwordEncoder;
 
-  public static final String URL = "/api/v1/register";
+  public static final String URL = "/register";
 
   private AutoCloseable autoCloseable;
 

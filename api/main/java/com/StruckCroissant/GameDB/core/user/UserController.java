@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("api/v1/user")
+@RequestMapping("/user")
 @CrossOrigin(
     origins = "*",
     maxAge = 3600,

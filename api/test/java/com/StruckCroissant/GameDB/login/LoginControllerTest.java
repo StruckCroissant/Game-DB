@@ -38,7 +38,7 @@ public class LoginControllerTest {
 
   @MockBean private PasswordEncoder passwordEncoder;
 
-  public static final String URL = "/api/v1/login";
+  public static final String URL = "/login";
 
   private AutoCloseable autoCloseable;
 
