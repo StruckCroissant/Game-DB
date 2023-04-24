@@ -1,11 +1,13 @@
 import { defineStore } from 'pinia';
+import { ref } from "vue";
+import type { Ref, UnwrapRef } from "vue";
 
-export const useAuthenticationStore = defineStore('authentication', (): {} => {
-    const isAuthenticated: boolean = false;
+export const useAuthenticationStore = defineStore('authentication', (): authentication => {
+    const isAuthenticated: Ref<UnwrapRef<boolean>> = ref(false);
 
-    function getIsAuthenticated(): boolean {
-        return isAuthenticated;
-    }
-
-    return { getIsAuthenticated };
+    return { isAuthenticated };
 });
+
+interface authentication {
+    isAuthenticated: Ref<UnwrapRef<boolean>>
+}
