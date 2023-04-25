@@ -12,5 +12,5 @@ export default defineConfig({
           import.meta.url
       ))
     }
-  }
+  },
 })

@@ -1,0 +1,15 @@
+.bubble-input {
+  display: flex;
+  border-radius: 20px;
+  height: 40px;
+  width: 100%;
+  box-shadow: #c5c5c5 1px -1px 20px 0px;
+
+  input {
+    margin-left: 20px;
+    border: none;
+    font-size: 15px;
+    width: min-content;
+    outline: none !important;
+  }
+}

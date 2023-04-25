@@ -49,22 +49,6 @@ a {
   animation: gradient 25s ease infinite;
 }
 
-.bubble-input {
-  display: flex;
-  border-radius: 20px;
-  height: 40px;
-  width: 100%;
-  box-shadow: #c5c5c5 1px -1px 20px 0px;
-
-  input {
-    margin-left: 20px;
-    border: none;
-    font-size: 15px;
-    width: min-content;
-    outline: none !important;
-  }
-}
-
 .wrapper {
   @extend body;
   display: flex;
@@ -81,10 +65,10 @@ a {
   top: -10px;
   position: relative;
 
-div {
-  display: flex;
-  align-items: center;
-}
+  div {
+    display: flex;
+    align-items: center;
+  }
 }
 
 .login-modal {

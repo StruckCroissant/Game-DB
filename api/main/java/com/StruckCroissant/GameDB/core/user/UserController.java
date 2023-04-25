@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/user")
-@CrossOrigin("**") // Replace with proxy later
+@CrossOrigin("*") // Replace with proxy later
 @RestController
 public class UserController extends GameDBCoreController {
   private final UserService userService;
