@@ -9,3 +9,4 @@ export async function getAllUsers() {
     });
     return res.data;
 }
+//# sourceMappingURL=userHttp.js.map

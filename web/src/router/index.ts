@@ -55,8 +55,4 @@ router.beforeEach((to, from, next) => {
   }
 });
 
-getAllUsers().then((data) => {
-  console.log(data);
-});
-// console.log(getAllUsers());
 export default router;

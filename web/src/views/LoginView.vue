@@ -4,10 +4,10 @@
       <label class="login-lbl"><strong>Login</strong></label>
       <div class="input-group">
         <div class="bubble-input">
-          <input type="email" placeholder="Username">
+          <input v-model="username" placeholder="Username">
         </div>
         <div class="bubble-input">
-          <input type="password" placeholder="Password">
+          <input v-model="password" type="password" placeholder="Password">
         </div>
         <div class="remember-wrapper">
           <div>
@@ -17,7 +17,7 @@
           <a href="https://google.com">Forgot password?</a>
         </div>
       </div>
-      <button>
+      <button @click.prevent="handleLogin">
         <strong>Log in</strong>
       </button>
       <div style="margin-top: 20px;">
@@ -28,6 +28,16 @@
 </template>
 
 <script lang="ts" setup>
+import {Ref, ref} from "vue";
+import { login } from '@/services/authenticationHttp';
+
+let username: Ref<string> = ref('');
+let password: Ref<string> = ref('');
+
+function handleLogin(): void {
+  login(username.value, password.value);
+}
+
 </script>
 
 <style lang="scss" scoped>

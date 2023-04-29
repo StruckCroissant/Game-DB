@@ -8,3 +8,4 @@ export const useCounterStore = defineStore('counter', () => {
     }
     return { count, doubleCount, increment };
 });
+//# sourceMappingURL=counter.js.map

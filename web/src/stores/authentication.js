@@ -4,3 +4,4 @@ export const useAuthenticationStore = defineStore('authentication', () => {
     const isAuthenticated = ref(false);
     return { isAuthenticated };
 });
+//# sourceMappingURL=authentication.js.map

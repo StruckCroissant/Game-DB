@@ -3,7 +3,6 @@ import LoginView from '@/views/LoginView.vue';
 import HomeView from "@/views/HomeView.vue";
 import { useAuthenticationStore } from "@/stores/authentication";
 import { storeToRefs } from "pinia";
-import { getAllUsers } from "@/services/userHttp";
 /**
  * Routes section
  */
@@ -51,8 +50,5 @@ router.beforeEach((to, from, next) => {
         next();
     }
 });
-getAllUsers().then((data) => {
-    console.log(data);
-});
-// console.log(getAllUsers());
 export default router;
+//# sourceMappingURL=index.js.map
