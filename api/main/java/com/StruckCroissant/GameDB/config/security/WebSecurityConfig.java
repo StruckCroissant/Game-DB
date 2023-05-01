@@ -40,42 +40,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.cors()
+        .and().authorizeRequests()
+          .antMatchers(HttpMethod.POST, "/register", "/login")
+          .permitAll()
+        .anyRequest().authenticated()
         .and()
-        .httpBasic()
+          .httpBasic()
         .and()
-        .authorizeRequests()
-        .antMatchers(HttpMethod.POST, "/api/v*/login", "/api/v*/register")
-        .permitAll()
-        .and()
-        .authorizeRequests()
-        .antMatchers(HttpMethod.GET, "/api/v*/user")
-        .permitAll()
-        .anyRequest()
-        .authenticated()
-        .and()
-        .csrf()
-        .disable();
-
-    /*
-    http.csrf()
-        .disable()
-        .authorizeRequests()
-        .antMatchers("/api/v/user/**") add v* /
-     .authenticated()
-     .antMatchers("/api/v/register/**") add v* /
-     .anonymous() // Difference between anonymous & permit all?
-     .antMatchers("/api/v/login/**") add v* /
-     .permitAll()
-     .anyRequest()
-     .authenticated()
-     .and()
-     .httpBasic();
-     */
+          .csrf().disable();
   }
 
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth.inMemoryAuthentication().withUser("user").password("{noop}passwooooord").roles("USER");
+    auth.inMemoryAuthentication().withUser("user").password("{noop}password").roles("USER");
     auth.authenticationProvider(daoAuthenticationProvider());
   }
 
