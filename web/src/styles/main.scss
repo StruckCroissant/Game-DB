@@ -2,7 +2,12 @@
   'src/styles/abstracts/placeholders';
 
 @import
-  'src/styles/components/inputs';
+  'src/styles/components/buttons',
+  'src/styles/components/inputs',
+  'src/styles/components/modals';
+
+@import
+  'src/styles/layout/forms';
 
 @import
   'src/styles/base/overrides';

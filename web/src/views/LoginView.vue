@@ -5,18 +5,15 @@
 </template>
 
 <script lang="ts" setup>
-
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+@import '@/styles/abstracts/_placeholders.scss';
+
 a {
   margin-bottom: 0;
   text-decoration: 0;
   color: black;
-}
-
-%animated {
-  animation: gradient 25s ease infinite;
 }
 
 .wrapper {
