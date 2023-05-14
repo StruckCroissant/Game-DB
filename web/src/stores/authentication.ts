@@ -1,13 +1,21 @@
 import { defineStore } from 'pinia';
-import { ref } from "vue";
-import type { Ref, UnwrapRef } from "vue";
+import {updateAxiosIntercept} from "@/common/axiosConfig";
 
-export const useAuthenticationStore = defineStore('authentication', (): authentication => {
-    const isAuthenticated: Ref<boolean> = ref(false);
-
-    return { isAuthenticated };
+export const useAuthenticationStore = defineStore('Authentication', {
+    state: () => ({
+        isAuthenticated: false,
+        basicAuthToken: ''
+    }),
+    actions: {
+        addBasicAuth(username: string, password: string) {
+            this.basicAuthToken = "basic " + btoa(`${username}:${password}`);
+            this.isAuthenticated = true;
+            updateAxiosIntercept(this.basicAuthToken);
+        },
+        removeAuthToken() {
+            this.basicAuthToken = '';
+            this.isAuthenticated = false;
+            updateAxiosIntercept(this.basicAuthToken);
+        }
+    }
 });
-
-interface authentication {
-    isAuthenticated: Ref<boolean>,
-}

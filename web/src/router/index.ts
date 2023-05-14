@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import LoginView from '@/views/LoginView.vue';
 import HomeView from "@/views/HomeView.vue";
-import { useAuthenticationStore } from "@/stores/authentication";
+import {useAuthenticationStore} from "@/stores/authentication";
 import { storeToRefs } from "pinia";
 
 import type { Router } from 'vue-router';

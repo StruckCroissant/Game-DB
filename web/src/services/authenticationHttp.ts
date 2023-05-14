@@ -1,31 +1,35 @@
-import axios from "axios";
+import { axiosInstance as axios } from "@/common/axiosConfig";
+import type { AxiosError } from "axios";
+import { useAuthenticationStore } from "@/stores/authentication";
 
-export async function postLogin(request: AuthRequest): Promise<boolean> {
-    let res = await axios.post("http://localhost:9191/api/v1/login", request);
-    return res.data;
+export async function postLogin(request: AuthRequest): Promise<any> {
+    return await axios.post("/login", request);
 }
 
-export async function postRegister(request: AuthRequest): Promise<boolean> {
-    let res = await axios.post("http://localhost:9191/api/v1/register", request);
-    return res;
+export async function postRegister(request: AuthRequest): Promise<any> {
+    return await axios.post("/register", request);
 }
 
-export async function login(username: string, password: string): void {
-    const request: AuthRequest = {
-        username: username,
-        password: password
-    };
-    let res = await postLogin(request));
-
-}
-
-export async function register(username: string, password: string): void {
+export function login(username: string, password: string): void {
+    const authStore = useAuthenticationStore();
     const request: AuthRequest = {
         username: username,
         password: password
     };
 
-    let res = await postRegister(username);
+    postLogin(request).then((res) => {
+        authStore.addBasicAuth(username, password);
+    }).catch((err: AxiosError) => {
+        console.log(err);
+    });
+}
+
+export function register(username: string, password: string): void {
+    const request: AuthRequest = {
+        username: username,
+        password: password
+    };
+
     postRegister(request).then(res => console.log(res));
 }
 
