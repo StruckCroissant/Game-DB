@@ -24,13 +24,13 @@ public class LoginService {
 
   public boolean login(UserLoginRequest request) {
     User user =
-            userDao
-                    .selectUserByUsername(request.getUsername())
-                    .orElseThrow(
-                            () -> {
-                              throw new UsernameNotFoundException(
-                                      String.format("user with username %s not found", request.getUsername()));
-                            });
+        userDao
+            .selectUserByUsername(request.getUsername())
+            .orElseThrow(
+                () -> {
+                  throw new UsernameNotFoundException(
+                      String.format("user with username %s not found", request.getUsername()));
+                });
     return passwordEncoder.matches(request.getPassword(), user.getPassword());
   }
 }
