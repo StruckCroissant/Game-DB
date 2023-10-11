@@ -7,6 +7,7 @@ import { storeToRefs } from "pinia";
 import type { Router } from 'vue-router';
 import LoginComponent from "@/components/LoginComponent.vue";
 import RegisterComponent from "@/components/RegisterComponent.vue";
+import ForgotComponent from "../components/ForgotComponent.vue";
 
 /**
  * Routes section
@@ -35,6 +36,11 @@ const router: Router = createRouter({
           path: '/register',
           name: 'register',
           component: RegisterComponent
+        },
+        {
+          path: '/forgot',
+          name: 'forgot',
+          component: ForgotComponent
         }
       ],
     },

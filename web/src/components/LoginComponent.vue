@@ -13,14 +13,14 @@
           <input type="checkbox" name="rememberUser">
           <label for="rememberUser">Remember me</label>
         </div>
-        <a href="https://google.com">Forgot password?</a>
+        <RouterLink to="/forgot">Forgot password?</RouterLink>
       </div>
     </div>
     <button class="button_gradient" @click.prevent="handleLogin">
       <strong>Log in</strong>
     </button>
     <div>
-      Dont have an account? <router-link to='/register'>Create</router-link>
+      Dont have an account? <RouterLink to='/register'>Create</RouterLink>
     </div>
   </form>
 </template>
