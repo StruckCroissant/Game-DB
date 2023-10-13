@@ -12,9 +12,13 @@
     "forceConsistentCasingInFileNames": true,
     "useDefineForClassFields": true,
     "sourceMap": true,
+    "noImplicitAny": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
     "baseUrl": ".",
+    "outDir": "./dist/js",
     "types": [
-      "webpack-env"
+      "webpack-env", "vite/client"
     ],
     "paths": {
       "@/*": [

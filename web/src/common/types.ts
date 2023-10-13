@@ -2,3 +2,5 @@
  *
  * Used to define HTTP return types
  */
+
+export {};
