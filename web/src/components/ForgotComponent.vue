@@ -2,7 +2,7 @@
   <form class="login-modal">
     <label class="login-modal__label"><strong>Create New User</strong></label>
     <div class="input-group">
-      <div class="bubble-input">
+      <div class="input--bubble">
         <input v-model="username" placeholder="Username">
       </div>
     </div>

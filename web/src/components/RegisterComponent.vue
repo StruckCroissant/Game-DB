@@ -2,10 +2,10 @@
   <form class="login-modal">
     <label class="login-modal__label"><strong>Register</strong></label>
     <div class="input-group">
-      <div class="bubble-input">
+      <div class="input--bubble">
         <input v-model="username" placeholder="Username">
       </div>
-      <div class="bubble-input">
+      <div class="input--bubble">
         <input v-model="password" type="password" placeholder="Password">
       </div>
     </div>
