@@ -30,8 +30,8 @@ watch(value, () => {
 </script>
 
 <template>
-  <div class="input--bubble">
-    <input v-model="value" :placeholder="defaultPlaceholder">
+  <div class="bubble-input">
+    <input v-model="value" :placeholder="defaultPlaceholder" v-bind="$attrs">
   </div>
 </template>
 

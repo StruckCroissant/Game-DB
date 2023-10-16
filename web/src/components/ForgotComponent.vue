@@ -1,20 +1,27 @@
 <template>
-  <form class="login-modal">
-    <label class="login-modal__label"><strong>Create New User</strong></label>
-    <div class="input-group">
-      <div class="input--bubble">
-        <input v-model="username" placeholder="Username">
+  <ModalComponent>
+    <template #header>
+      <label><strong>Create New User</strong></label>
+    </template>
+    <template #default>
+      <div class="input-group">
+        <div class="bubble-input">
+          <input v-model="username" placeholder="Username">
+        </div>
       </div>
-    </div>
-    <button class="button_gradient" @click.prevent="handleCreate">
-      <strong>Register</strong>
-    </button>
-  </form>
+    </template>
+    <template #footer>
+      <button class="gradient-button" @click.prevent="handleCreate">
+        <strong>Register</strong>
+      </button>
+    </template>
+  </ModalComponent>
 </template>
 
 <script lang="ts" setup>
   import { ref } from "vue";
   import type { Ref } from "vue";
+  import ModalComponent from "@/components/UI/ModalComponent.vue";
 
   let username: Ref<String> = ref('');
   let password: Ref<String> = ref('');

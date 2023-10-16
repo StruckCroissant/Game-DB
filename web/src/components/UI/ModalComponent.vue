@@ -28,6 +28,7 @@
   border-radius: 5px;
   box-shadow: #6a6a6a 1px -1px 20px 0;
   padding: 2rem 3rem;
+  //height: 260px;
 
   * {
     width: 100%;
@@ -47,6 +48,7 @@
 
 .modal__body {
   justify-content: center;
+  margin: 10px;
 }
 
 .modal__footer {
@@ -54,7 +56,7 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  top: -10px;
   position: relative;
+  flex-direction: column;
 }
 </style>

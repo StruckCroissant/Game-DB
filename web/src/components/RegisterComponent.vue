@@ -1,31 +1,34 @@
 <template>
-  <form class="login-modal">
-    <label class="login-modal__label"><strong>Register</strong></label>
-    <div class="input-group">
-      <div class="input--bubble">
-        <input v-model="username" placeholder="Username">
+  <ModalComponent>
+    <template #header>
+      <label><strong>Register</strong></label>
+    </template>
+    <template #default>
+      <div class="input-group">
+        <div class="bubble-input">
+          <input v-model="username" placeholder="Username">
+        </div>
+        <div class="bubble-input">
+          <input v-model="password" type="password" placeholder="Password">
+        </div>
       </div>
-      <div class="input--bubble">
-        <input v-model="password" type="password" placeholder="Password">
-      </div>
-    </div>
-    <button class="button_gradient" @click.prevent="handleRegister">
-      <strong>Register</strong>
-    </button>
-  </form>
+    </template>
+    <template #footer>
+      <button class="gradient-button" @click.prevent="register(username, password)">
+        <strong>Register</strong>
+      </button>
+    </template>
+  </ModalComponent>
 </template>
 
 <script lang="ts" setup>
   import {ref} from "vue";
   import type {Ref} from "vue";
   import {register} from "@/services/authenticationHttp";
+  import ModalComponent from "@/components/UI/ModalComponent.vue";
 
   const username: Ref<string> = ref('');
   const password: Ref<string> = ref('');
-
-  function handleRegister(): void {
-    register(username.value, password.value);
-  }
 </script>
 
 <style scoped>

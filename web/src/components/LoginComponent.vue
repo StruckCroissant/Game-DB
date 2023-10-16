@@ -30,11 +30,13 @@ function updatePassword({value}: {value: string}) {
       <div class="input-group">
         <InputComponent
           default-placeholder="Username"
-          @input-changed="updateUsername"
+          @input-changed="(event) => username = event.value"
         ></InputComponent>
         <InputComponent
+          type="password"
           default-placeholder="Password"
-          @input-changed="updatePassword"></InputComponent>
+          @input-changed="(event) => password = event.value"
+        ></InputComponent>
         <div class="login-modal__remember">
           <div>
             <input type="checkbox" name="rememberUser">
@@ -45,13 +47,11 @@ function updatePassword({value}: {value: string}) {
       </div>
     </template>
     <template #footer>
-      <div class="login-modal__footer">
-        <button class="button_gradient" @click.prevent="handleLogin">
-          <strong>Log in</strong>
-        </button>
-        <div>
-          Dont have an account? <RouterLink to='/register'>Create</RouterLink>
-        </div>
+      <button class="gradient-button" @click.prevent="handleLogin">
+        <strong>Log in</strong>
+      </button>
+      <div id="account-create">
+        Dont have an account? <RouterLink to='/register'>Create</RouterLink>
       </div>
     </template>
   </ModalComponent>
@@ -59,6 +59,6 @@ function updatePassword({value}: {value: string}) {
 
 <style lang="scss" scoped>
   #account-create {
-    margin-top: 20px;
+    display: flex;
   }
 </style>
