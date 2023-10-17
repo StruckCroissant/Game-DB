@@ -3,24 +3,17 @@ import { ref, watch } from "vue";
 import type { Ref } from "vue";
 
 interface Props {
-  defaultPlaceholder: String
+  placeholder: string
 }
 
 const props = withDefaults(defineProps<Props>(),{
-  defaultPlaceholder: ''
+  placeholder: ''
 });
-// const props = defineProps<{
-//   defaultPlaceholder: {
-//     type: String,
-//     required: false,
-//     default: ''
-//   }
-// }>();
 const emit = defineEmits<{
-  inputChanged: {value: any}
+  'input-changed': {value: any}
 }>();
 
-const value: Ref<String> = ref('');
+const value: Ref<string> = ref('');
 
 watch(value, () => {
   emit('input-changed', {
@@ -31,7 +24,7 @@ watch(value, () => {
 
 <template>
   <div class="bubble-input">
-    <input v-model="value" :placeholder="defaultPlaceholder" v-bind="$attrs">
+    <input v-model="value" :placeholder="placeholder" v-bind="$attrs">
   </div>
 </template>
 

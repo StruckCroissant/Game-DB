@@ -7,6 +7,15 @@ import type { RouteRecordRaw } from "vue-router";
 
 export const routes: Readonly<RouteRecordRaw[]> = [
   {
+    path: '/:pathMatch(.*)*',
+    redirect: { path: '/login' }
+  },
+  {
+    path: '/auth',
+    name: 'auth',
+    redirect: 'login'
+  },
+  {
     path: '/home',
     name: 'home',
     component: HomeView,
@@ -18,6 +27,10 @@ export const routes: Readonly<RouteRecordRaw[]> = [
     component: LoginView,
     path: '',
     children: [
+      {
+        path: '',
+        redirect: 'login'
+      },
       {
         path: '/login',
         name: 'login',

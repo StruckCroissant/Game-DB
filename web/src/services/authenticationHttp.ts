@@ -1,5 +1,4 @@
 import { axiosInstance as axios } from "@/common/axiosConfig";
-import type { AxiosError } from "axios";
 import { useAuthenticationStore } from "@/stores/authentication";
 
 export async function postLogin(request: AuthRequest): Promise<any> {
@@ -10,40 +9,38 @@ export async function postRegister(request: AuthRequest): Promise<any> {
     return await axios.post("/register", request);
 }
 
-export async function postCreateUser(request: AuthRequest): Promise<any> {
-    // TODO implement user creation
-}
-
-export function login(username: string, password: string): void {
+export async function login(username: string, password: string): Promise<void> {
     const authStore = useAuthenticationStore();
     const request: AuthRequest = {
         username: username,
         password: password
     };
 
-    postLogin(request).then((res) => {
+    try {
+        await postLogin(request)
         authStore.addBasicAuth(username, password);
-    }).catch((err: AxiosError) => {
-        console.log(err);
-    });
+    } catch (error) {
+        console.warn(error);
+    }
 }
 
-export function register(username: string, password: string): void {
+export async function register(username: string, password: string): Promise<void> {
     const request: AuthRequest = {
         username: username,
         password: password
     };
 
-    postRegister(request).then(res => console.log(res));
+    try {
+        const response = postRegister(request);
+        console.log(response);
+    } catch (error) {
+        console.warn(error);
+    }
 }
 
 export function logout() {
     const authStore = useAuthenticationStore();
     authStore.removeAuthToken();
-}
-
-export function createNewUser(username: string, password: string): void {
-    // TODO implement
 }
 
 interface AuthRequest {

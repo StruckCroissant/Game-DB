@@ -1,6 +1,9 @@
 .button {
   font-family: inherit;
   font-size: large;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 150px;
   height: 35px;
   margin: 1rem;

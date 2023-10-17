@@ -4,20 +4,16 @@ import type { Ref } from "vue";
 import { login } from '@/services/authenticationHttp';
 import InputComponent from "@/components/UI/InputComponent.vue";
 import ModalComponent from "@/components/UI/ModalComponent.vue";
+import ButtonComponent from "@/components/UI/ButtonComponent.vue";
 
+let loading: Ref<boolean> = ref(false);
 let username: Ref<string> = ref('');
 let password: Ref<string> = ref('');
 
-function handleLogin(): void {
-  login(username.value, password.value);
-}
-
-function updateUsername({value}: {value: string}) {
-  username.value = value;
-}
-
-function updatePassword({value}: {value: string}) {
-  password.value = value;
+async function handleLogin(): Promise<void> {
+  loading.value = true;
+  await login(username.value, password.value);
+  loading.value = false;
 }
 </script>
 
@@ -29,12 +25,12 @@ function updatePassword({value}: {value: string}) {
     <template #default>
       <div class="input-group">
         <InputComponent
-          default-placeholder="Username"
+          placeholder="Username"
           @input-changed="(event) => username = event.value"
         ></InputComponent>
         <InputComponent
           type="password"
-          default-placeholder="Password"
+          placeholder="Password"
           @input-changed="(event) => password = event.value"
         ></InputComponent>
         <div class="login-modal__remember">
@@ -47,9 +43,9 @@ function updatePassword({value}: {value: string}) {
       </div>
     </template>
     <template #footer>
-      <button class="gradient-button" @click.prevent="handleLogin">
-        <strong>Log in</strong>
-      </button>
+      <ButtonComponent @click.prevent="handleLogin" :loading="loading">
+        Log in
+      </ButtonComponent>
       <div id="account-create">
         Dont have an account? <RouterLink to='/register'>Create</RouterLink>
       </div>
