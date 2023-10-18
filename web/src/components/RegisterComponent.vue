@@ -24,7 +24,7 @@
 <script lang="ts" setup>
   import {ref} from "vue";
   import type {Ref} from "vue";
-  import {register} from "@/services/authenticationHttp";
+  import {register} from "@/services/network/authenticationHttp";
   import ModalComponent from "@/components/UI/ModalComponent.vue";
 
   const username: Ref<string> = ref('');

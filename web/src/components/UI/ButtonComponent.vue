@@ -26,14 +26,14 @@ watch(
     loadingFinished.value = true;
     setTimeout(() => {
       loadingFinished.value = false;
-    }, 2000);
+    }, 3000);
   }
 );
 </script>
 
 <template>
   <button id="button" class="gradient-button">
-    <span v-if="loadingFinished" >
+    <span v-if="loadingFinished && !loading">
       {{ loadingSuccessText }}
       <FontAwesomeIcon :icon="loadingSuccessIcon"/>
     </span>

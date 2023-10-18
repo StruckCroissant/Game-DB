@@ -16,12 +16,8 @@ export async function login(username: string, password: string): Promise<void> {
         password: password
     };
 
-    try {
-        await postLogin(request)
-        authStore.addBasicAuth(username, password);
-    } catch (error) {
-        console.warn(error);
-    }
+    await postLogin(request)
+    authStore.addBasicAuth(username, password);
 }
 
 export async function register(username: string, password: string): Promise<void> {
@@ -30,12 +26,8 @@ export async function register(username: string, password: string): Promise<void
         password: password
     };
 
-    try {
-        const response = postRegister(request);
-        console.log(response);
-    } catch (error) {
-        console.warn(error);
-    }
+    const response = postRegister(request);
+    console.log(response);
 }
 
 export function logout() {
