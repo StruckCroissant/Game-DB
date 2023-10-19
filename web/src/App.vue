@@ -1,16 +1,10 @@
 <script setup lang="ts">
-import { provide, ref } from "vue";
 import { RouterView } from 'vue-router';
-import AlertComponent from "@/components/UI/AlertComponent.vue";
-
-const alertComponentRef = ref<AlertComponent>(null);
-if(alertComponentRef.value) {
-  provide('Alert', {showAlert: alertComponentRef.value.showAlert});
-}
+import ToastComponent from "@/components/UI/ToastComponent.vue";
 </script>
 
 <template>
-  <AlertComponent ref="alertComponentRef"></AlertComponent>
+  <ToastComponent />
   <RouterView />
 </template>
 

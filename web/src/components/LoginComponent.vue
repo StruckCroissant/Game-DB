@@ -1,13 +1,11 @@
 <script lang="ts" setup>
-import { ref, inject } from "vue";
+import { ref } from "vue";
 import type { Ref } from "vue";
 import { login } from '@/services/network/authenticationHttp';
+import { RouterLink } from "vue-router";
 import InputComponent from "@/components/UI/InputComponent.vue";
 import ModalComponent from "@/components/UI/ModalComponent.vue";
 import ButtonComponent from "@/components/UI/ButtonComponent.vue";
-import AlertComponent from "@/components/UI/AlertComponent.vue";
-
-const Alert = inject<typeof AlertComponent>('Alert');
 
 let loading: Ref<boolean> = ref(false);
 let username: Ref<string> = ref('');
@@ -15,11 +13,7 @@ let password: Ref<string> = ref('');
 
 async function handleLogin(): Promise<void> {
   loading.value = true;
-  try {
-    await login(username.value, password.value);
-  } catch (error) {
-    Alert.showAlert(error);
-  }
+  await login(username.value, password.value);
   loading.value = false;
 }
 </script>

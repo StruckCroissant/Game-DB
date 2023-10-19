@@ -1,9 +1,11 @@
-function errorHandler(err: Error, emit) {
-  // Handle the error here, for example, log it, show a toast message, etc.
-  console.error('An error occurred:', err);
+import { useToast } from "@/stores/errorStore";
 
-  // Emit an event to show the modal with the error message
-  app.config.globalProperties.$root.$emit('showErrorModal', err.message);
+function handleError(err: Error) {
+  const toastStore = useToast();
+
+  toastStore.error({
+    text: err.message,
+  });
 }
 
-export default {errorHandler};
+export default { handleError };
