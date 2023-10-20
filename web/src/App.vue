@@ -8,5 +8,8 @@ import ToastComponent from "@/components/UI/ToastComponent.vue";
   <RouterView />
 </template>
 
-<style scoped>
+<style>
+* {
+  font-family: Lato, system-ui;
+}
 </style>

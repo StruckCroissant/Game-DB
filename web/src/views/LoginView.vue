@@ -19,7 +19,7 @@ a {
 .wrapper {
   @extend %animated;
   background-image: linear-gradient(155deg, #ff49fd, #6200ff, #ff0052);
-  font-family: Lato, system-ui;
+  //font-family: Lato, system-ui;
   font-size: 14px;
   background-size: 400% 400%;
   display: flex;
