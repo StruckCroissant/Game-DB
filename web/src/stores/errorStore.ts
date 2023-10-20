@@ -12,7 +12,7 @@ export type ToastPayload = {
   text: string
 };
 
-const defaultTimeout: number = 2000;
+const defaultTimeout: number = 30000;
 
 const createToast = (text: string, status: ToastStatus): Toast => ({
   text,
@@ -42,6 +42,10 @@ export const useToast = defineStore("toast", {
     },
     error(payload: ToastPayload) {
       this.updateState(payload, "error");
+    },
+    remove(toastId: number) {
+      const existingToastIdx: number = this.toasts.findIndex((toast: Toast) => toast.id == toastId);
+      this.toasts.splice(existingToastIdx, 1);
     },
   }
 });
