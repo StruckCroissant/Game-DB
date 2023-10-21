@@ -1,6 +1,5 @@
 package com.StruckCroissant.GameDB.registration;
 
-import com.StruckCroissant.GameDB.registration.RegistrationService;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
