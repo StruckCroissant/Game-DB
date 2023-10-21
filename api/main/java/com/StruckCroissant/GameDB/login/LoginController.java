@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class LoginController {
 
-  public final LoginService loginService;
+  private final LoginService loginService;
 
   @Autowired
   public LoginController(LoginService loginService) {
@@ -18,6 +18,6 @@ public class LoginController {
 
   @PostMapping("/login")
   public boolean login(@RequestBody @Valid UserLoginRequest request) {
-    return loginService.login(request);
+    return this.loginService.login(request);
   }
 }

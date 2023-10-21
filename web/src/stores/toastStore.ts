@@ -12,7 +12,7 @@ export type ToastPayload = {
   text: string
 };
 
-const defaultTimeout: number = 30000;
+const defaultTimeout: number = 10000;
 
 const createToast = (text: string, status: ToastStatus): Toast => ({
   text,

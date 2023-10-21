@@ -1,4 +1,4 @@
-import { useToast } from "@/stores/errorStore";
+import { useToast } from "@/stores/toastStore";
 
 function handleError(err: Error) {
   const toastStore = useToast();

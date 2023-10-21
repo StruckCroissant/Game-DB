@@ -1,17 +1,19 @@
 @import
-  'src/styles/abstracts/placeholders';
+  '@/styles/abstracts/placeholders',
+  '@/styles/abstracts/variables';
 
 @import
-  'src/styles/base/overrides';
+  '@/styles/base/overrides';
 
 @import
-  'src/styles/utilities/transitions';
+  '@/styles/utilities/transitions';
 
 @import
-  'src/styles/components/buttons',
-  'src/styles/components/inputs',
-  'src/styles/components/modals',
-  'src/styles/components/loaders';
+  '@/styles/components/buttons',
+  '@/styles/components/inputs',
+  '@/styles/components/modals',
+  '@/styles/components/loaders',
+  '@/styles/components/icons';
 
 @import
-  'src/styles/layout/forms';
+  '@/styles/layout/forms';
