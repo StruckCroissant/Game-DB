@@ -26,12 +26,12 @@ async function handleLogin(): Promise<void> {
     <template #default>
       <div class="input-group">
         <InputComponent
-          placeholder="Username"
+          label="Username"
           @input-changed="(event) => username = event.value"
         ></InputComponent>
         <InputComponent
+          label="Password"
           type="password"
-          placeholder="Password"
           @input-changed="(event) => password = event.value"
         ></InputComponent>
         <div class="login-modal__remember">

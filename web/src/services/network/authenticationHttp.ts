@@ -16,8 +16,12 @@ export async function login(username: string, password: string): Promise<void> {
         password: password
     };
 
-    await postLogin(request)
-    authStore.addBasicAuth(username, password);
+    try {
+        await postLogin(request);
+        authStore.addBasicAuth(username, password);
+    } catch (error) {
+        return;
+    }
 }
 
 export async function register(username: string, password: string): Promise<void> {

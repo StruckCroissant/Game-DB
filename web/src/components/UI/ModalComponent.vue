@@ -17,15 +17,14 @@
 
 <style scoped>
 .modal {
+  @include box-shadow(#6a6a6a);
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
   background-color: white;
   border-radius: 5px;
-  box-shadow: #6a6a6a 1px -1px 20px 0;
   padding: 2rem 3rem;
-  //height: 260px;
 
   * {
     width: 100%;

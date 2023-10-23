@@ -70,6 +70,8 @@ watch(() => toasts.value.length, (value) => {
 </template>
 
 <style lang="scss" scoped>
+@import "@/styles/abstracts/mixins";
+
 #close-button {
   position: absolute;
   top: 0;
@@ -93,13 +95,13 @@ watch(() => toasts.value.length, (value) => {
 }
 
 .toast__list-item {
+  @include box-shadow(#6a6a6a);
   position: relative;
   max-width: 300px;
   margin-right: auto;
   padding: 1.5rem;
   list-style-type: none;
   border-radius: 5px;
-  box-shadow: #6a6a6a 1px -1px 20px 0;
   display: flex;
   align-items: center;
   gap: 10px;
