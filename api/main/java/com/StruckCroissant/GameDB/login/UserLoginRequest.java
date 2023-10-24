@@ -5,14 +5,10 @@ import javax.validation.constraints.NotBlank;
 
 public class UserLoginRequest {
 
-  @NotBlank(
-      message = "username must be present"
-  )
+  @NotBlank(message = "username must be present")
   private final String username;
 
-  @NotBlank(
-      message = "password must be present"
-  )
+  @NotBlank(message = "password must be present")
   private final String password;
 
   public UserLoginRequest(String username, String password) {
