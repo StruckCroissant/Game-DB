@@ -1,21 +1,32 @@
-.bubble-input {
-  //@include box-shadow(#c5c5c5);
-  display: flex;
-  width: 240px;
-  height: 40px;
-  border-radius: 5px;
-  border: 1px solid #ced4da;
+@import '@/styles/abstracts/mixins';
 
-  input {
-    font-size: 15px;
-    width: calc(100% - 2.5rem);
-    margin-left: 20px;
-    border: none;
-    outline: none !important;
+.rounded-input {
+  &--error &__input {
+    @include border-box-shadow(#ff9d9d);
   }
 
-  &--error {
-    @include box-shadow(#ffa1a1);
-    border: 1px solid #dc3545;
+  &__input {
+    @include border-box-shadow(#ced4da);
+    display: flex;
+    width: 240px;
+    height: 40px;
+    border-radius: 7px;
+    border: 1px solid #ced4da;
+    transition: all 0.1s ease;
+
+    input {
+      font-size: 15px;
+      width: calc(100% - 2.5rem);
+      margin-left: 20px;
+      border: none;
+      outline: none !important;
+      height: auto;
+      box-shadow: none !important;
+    }
+  }
+
+  &__invalid-message {
+    color: red;
+    margin-top: 0.3rem;
   }
 }

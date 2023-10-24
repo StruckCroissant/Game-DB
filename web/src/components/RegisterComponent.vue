@@ -5,12 +5,14 @@
     </template>
     <template #default>
       <div class="input-group">
-        <div class="bubble-input">
-          <input v-model="username" placeholder="Username">
-        </div>
-        <div class="bubble-input">
-          <input v-model="password" type="password" placeholder="Password">
-        </div>
+        <InputComponent
+          placeholder="Username"
+          @input-changed="(event) => username = event.value"
+        ></InputComponent>
+        <InputComponent
+          placeholder="Password"
+          @input-changed="(event) => password = event.value"
+        ></InputComponent>
       </div>
     </template>
     <template #footer>
@@ -26,6 +28,7 @@
   import type {Ref} from "vue";
   import {register} from "@/services/network/authenticationHttp";
   import ModalComponent from "@/components/UI/ModalComponent.vue";
+  import InputComponent from "@/components/UI/InputComponent.vue";
 
   const username: Ref<string> = ref('');
   const password: Ref<string> = ref('');

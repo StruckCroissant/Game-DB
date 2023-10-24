@@ -1,3 +1,11 @@
 @mixin box-shadow($color) {
   box-shadow: $color 1px -1px 20px 0;
 }
+
+@mixin border-box-shadow($color) {
+  border: 1px solid $color;
+
+  &:focus-within {
+    box-shadow: $color 0 0 0 2px;
+  }
+}

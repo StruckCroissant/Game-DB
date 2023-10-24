@@ -7,7 +7,7 @@ export const axiosInstance: AxiosInstance = axios.create({
 });
 axiosInstance.interceptors.response.use((response) => response, (error) => {
     errorHandler.handleError(error);
-    throw error;
+    return Promise.reject(error);
 });
 
 export function updateAxiosIntercept(token: string): void {

@@ -5,13 +5,15 @@ import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 library.add(faCircleCheck);
 
 interface Props {
-  loading?: boolean,
+  loading: boolean,
+  error: boolean,
   loadingSuccessText?: string,
   loadingSuccessIcon?: string,
 }
 
 const props = withDefaults(defineProps<Props>(), {
   loading: false,
+  error: false,
   loadingSuccessText: 'Success',
   loadingSuccessIcon: 'circle-check',
 });
@@ -33,7 +35,7 @@ watch(
 
 <template>
   <button id="button" class="gradient-button">
-    <span v-if="loadingFinished && !loading">
+    <span v-if="loadingFinished && !loading && !error">
       {{ loadingSuccessText }}
       <FontAwesomeIcon :icon="loadingSuccessIcon"/>
     </span>

@@ -4,14 +4,15 @@ import type { Ref } from "vue";
 import _ from "lodash";
 
 interface Props {
-  placeholder: string,
-  invalid: boolean,
-  label: string
+  invalid? : boolean,
+  label?: string,
+  invalidMessage?: string
 }
 
 const props = withDefaults(defineProps<Props>(),{
-  placeholder: '',
   invalid: false,
+  label: '',
+  invalidMessage: ''
 });
 const emit = defineEmits<{
   'input-changed': {value: any}
@@ -28,27 +29,18 @@ watch(value, () => {
 </script>
 
 <template>
-  <div id="wrapper">
-    <label :for="name">{{ label }}</label>
-    <div :class="['bubble-input', invalid ? 'bubble-input--error' : '']">
+  <div :class="['rounded-input', invalid ? 'rounded-input--error' : '']">
+    <div class="rounded-input__input">
       <input
         v-model="value"
         v-bind="$attrs"
-        :placeholder="placeholder"
         :name="name"
       >
     </div>
+    <div v-if="invalid && invalidMessage" class="rounded-input__invalid-message">{{ invalidMessage }}</div>
   </div>
 </template>
 
 <style scoped>
-label {
-  font-size: 18px;
-  padding-bottom: 0.2rem;
-}
 
-#wrapper {
-  display: flex;
-  flex-direction: column;
-}
 </style>

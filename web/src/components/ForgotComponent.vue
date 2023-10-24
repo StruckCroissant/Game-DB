@@ -5,7 +5,7 @@
     </template>
     <template #default>
       <div class="input-group">
-        <div class="bubble-input">
+        <div class="rounded-input">
           <input v-model="username" placeholder="Username">
         </div>
       </div>
