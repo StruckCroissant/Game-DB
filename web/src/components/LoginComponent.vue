@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import type { Ref } from "vue";
-import { useField } from 'vee-validate';
+import { useField, TypedSchema } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/zod';
 import * as zod from 'zod';
 import { login } from '@/services/network/authenticationHttp';
@@ -13,15 +13,15 @@ import ButtonComponent from "@/components/UI/ButtonComponent.vue";
 const loading: Ref<boolean> = ref(false);
 const success: Ref<boolean> = ref(false);
 
-const requiredFieldSchema = toTypedSchema(
-  zod.string().nonempty('Field is required')
+const requiredFieldSchema = (fieldName: string): TypedSchema<string, string> => toTypedSchema(
+  zod.string().nonempty(`${fieldName} is required`)
 );
 const {
   value: username, errorMessage: usernameErrorMessage
-} = useField('username', requiredFieldSchema);
+} = useField('username', requiredFieldSchema('username'));
 const {
   value: password, errorMessage: passwordErrorMessage
-} = useField('password', requiredFieldSchema);
+} = useField('password', requiredFieldSchema('password'));
 
 async function handleLogin(): Promise<void> {
   loading.value = true;
