@@ -11,8 +11,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(),{
   invalid: false,
-  label: '',
-  invalidMessage: ''
+  label: ''
 });
 const emit = defineEmits<{
   'input-changed': {value: any}
@@ -29,7 +28,7 @@ watch(value, () => {
 </script>
 
 <template>
-  <div :class="['rounded-input', invalid ? 'rounded-input--error' : '']">
+  <div :class="['rounded-input', invalidMessage ? 'rounded-input--error' : '']">
     <div class="rounded-input__input">
       <input
         v-model="value"
@@ -37,7 +36,7 @@ watch(value, () => {
         :name="name"
       >
     </div>
-    <div v-if="invalid && invalidMessage" class="rounded-input__invalid-message">{{ invalidMessage }}</div>
+    <div v-if="invalidMessage" class="rounded-input__invalid-message">{{ invalidMessage }}</div>
   </div>
 </template>
 
