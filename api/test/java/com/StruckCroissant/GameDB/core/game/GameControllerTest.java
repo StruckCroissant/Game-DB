@@ -7,7 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.StruckCroissant.GameDB.config.security.PasswordEncoder;
 import com.StruckCroissant.GameDB.core.user.UserService;
-import com.StruckCroissant.GameDB.exception.GameNotFoundException;
+import com.StruckCroissant.GameDB.exception.exceptions.GameNotFoundException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

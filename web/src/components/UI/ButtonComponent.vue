@@ -19,6 +19,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const loadingFinished = ref<boolean>(false);
+const clicking = ref<boolean>(false);
 
 watch(
   () => props.loading,
@@ -34,7 +35,15 @@ watch(
 </script>
 
 <template>
-  <button id="button" class="gradient-button">
+  <button
+    id="button"
+    :class="[
+      'gradient-button',
+      clicking ? 'gradient-button--clicked' : ''
+    ]"
+    @mousedown="clicking = true"
+    @mouseup="clicking = false"
+  >
     <span v-if="loadingFinished && !loading && !error">
       {{ loadingSuccessText }}
       <FontAwesomeIcon :icon="loadingSuccessIcon"/>

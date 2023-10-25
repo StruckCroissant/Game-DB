@@ -57,7 +57,7 @@ async function handleLogin(): Promise<void> {
             <input type="checkbox" name="rememberUser">
             <label for="rememberUser">Remember me</label>
           </div>
-          <RouterLink to="/forgot">Forgot password?</RouterLink>
+          <RouterLink to="/register">Forgot password?</RouterLink>
         </div>
       </div>
     </template>

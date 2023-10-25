@@ -1,6 +1,6 @@
 package com.StruckCroissant.GameDB.core.game;
 
-import com.StruckCroissant.GameDB.exception.GameNotFoundException;
+import com.StruckCroissant.GameDB.exception.exceptions.GameNotFoundException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

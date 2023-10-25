@@ -18,6 +18,7 @@ const emit = defineEmits<{
 }>();
 
 const value: Ref<string> = ref('');
+const clicking: Ref<boolean> = ref(false);
 const name: string = _.uniqueId('input-');
 
 watch(value, () => {
@@ -28,7 +29,12 @@ watch(value, () => {
 </script>
 
 <template>
-  <div :class="['rounded-input', invalidMessage ? 'rounded-input--error' : '']">
+  <div
+    :class="[
+      'rounded-input',
+      invalidMessage ? 'rounded-input--error' : ''
+    ]"
+  >
     <div class="rounded-input__input">
       <input
         v-model="value"
@@ -41,5 +47,4 @@ watch(value, () => {
 </template>
 
 <style scoped>
-
 </style>

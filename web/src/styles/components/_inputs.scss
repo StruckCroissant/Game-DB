@@ -10,23 +10,23 @@
     display: flex;
     width: 240px;
     height: 40px;
-    border-radius: 7px;
-    border: 1px solid #ced4da;
     transition: all 0.1s ease;
+    border: 1px solid #ced4da;
+    border-radius: 7px;
 
     input {
       font-size: 15px;
       width: calc(100% - 2.5rem);
+      height: auto;
       margin-left: 20px;
       border: none;
       outline: none !important;
-      height: auto;
       box-shadow: none !important;
     }
   }
 
   &__invalid-message {
-    color: red;
     margin-top: 0.3rem;
+    color: red;
   }
 }

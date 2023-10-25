@@ -5,9 +5,12 @@
     </template>
     <template #default>
       <div class="input-group">
-        <div class="rounded-input">
-          <input v-model="username" placeholder="Username">
-        </div>
+        <InputComponent
+          placeholder="Username"
+          :invalid-message="usernameErrorMessage"
+          v-model="username"
+        >
+        </InputComponent>
       </div>
     </template>
     <template #footer>
@@ -19,12 +22,21 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref } from "vue";
-  import type { Ref } from "vue";
+  import { useField, TypedSchema } from 'vee-validate';
+  import { toTypedSchema } from '@vee-validate/zod';
+  import * as zod from 'zod';
   import ModalComponent from "@/components/UI/ModalComponent.vue";
+  import InputComponent from "@/components/UI/InputComponent.vue";
 
-  let username: Ref<String> = ref('');
-  let password: Ref<String> = ref('');
+  const requiredFieldSchema = (fieldName: string): TypedSchema<string, string> => toTypedSchema(
+    zod.string().nonempty(`${fieldName} is required`)
+  );
+  const {
+    value: username, errorMessage: usernameErrorMessage
+  } = useField('username', requiredFieldSchema('username'));
+  const {
+    value: password, errorMessage: passwordErrorMessage
+  } = useField('password', requiredFieldSchema('password'));
 
   function handleCreate() {
 

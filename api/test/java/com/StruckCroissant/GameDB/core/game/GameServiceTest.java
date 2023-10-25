@@ -5,7 +5,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.StruckCroissant.GameDB.exception.GameNotFoundException;
+import com.StruckCroissant.GameDB.exception.exceptions.GameNotFoundException;
 import java.util.Arrays;
 import java.util.Optional;
 import org.junit.After;
