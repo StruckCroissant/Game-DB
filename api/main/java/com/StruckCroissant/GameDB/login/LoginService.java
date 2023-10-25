@@ -27,8 +27,9 @@ public class LoginService {
         userDao
             .selectUserByUsername(request.getUsername())
             .orElseThrow(
-                () -> new UsernameNotFoundException(
-                    String.format("user with username %s not found", request.getUsername())));
+                () ->
+                    new UsernameNotFoundException(
+                        String.format("user with username %s not found", request.getUsername())));
     return passwordEncoder.matches(request.getPassword(), user.getPassword());
   }
 }

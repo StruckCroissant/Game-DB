@@ -12,10 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * @see ResourceNotFoundException
  * @since 2022-06-20
  */
-@ResponseStatus(
-    value = HttpStatus.NOT_FOUND,
-    reason = "Requested game not found"
-)
+@ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "Requested game not found")
 public class GameNotFoundException extends RuntimeException {
 
   private final String message;
