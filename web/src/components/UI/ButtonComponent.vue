@@ -24,7 +24,7 @@ const clicking = ref<boolean>(false);
 watch(
   () => props.loading,
   (newVal, oldVal) => {
-    if (newVal != oldVal && newVal === false) return;
+    if (newVal != oldVal && !newVal) return;
 
     loadingFinished.value = true;
     setTimeout(() => {
@@ -43,6 +43,7 @@ watch(
     ]"
     @mousedown="clicking = true"
     @mouseup="clicking = false"
+    @mouseleave="clicking = false"
   >
     <span v-if="loadingFinished && !loading && !error">
       {{ loadingSuccessText }}

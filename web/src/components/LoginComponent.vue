@@ -28,6 +28,8 @@ async function handleLogin(): Promise<void> {
   try {
     await login(username.value, password.value);
     success.value = true;
+  } catch (error) {
+    // Ignore
   } finally {
     loading.value = false;
   }
