@@ -1,12 +1,7 @@
 package com.StruckCroissant.GameDB.exception.problem;
 
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public abstract class ProblemAdapter {
   protected String type = "about:blank";
@@ -15,19 +10,14 @@ public abstract class ProblemAdapter {
   protected Integer status = 500;
   private final ObjectMapper objectMapper = new ObjectMapper();
 
-  protected ProblemAdapter(
-      String type,
-      String title,
-      Integer status,
-      String message
-  ) {
+  protected ProblemAdapter(String type, String title, Integer status, String message) {
     this.type = type;
     this.title = title;
     this.status = status;
     this.message = message;
   }
-  protected ProblemAdapter() {
-  }
+
+  protected ProblemAdapter() {}
 
   public String getType() {
     return this.type;
