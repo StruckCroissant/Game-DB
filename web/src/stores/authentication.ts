@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { updateAxiosIntercept } from "@/common/axiosConfig";
+import { updateAxiosIntercept } from "@/config/axiosConfig";
 
 export const useAuthenticationStore = defineStore('Authentication', {
     state: () => ({

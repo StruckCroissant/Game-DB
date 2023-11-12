@@ -1,4 +1,4 @@
-import { axiosInstance as axios } from "@/common/axiosConfig";
+import { axiosInstance as axios } from "@/config/axiosConfig";
 import { useAuthenticationStore } from "@/stores/authentication";
 
 export async function postLogin(request: AuthRequest): Promise<any> {
@@ -27,7 +27,6 @@ export async function register(username: string, password: string): Promise<void
     };
 
     const response = postRegister(request);
-    console.log(response);
 }
 
 export function logout() {

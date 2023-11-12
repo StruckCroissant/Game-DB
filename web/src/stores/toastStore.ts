@@ -21,8 +21,12 @@ const createToast = (text: string, status: ToastStatus): Toast => ({
 });
 
 export const useToast = defineStore("toast", {
-  state: (): { toasts: Toast[] } => ({
-    toasts: []
+  state: (): {
+    toasts: Toast[],
+    paused: Boolean
+  } => ({
+    toasts: [],
+    paused: false
   }),
   actions: {
     updateState(payload: ToastPayload, status: ToastStatus) {
@@ -47,5 +51,11 @@ export const useToast = defineStore("toast", {
       const existingToastIdx: number = this.toasts.findIndex((toast: Toast) => toast.id == toastId);
       this.toasts.splice(existingToastIdx, 1);
     },
+    pause(): void {
+      this.paused = true;
+    },
+    unpause(): void {
+      this.paused = false;
+    }
   }
 });

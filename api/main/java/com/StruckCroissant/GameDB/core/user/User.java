@@ -14,7 +14,9 @@ public class User implements DbModelObj, UserDetails {
   private final Integer uid;
   @NotBlank private final String username;
 
-  @NotBlank private String password;
+  @NotBlank
+  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+  private String password;
 
   private final UserRoleEnum userRole;
 

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import type { Ref } from "vue";
-import { useField, TypedSchema } from 'vee-validate';
+import { TypedSchema, Form } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/zod';
 import * as zod from 'zod';
 import { login } from '@/services/network/authenticationHttp';
@@ -12,16 +12,16 @@ import ButtonComponent from "@/components/UI/ButtonComponent.vue";
 
 const loading: Ref<boolean> = ref(false);
 const success: Ref<boolean> = ref(false);
+const username: Ref<string> = ref('');
+const password: Ref<string> = ref('');
 
 const requiredFieldSchema = (fieldName: string): TypedSchema<string, string> => toTypedSchema(
   zod.string().nonempty(`${fieldName} is required`)
 );
-const {
-  value: username, errorMessage: usernameErrorMessage
-} = useField('username', requiredFieldSchema('username'));
-const {
-  value: password, errorMessage: passwordErrorMessage
-} = useField('password', requiredFieldSchema('password'));
+const formValidationSchema = {
+  username: requiredFieldSchema('username'),
+  password: requiredFieldSchema('password'),
+}
 
 async function handleLogin(): Promise<void> {
   loading.value = true;
@@ -29,7 +29,6 @@ async function handleLogin(): Promise<void> {
     await login(username.value, password.value);
     success.value = true;
   } catch (error) {
-    // Ignore
   } finally {
     loading.value = false;
   }
@@ -42,38 +41,42 @@ async function handleLogin(): Promise<void> {
       <label><strong>Login</strong></label>
     </template>
     <template #default>
-      <div class="input-group">
-        <InputComponent
-          placeholder="Username"
-          :invalid-message="usernameErrorMessage"
-          v-model="username"
-        ></InputComponent>
-        <InputComponent
-          placeholder="Password"
-          type="password"
-          :invalid-message="passwordErrorMessage"
-          v-model="password"
-        ></InputComponent>
-        <div class="login-modal__remember">
-          <div>
-            <input type="checkbox" name="rememberUser">
-            <label for="rememberUser">Remember me</label>
-          </div>
-          <RouterLink to="/register">Forgot password?</RouterLink>
-        </div>
-      </div>
-    </template>
-    <template #footer>
-      <ButtonComponent
-        @click.prevent="handleLogin"
-        :loading="loading"
-        :error="!success"
+      <Form
+        class="form form--centered"
+        :validation-schema="formValidationSchema"
       >
-        Log in
-      </ButtonComponent>
-      <div id="account-create">
-        Dont have an account? <RouterLink to='/register'>Create</RouterLink>
-      </div>
+        <div class="input-group">
+          <InputComponent
+            placeholder="Username"
+            name="username"
+            type="text"
+            label="Username"
+          ></InputComponent>
+          <InputComponent
+            placeholder="Password"
+            name="password"
+            type="password"
+            label="Password"
+          ></InputComponent>
+          <div class="login-modal__remember">
+            <div>
+              <input type="checkbox" name="rememberUser">
+              <label for="rememberUser">Remember me</label>
+            </div>
+            <RouterLink to="/register">Forgot password?</RouterLink>
+          </div>
+        </div>
+        <ButtonComponent
+          @click.prevent="handleLogin"
+          :loading="loading"
+          :error="!success"
+        >
+          Log in
+        </ButtonComponent>
+        <div id="account-create">
+          Dont have an account? <RouterLink to='/register'>Create</RouterLink>
+        </div>
+      </Form>
     </template>
   </ModalComponent>
 </template>

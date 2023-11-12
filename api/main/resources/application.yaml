@@ -17,7 +17,4 @@ spring: # TODO Combine spring & app settings
     password: mariadb
     url: "jdbc:mariadb://localhost:3316/gamedb_db"
     baseline-on-migrate: true
-
-
-
-
+  devtools.restart.enabled: true

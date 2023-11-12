@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
@@ -75,6 +76,13 @@ public class UserDAOImpl implements UserDao {
               }
             },
             username));
+  }
+
+  public User selectUserByUsernameOrThrow(String username) throws UsernameNotFoundException {
+    return this.selectUserByUsername(username)
+        .orElseThrow(
+            () -> new UsernameNotFoundException(String.format("user with username %s not found", username))
+    );
   }
 
   public Optional<Integer> getUidByUsername(String username) {

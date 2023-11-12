@@ -4,7 +4,6 @@ import com.StruckCroissant.GameDB.core.user.User;
 import com.StruckCroissant.GameDB.core.user.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,13 +22,7 @@ public class LoginService {
   }
 
   public boolean login(UserLoginRequest request) {
-    User user =
-        userDao
-            .selectUserByUsername(request.getUsername())
-            .orElseThrow(
-                () ->
-                    new UsernameNotFoundException(
-                        String.format("user with username %s not found", request.getUsername())));
+    User user = userDao.selectUserByUsernameOrThrow(request.getUsername());
     return passwordEncoder.matches(request.getPassword(), user.getPassword());
   }
 }

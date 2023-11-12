@@ -2,6 +2,7 @@ package com.StruckCroissant.GameDB.login;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.StruckCroissant.GameDB.config.security.PasswordEncoder;
@@ -97,6 +98,7 @@ public class LoginControllerTest {
   public void whenValidInput_thenMapsLoginService() throws Exception {
     // given
     UserLoginRequest req = new UserLoginRequest("testUsername", "testPassword");
+    when(loginService.login(req)).thenReturn(true);
 
     // when
     mockMvc

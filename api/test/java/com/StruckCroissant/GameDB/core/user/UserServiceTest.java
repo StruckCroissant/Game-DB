@@ -13,30 +13,28 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class UserServiceTest {
 
   @Mock private UserDAOImpl userDao;
-  private BCryptPasswordEncoder bCryptPasswordEncoder;
   private AutoCloseable autoCloseable;
   private UserService underTest;
+  private User testUser;
 
   @Before
   public void setUp() {
     autoCloseable = MockitoAnnotations.openMocks(this);
-    bCryptPasswordEncoder = new BCryptPasswordEncoder();
+    BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
     underTest = new UserService(userDao, bCryptPasswordEncoder);
+
+    this.testUser = new User(1, "testUsername", "testPassword", UserRoleEnum.USER, false, true);
+
   }
 
   @After
   public void tearDown() throws Exception {
     autoCloseable.close();
-  }
-
-  private User getTestUser() {
-    return new User(1, "testUsername", "testPassword", UserRoleEnum.USER, false, true);
   }
 
   @Test
@@ -51,8 +49,7 @@ public class UserServiceTest {
   public void canLoadUserByUsername() {
     // given
     String testUsername = "testUsername";
-    User user = getTestUser();
-    when(userDao.selectUserByUsername(user.getUsername())).thenReturn(Optional.of(user));
+    when(userDao.selectUserByUsernameOrThrow(this.testUser.getUsername())).thenReturn(this.testUser);
 
     // when
     underTest.loadUserByUsername(testUsername);
@@ -60,50 +57,35 @@ public class UserServiceTest {
     // then
     ArgumentCaptor<String> usernameCaptor = ArgumentCaptor.forClass(String.class);
 
-    verify(userDao).selectUserByUsername(usernameCaptor.capture());
+    verify(userDao).selectUserByUsernameOrThrow(usernameCaptor.capture());
     String capturedUsername = usernameCaptor.getValue();
 
     assertThat(capturedUsername).isEqualTo(testUsername);
   }
 
   @Test
-  public void willThrowExceptionIfUserNotFound() {
-    // given
-    String testUsername = "testUsername";
-    when(userDao.selectUserByUsername(testUsername)).thenReturn(Optional.empty());
-
-    // when
-    Throwable thrown = catchThrowable(() -> underTest.loadUserByUsername(testUsername));
-
-    // then
-    assertThat(thrown).isInstanceOf(UsernameNotFoundException.class);
-  }
-
-  @Test
   public void canSignUpUser() {
     // given
-    User user = getTestUser();
-    when(userDao.insertUser(user)).thenReturn(true);
+    when(userDao.insertUser(this.testUser)).thenReturn(true);
 
     // when
-    underTest.signUpUser(user);
+    underTest.signUpUser(this.testUser);
 
     // then
     ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
     verify(userDao).insertUser(userCaptor.capture());
 
     User capturedUser = userCaptor.getValue();
-    assertThat(capturedUser).isEqualTo(user);
+    assertThat(capturedUser).isEqualTo(this.testUser);
   }
 
   @Test
   public void willThrowOnNonUniqueUser() {
     // given
-    User user = getTestUser();
-    when(userDao.selectUserByUsername(user.getUsername())).thenReturn(Optional.of(user));
+    when(userDao.selectUserByUsername(this.testUser .getUsername())).thenReturn(Optional.of(this.testUser ));
 
     // when
-    Throwable thrown = catchThrowable(() -> underTest.signUpUser(user));
+    Throwable thrown = catchThrowable(() -> underTest.signUpUser(this.testUser ));
 
     // then
     assertThat(thrown).isExactlyInstanceOf(RuntimeException.class);
@@ -112,21 +94,20 @@ public class UserServiceTest {
   @Test
   public void canGetSavedGames() {
     // given
-    User user = getTestUser();
-    when(userDao.selectUserById(user.getId().get())).thenReturn(Optional.of(user));
+    when(userDao.selectUserById(this.testUser.getId().get())).thenReturn(Optional.of(this.testUser));
 
     // when
-    underTest.getSavedGames(user.getId().get());
+    underTest.getSavedGames(this.testUser.getId().get());
 
     // then
-    verify(userDao).selectSavedGames(user.getId().get());
+    verify(userDao).selectSavedGames(this.testUser.getId().get());
   }
 
   @Test
   public void getUserById() {
     // given
     Integer testUid = 1;
-    when(userDao.selectUserById(testUid)).thenReturn(Optional.of(getTestUser()));
+    when(userDao.selectUserById(testUid)).thenReturn(Optional.of(this.testUser));
 
     // when
     underTest.getUserById(testUid);
