@@ -1,8 +1,7 @@
 package com.StruckCroissant.GameDB.login;
 
-import javax.validation.Valid;
-
 import com.StruckCroissant.GameDB.core.user.UserService;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,16 +16,14 @@ public class LoginController {
   private final UserService userService;
 
   @Autowired
-  public LoginController(
-      LoginService loginService,
-      UserService userService
-  ) {
+  public LoginController(LoginService loginService, UserService userService) {
     this.loginService = loginService;
     this.userService = userService;
   }
 
   @PostMapping("/login")
-  public UserDetails login(@RequestBody @Valid UserLoginRequest request) throws BadCredentialsException {
+  public UserDetails login(@RequestBody @Valid UserLoginRequest request)
+      throws BadCredentialsException {
     if (!this.loginService.login(request)) {
       // This message is overwritten in the ApplicationExceptionHandler
       throw new BadCredentialsException("Username or password is incorrect");

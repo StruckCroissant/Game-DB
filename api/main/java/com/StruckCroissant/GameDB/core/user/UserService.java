@@ -71,10 +71,8 @@ public class UserService implements UserDetailsService {
         .selectUserByUsername(user.getUsername())
         .ifPresent(
             u -> {
-              throw new RuntimeException(
-                  String.format(USER_NOT_FOUND_MSG, user.getUsername()));
-            }
-        );
+              throw new RuntimeException(String.format(USER_NOT_FOUND_MSG, user.getUsername()));
+            });
 
     String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
 

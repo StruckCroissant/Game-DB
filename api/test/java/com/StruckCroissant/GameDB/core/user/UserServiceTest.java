@@ -29,7 +29,6 @@ public class UserServiceTest {
     underTest = new UserService(userDao, bCryptPasswordEncoder);
 
     this.testUser = new User(1, "testUsername", "testPassword", UserRoleEnum.USER, false, true);
-
   }
 
   @After
@@ -49,7 +48,8 @@ public class UserServiceTest {
   public void canLoadUserByUsername() {
     // given
     String testUsername = "testUsername";
-    when(userDao.selectUserByUsernameOrThrow(this.testUser.getUsername())).thenReturn(this.testUser);
+    when(userDao.selectUserByUsernameOrThrow(this.testUser.getUsername()))
+        .thenReturn(this.testUser);
 
     // when
     underTest.loadUserByUsername(testUsername);
@@ -82,10 +82,11 @@ public class UserServiceTest {
   @Test
   public void willThrowOnNonUniqueUser() {
     // given
-    when(userDao.selectUserByUsername(this.testUser .getUsername())).thenReturn(Optional.of(this.testUser ));
+    when(userDao.selectUserByUsername(this.testUser.getUsername()))
+        .thenReturn(Optional.of(this.testUser));
 
     // when
-    Throwable thrown = catchThrowable(() -> underTest.signUpUser(this.testUser ));
+    Throwable thrown = catchThrowable(() -> underTest.signUpUser(this.testUser));
 
     // then
     assertThat(thrown).isExactlyInstanceOf(RuntimeException.class);
@@ -94,7 +95,8 @@ public class UserServiceTest {
   @Test
   public void canGetSavedGames() {
     // given
-    when(userDao.selectUserById(this.testUser.getId().get())).thenReturn(Optional.of(this.testUser));
+    when(userDao.selectUserById(this.testUser.getId().get()))
+        .thenReturn(Optional.of(this.testUser));
 
     // when
     underTest.getSavedGames(this.testUser.getId().get());
