@@ -1,18 +1,20 @@
 import { useToast } from "@/stores/toastStore";
-import type {AxiosError} from "axios";
-import * as zod from 'zod';
+import { AxiosError } from "axios";
+import { problemSchema } from "@/common/schemas";
 
-const Problem = zod.object({
-  type: zod.string(),
-  title: zod.string(),
-  message: zod.string(),
-  status: zod.number(),
-});
-
-function handleError(err: AxiosError) {
-  const toastStore = useToast();
-  const result = Problem.safeParse(err?.response?.data);
-  const message = result.success ? result.data.message : err.message;
+function errorGuard(err: unknown) {
+  if (!(err instanceof AxiosError)) {
+    return;
+  }
+  handleError(err);
 }
 
-export default { handleError };
+function handleError(err: AxiosError) {
+  const toastStore= useToast();
+  const result  = problemSchema.safeParse(err?.response?.data);
+  const message = result.success ? result.data.message : err.message;
+
+  toastStore.error({text: message});
+}
+
+export default { errorGuard };

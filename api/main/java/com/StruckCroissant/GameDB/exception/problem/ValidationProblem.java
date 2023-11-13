@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class ValidationProblem extends BadRequestProblem {
   public ValidationProblem() {
-    super("Validation", 400);
+    super("Validation");
   }
 
   public void addNewInvalidParam(

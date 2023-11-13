@@ -1,17 +1,17 @@
 import type { FieldContext } from "vee-validate";
 
-type InteractionEventGetter = (ctx: FieldContext) => string[];
+type InteractionEventGetter = (ctx: Required<Pick<FieldContext, 'meta' | 'errorMessage'>>) => string[];
 
 // Validates on submit only
-const passive: InteractionEventGetter = ({meta, errorMessage}) => [];
+const passive: InteractionEventGetter = () => [];
 
-const lazy: InteractionEventGetter = ({ meta, errorMessage }) => {
+const lazy: InteractionEventGetter = () => {
   return ['change'];
 };
 
-const aggressive: InteractionEventGetter = ({meta, errorMessage}) => ['input'];
+const aggressive: InteractionEventGetter = () => ['input'];
 
-const eager: InteractionEventGetter = ({ meta, errorMessage }) => {
+const eager: InteractionEventGetter = ({ errorMessage }) => {
   if (errorMessage.value) {
     return ['input'];
   }

@@ -1,38 +1,34 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import type { Ref } from "vue";
-import { TypedSchema, Form } from 'vee-validate';
+import { useForm } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/zod';
-import * as zod from 'zod';
 import { login } from '@/services/network/authenticationHttp';
 import { RouterLink } from "vue-router";
 import InputComponent from "@/components/UI/InputComponent.vue";
 import ModalComponent from "@/components/UI/ModalComponent.vue";
 import ButtonComponent from "@/components/UI/ButtonComponent.vue";
+import { userLoginSchema } from "@/common/schemas";
 
 const loading: Ref<boolean> = ref(false);
 const success: Ref<boolean> = ref(false);
-const username: Ref<string> = ref('');
-const password: Ref<string> = ref('');
 
-const requiredFieldSchema = (fieldName: string): TypedSchema<string, string> => toTypedSchema(
-  zod.string().nonempty(`${fieldName} is required`)
+const {
+  handleSubmit,
+  values
+} = useForm(
+  { validationSchema: toTypedSchema(userLoginSchema) }
 );
-const formValidationSchema = {
-  username: requiredFieldSchema('username'),
-  password: requiredFieldSchema('password'),
-}
 
-async function handleLogin(): Promise<void> {
+const onSubmit = handleSubmit(async values => {
   loading.value = true;
   try {
-    await login(username.value, password.value);
+    await login(values.username, values.password);
     success.value = true;
-  } catch (error) {
   } finally {
     loading.value = false;
   }
-}
+});
 </script>
 
 <template>
@@ -41,9 +37,9 @@ async function handleLogin(): Promise<void> {
       <label><strong>Login</strong></label>
     </template>
     <template #default>
-      <Form
+      <form
         class="form form--centered"
-        :validation-schema="formValidationSchema"
+        @submit="onSubmit"
       >
         <div class="input-group">
           <InputComponent
@@ -67,16 +63,16 @@ async function handleLogin(): Promise<void> {
           </div>
         </div>
         <ButtonComponent
-          @click.prevent="handleLogin"
           :loading="loading"
           :error="!success"
+          type="submit"
         >
           Log in
         </ButtonComponent>
         <div id="account-create">
           Dont have an account? <RouterLink to='/register'>Create</RouterLink>
         </div>
-      </Form>
+      </form>
     </template>
   </ModalComponent>
 </template>

@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { toRef, computed } from 'vue';
-import { useField } from 'vee-validate';
+import { FieldContext, useField } from "vee-validate";
 import { modes } from "@/services/validation/interactionModes";
 
 interface Props {
   type?: string,
-  value?: string,
+  initialValue?: string,
   name: string,
   label?: string,
   placeholder?: string,
@@ -14,48 +14,45 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(),{
   type: 'text',
-  value: '',
+  initialValue: '',
   label: '',
   placeholder: '',
   mode: 'aggressive'
 });
 
-// use `toRef` to create reactive references to `name` prop which is passed to `useField`
-// this is important because vee-validte needs to know if the field name changes
-// https://vee-validate.logaretm.com/v4/guide/composition-api/caveats
 const name = toRef(props, 'name');
 
 // we don't provide any rules here because we are using form-level validation
 // https://vee-validate.logaretm.com/v4/guide/validation#form-level-validation
 const {
-  value: inputValue,
+  value,
   errorMessage,
   handleBlur,
   handleChange,
   meta,
-} = useField(name, undefined, {
-  initialValue: props.value,
-  validateOnValueUpdate: false
+}: FieldContext = useField(name, undefined, {
+  initialValue: props.initialValue,
 });
 
+type EventCallback = (e: Event, validate?: boolean) => void;
 const handlers = computed(() => {
-  const on = {
-    blur: handleBlur,
+  const on: Record<string, EventCallback | EventCallback[]> = {
+    'blur': handleBlur,
     // default input event to sync the value
     // the `false` here prevents validation
-    input: [(e) => handleChange(e, false)],
+    'input': [(e: Event) => handleChange(e, false)],
   };
 
   // Get list of validation events based on the current mode
   const triggers = modes[props.mode]({
     errorMessage,
-    meta,
+    meta
   });
 
   // add them to the "on" handlers object
-  triggers.forEach((t) => {
+  triggers.forEach((t: string) => {
     if (Array.isArray(on[t])) {
-      on[t].push(handleChange);
+      (on[t] as Array<EventCallback>).push(handleChange);
     } else {
       on[t] = handleChange;
     }
@@ -71,10 +68,10 @@ const handlers = computed(() => {
       <input
         :id="name"
         :name="name"
-        :value="inputValue"
         :type="type"
         :placeholder="placeholder"
         v-on="handlers"
+        v-model="value"
       />
     </div>
     <div v-if="errorMessage" class="rounded-input__invalid-message">
