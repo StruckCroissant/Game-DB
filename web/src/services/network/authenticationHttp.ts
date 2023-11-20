@@ -1,40 +1,59 @@
-import { axiosInstance as axios } from "@/config/axiosConfig";
 import { useAuthenticationStore } from "@/stores/authentication";
+import type { NetworkComposable } from "@/composables/useFetch";
+import { usePost } from "@/composables/useFetch";
+import { toRefs } from "vue";
+import type { UserLoginRequest } from "@/common/types";
+import { userLoginSchema } from "@/common/schemas";
 
-export async function postLogin(request: AuthRequest): Promise<any> {
-    return await axios.post("/login", request);
+interface UseLogin extends NetworkComposable {
+    doLogin: () => Promise<void>,
 }
 
-export async function postRegister(request: AuthRequest): Promise<any> {
-    return await axios.post("/register", request);
+interface UseRegister extends NetworkComposable {
+    doRegister: () => Promise<void>
 }
 
-export async function login(username: string, password: string): Promise<void> {
+export function useLogin(loginRequest: UserLoginRequest): UseLogin {
+    const { username, password } = toRefs(loginRequest);
+
     const authStore = useAuthenticationStore();
-    const request: AuthRequest = {
-        username: username,
-        password: password
+    const login = usePost("/login");
+
+    const doLogin = async () => {
+        await login.postData({
+            username: username.value,
+            password: password.value,
+        });
+        authStore.addBasicAuth(username.value, password.value);
     };
 
-    await postLogin(request);
-    authStore.addBasicAuth(username, password);
+    return {
+        loading: login.loading,
+        error: login.error,
+        doLogin,
+    }
 }
 
-export async function register(username: string, password: string): Promise<void> {
-    const request: AuthRequest = {
-        username: username,
-        password: password
-    };
+export function useRegister(registerRequest: UserLoginRequest): UseRegister {
+    const { username, password } = toRefs(registerRequest);
 
-    const response = postRegister(request);
+    const register = usePost('/register');
+
+    const doRegister = async () => {
+        await register.postData({
+            username: username.value,
+            password: password.value,
+        });
+    }
+
+    return {
+        loading: register.loading,
+        error: register.error,
+        doRegister,
+    }
 }
 
 export function logout() {
     const authStore = useAuthenticationStore();
     authStore.removeAuthToken();
-}
-
-interface AuthRequest {
-    username: string,
-    password: string
 }

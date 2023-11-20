@@ -1,6 +1,9 @@
 @import '@/styles/abstracts/mixins';
 
 .rounded-input {
+  position: relative;
+  font-size: 15px;
+
   &--error &__input {
     @include border-box-shadow(#ff9d9d);
   }
@@ -13,20 +16,23 @@
     transition: all 0.1s ease;
     border: 1px solid #ced4da;
     border-radius: 7px;
-
-    input {
-      font-size: 15px;
-      width: calc(100% - 2.5rem);
-      height: auto;
-      margin-left: 20px;
-      border: none;
-      outline: none !important;
-      box-shadow: none !important;
-    }
+    outline: none;
+    font-size: 15px;
+    padding: 0 5px;
   }
 
   &__invalid-message {
     margin-top: 0.3rem;
+    margin-left: 0.1rem;
     color: red;
+  }
+
+  &__end-icon {
+    top: 13px;
+    right: 0;
+    margin-right: 10px;
+    position: absolute;
+    color: grey;
+    cursor: pointer;
   }
 }

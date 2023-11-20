@@ -1,20 +1,34 @@
 <script lang="ts" setup>
-import {register} from "@/services/network/authenticationHttp";
+import { useRegister } from "@/services/network/authenticationHttp";
 import ModalComponent from "@/components/UI/ModalComponent.vue";
 import InputComponent from "@/components/UI/InputComponent.vue";
 import { useForm } from "vee-validate";
 import { userLoginSchema } from "@/common/schemas";
 import { toTypedSchema } from "@vee-validate/zod";
+import { reactive } from "vue";
+import ButtonComponent from "@/components/UI/ButtonComponent.vue";
 
 const {
-  values
-} = useForm(
-  { validationSchema: toTypedSchema(userLoginSchema) }
-);
+  values,
+  handleSubmit,
+} = useForm({ validationSchema: toTypedSchema(userLoginSchema) });
 
-function onSubmit() {
+const registerRequest: AuthRequest = reactive({
+  username: values.username,
+  password: values.password
+});
 
-}
+const {
+  loading,
+  error,
+  doRegister,
+} = useRegister(registerRequest);
+
+const onSubmit = handleSubmit(async values => {
+  registerRequest.username = values.username;
+  registerRequest.password = values.password;
+  await doRegister();
+});
 </script>
 
 <template>
@@ -37,10 +51,15 @@ function onSubmit() {
             placeholder="Password"
             label="Password"
             name="password"
+            type="password"
           ></InputComponent>
-        <button class="gradient-button" type="submit">
-          <strong>Register</strong>
-        </button>
+        <ButtonComponent
+          :loading="loading"
+          :error="!!error"
+          type="submit"
+        >
+          Register
+        </ButtonComponent>
         </div>
       </form>
     </template>

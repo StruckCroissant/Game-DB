@@ -1,33 +1,36 @@
 <script lang="ts" setup>
-import { ref } from "vue";
-import type { Ref } from "vue";
+import { reactive } from "vue";
 import { useForm } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/zod';
-import { login } from '@/services/network/authenticationHttp';
+import { useLogin } from "@/services/network/authenticationHttp";
 import { RouterLink } from "vue-router";
 import InputComponent from "@/components/UI/InputComponent.vue";
 import ModalComponent from "@/components/UI/ModalComponent.vue";
 import ButtonComponent from "@/components/UI/ButtonComponent.vue";
 import { userLoginSchema } from "@/common/schemas";
 
-const loading: Ref<boolean> = ref(false);
-const success: Ref<boolean> = ref(false);
-
 const {
   handleSubmit,
-  values
+  values,
 } = useForm(
   { validationSchema: toTypedSchema(userLoginSchema) }
 );
 
+let loginRequest: AuthRequest = reactive({
+  username: values.username,
+  password: values.password
+});
+
+const {
+  doLogin,
+  error,
+  loading,
+} = useLogin(loginRequest);
+
 const onSubmit = handleSubmit(async values => {
-  loading.value = true;
-  try {
-    await login(values.username, values.password);
-    success.value = true;
-  } finally {
-    loading.value = false;
-  }
+  loginRequest.username = values.username;
+  loginRequest.password = values.password;
+  await doLogin();
 });
 </script>
 
@@ -64,7 +67,7 @@ const onSubmit = handleSubmit(async values => {
         </div>
         <ButtonComponent
           :loading="loading"
-          :error="!success"
+          :error="!!error"
           type="submit"
         >
           Log in

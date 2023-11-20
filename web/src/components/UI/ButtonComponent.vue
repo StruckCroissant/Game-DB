@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 library.add(faCircleCheck);
@@ -17,6 +18,10 @@ const props = withDefaults(defineProps<Props>(), {
   loadingSuccessText: 'Success',
   loadingSuccessIcon: 'circle-check',
 });
+const emit = defineEmits<{
+  'conclusion-start': void,
+  'conclusion-end': void,
+}>();
 
 const loadingFinished = ref<boolean>(false);
 const clicking = ref<boolean>(false);
@@ -27,8 +32,10 @@ watch(
     if (newVal != oldVal && !newVal) return;
 
     loadingFinished.value = true;
+    emit('conclusion-start');
     setTimeout(() => {
       loadingFinished.value = false;
+      emit('conclusion-end');
     }, 3000);
   }
 );

@@ -1,11 +1,12 @@
+<script lang="ts" setup>
+  import { RouterView } from "vue-router";
+</script>
+
 <template>
   <section class="wrapper">
-    <router-view/>
+    <RouterView/>
   </section>
 </template>
-
-<script lang="ts" setup>
-</script>
 
 <style lang="scss">
 @import '@/styles/abstracts/_placeholders.scss';

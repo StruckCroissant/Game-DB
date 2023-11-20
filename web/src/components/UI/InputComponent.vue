@@ -1,7 +1,12 @@
 <script setup lang="ts">
-import { toRef, computed } from 'vue';
+import { toRef, computed, ref } from 'vue';
+import type { Ref } from 'vue';
 import { FieldContext, useField } from "vee-validate";
 import { modes } from "@/services/validation/interactionModes";
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+library.add(faEye, faEyeSlash);
 
 interface Props {
   type?: string,
@@ -22,6 +27,16 @@ const props = withDefaults(defineProps<Props>(),{
 
 const name = toRef(props, 'name');
 
+const passwordShown: Ref<boolean> = ref(false);
+const isPasswordInput: boolean = props.type === 'password';
+const concreteType: Ref<string> = ref(props.type);
+
+function togglePasswordShown(): void {
+  concreteType.value = passwordShown.value ? 'password': 'text';
+  passwordShown.value = !passwordShown.value;
+}
+
+//<editor-fold desc="Form Context">
 // we don't provide any rules here because we are using form-level validation
 // https://vee-validate.logaretm.com/v4/guide/validation#form-level-validation
 const {
@@ -60,22 +75,29 @@ const handlers = computed(() => {
 
   return on;
 });
+//</editor-fold>
 </script>
 
 <template>
   <div :class="['rounded-input', errorMessage ? 'rounded-input--error' : '']">
-    <div class="rounded-input__input">
-      <input
-        :id="name"
-        :name="name"
-        :type="type"
-        :placeholder="placeholder"
-        v-on="handlers"
-        v-model="value"
-      />
-    </div>
+    <input
+      :id="name"
+      :name="name"
+      :type="concreteType"
+      :placeholder="placeholder"
+      v-on="handlers"
+      v-model="value"
+      class="rounded-input__input"
+    />
     <div v-if="errorMessage" class="rounded-input__invalid-message">
       {{ errorMessage }}
+    </div>
+    <div
+      v-if="isPasswordInput"
+      @click="togglePasswordShown"
+      class="rounded-input__end-icon"
+    >
+      <FontAwesomeIcon :icon="passwordShown ? faEyeSlash : faEye"/>
     </div>
   </div>
 </template>
