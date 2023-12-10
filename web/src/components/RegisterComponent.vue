@@ -7,26 +7,25 @@ import { userLoginSchema } from "@/common/schemas";
 import { toTypedSchema } from "@vee-validate/zod";
 import { reactive } from "vue";
 import ButtonComponent from "@/components/UI/ButtonComponent.vue";
+import type { UserLoginRequest } from "@/common/types";
 
-const {
-  values,
-  handleSubmit,
-} = useForm({ validationSchema: toTypedSchema(userLoginSchema) });
-
-const registerRequest: AuthRequest = reactive({
-  username: values.username,
-  password: values.password
+const { values, handleSubmit } = useForm({
+  validationSchema: toTypedSchema(userLoginSchema),
 });
 
-const {
-  loading,
-  error,
-  doRegister,
-} = useRegister(registerRequest);
+const registerRequest: UserLoginRequest = reactive({
+  username: values.username ?? "",
+  password: values.password ?? "",
+});
 
-const onSubmit = handleSubmit(async values => {
-  registerRequest.username = values.username;
-  registerRequest.password = values.password;
+const { loading, error, doRegister } = useRegister(registerRequest);
+
+const onSubmit = handleSubmit(async (values) => {
+  [registerRequest.username, registerRequest.password] = [
+    values.username,
+    values.password,
+  ];
+
   await doRegister();
 });
 </script>
@@ -37,10 +36,7 @@ const onSubmit = handleSubmit(async values => {
       <label><strong>Register</strong></label>
     </template>
     <template #default>
-      <form
-        class="form form--centered"
-        @submit="onSubmit"
-      >
+      <form class="form form--centered" @submit="onSubmit">
         <div class="input-group">
           <InputComponent
             placeholder="Username"
@@ -53,20 +49,14 @@ const onSubmit = handleSubmit(async values => {
             name="password"
             type="password"
           ></InputComponent>
-        <ButtonComponent
-          :loading="loading"
-          :error="!!error"
-          type="submit"
-        >
-          Register
-        </ButtonComponent>
+          <ButtonComponent :loading="loading" :error="!!error" type="submit">
+            Register
+          </ButtonComponent>
         </div>
       </form>
     </template>
-    <template #footer>
-    </template>
+    <template #footer> </template>
   </ModalComponent>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

@@ -1,37 +1,38 @@
 <script lang="ts" setup>
 import { reactive } from "vue";
-import { useForm } from 'vee-validate';
-import { toTypedSchema } from '@vee-validate/zod';
+import { useForm } from "vee-validate";
+import { toTypedSchema } from "@vee-validate/zod";
 import { useLogin } from "@/services/network/authenticationHttp";
-import { RouterLink } from "vue-router";
+import { RouterLink, useRouter } from "vue-router";
 import InputComponent from "@/components/UI/InputComponent.vue";
 import ModalComponent from "@/components/UI/ModalComponent.vue";
 import ButtonComponent from "@/components/UI/ButtonComponent.vue";
 import { userLoginSchema } from "@/common/schemas";
+import type { UserLoginRequest } from "@/common/types";
 
-const {
-  handleSubmit,
-  values,
-} = useForm(
-  { validationSchema: toTypedSchema(userLoginSchema) }
-);
+//<editor-fold desc="Routing">
+const { push } = useRouter();
+//</editor-fold>
 
-let loginRequest: AuthRequest = reactive({
-  username: values.username,
-  password: values.password
+//<editor-fold desc="Form Context">
+const { handleSubmit, values } = useForm({
+  validationSchema: toTypedSchema(userLoginSchema),
 });
 
-const {
-  doLogin,
-  error,
-  loading,
-} = useLogin(loginRequest);
+let loginRequest: UserLoginRequest = reactive({
+  username: values.username ?? "",
+  password: values.password ?? "",
+});
 
-const onSubmit = handleSubmit(async values => {
+const { doLogin, error, loading } = useLogin(loginRequest);
+
+const onSubmit = handleSubmit(async (values) => {
   loginRequest.username = values.username;
   loginRequest.password = values.password;
   await doLogin();
+  await push({ name: "home" });
 });
+//</editor-fold>
 </script>
 
 <template>
@@ -40,10 +41,7 @@ const onSubmit = handleSubmit(async values => {
       <label><strong>Login</strong></label>
     </template>
     <template #default>
-      <form
-        class="form form--centered"
-        @submit="onSubmit"
-      >
+      <form class="form form--centered" @submit="onSubmit">
         <div class="input-group">
           <InputComponent
             placeholder="Username"
@@ -59,21 +57,17 @@ const onSubmit = handleSubmit(async values => {
           ></InputComponent>
           <div class="login-modal__remember">
             <div>
-              <input type="checkbox" name="rememberUser">
+              <input type="checkbox" name="rememberUser" />
               <label for="rememberUser">Remember me</label>
             </div>
             <RouterLink to="/register">Forgot password?</RouterLink>
           </div>
         </div>
-        <ButtonComponent
-          :loading="loading"
-          :error="!!error"
-          type="submit"
-        >
+        <ButtonComponent :loading="loading" :error="!!error" type="submit">
           Log in
         </ButtonComponent>
         <div id="account-create">
-          Dont have an account? <RouterLink to='/register'>Create</RouterLink>
+          Dont have an account? <RouterLink to="/register">Create</RouterLink>
         </div>
       </form>
     </template>
@@ -81,7 +75,7 @@ const onSubmit = handleSubmit(async values => {
 </template>
 
 <style lang="scss" scoped>
-  #account-create {
-    display: flex;
-  }
+#account-create {
+  display: flex;
+}
 </style>

@@ -10,11 +10,11 @@ function errorGuard(err: unknown) {
 }
 
 function handleError(err: AxiosError) {
-  const toastStore= useToast();
-  const result  = problemSchema.safeParse(err?.response?.data);
+  const toastStore = useToast();
+  const result = problemSchema.safeParse(err?.response?.data);
   const message = result.success ? result.data.message : err.message;
 
-  toastStore.error({text: message});
+  toastStore.error({ text: message });
 }
 
 export default { errorGuard };
