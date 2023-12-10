@@ -25,9 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
   @Autowired
-  public WebSecurityConfig(
-      UserService userService,
-      BCryptPasswordEncoder bCryptPasswordEncoder) {
+  public WebSecurityConfig(UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder) {
     this.userService = userService;
     this.bCryptPasswordEncoder = bCryptPasswordEncoder;
   }
