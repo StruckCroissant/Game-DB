@@ -24,19 +24,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-  private final PasswordEncoder passwordEncoder;
-
   @Autowired
-  public WebSecurityConfig(
-      UserService userService,
-      BCryptPasswordEncoder bCryptPasswordEncoder,
-      PasswordEncoder passwordEncoder) {
+  public WebSecurityConfig(UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder) {
     this.userService = userService;
     this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-    this.passwordEncoder = passwordEncoder;
   }
 
-  // TODO make configure file for endpoint constants
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.cors()
