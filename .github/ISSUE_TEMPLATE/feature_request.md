@@ -16,5 +16,5 @@ A bullet-point list of the criteria that must be met in order for this issue to 
 ## Technical
 An overview of how the new feature should be structured.
 
-**Additional context**
+## Additional context
 Add any other context or screenshots about the feature request here.
