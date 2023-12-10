@@ -6,8 +6,8 @@ import * as z from "zod";
 
 //<editor-fold desc="Request">
 const userLoginSchema = z.object({
-  username: z.string().min(1, 'username is required'),
-  password: z.string().min(1, 'password is required')
+  username: z.string().min(1, "username is required"),
+  password: z.string().min(1, "password is required"),
 });
 //</editor-fold>
 
@@ -21,7 +21,4 @@ const problemSchema = z.object({
 });
 //</editor-fold>
 
-export {
-  userLoginSchema,
-  problemSchema
-};
+export { userLoginSchema, problemSchema };

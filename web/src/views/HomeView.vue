@@ -1,11 +1,7 @@
-<template>
-
-</template>
+<template></template>
 
 <script setup lang="ts">
 const authenticated: boolean = true;
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

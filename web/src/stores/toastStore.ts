@@ -8,8 +8,8 @@ export type Toast = {
 };
 
 export type ToastPayload = {
-  timeout?: number,
-  text: string
+  timeout?: number;
+  text: string;
 };
 
 const defaultTimeout: number = 10000;
@@ -17,16 +17,16 @@ const defaultTimeout: number = 10000;
 const createToast = (text: string, status: ToastStatus): Toast => ({
   text,
   status,
-  id: Math.random() * 1000
+  id: Math.random() * 1000,
 });
 
 export const useToast = defineStore("toast", {
   state: (): {
-    toasts: Toast[],
-    paused: Boolean
+    toasts: Toast[];
+    paused: Boolean;
   } => ({
     toasts: [],
-    paused: false
+    paused: false,
   }),
   actions: {
     updateState(payload: ToastPayload, status: ToastStatus) {
@@ -48,7 +48,9 @@ export const useToast = defineStore("toast", {
       this.updateState(payload, "error");
     },
     remove(toastId: number) {
-      const existingToastIdx: number = this.toasts.findIndex((toast: Toast) => toast.id == toastId);
+      const existingToastIdx: number = this.toasts.findIndex(
+        (toast: Toast) => toast.id == toastId
+      );
       this.toasts.splice(existingToastIdx, 1);
     },
     pause(): void {
@@ -56,6 +58,6 @@ export const useToast = defineStore("toast", {
     },
     unpause(): void {
       this.paused = false;
-    }
-  }
+    },
+  },
 });
