@@ -1,12 +1,22 @@
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { createApp } from 'vue';
+import { createPinia } from 'pinia';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faUserSecret } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import App from './App.vue';
+import router from './router';
+import '@/styles/main.scss';
+import errorHandler from "@/services/errorHandler";
+library.add(faUserSecret);
 
-import { AppModule } from './app/app.module';
-import { environment } from './environments/environment';
+const app = createApp(App);
+const pinia = createPinia();
 
-if (environment.production) {
-  enableProdMode();
-}
+app.use(pinia);
+app.use(router);
+app.component('FontAwesomeIcon', FontAwesomeIcon);
+app.config.errorHandler = (err: unknown) => {
+  errorHandler.errorGuard(err);
+};
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+app.mount('#app');

@@ -60,7 +60,7 @@ public class Game implements DbModelObj {
       @JsonProperty("ageRating") String ageRating,
       @JsonProperty("indie") int indie,
       @JsonProperty("description") String description,
-      List<String> genres,
+      @JsonProperty("genres") List<String> genres,
       @JsonProperty("franchise") String franchise,
       @JsonProperty("releaseDate") String releaseDate,
       @JsonProperty("rawgId") float rawgId) {

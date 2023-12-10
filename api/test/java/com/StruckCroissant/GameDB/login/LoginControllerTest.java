@@ -2,6 +2,7 @@ package com.StruckCroissant.GameDB.login;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.StruckCroissant.GameDB.config.security.PasswordEncoder;
@@ -42,7 +43,7 @@ public class LoginControllerTest {
   private AutoCloseable autoCloseable;
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     autoCloseable = MockitoAnnotations.openMocks(this);
   }
 
@@ -53,10 +54,9 @@ public class LoginControllerTest {
 
   @Test
   public void whenValidLogin_thenReturns200() throws Exception {
-    // given
     UserLoginRequest req = new UserLoginRequest("testUsername", "testPassword");
+    when(loginService.login(req)).thenReturn(true);
 
-    // when
     mockMvc
         .perform(
             MockMvcRequestBuilders.post(URL)
@@ -67,10 +67,8 @@ public class LoginControllerTest {
 
   @Test
   public void whenBlankValueLogin_thenReturns401() throws Exception {
-    // given
     UserLoginRequest req = new UserLoginRequest("", "testPassword");
 
-    // when
     mockMvc
         .perform(
             MockMvcRequestBuilders.post(URL)
@@ -81,10 +79,8 @@ public class LoginControllerTest {
 
   @Test
   public void whenNullValueLogin_thenReturns401() throws Exception {
-    // given
     UserLoginRequest req = new UserLoginRequest(null, "testPassword");
 
-    // when
     mockMvc
         .perform(
             MockMvcRequestBuilders.post(URL)
@@ -97,6 +93,7 @@ public class LoginControllerTest {
   public void whenValidInput_thenMapsLoginService() throws Exception {
     // given
     UserLoginRequest req = new UserLoginRequest("testUsername", "testPassword");
+    when(loginService.login(req)).thenReturn(true);
 
     // when
     mockMvc

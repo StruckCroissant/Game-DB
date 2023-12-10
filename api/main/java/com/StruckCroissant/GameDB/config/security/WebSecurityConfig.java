@@ -41,36 +41,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     http.cors()
         .and()
-        .httpBasic()
-        .and()
         .authorizeRequests()
-        .antMatchers(HttpMethod.POST, "/api/v*/login", "/api/v*/register")
-        .permitAll()
-        .and()
-        .authorizeRequests()
-        .antMatchers(HttpMethod.GET, "/api/v*/user")
+        .antMatchers(HttpMethod.POST, "/register", "/login")
         .permitAll()
         .anyRequest()
         .authenticated()
         .and()
+        .httpBasic()
+        .and()
         .csrf()
         .disable();
-
-    /*
-    http.csrf()
-        .disable()
-        .authorizeRequests()
-        .antMatchers("/api/v/user/**") add v* /
-     .authenticated()
-     .antMatchers("/api/v/register/**") add v* /
-     .anonymous() // Difference between anonymous & permit all?
-     .antMatchers("/api/v/login/**") add v* /
-     .permitAll()
-     .anyRequest()
-     .authenticated()
-     .and()
-     .httpBasic();
-     */
   }
 
   @Override
@@ -91,7 +71,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration corsConfiguration = new CorsConfiguration();
     // corsConfiguration.setAllowCredentials(true);
-    corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+    corsConfiguration.setAllowedOrigins(Arrays.asList("http://127.0.0.1:5173"));
     corsConfiguration.setAllowedHeaders(
         Arrays.asList(
             "Origin",

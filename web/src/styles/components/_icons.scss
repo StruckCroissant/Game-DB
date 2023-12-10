@@ -1,0 +1,17 @@
+.icon {
+  &--large {
+    font-size: x-large;
+  }
+
+  &--success {
+    color: $success--dark;
+  }
+
+  &--warning {
+    color: $error--dark;
+  }
+
+  &--error {
+    color: $error--dark;
+  }
+}

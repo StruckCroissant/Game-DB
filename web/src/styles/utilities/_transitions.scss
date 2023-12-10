@@ -1,0 +1,14 @@
+.slide-list {
+  &-enter-active, &-leave-active, &-move {
+    transition: all 0.5s ease;
+  }
+
+  &-enter-from, &-leave-to{
+    opacity: 0;
+    transform: translate(30px);
+  }
+
+  &-leave-active {
+    position: absolute;
+  }
+}

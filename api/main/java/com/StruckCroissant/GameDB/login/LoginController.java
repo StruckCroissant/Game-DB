@@ -1,23 +1,33 @@
 package com.StruckCroissant.GameDB.login;
 
+import com.StruckCroissant.GameDB.core.user.UserService;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin("http://localhost:4200") // Replace with proxy later
+@CrossOrigin("**") // Replace with proxy later
 @RequestMapping
 @RestController
 public class LoginController {
 
-  public final LoginService loginService;
+  private final LoginService loginService;
+  private final UserService userService;
 
   @Autowired
-  public LoginController(LoginService loginService) {
+  public LoginController(LoginService loginService, UserService userService) {
     this.loginService = loginService;
+    this.userService = userService;
   }
 
   @PostMapping("/login")
-  public boolean login(@RequestBody @Valid UserLoginRequest request) {
-    return loginService.login(request);
+  public UserDetails login(@RequestBody @Valid UserLoginRequest request)
+      throws BadCredentialsException {
+    if (!this.loginService.login(request)) {
+      // This message is overwritten in the ApplicationExceptionHandler
+      throw new BadCredentialsException("Username or password is incorrect");
+    }
+    return this.userService.getUserByUsername(request.getUsername());
   }
 }

@@ -42,11 +42,7 @@ public class UserService implements UserDetailsService {
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-    User user =
-        userDao
-            .selectUserByUsername(username)
-            .orElseThrow(
-                () -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, username)));
+    User user = userDao.selectUserByUsernameOrThrow(username);
 
     boolean enabled = true;
     boolean accountNonExpired = true;
@@ -66,13 +62,16 @@ public class UserService implements UserDetailsService {
         getAuthorities(authorities));
   }
 
+  public User getUserByUsername(String username) throws UsernameNotFoundException {
+    return this.userDao.selectUserByUsernameOrThrow(username);
+  }
+
   public Boolean signUpUser(User user) {
     userDao
         .selectUserByUsername(user.getUsername())
         .ifPresent(
             u -> {
-              throw new RuntimeException(
-                  String.format("User with username %s already exists", user.getUsername()));
+              throw new RuntimeException(String.format(USER_NOT_FOUND_MSG, user.getUsername()));
             });
 
     String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());

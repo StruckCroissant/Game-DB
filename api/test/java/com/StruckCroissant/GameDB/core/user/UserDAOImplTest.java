@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.annotation.Order;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -217,5 +218,17 @@ public class UserDAOImplTest {
 
     // then
     assertThat(thrown).isExactlyInstanceOf(IllegalArgumentException.class);
+  }
+
+  @Test
+  public void selectUserByUsernameOrThrowThrowsOnAbsentUser() {
+    // given
+    String testUsername = "test_username";
+
+    // when
+    Throwable thrown = catchThrowable(() -> underTest.selectUserByUsernameOrThrow(testUsername));
+
+    // then
+    assertThat(thrown).isExactlyInstanceOf(UsernameNotFoundException.class);
   }
 }

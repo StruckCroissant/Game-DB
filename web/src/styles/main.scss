@@ -1,0 +1,20 @@
+@import
+  '@/styles/abstracts/placeholders',
+  '@/styles/abstracts/variables',
+  '@/styles/abstracts/mixins';
+
+@import
+  '@/styles/base/overrides';
+
+@import
+  '@/styles/utilities/transitions';
+
+@import
+  '@/styles/components/buttons',
+  '@/styles/components/inputs',
+  '@/styles/components/modals',
+  '@/styles/components/loaders',
+  '@/styles/components/icons';
+
+@import
+  '@/styles/layout/forms';

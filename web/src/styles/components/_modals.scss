@@ -1,0 +1,36 @@
+.login-modal {
+  @include box-shadow(#6a6a6a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 400px;
+  height: 340px;
+  background-color: white;
+  border-radius: 5px;
+}
+
+.login-modal__remember {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  position: relative;
+
+  div {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.login-modal__label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem;
+  font-size: x-large;
+  padding: 5px;
+  border-radius: 5px;
+  width: 80px;
+  height: 30px;
+}
