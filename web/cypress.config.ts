@@ -1,4 +1,5 @@
 import { defineConfig } from "cypress";
+import "@testing-library/cypress/add-commands";
 
 export default defineConfig({
   e2e: {

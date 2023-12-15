@@ -1,10 +1,11 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
+    "target": "ESNext",
+    "module": "ESNext",
     "strict": true,
     "jsx": "preserve",
     "moduleResolution": "Node",
+    "resolveJsonModule": true,
     "experimentalDecorators": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -13,8 +14,11 @@
     "useDefineForClassFields": true,
     "sourceMap": true,
     "noImplicitAny": true,
+    "noImplicitThis": true,
     "removeComments": true,
     "preserveConstEnums": true,
+    // "verbatimModuleSyntax": true,
+    "isolatedModules": true,
     "baseUrl": ".",
     "outDir": "./dist/js",
     "types": [
@@ -36,8 +40,8 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "tests/**/*.ts",
-    "tests/**/*.tsx"
+    "test/**/*.ts",
+    "test/**/*.tsx"
   ],
   "exclude": [
     "node_modules"

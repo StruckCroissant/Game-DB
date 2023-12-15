@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { TransitionGroup, ref, watch } from "vue";
+import { ref, watch } from "vue";
 import { useToast } from "@/stores/toastStore";
 import type { ToastStatus } from "@/stores/toastStore";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";

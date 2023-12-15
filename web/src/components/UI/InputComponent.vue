@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { toRef, computed, ref } from "vue";
 import type { Ref } from "vue";
-import { FieldContext, useField } from "vee-validate";
+import { useField } from "vee-validate";
+import type { FieldContext } from "vee-validate";
 import { modes } from "@/services/validation/interactionModes";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
