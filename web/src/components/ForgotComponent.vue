@@ -6,6 +6,7 @@
     <template #default>
       <div class="input-group">
         <InputComponent
+          name="username"
           placeholder="Username"
           :invalid-message="usernameErrorMessage"
           v-model="username"
@@ -30,6 +31,7 @@ import InputComponent from "@/components/UI/InputComponent.vue";
 
 const requiredFieldSchema = (fieldName: string): TypedSchema<string, string> =>
   toTypedSchema(zod.string().nonempty(`${fieldName} is required`));
+
 const { value: username, errorMessage: usernameErrorMessage } = useField(
   "username",
   requiredFieldSchema("username")

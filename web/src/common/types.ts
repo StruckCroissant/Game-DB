@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 /** src/common/types.ts
  *
  * Used to define HTTP return types
@@ -9,7 +11,7 @@ import type { userLoginSchema, problemSchema } from "@/common/schemas";
 type UserLoginRequest = z.infer<typeof userLoginSchema>;
 //</editor-fold>
 
-//<editor-fold desc="Request">
+//<editor-fold desc="Erro Requestsr">
 type Problem = z.infer<typeof problemSchema>;
 //</editor-fold>
 

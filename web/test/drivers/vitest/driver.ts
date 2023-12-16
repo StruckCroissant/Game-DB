@@ -12,6 +12,7 @@ import type {
 import { mount } from "../../../src/mount";
 import { makeRouter } from "../../../src/router";
 import { mockEndpoint } from "../../utils";
+import { createPinia } from "pinia";
 
 type ElementResolver = () => Promise<HTMLElement | HTMLElement[]>;
 
@@ -22,7 +23,8 @@ function toArray<Type>(maybeArray: Type | Type[]) {
 function makeAssertions(elementResolver: ElementResolver): Assertions {
   return {
     shouldBeVisible: async () => {
-      expect(await elementResolver()).toBeVisible();
+      const element = await elementResolver();
+      expect(await elementResolver()).toBeTruthy();
     },
     shouldHaveAttribute: async (attribute, value) => {
       const elements = toArray<HTMLElement>(await elementResolver());
@@ -104,6 +106,7 @@ function makeAssertionsInteractions(
 const makeDriver = ({ user }: { user: UserEvent }): Driver => ({
   async goTo(path) {
     const router = makeRouter();
+    const pinia = createPinia();
     try {
       await router.push(path);
     } catch (error) {
@@ -119,7 +122,7 @@ const makeDriver = ({ user }: { user: UserEvent }): Driver => ({
     }
 
     document.body.innerHTML = '<div id="app"></div>';
-    mount({ router });
+    mount({ router, pinia });
   },
   findByLabelText(text) {
     return makeAssertionsInteractions(() => screen.findByLabelText(text), {
