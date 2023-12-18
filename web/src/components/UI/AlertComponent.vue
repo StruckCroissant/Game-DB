@@ -1,6 +1,6 @@
 <script setup lang="ts">
 defineExpose({
-  showAlert,
+  showAlert
 });
 
 function showAlert(error: unknown) {
@@ -8,6 +8,9 @@ function showAlert(error: unknown) {
 }
 </script>
 
-<template></template>
+<template>
 
-<style scoped lang="scss"></style>
+</template>
+
+<style scoped lang="scss">
+</style>

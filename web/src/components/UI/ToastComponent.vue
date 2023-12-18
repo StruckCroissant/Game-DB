@@ -13,10 +13,7 @@ import {
 import { storeToRefs } from "pinia";
 library.add(faCircleCheck, faTriangleExclamation, faX, faCircleExclamation);
 
-type ToastIcon =
-  | "triangle-exclamation"
-  | "fa-circle-exclamation"
-  | "circle-check";
+type ToastIcon = "triangle-exclamation" | "fa-circle-exclamation" | "circle-check";
 type ToastClass = "icon--success" | "icon--warning" | "icon--error";
 const toastIconMap: Record<ToastStatus, ToastIcon> = {
   success: "circle-check",
@@ -33,19 +30,16 @@ const toastStore = useToast();
 const { toasts } = storeToRefs(toastStore);
 const wrapperInDom = ref(false);
 
-watch(
-  () => toasts.value.length,
-  (value) => {
-    if (value) {
-      wrapperInDom.value = true;
-      return;
-    }
-
-    setTimeout(() => {
-      wrapperInDom.value = false;
-    }, 300);
+watch(() => toasts.value.length, (value) => {
+  if (value) {
+    wrapperInDom.value = true;
+    return;
   }
-);
+
+  setTimeout(() => {
+    wrapperInDom.value = false;
+  }, 300);
+});
 </script>
 
 <template>
@@ -57,7 +51,11 @@ watch(
       class="toast__wrapper"
       appear
     >
-      <li v-for="toast in toasts" :class="['toast__list-item']" :key="toast.id">
+      <li
+        v-for="toast in toasts"
+        :class="['toast__list-item']"
+        :key="toast.id"
+      >
         <FontAwesomeIcon
           :class="['icon--large', toastClassMap[toast.status]]"
           :icon="toastIconMap[toast.status]"
@@ -65,9 +63,7 @@ watch(
         <span class="toast__list-text">
           {{ toast.text }}
         </span>
-        <button id="close-button" @click="toastStore.remove(toast.id)">
-          x
-        </button>
+        <button id="close-button" @click="toastStore.remove(toast.id)">x</button>
       </li>
     </TransitionGroup>
   </Teleport>

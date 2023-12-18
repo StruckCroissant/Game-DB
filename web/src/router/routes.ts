@@ -6,17 +6,17 @@ import type { RouteRecordRaw } from "vue-router";
 
 export const routes: Readonly<RouteRecordRaw[]> = [
   {
-    path: "/:pathMatch(.*)*",
-    redirect: { path: "/login" },
+    path: '/:pathMatch(.*)*',
+    redirect: { path: '/login' }
   },
   {
-    path: "/auth",
-    name: "auth",
-    redirect: "login",
+    path: '/auth',
+    name: 'auth',
+    redirect: 'login'
   },
   {
-    path: "/home",
-    name: "home",
+    path: '/home',
+    name: 'home',
     component: HomeView,
     meta: {
       requiresAuth: true,
@@ -24,22 +24,22 @@ export const routes: Readonly<RouteRecordRaw[]> = [
   },
   {
     component: LoginView,
-    path: "",
+    path: '',
     children: [
       {
-        path: "",
-        redirect: "login",
+        path: '',
+        redirect: 'login'
       },
       {
-        path: "/login",
-        name: "login",
-        component: LoginComponent,
+        path: '/login',
+        name: 'login',
+        component: LoginComponent
       },
       {
-        path: "/register",
-        name: "register",
-        component: RegisterComponent,
+        path: '/register',
+        name: 'register',
+        component: RegisterComponent
       },
     ],
-  },
+  }
 ];

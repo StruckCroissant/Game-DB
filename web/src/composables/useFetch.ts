@@ -1,50 +1,50 @@
-import { ref } from "vue";
-import type { Ref } from "vue";
+import {ref} from 'vue';
+import type { Ref } from 'vue';
 import { axiosInstance as axios } from "@/config/axiosConfig";
 import type { AxiosResponse, AxiosError } from "axios";
 
 export interface NetworkComposable {
-  error: Ref<AxiosError | unknown>;
-  loading: Ref<boolean>;
+  error: Ref<AxiosError|unknown>,
+  loading: Ref<boolean>,
 }
 
-interface AxiosBaseComposable extends AxiosComposable {
-  doAction: (request: GetRequest | PostRequest) => Promise<any>;
+interface AxiosBaseComposable extends AxiosComposable{
+  doAction: (request: GetRequest|PostRequest) => Promise<any>,
 }
 
 export interface AxiosComposable extends NetworkComposable {
-  response: Ref<AxiosResponse | null>;
-  data: Ref<any>;
+  response: Ref<AxiosResponse|null>,
+  data: Ref<any>,
 }
 
 export interface UseFetch extends AxiosComposable {
-  getData: () => Promise<void>;
+  getData: () => Promise<void>,
 }
 
 export interface UsePost extends AxiosComposable {
-  postData: (inputData: any) => Promise<void>;
+  postData: (inputData: any) => Promise<void>,
 }
 
 interface Request {
-  endpoint: string;
+  endpoint: string,
 }
 
 interface PostRequest extends Request {
-  type: "post";
-  data: object;
+  type: 'post',
+  data: object
 }
 
 interface GetRequest extends Request {
-  type: "get";
+  type: 'get',
 }
 
 function useRequest(): AxiosBaseComposable {
   const data: Ref<any> = ref(null);
-  const response: Ref<AxiosResponse | null> = ref(null);
-  const error: Ref<AxiosError | unknown> = ref(null);
+  const response: Ref<AxiosResponse|null> = ref(null);
+  const error: Ref<AxiosError|unknown> = ref(null);
   const loading: Ref<boolean> = ref(false);
 
-  const doAction = async (request: GetRequest | PostRequest): Promise<any> => {
+  const doAction = async (request: GetRequest|PostRequest): Promise<any> => {
     try {
       loading.value = true;
 
@@ -54,9 +54,12 @@ function useRequest(): AxiosBaseComposable {
           serverResponse = await axios.get(request.endpoint);
           break;
         case "post":
-          serverResponse = await axios.post(request.endpoint, request.data);
+          serverResponse = await axios.post(
+            request.endpoint,
+            request.data
+          );
       }
-
+      
       response.value = serverResponse;
       data.value = response.value.data.data;
       error.value = null;
@@ -66,7 +69,7 @@ function useRequest(): AxiosBaseComposable {
     } finally {
       loading.value = false;
     }
-  };
+  }
 
   return {
     data,
@@ -74,18 +77,24 @@ function useRequest(): AxiosBaseComposable {
     error,
     loading,
     doAction,
-  };
+  }
 }
 
 export function useFetch(endpoint: string): UseFetch {
-  const { data, response, error, loading, doAction } = useRequest();
+  const {
+    data,
+    response,
+    error,
+    loading,
+    doAction
+  } = useRequest();
 
   const getData = async () => {
     return await doAction({
-      type: "get",
+      type: 'get',
       endpoint: endpoint,
     });
-  };
+  }
 
   return {
     getData,
@@ -93,11 +102,17 @@ export function useFetch(endpoint: string): UseFetch {
     response,
     error,
     loading,
-  };
+  }
 }
 
 export function usePost(endpoint: string): UsePost {
-  const { data, response, error, loading, doAction } = useRequest();
+  const {
+    data,
+    response,
+    error,
+    loading,
+    doAction,
+  } = useRequest();
 
   const postData = async (inputData: any) => {
     return await doAction({
@@ -105,7 +120,7 @@ export function usePost(endpoint: string): UsePost {
       endpoint: endpoint,
       data: inputData,
     });
-  };
+  }
 
   return {
     postData,
@@ -113,5 +128,5 @@ export function usePost(endpoint: string): UsePost {
     response,
     error,
     loading,
-  };
+  }
 }
