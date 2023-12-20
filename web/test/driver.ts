@@ -1,17 +1,22 @@
+type ActionCallback = () => unknown | Promise<unknown>;
+
 export type Assertions = {
-  shouldBeVisible: () => Promise<void>;
-  shouldHaveAttribute: (name: string, value?: string | RegExp) => Promise<void>;
+  shouldBeVisible: () => ActionCallback;
+  shouldHaveAttribute: (
+    name: string,
+    value?: string | RegExp
+  ) => ActionCallback;
 };
 
 export type AssertionsNot = {
-  shouldNotBeVisible: () => Promise<void>;
-  shouldNotExist: () => Promise<void>;
+  shouldNotBeVisible: () => ActionCallback;
+  shouldNotExist: () => ActionCallback;
 };
 
 export type Interactions = {
-  check: () => Promise<void>;
-  click: () => Promise<void>;
-  type: (text: string) => Promise<void>;
+  check: () => ActionCallback;
+  click: () => ActionCallback;
+  type: (text: string) => ActionCallback;
 };
 
 type FindByLabelText = (text: string) => Interactions & Assertions;
@@ -41,7 +46,7 @@ type GoToOptions = {
   device?: "desktop" | "mobile";
 };
 
-type GoTo = (path: string, options?: GoToOptions) => Promise<void>;
+type GoTo = (path: string, options?: GoToOptions) => ActionCallback;
 
 type MockEndpointOptions = {
   body: string | unknown[] | Record<string | number, unknown>;
@@ -76,3 +81,9 @@ export type Driver = {
   setUp: SetUp;
   queryByText: QueryByText;
 };
+
+type Step =
+  | (() => unknown | void)
+  | (({ driver }: { driver: Driver }) => Step[]);
+
+export type ItCallback = ({ driver }: { driver: Driver }) => Step[];

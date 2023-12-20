@@ -2,6 +2,7 @@ import { expect, it as itVitest } from "vitest";
 import { screen, waitForElementToBeRemoved } from "@testing-library/dom";
 import type { UserEvent } from "@testing-library/user-event/dist/types/setup/setup";
 import userEvent from "@testing-library/user-event";
+import "@testing-library/jest-dom";
 
 import type {
   Assertions,
@@ -10,7 +11,7 @@ import type {
   Interactions,
 } from "../../driver";
 import { mount } from "../../../src/mount";
-import { makeRouter } from "../../../src/router";
+import { makeRouter } from "../../../src/router/index";
 import { mockEndpoint } from "../../utils";
 import { createPinia } from "pinia";
 
@@ -22,11 +23,11 @@ function toArray<Type>(maybeArray: Type | Type[]) {
 
 function makeAssertions(elementResolver: ElementResolver): Assertions {
   return {
-    shouldBeVisible: async () => {
-      const element = await elementResolver();
-      expect(await elementResolver()).toBeTruthy();
+    shouldBeVisible: () => async () => {
+      // TODO add types for this expect
+      expect(await elementResolver()).toBeVisible();
     },
-    shouldHaveAttribute: async (attribute, value) => {
+    shouldHaveAttribute: (attribute, value) => async () => {
       const elements = toArray<HTMLElement>(await elementResolver());
 
       // eslint-disable-next-line no-restricted-syntax
@@ -45,10 +46,10 @@ function makeAssertionsNot(
   elementResolver: () => Promise<HTMLElement | null>
 ): AssertionsNot {
   return {
-    shouldNotBeVisible: async () => {
+    shouldNotBeVisible: () => async () => {
       expect(await elementResolver()).toBeFalsy();
     },
-    shouldNotExist: async () => {
+    shouldNotExist: () => async () => {
       const element = await elementResolver();
       if (element) {
         try {
@@ -66,7 +67,7 @@ function makeInteractions(
   { user }: { user: UserEvent }
 ): Interactions {
   return {
-    check: async () => {
+    check: () => async () => {
       const elements = toArray<HTMLElement>(await elementResolver());
       // eslint-disable-next-line no-restricted-syntax
       for (const element of elements) {
@@ -74,7 +75,7 @@ function makeInteractions(
         await user.click(element);
       }
     },
-    click: async () => {
+    click: () => async () => {
       const elements = toArray<HTMLElement>(await elementResolver());
       // eslint-disable-next-line no-restricted-syntax
       for (const element of elements) {
@@ -82,7 +83,7 @@ function makeInteractions(
         await user.click(element);
       }
     },
-    type: async (text) => {
+    type: (text) => async () => {
       const elements = toArray<HTMLElement>(await elementResolver());
       // eslint-disable-next-line no-restricted-syntax
       for (const element of elements) {
@@ -104,25 +105,27 @@ function makeAssertionsInteractions(
 }
 
 const makeDriver = ({ user }: { user: UserEvent }): Driver => ({
-  async goTo(path) {
-    const router = makeRouter();
-    const pinia = createPinia();
-    try {
-      await router.push(path);
-    } catch (error) {
-      // Ignore redirection error.
-      if (
-        error instanceof Error &&
-        error.message.includes("Redirected when going from")
-      ) {
-        return;
+  goTo(path) {
+    return async () => {
+      const router = makeRouter();
+      const pinia = createPinia();
+      try {
+        await router.push(path);
+      } catch (error) {
+        // Ignore redirection error.
+        if (
+          error instanceof Error &&
+          error.message.includes("Redirected when going from")
+        ) {
+          return;
+        }
+
+        throw error;
       }
 
-      throw error;
-    }
-
-    document.body.innerHTML = '<div id="app"></div>';
-    mount({ router, pinia });
+      document.body.innerHTML = '<div id="app"></div>';
+      mount({ router, pinia });
+    };
   },
   findByLabelText(text) {
     return makeAssertionsInteractions(() => screen.findByLabelText(text), {

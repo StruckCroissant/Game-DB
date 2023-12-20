@@ -1,22 +1,25 @@
-import { createApp } from "vue";
 import { createPinia } from "pinia";
+import { makeRouter } from "./router";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faUserSecret } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import App from "./App.vue";
-import router from "./router";
+import { mount } from "./mount";
 import "@/styles/main.scss";
-import errorHandler from "@/services/errorHandler";
-library.add(faUserSecret);
 
-const app = createApp(App);
-const pinia = createPinia();
+import type {
+  Library,
+  IconDefinition,
+} from "@fortawesome/fontawesome-svg-core";
 
-app.use(pinia);
-app.use(router);
-app.component("FontAwesomeIcon", FontAwesomeIcon);
-app.config.errorHandler = (err: unknown) => {
-  errorHandler.errorGuard(err);
-};
+function setupFontAwesomeLibrary(
+  library: Library,
+  definitions: Array<IconDefinition>
+): void {
+  definitions.forEach((iconDefinition) => library.add(iconDefinition));
+}
 
-app.mount("#app");
+setupFontAwesomeLibrary(library, [faUserSecret]);
+
+mount({
+  router: makeRouter(),
+  pinia: createPinia(),
+});
