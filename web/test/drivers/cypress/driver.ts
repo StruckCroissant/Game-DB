@@ -88,7 +88,7 @@ function wrapItCallback(func: ItCallback) {
 
     steps.forEach(step => {
       const nestedCallback = step({ driver });
-      if (typeof nestedCallback === 'function') {
+      if (typeof nestedCallback === "function") {
         nestedCallback();
       }
     });
