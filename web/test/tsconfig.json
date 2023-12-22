@@ -1,5 +1,6 @@
 {
-  "extends": "./tsconfig.app.json",
+  "extends": "../tsconfig.json",
+  "include": ["./**/*.ts"],
   "exclude": [],
   "compilerOptions": {
     "composite": true,
@@ -7,8 +8,7 @@
     "types": [
       "node", 
       "jsdom",
-      "cypress",
-      "@testing-library/jest-jsdom",
+      "@testing-library/cypress",
     ],
-  }
+  },
 }

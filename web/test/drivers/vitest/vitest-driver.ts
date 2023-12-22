@@ -2,14 +2,13 @@ import { expect, it as itVitest } from "vitest";
 import { screen, waitForElementToBeRemoved } from "@testing-library/dom";
 import type { UserEvent } from "@testing-library/user-event/dist/types/setup/setup";
 import userEvent from "@testing-library/user-event";
-import "@testing-library/jest-dom";
 
 import type {
   Assertions,
   AssertionsNot,
   Driver,
   Interactions,
-} from "../../driver";
+} from "../../types";
 import { mount } from "../../../src/mount";
 import { makeRouter } from "../../../src/router/index";
 import { mockEndpoint } from "../../utils";

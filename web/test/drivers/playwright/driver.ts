@@ -5,16 +5,16 @@ import type {
   AssertionsNot,
   Driver,
   Interactions,
-} from "../../driver";
+} from "../../types";
 
 type LocatorResolver = () => Locator;
 
 function makeAssertions(elementResolver: LocatorResolver): Assertions {
   return {
-    shouldHaveAttribute: async (attribute, value) => {
+    shouldHaveAttribute: (attribute, value) => async () => {
       await expect(elementResolver()).toHaveAttribute(attribute, value || /.*/);
     },
-    shouldBeVisible: async () => {
+    shouldBeVisible: () => async () => {
       await expect(elementResolver()).toBeVisible();
     },
   };
@@ -22,10 +22,10 @@ function makeAssertions(elementResolver: LocatorResolver): Assertions {
 
 function makeAssertionsNot(elementResolver: LocatorResolver): AssertionsNot {
   return {
-    shouldNotBeVisible: async () => {
+    shouldNotBeVisible: () => async () => {
       await expect(elementResolver()).toBeHidden();
     },
-    shouldNotExist: async () => {
+    shouldNotExist: () => async () => {
       await expect(elementResolver()).not.toBeVisible();
     },
   };
@@ -33,13 +33,13 @@ function makeAssertionsNot(elementResolver: LocatorResolver): AssertionsNot {
 
 function makeInteractions(elementResolver: LocatorResolver): Interactions {
   return {
-    check: async () => {
+    check: () => async () => {
       await elementResolver().check();
     },
-    click: async () => {
+    click: () => async () => {
       await elementResolver().click();
     },
-    type: async (text) => {
+    type: (text) => async () => {
       await elementResolver().fill(`${text}`);
     },
   };
@@ -55,7 +55,7 @@ function makeAssertionsInteractions(
 }
 
 const makeDriver = ({ page }: { page: Page }): Driver => ({
-  async goTo(path) {
+  goTo: (path) => async () => {
     await page.goto(path);
   },
   findByLabelText(text) {

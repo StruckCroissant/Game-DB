@@ -1,7 +1,4 @@
-import "@testing-library/cypress";
-import { 
-  it as itCypress
-} from "mocha";
+import { cy, it as itCypress } from "local-cypress";
 import { mockEndpoint } from "../../utils";
 
 type ElementResolver = () => Cypress.Chainable;
@@ -12,7 +9,7 @@ import type {
   Driver,
   Interactions,
   ItCallback,
-} from "../../driver";
+} from "../../types";
 
 function makeAssertions(elementResolver: ElementResolver): Assertions {
   return {
@@ -86,13 +83,11 @@ function wrapItCallback(func: ItCallback) {
     const driver = makeDriver();
     const steps = func({ driver });
 
-    steps.forEach(step => {
+    steps.forEach((step) => {
       const nestedCallback = step({ driver });
-      if (typeof nestedCallback === "function") {
-        nestedCallback();
-      }
+      if (typeof nestedCallback === "function") nestedCallback();
     });
-  }
+  };
 }
 
 const it = (description: string, func: ItCallback) =>

@@ -21,7 +21,7 @@ export type Interactions = {
 
 type FindByLabelText = (text: string) => Interactions & Assertions;
 
-type Role = "button" | "link" | "option" | "tab";
+type Role = "button" | "link" | "option" | "tab" | "input";
 
 type FindByRoleOptions = {
   name: string;
