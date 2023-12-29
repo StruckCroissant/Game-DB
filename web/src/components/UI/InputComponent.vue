@@ -83,6 +83,7 @@ const handlers = computed(() => {
       v-on="handlers"
       v-model="value"
       class="rounded-input__input"
+      role="input"
     />
     <div v-if="errorMessage" class="rounded-input__invalid-message">
       {{ errorMessage }}

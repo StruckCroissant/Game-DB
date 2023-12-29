@@ -60,14 +60,23 @@ const onSubmit = handleSubmit(async (values) => {
               <input type="checkbox" name="rememberUser" />
               <label for="rememberUser">Remember me</label>
             </div>
-            <RouterLink to="/register">Forgot password?</RouterLink>
+            <RouterLink to="/register" name="forgotPassword">
+              Forgot password?
+            </RouterLink>
           </div>
         </div>
-        <ButtonComponent :loading="loading" :error="!!error" type="submit">
+        <ButtonComponent
+          :loading="loading"
+          :error="!!error"
+          type="submit"
+          role="button"
+          name="login-button"
+        >
           Log in
         </ButtonComponent>
         <div id="account-create">
-          Dont have an account? <RouterLink to="/register">Create</RouterLink>
+          Don't have an account?
+          <RouterLink to="/register" name="create-account">Create</RouterLink>
         </div>
       </form>
     </template>

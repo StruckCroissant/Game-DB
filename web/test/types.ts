@@ -29,7 +29,7 @@ type FindByRoleOptions = {
 
 type FindByRole = (
   role: Role,
-  options: FindByRoleOptions
+  options?: FindByRoleOptions
 ) => Interactions & Assertions;
 
 type FindByTextOptions = {

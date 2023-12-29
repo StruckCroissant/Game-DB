@@ -136,7 +136,7 @@ const makeDriver = ({ user }: { user: UserEvent }): Driver => ({
       user,
     });
   },
-  findByRole(role, { name }) {
+  findByRole(role, { name } = {}) {
     return makeAssertionsInteractions(() => screen.findByRole(role, { name }), {
       user,
     });

@@ -43,7 +43,6 @@ watch(
 
 <template>
   <button
-    id="button"
     :class="['gradient-button', clicking ? 'gradient-button--clicked' : '']"
     @mousedown="clicking = true"
     @mouseup="clicking = false"
