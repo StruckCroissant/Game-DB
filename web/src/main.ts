@@ -9,6 +9,8 @@ import type {
   Library,
   IconDefinition,
 } from "@fortawesome/fontawesome-svg-core";
+import { configs as routerConfigs } from "./router/configs";
+import { configs as appConfigs } from "./configs";
 
 function setupFontAwesomeLibrary(
   library: Library,
@@ -19,7 +21,13 @@ function setupFontAwesomeLibrary(
 
 setupFontAwesomeLibrary(library, [faUserSecret]);
 
-mount({
-  router: makeRouter(),
-  pinia: createPinia(),
-});
+mount(
+  {
+    pinia: createPinia(),
+    router: makeRouter(),
+  },
+  {
+    routerContext: routerConfigs,
+    appContext: appConfigs,
+  }
+);

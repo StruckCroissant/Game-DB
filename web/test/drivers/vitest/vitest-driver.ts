@@ -8,13 +8,24 @@ import type {
   AssertionsNot,
   Driver,
   Interactions,
+  ItCallback,
 } from "../../types";
 import { mount } from "../../../src/mount";
 import { makeRouter } from "../../../src/router/index";
 import { mockEndpoint } from "../../utils";
 import { createPinia } from "pinia";
+import { App } from "vue";
 
 type ElementResolver = () => Promise<HTMLElement | HTMLElement[]>;
+
+type MockHandle = {
+  endpoint: string;
+  options: {
+    httpVerb: string;
+    status: number;
+  };
+  hasBeenInvoked: boolean;
+};
 
 function toArray<Type>(maybeArray: Type | Type[]) {
   return Array.isArray(maybeArray) ? maybeArray : [maybeArray];
@@ -68,25 +79,19 @@ function makeInteractions(
   return {
     check: () => async () => {
       const elements = toArray<HTMLElement>(await elementResolver());
-      // eslint-disable-next-line no-restricted-syntax
       for (const element of elements) {
-        // eslint-disable-next-line no-await-in-loop
         await user.click(element);
       }
     },
     click: () => async () => {
       const elements = toArray<HTMLElement>(await elementResolver());
-      // eslint-disable-next-line no-restricted-syntax
       for (const element of elements) {
-        // eslint-disable-next-line no-await-in-loop
         await user.click(element);
       }
     },
     type: (text) => async () => {
       const elements = toArray<HTMLElement>(await elementResolver());
-      // eslint-disable-next-line no-restricted-syntax
       for (const element of elements) {
-        // eslint-disable-next-line no-await-in-loop
         await user.type(element, text);
       }
     },
@@ -106,8 +111,8 @@ function makeAssertionsInteractions(
 const makeDriver = ({ user }: { user: UserEvent }): Driver => ({
   goTo(path) {
     return async () => {
-      const router = makeRouter();
       const pinia = createPinia();
+      const router = makeRouter();
       try {
         await router.push(path);
       } catch (error) {
@@ -151,16 +156,36 @@ const makeDriver = ({ user }: { user: UserEvent }): Driver => ({
   },
 });
 
-const it = itVitest.extend<{ driver: Driver }>({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  driver: async ({ task }, use) => {
+function wrapItCallback(func: ItCallback) {
+  return async () => {
     const context: {
+      mockHandles: Set<MockHandle>;
       user: UserEvent;
     } = {
+      mockHandles: new Set(),
       user: userEvent.setup(),
     };
-    await use(makeDriver(context));
-  },
-});
+    const driver = makeDriver(context);
+    const steps = func({ driver });
+    for (const step of steps) {
+      const nestedCallback = await step({ driver });
+      // Step definitions return another callback.
+      if (typeof nestedCallback === `function`) await nestedCallback();
+    }
+    context.mockHandles.forEach((handle) => {
+      if (handle.hasBeenInvoked) return;
+      throw new Error(
+        `You mocked an endpoint that you did not use in the test! ${JSON.stringify(
+          handle
+        )}`
+      );
+    });
+  };
+}
+
+const it = (description: string, func: ItCallback) =>
+  itVitest(description, wrapItCallback(func));
+it.only = (description: string, func: ItCallback) =>
+  itVitest.only(description, wrapItCallback(func));
 
 export { it };
