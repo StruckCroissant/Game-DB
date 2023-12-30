@@ -9,6 +9,7 @@
       "node", 
       "jsdom",
       "@testing-library/cypress",
+      "@testing-library/jest-dom"
     ],
   },
 }

@@ -60,7 +60,7 @@ const onSubmit = handleSubmit(async (values) => {
               <input type="checkbox" name="rememberUser" />
               <label for="rememberUser">Remember me</label>
             </div>
-            <RouterLink to="/register" name="forgotPassword">
+            <RouterLink to="/register">
               Forgot password?
             </RouterLink>
           </div>

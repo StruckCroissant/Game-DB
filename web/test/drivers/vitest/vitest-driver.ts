@@ -34,13 +34,11 @@ function toArray<Type>(maybeArray: Type | Type[]) {
 function makeAssertions(elementResolver: ElementResolver): Assertions {
   return {
     shouldBeVisible: () => async () => {
-      // TODO add types for this expect
       expect(await elementResolver()).toBeVisible();
     },
     shouldHaveAttribute: (attribute, value) => async () => {
       const elements = toArray<HTMLElement>(await elementResolver());
 
-      // eslint-disable-next-line no-restricted-syntax
       for (const element of elements) {
         if (value) {
           expect(element.getAttribute(attribute)).toMatch(value);
