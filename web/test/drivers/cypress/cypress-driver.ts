@@ -1,5 +1,4 @@
 import { cy, it as itCypress } from "local-cypress";
-import { mockEndpoint } from "../../utils";
 
 type ElementResolver = () => Cypress.Chainable;
 
@@ -10,6 +9,7 @@ import type {
   Interactions,
   ItCallback,
 } from "../../types";
+import { mockEndpoint } from "./utils";
 
 function makeAssertions(elementResolver: ElementResolver): Assertions {
   return {

@@ -12,7 +12,7 @@ import type {
 } from "../../types";
 import { mount } from "../../../src/mount";
 import { makeRouter } from "../../../src/router/index";
-import { mockEndpoint } from "../../utils";
+import { mockEndpoint } from "../../mock-endpoint";
 import { createPinia } from "pinia";
 import { App } from "vue";
 
@@ -126,7 +126,7 @@ const makeDriver = ({ user }: { user: UserEvent }): Driver => ({
       }
 
       document.body.innerHTML = '<div id="app"></div>';
-      mount({ router, pinia });
+      await mount({ router, pinia });
     };
   },
   findByLabelText(text) {

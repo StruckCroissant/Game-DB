@@ -10,6 +10,7 @@ import type { Pinia } from "pinia";
 import { configs } from "./router/configs";
 import type { RouterConfigs } from "./router/configs";
 import { addRouterConfigs } from "./router";
+import { MockEndpointCallback } from "../test/mock-endpoint";
 
 export type mountParameters = {
   router: Router;
@@ -21,11 +22,26 @@ export type mountContext = Partial<{
   appContext: AppConfigs;
 }>;
 
-export function mount(
+declare global {
+  interface Window {
+    mockEndpoint: MockEndpointCallback;
+  }
+}
+
+export async function mount(
   { router, pinia }: mountParameters,
   { routerContext, appContext }: mountContext = {}
-): void {
+): Promise<void> {
   const app = createApp(AppVue);
+
+  if (import.meta.env.DEV) {
+    const { mockEndpoint, activateStoredMocks } = await import(
+      "../test/mock-endpoint"
+    );
+
+    (<any>window).mockEndpoint = mockEndpoint;
+    activateStoredMocks();
+  }
 
   app.use(router);
   app.use(pinia);

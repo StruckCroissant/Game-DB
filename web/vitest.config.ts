@@ -11,7 +11,7 @@ export default defineConfig({
         process.cwd(),
         "test/drivers/vitest/vitest-driver.ts"
       ),
-      "@": path.resolve(__dirname, "./src")
+      "@": path.resolve(__dirname, "./src"),
     },
   },
   test: {

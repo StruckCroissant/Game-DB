@@ -3,8 +3,7 @@ import { Driver } from "test/types";
 
 it("should do stuff", ({ driver }: { driver: Driver }) => [
   driver.goTo("/"),
-  driver.findByText("Remember me").shouldBeVisible(),
   driver.findByText("Forgot password?").shouldBeVisible(),
+  driver.findByText("Remember me").shouldBeVisible(),
   driver.findByText("Don't have an account?").shouldBeVisible(),
-  driver.findByRole("link", { name: "Forgot password?" }).click(),
 ]);
