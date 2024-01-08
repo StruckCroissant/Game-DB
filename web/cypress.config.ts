@@ -1,4 +1,5 @@
 import { defineConfig } from "cypress";
+import cypressWatchAndReload from "cypress-watch-and-reload/plugins";
 import webpackPreprocessor from "@cypress/webpack-preprocessor";
 import path from "path";
 
@@ -11,11 +12,28 @@ export default defineConfig({
     fixturesFolder: "test/drivers/cypress/fixtures",
     screenshotsFolder: "test/drivers/cypress/screenshots",
     videosFolder: "test/drivers/cypress/videos",
-    setupNodeEvents(on) {
-      const prepocessorOptions = {
+    setupNodeEvents(on, config) {
+      const preprocessorOptions = {
         ...webpackPreprocessor.defaultOptions,
         webpackOptions: {
           ...webpackPreprocessor.defaultOptions.webpackOptions,
+          module: {
+            rules: [
+              ...webpackPreprocessor.defaultOptions.webpackOptions.module.rules,
+              {
+                test: /\.tsx?$/,
+                exclude: /node_modules/,
+                use: [
+                  {
+                    loader: `ts-loader`,
+                    options: {
+                      transpileOnly: true,
+                    },
+                  },
+                ],
+              },
+            ],
+          },
           resolve: {
             alias: {
               "@game-db/application-test-driver": path.resolve(
@@ -23,12 +41,12 @@ export default defineConfig({
                 `test/drivers/cypress/cypress-driver.ts`
               ),
             },
-            extensions: [`.ts`, `.js`],
+            extensions: [`.tsx`, `.ts`, `.js`],
           },
         },
       };
-
-      on("file:preprocessor", webpackPreprocessor(prepocessorOptions));
+      on(`file:preprocessor`, webpackPreprocessor(preprocessorOptions));
+      return cypressWatchAndReload(on, config);
     },
   },
 });

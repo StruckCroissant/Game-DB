@@ -14,7 +14,6 @@ import { mount } from "../../../src/mount";
 import { makeRouter } from "../../../src/router/index";
 import { mockEndpoint } from "../../mock-endpoint";
 import { createPinia } from "pinia";
-import { App } from "vue";
 
 type ElementResolver = () => Promise<HTMLElement | HTMLElement[]>;
 
@@ -134,7 +133,7 @@ const makeDriver = ({ user }: { user: UserEvent }): Driver => ({
       user,
     });
   },
-  findByRole(role, { name } = {}) {
+  findByRole(role, { name } = { name: "" }) {
     return makeAssertionsInteractions(() => screen.findByRole(role, { name }), {
       user,
     });
