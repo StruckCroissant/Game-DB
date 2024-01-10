@@ -13,13 +13,19 @@ export default defineConfig({
     screenshotsFolder: "test/drivers/cypress/screenshots",
     videosFolder: "test/drivers/cypress/videos",
     setupNodeEvents(on, config) {
+      const defaultBaseOptions = webpackPreprocessor.defaultOptions;
+      const defaultWebpackOptions =
+        webpackPreprocessor.defaultOptions.webpackOptions;
+      const defaultRules =
+        webpackPreprocessor.defaultOptions?.webpackOptions?.module?.rules ?? [];
+
       const preprocessorOptions = {
-        ...webpackPreprocessor.defaultOptions,
+        ...defaultBaseOptions,
         webpackOptions: {
-          ...webpackPreprocessor.defaultOptions.webpackOptions,
+          ...defaultWebpackOptions,
           module: {
             rules: [
-              ...webpackPreprocessor.defaultOptions.webpackOptions.module.rules,
+              ...defaultRules,
               {
                 test: /\.tsx?$/,
                 exclude: /node_modules/,
