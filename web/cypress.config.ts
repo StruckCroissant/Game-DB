@@ -42,7 +42,7 @@ export default defineConfig({
           },
           resolve: {
             alias: {
-              "@game-db/application-test-driver": path.resolve(
+              "@game-db/application-test-utils": path.resolve(
                 process.cwd(),
                 `test/drivers/cypress/cypress-driver.ts`
               ),

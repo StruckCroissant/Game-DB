@@ -1,15 +1,16 @@
 <script lang="ts" setup>
-  import { RouterView } from "vue-router";
+import { RouterView } from "vue-router";
+console.log(RouterView);
 </script>
 
 <template>
   <section class="wrapper">
-    <RouterView/>
+    <RouterView />
   </section>
 </template>
 
 <style lang="scss">
-@import '@/styles/abstracts/_placeholders.scss';
+@import "@/styles/abstracts/_placeholders.scss";
 
 a {
   margin-bottom: 0;
@@ -40,5 +41,4 @@ a {
     background-position: 0 50%;
   }
 }
-
 </style>

@@ -35,3 +35,7 @@ src/main/resources/application.yaml
 
 ### SQL ###
 data/
+
+### Cypress Testing ###
+web/**/cypress/videos/
+web/**/cypress/screenshots/

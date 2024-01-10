@@ -1,5 +1,3 @@
-import "cross-fetch/polyfill";
-import { setupWorker } from "msw/browser";
+import { setupServer } from "msw/node";
 
-export const mockServer = setupWorker();
-mockServer.start();
+export const mockServer = setupServer();

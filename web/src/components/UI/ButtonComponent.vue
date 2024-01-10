@@ -19,8 +19,8 @@ const props = withDefaults(defineProps<Props>(), {
   loadingSuccessIcon: "circle-check",
 });
 const emit = defineEmits<{
-  "conclusion-start": void;
-  "conclusion-end": void;
+  (e: "conclusion-start"): void;
+  (e: "conclusion-end"): void;
 }>();
 
 const loadingFinished = ref<boolean>(false);

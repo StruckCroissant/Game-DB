@@ -1,5 +1,5 @@
 import { cy } from "local-cypress";
-import { MockEndpointOptions } from "test/mock-endpoint";
+import { MockEndpointOptions } from "../../mock-endpoint";
 
 const ENDPOINT_MOCKS_KEY = `__ENDPOINT_MOCKS__`;
 

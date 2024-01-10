@@ -2,6 +2,7 @@ import { http, HttpResponse } from "msw";
 import type { SetupWorker } from "msw/browser";
 import type { SetupServer } from "msw/node";
 import { mockServer } from "./mock-server";
+import { mockEndpoint } from "./utils";
 
 type MockServer = { mockServer: SetupServer | SetupWorker };
 export type MockEndpointOptions = {
@@ -13,10 +14,14 @@ export type MockEndpointCallback = (
   path: string,
   { body, method, status }: MockEndpointOptions
 ) => void;
+export type MockEndpointExports = {
+  makeMockEndpoint: ({ mockServer }: MockServer) => MockEndpointCallback;
+  activateStoredMocks: () => void;
+};
 
 const ENDPOINT_MOCKS_KEY = `__ENDPOINT_MOCKS__`;
 
-const makeMockEndpoint =
+export const makeMockEndpoint =
   ({ mockServer }: MockServer): MockEndpointCallback =>
   (path, { body, method = "get", status = 200 }) => {
     mockServer.use(
@@ -27,8 +32,6 @@ const makeMockEndpoint =
       )
     );
   };
-
-export const mockEndpoint = makeMockEndpoint({ mockServer });
 
 export const activateStoredMocks = () => {
   const mocksRaw = localStorage.getItem(ENDPOINT_MOCKS_KEY);

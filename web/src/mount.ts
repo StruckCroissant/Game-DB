@@ -1,7 +1,6 @@
 import { createApp } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
-import type { App } from "vue";
 import type { Router } from "vue-router";
 import { addAppConfigs, type AppConfigs } from "./configs";
 
@@ -10,7 +9,10 @@ import type { Pinia } from "pinia";
 import { configs } from "./router/configs";
 import type { RouterConfigs } from "./router/configs";
 import { addRouterConfigs } from "./router";
-import { MockEndpointCallback } from "../test/mock-endpoint";
+import {
+  MockEndpointCallback,
+  MockEndpointOptions,
+} from "../test/mock-endpoint";
 
 export type mountParameters = {
   router: Router;
@@ -34,14 +36,13 @@ export async function mount(
 ): Promise<void> {
   const app = createApp(AppVue);
 
-  if (import.meta.env.DEV) {
-    const { mockEndpoint, activateStoredMocks } = await import(
-      "../test/mock-endpoint"
-    );
+  // if (import.meta.env.DEV) {
+  //   const { mockEndpoint } = await import("../test/utils");
+  //   const { activateStoredMocks } = await import("../test/mock-endpoint");
 
-    (<any>window).mockEndpoint = mockEndpoint;
-    activateStoredMocks();
-  }
+  //   (<any>window).mockEndpoint = mockEndpoint;
+  //   activateStoredMocks();
+  // }
 
   app.use(router);
   app.use(pinia);

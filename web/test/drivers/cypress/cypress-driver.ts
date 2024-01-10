@@ -10,6 +10,7 @@ import type {
   ItCallback,
 } from "../../types";
 import { mockEndpoint } from "./utils";
+import { mount } from "../../../src/mount";
 
 function makeAssertions(elementResolver: ElementResolver): Assertions {
   return {
@@ -53,7 +54,7 @@ function makeAssertionsInteractions(
 
 const makeDriver = (): Driver => ({
   goTo(path) {
-    return () => {
+    return async () => {
       cy.visit(path);
     };
   },

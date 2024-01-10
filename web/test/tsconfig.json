@@ -1,8 +1,12 @@
 {
   "extends": "../tsconfig.json",
-  // "include": ["./**/*.ts"],
+  "include": ["./**/*.ts"],
   "exclude": [],
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@game-db/application-test-utils": ["./drivers/vitest/vitest-driver.ts"]
+    },
     "lib": [],
     "types": [
       "node", 

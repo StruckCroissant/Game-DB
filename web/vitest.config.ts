@@ -7,7 +7,7 @@ export default defineConfig({
   ...viteConfig,
   resolve: {
     alias: {
-      "@game-db/application-test-driver": path.resolve(
+      "@game-db/application-test-utils": path.resolve(
         process.cwd(),
         "test/drivers/vitest/vitest-driver.ts"
       ),
