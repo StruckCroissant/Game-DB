@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { toRef, computed, ref } from "vue";
+import { toRef, computed, ref, defineOptions } from "vue";
 import type { Ref } from "vue";
 import { FieldContext, useField } from "vee-validate";
 import { modes } from "@/services/validation/interactionModes";
@@ -23,6 +23,10 @@ const props = withDefaults(defineProps<Props>(), {
   label: "",
   placeholder: "",
   mode: "aggressive",
+});
+
+defineOptions({
+  inheritAttrs: false,
 });
 
 const name = toRef(props, "name");
@@ -74,6 +78,7 @@ const handlers = computed(() => {
 </script>
 
 <template>
+  <label :for="name" v-show="false">{{ name }}</label>
   <div :class="['rounded-input', errorMessage ? 'rounded-input--error' : '']">
     <input
       :id="name"
@@ -82,6 +87,7 @@ const handlers = computed(() => {
       :placeholder="placeholder"
       v-on="handlers"
       v-model="value"
+      v-bind="$attrs"
       class="rounded-input__input"
       role="input"
     />

@@ -47,13 +47,13 @@ const onSubmit = handleSubmit(async (values) => {
             placeholder="Username"
             name="username"
             type="text"
-            label="Username"
+            aria-label="username"
           ></InputComponent>
           <InputComponent
             placeholder="Password"
             name="password"
             type="password"
-            label="Password"
+            aria-label="password"
           ></InputComponent>
           <div class="login-modal__remember">
             <div>

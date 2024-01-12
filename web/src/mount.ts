@@ -36,14 +36,6 @@ export async function mount(
 ): Promise<void> {
   const app = createApp(AppVue);
 
-  // if (import.meta.env.DEV) {
-  //   const { mockEndpoint } = await import("../test/utils");
-  //   const { activateStoredMocks } = await import("../test/mock-endpoint");
-
-  //   (<any>window).mockEndpoint = mockEndpoint;
-  //   activateStoredMocks();
-  // }
-
   app.use(router);
   app.use(pinia);
   app.component("FontAwesomeIcon", FontAwesomeIcon);

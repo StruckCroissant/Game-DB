@@ -9,13 +9,16 @@ import type {
   Driver,
   Interactions,
   ItCallback,
+  MetaAssertions,
 } from "../../types";
 import { mount } from "../../../src/mount";
 import { makeRouter } from "../../../src/router/index";
 import { mockEndpoint } from "../../mock-endpoint";
 import { createPinia } from "pinia";
+import { Router } from "vue-router";
 
 type ElementResolver = () => Promise<HTMLElement | HTMLElement[]>;
+type RouterResolver = () => Promise<Router>;
 
 type MockHandle = {
   endpoint: string;
@@ -28,6 +31,18 @@ type MockHandle = {
 
 function toArray<Type>(maybeArray: Type | Type[]) {
   return Array.isArray(maybeArray) ? maybeArray : [maybeArray];
+}
+
+function makeMetaAssertions(routerResolver: RouterResolver): MetaAssertions {
+  return {
+    doAction: () => async () => {
+      await routerResolver();
+    },
+    locationShouldEqual: (path: string) => async () => {
+      const router = await routerResolver();
+      expect(router.currentRoute.value.fullPath).toEqual(path);
+    },
+  };
 }
 
 function makeAssertions(elementResolver: ElementResolver): Assertions {
@@ -107,26 +122,16 @@ function makeAssertionsInteractions(
 
 const makeDriver = ({ user }: { user: UserEvent }): Driver => ({
   goTo(path) {
-    return async () => {
+    return makeMetaAssertions(async () => {
       const pinia = createPinia();
       const router = makeRouter();
-      try {
-        await router.push(path);
-      } catch (error) {
-        // Ignore redirection error.
-        if (
-          error instanceof Error &&
-          error.message.includes("Redirected when going from")
-        ) {
-          return;
-        }
 
-        throw error;
-      }
+      await router.push(path);
 
       document.body.innerHTML = '<div id="app"></div>';
       await mount({ router, pinia });
-    };
+      return router;
+    });
   },
   findByLabelText(text) {
     return makeAssertionsInteractions(() => screen.findByLabelText(text), {

@@ -1,4 +1,11 @@
+import { Router } from "vue-router";
+
 type ActionCallback = () => unknown | Promise<unknown>;
+
+export type MetaAssertions = {
+  doAction: () => ActionCallback;
+  locationShouldEqual: (path: string) => ActionCallback;
+};
 
 export type Assertions = {
   shouldBeVisible: () => ActionCallback;
@@ -46,7 +53,7 @@ type GoToOptions = {
   device?: "desktop" | "mobile";
 };
 
-type GoTo = (path: string, options?: GoToOptions) => ActionCallback;
+type GoTo = (path: string, options?: GoToOptions) => MetaAssertions;
 
 type MockEndpointOptions = {
   body: string | unknown[] | Record<string | number, unknown>;

@@ -1,6 +1,7 @@
-import { cy, it as itCypress } from "local-cypress";
+import { cy, it as itCypress, expect } from "local-cypress";
 
 type ElementResolver = () => Cypress.Chainable;
+type Action = () => void;
 
 import type {
   Assertions,
@@ -8,9 +9,21 @@ import type {
   Driver,
   Interactions,
   ItCallback,
+  MetaAssertions,
 } from "../../types";
 import { mockEndpoint } from "./utils";
-import { mount } from "../../../src/mount";
+
+function makeMetaAssertions(action: Action): MetaAssertions {
+  return {
+    doAction: () => () => action(),
+    locationShouldEqual: (path: string) => () => {
+      action();
+      cy.location().should((loc) => {
+        expect(loc.pathname).to.equal(path);
+      });
+    },
+  };
+}
 
 function makeAssertions(elementResolver: ElementResolver): Assertions {
   return {
@@ -54,9 +67,9 @@ function makeAssertionsInteractions(
 
 const makeDriver = (): Driver => ({
   goTo(path) {
-    return async () => {
+    return makeMetaAssertions(() => {
       cy.visit(path);
-    };
+    });
   },
   findByLabelText(labelText: string) {
     return makeAssertionsInteractions(() => cy.findByLabelText(labelText));

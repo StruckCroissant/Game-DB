@@ -16,7 +16,6 @@ export type MockEndpointCallback = (
 ) => void;
 export type MockEndpointExports = {
   makeMockEndpoint: ({ mockServer }: MockServer) => MockEndpointCallback;
-  activateStoredMocks: () => void;
 };
 
 const ENDPOINT_MOCKS_KEY = `__ENDPOINT_MOCKS__`;
@@ -32,11 +31,3 @@ export const makeMockEndpoint =
       )
     );
   };
-
-export const activateStoredMocks = () => {
-  const mocksRaw = localStorage.getItem(ENDPOINT_MOCKS_KEY);
-  const mocks: { endpoint: string; options: MockEndpointOptions }[] = mocksRaw
-    ? JSON.parse(mocksRaw)
-    : [];
-  mocks.forEach((mock) => mockEndpoint(mock.endpoint, mock.options));
-};
