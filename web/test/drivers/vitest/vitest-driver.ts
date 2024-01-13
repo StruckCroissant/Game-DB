@@ -13,7 +13,7 @@ import type {
 } from "../../types";
 import { mount } from "../../../src/mount";
 import { makeRouter } from "../../../src/router/index";
-import { mockEndpoint } from "../../mock-endpoint";
+import { mockEndpoint } from "../../utils";
 import { createPinia } from "pinia";
 import { Router } from "vue-router";
 

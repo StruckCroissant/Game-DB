@@ -30,7 +30,7 @@ it("Router should redirect base page to the login page", ({ driver }) => [
 
 it("Login should succeed", ({ driver }) => [
   () =>
-    driver.mockEndpoint("http://localhost:4173/api/v1/login", {
+    driver.mockEndpoint("http://localhost:9191/api/v1/login", {
       body: userResponseObject,
       status: 200,
       method: "post",
@@ -39,4 +39,5 @@ it("Login should succeed", ({ driver }) => [
   driver.findByRole("input", { name: "username" }).type("test"),
   driver.findByRole("input", { name: "password" }).type("test"),
   driver.findByRole("button", { name: "Log in" }).click(),
+  driver.findByText("Success!").shouldBeVisible(),
 ]);
