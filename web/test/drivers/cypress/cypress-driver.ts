@@ -1,7 +1,6 @@
 import { cy, it as itCypress, expect } from "local-cypress";
 
 type ElementResolver = () => Cypress.Chainable;
-type Action = () => void;
 
 import type {
   Assertions,
@@ -9,15 +8,13 @@ import type {
   Driver,
   Interactions,
   ItCallback,
-  MetaAssertions,
+  PathAssertions,
 } from "../../types";
 import { mockEndpoint } from "./utils";
 
-function makeMetaAssertions(action: Action): MetaAssertions {
+function makePathAssertions(): PathAssertions {
   return {
-    doAction: () => () => action(),
     locationShouldEqual: (path: string) => () => {
-      action();
       cy.location().should((loc) => {
         expect(loc.pathname).to.equal(path);
       });
@@ -67,9 +64,9 @@ function makeAssertionsInteractions(
 
 const makeDriver = (): Driver => ({
   goTo(path) {
-    return makeMetaAssertions(() => {
+    return () => {
       cy.visit(path);
-    });
+    };
   },
   findByLabelText(labelText: string) {
     return makeAssertionsInteractions(() => cy.findByLabelText(labelText));
@@ -90,6 +87,9 @@ const makeDriver = (): Driver => ({
   setUp(factory) {
     return factory(this);
   },
+  getRouter() {
+    return makePathAssertions();
+  }
 });
 
 function wrapItCallback(func: ItCallback) {

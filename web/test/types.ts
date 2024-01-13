@@ -2,8 +2,7 @@ import { Router } from "vue-router";
 
 type ActionCallback = () => unknown | Promise<unknown>;
 
-export type MetaAssertions = {
-  doAction: () => ActionCallback;
+export type PathAssertions = {
   locationShouldEqual: (path: string) => ActionCallback;
 };
 
@@ -53,7 +52,9 @@ type GoToOptions = {
   device?: "desktop" | "mobile";
 };
 
-type GoTo = (path: string, options?: GoToOptions) => MetaAssertions;
+type GoTo = (path: string, options?: GoToOptions) => ActionCallback;
+
+type GetRouter = () => PathAssertions;
 
 type MockEndpointOptions = {
   body: string | unknown[] | Record<string | number, unknown>;
@@ -87,6 +88,7 @@ export type Driver = {
   mockEndpoint: MockEndpoint;
   setUp: SetUp;
   queryByText: QueryByText;
+  getRouter: GetRouter;
 };
 
 type Step =

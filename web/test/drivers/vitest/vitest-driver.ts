@@ -9,7 +9,7 @@ import type {
   Driver,
   Interactions,
   ItCallback,
-  MetaAssertions,
+  PathAssertions,
 } from "../../types";
 import { mount } from "../../../src/mount";
 import { makeRouter } from "../../../src/router/index";
@@ -33,11 +33,8 @@ function toArray<Type>(maybeArray: Type | Type[]) {
   return Array.isArray(maybeArray) ? maybeArray : [maybeArray];
 }
 
-function makeMetaAssertions(routerResolver: RouterResolver): MetaAssertions {
+function makePathAssertions(routerResolver: RouterResolver): PathAssertions {
   return {
-    doAction: () => async () => {
-      await routerResolver();
-    },
     locationShouldEqual: (path: string) => async () => {
       const router = await routerResolver();
       expect(router.currentRoute.value.fullPath).toEqual(path);
@@ -120,18 +117,19 @@ function makeAssertionsInteractions(
   };
 }
 
+let router: Router | null = null;
 const makeDriver = ({ user }: { user: UserEvent }): Driver => ({
   goTo(path) {
-    return makeMetaAssertions(async () => {
+    return async () => {
       const pinia = createPinia();
-      const router = makeRouter();
+      router = makeRouter();
 
       await router.push(path);
 
       document.body.innerHTML = '<div id="app"></div>';
       await mount({ router, pinia });
       return router;
-    });
+    };
   },
   findByLabelText(text) {
     return makeAssertionsInteractions(() => screen.findByLabelText(text), {
@@ -156,6 +154,12 @@ const makeDriver = ({ user }: { user: UserEvent }): Driver => ({
   queryByText(text) {
     return makeAssertionsNot(async () => screen.queryByText(text));
   },
+  getRouter() {
+    return makePathAssertions(async () => {
+      if (!router) throw new Error("Router is not initialized");
+      return router;
+    })
+  }
 });
 
 function wrapItCallback(func: ItCallback) {

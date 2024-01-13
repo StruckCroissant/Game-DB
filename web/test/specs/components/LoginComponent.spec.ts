@@ -17,7 +17,7 @@ const userResponseObject = {
 };
 
 it("Login page should be visible", ({ driver }: { driver: Driver }) => [
-  driver.goTo("/login").doAction(),
+  driver.goTo("/login"),
   driver.findByText("Forgot password?").shouldBeVisible(),
   driver.findByText("Remember me").shouldBeVisible(),
   driver.findByText("Don't have an account?").shouldBeVisible(),
@@ -25,7 +25,8 @@ it("Login page should be visible", ({ driver }: { driver: Driver }) => [
 ]);
 
 it("Router should redirect base page to the login page", ({ driver }) => [
-  driver.goTo("/").locationShouldEqual("/login"),
+  driver.goTo("/"),
+  driver.getRouter().locationShouldEqual("/login"),
 ]);
 
 it("Login should succeed", ({ driver }) => [
@@ -35,7 +36,7 @@ it("Login should succeed", ({ driver }) => [
       status: 200,
       method: "post",
     }),
-  driver.goTo("/login").doAction(),
+  driver.goTo("/login"),
   driver.findByRole("input", { name: "username" }).type("test"),
   driver.findByRole("input", { name: "password" }).type("test"),
   driver.findByRole("button", { name: "Log in" }).click(),
