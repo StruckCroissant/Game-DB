@@ -1,8 +1,9 @@
 import axios from "axios";
+import configs from "../configs";
 import type { AxiosInstance } from "axios";
 
 export const axiosInstance: AxiosInstance = axios.create({
-  baseURL: "http://localhost:9191/api/v1",
+  baseURL: configs.network.baseUrl,
 });
 axiosInstance.interceptors.response.use(
   (response) => response,

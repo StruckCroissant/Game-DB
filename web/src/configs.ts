@@ -1,16 +1,7 @@
-import errorHandler from "@/services/errorHandler";
-import { App } from "vue";
-
-export type AppConfigs = {
-  errorHandler: (err: unknown) => void;
-};
-
-export const configs: AppConfigs = {
-  errorHandler: (err: unknown) => {
-    errorHandler.errorGuard(err);
+const configs = {
+  network: {
+    baseUrl: "http://localhost:9191/api/v1",
   },
 };
 
-export function addAppConfigs(app: App<Element>, configs: AppConfigs) {
-  app.config.errorHandler = configs.errorHandler;
-}
+export default configs;

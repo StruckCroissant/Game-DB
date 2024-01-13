@@ -10,7 +10,7 @@ import type {
   IconDefinition,
 } from "@fortawesome/fontawesome-svg-core";
 import { configs as routerConfigs } from "./router/configs";
-import { configs as appConfigs } from "./configs";
+import { configs as appConfigs } from "./app-configs";
 
 function setupFontAwesomeLibrary(
   library: Library,

@@ -2,7 +2,7 @@ import { createApp } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 import type { Router } from "vue-router";
-import { addAppConfigs, type AppConfigs } from "./configs";
+import { addAppConfigs, type AppConfigs } from "./app-configs";
 
 import AppVue from "./App.vue";
 import type { Pinia } from "pinia";

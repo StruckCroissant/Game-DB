@@ -30,7 +30,7 @@ it("Router should redirect base page to the login page", ({ driver }) => [
 
 it("Login should succeed", ({ driver }) => [
   () =>
-    driver.mockEndpoint("http://localhost:9191/api/v1/login", {
+    driver.mockEndpoint("/login", {
       body: userResponseObject,
       status: 200,
       method: "post",

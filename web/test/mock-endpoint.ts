@@ -1,4 +1,5 @@
 import { http, HttpResponse } from "msw";
+import configs from "../src/configs";
 import type { SetupWorker } from "msw/browser";
 import type { SetupServer } from "msw/node";
 
@@ -21,8 +22,9 @@ const ENDPOINT_MOCKS_KEY = `__ENDPOINT_MOCKS__`;
 export const makeMockEndpoint =
   ({ mockServer }: MockServer): MockEndpointCallback =>
   (path, { body, method = "get", status = 200 }) => {
+    const fullPath: string = configs.network.baseUrl + path;
     mockServer.use(
-      http[method](path, () => {
+      http[method](fullPath, () => {
         return HttpResponse.json(body, { status: status });
       })
     );
