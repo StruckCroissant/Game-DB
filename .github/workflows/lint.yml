@@ -5,6 +5,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Install packages
+        working-directory: ./web
+        run: npm install
       - name: Run ESLint
         working-directory: ./web
         run: npm run lint
