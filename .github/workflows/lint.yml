@@ -10,5 +10,5 @@ jobs:
         run: npm install
       - name: Run ESLint
         working-directory: ./web
-        run: npm run lint
+        run: npm run lint:ci
         
