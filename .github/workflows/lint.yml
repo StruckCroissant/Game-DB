@@ -1,0 +1,15 @@
+name: Lint
+on:
+  push:
+    branches:
+      - '!master'
+      - '!main'
+jobs:
+  lint-js:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run ESLint
+        working-directory: ./web
+        run: npm run lint
+        
