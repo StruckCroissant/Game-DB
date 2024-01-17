@@ -19,5 +19,6 @@ module.exports = {
     ecmaVersion: "latest",
     project: "./tsconfig-eslint.json",
     tsconfigRootDir: __dirname,
+    ignorePath: ".gitignore"
   },
 };

@@ -6,7 +6,7 @@
     "build": "run-p type-check build-only",
     "test:unit": "vitest --environment jsdom --root src/",
     "test:e2e": "start-server-and-test preview :4173 'cypress run --e2e'",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "lint": "eslint . --ignore-path .gitignore",
     "build-only": "vite build",
     "dev": "vite",
     "preview": "vite preview",
