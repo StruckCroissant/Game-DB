@@ -10,6 +10,7 @@ type UserLoginRequest = z.infer<typeof userLoginSchema>;
 //</editor-fold>
 
 //<editor-fold desc="Error Request">
+/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
 type Problem = z.infer<typeof problemSchema>;
 //</editor-fold>
 
