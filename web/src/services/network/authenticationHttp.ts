@@ -3,7 +3,6 @@ import type { NetworkComposable } from "@/composables/useFetch";
 import { usePost } from "@/composables/useFetch";
 import { toRefs } from "vue";
 import type { UserLoginRequest } from "@/common/types";
-import { userLoginSchema } from "@/common/schemas";
 
 interface UseLogin extends NetworkComposable {
   doLogin: () => Promise<void>;

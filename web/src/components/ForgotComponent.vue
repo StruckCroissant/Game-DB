@@ -36,6 +36,8 @@ const { value: username, errorMessage: usernameErrorMessage } = useField(
   "username",
   requiredFieldSchema("username")
 );
+// TODO remove this line once the feature is completed
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const { value: password, errorMessage: passwordErrorMessage } = useField(
   "password",
   requiredFieldSchema("password")
