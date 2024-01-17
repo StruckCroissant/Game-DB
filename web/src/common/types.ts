@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 /** src/common/types.ts
  *
  * Used to define HTTP return types
