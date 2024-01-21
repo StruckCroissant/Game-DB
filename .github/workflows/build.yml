@@ -1,27 +1,12 @@
-name: "Lint"
-on: ["push"]
+name: "Build"
+on:  
+  workflow_run:
+    workflows: ["Lint"]
+    types:
+      - completed
 jobs:
-  format-java:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: 17
-      - uses: axel-op/googlejavaformat-action@v3
-  lint-js:
-    runs-on: ubuntu-latest
-    if: github.ref != 'refs/heads/main'
-    steps:
-      - uses: actions/checkout@v2
-      - name: Install packages
-        working-directory: ./web
-        run: npm install
-      - name: Run ESLint
-        working-directory: ./web
-        run: npm run lint:ci
   build-java:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
