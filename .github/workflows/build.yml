@@ -1,7 +1,7 @@
 name: "Build"
 on:  
   workflow_run:
-    workflows: ["Lint"]
+    workflows: [Lint]
     types:
       - completed
 jobs:
