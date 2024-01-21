@@ -1,34 +1,21 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import {useAuthenticationStore} from "@/stores/authentication";
-import { storeToRefs } from "pinia";
+import { createRouter, createWebHistory } from "vue-router";
 
-import type { Router } from 'vue-router';
+import type { Router } from "vue-router";
 import { routes } from "./routes";
+import { configs } from "./configs";
+import type { RouterConfigs } from "./configs";
 
-/**
- * Routes section
- */
-const router: Router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes: routes
-});
+export function addConfigs(router: Router, configs: RouterConfigs): Router {
+  if (configs.beforeEach) router.beforeEach(configs.beforeEach);
 
-/**
- * Router setup
- */
-router.beforeEach((to, from, next) => {
-  const authStore = useAuthenticationStore();
-  const { isAuthenticated } = storeToRefs(authStore);
+  return router;
+}
 
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!isAuthenticated.value) {
-      next({ name: 'auth' });
-    } else {
-      next();
-    }
-  } else {
-    next();
-  }
-});
+export function makeRouter() {
+  const router = createRouter({
+    history: createWebHistory(import.meta.env.BASE_URL),
+    routes: routes,
+  });
 
-export default router;
+  return addConfigs(router, configs);
+}

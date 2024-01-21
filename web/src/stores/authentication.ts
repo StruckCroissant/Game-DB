@@ -1,21 +1,24 @@
-import { defineStore } from 'pinia';
-import { updateAxiosIntercept } from "@/config/axiosConfig";
+import { defineStore } from "pinia";
+import {
+  updateAuthListeners,
+  clearAuth,
+} from "@/services/authentication/authenticationService";
 
-export const useAuthenticationStore = defineStore('Authentication', {
-    state: () => ({
-        isAuthenticated: false,
-        basicAuthToken: ''
-    }),
-    actions: {
-        addBasicAuth(username: string, password: string) {
-            this.basicAuthToken = "basic " + btoa(`${username}:${password}`);
-            this.isAuthenticated = true;
-            updateAxiosIntercept(this.basicAuthToken);
-        },
-        removeAuthToken() {
-            this.basicAuthToken = '';
-            this.isAuthenticated = false;
-            updateAxiosIntercept(this.basicAuthToken);
-        }
-    }
+export const useAuthenticationStore = defineStore("Authentication", {
+  state: () => ({
+    isAuthenticated: false,
+    basicAuthToken: "",
+  }),
+  actions: {
+    addBasicAuth(username: string, password: string) {
+      this.basicAuthToken = "basic " + btoa(`${username}:${password}`);
+      this.isAuthenticated = true;
+      updateAuthListeners(this.basicAuthToken);
+    },
+    removeAuthToken() {
+      this.basicAuthToken = "";
+      this.isAuthenticated = false;
+      clearAuth();
+    },
+  },
 });

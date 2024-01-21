@@ -9,7 +9,8 @@ import type { userLoginSchema, problemSchema } from "@/common/schemas";
 type UserLoginRequest = z.infer<typeof userLoginSchema>;
 //</editor-fold>
 
-//<editor-fold desc="Request">
+//<editor-fold desc="Error Request">
+/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
 type Problem = z.infer<typeof problemSchema>;
 //</editor-fold>
 
