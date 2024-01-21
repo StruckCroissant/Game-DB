@@ -1,11 +1,13 @@
-name: Java CI
-
-on: [push]
-
+name: "Build"
+on:  
+  workflow_run:
+    workflows: [Lint]
+    types:
+      - completed
 jobs:
-  build:
+  build-java:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 17
