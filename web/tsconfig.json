@@ -17,7 +17,7 @@
     "noImplicitThis": true,
     "removeComments": true,
     "preserveConstEnums": true,
-    // "verbatimModuleSyntax": true,
+    "verbatimModuleSyntax": true,
     "isolatedModules": true,
     "baseUrl": ".",
     "outDir": "./dist/js",
@@ -39,11 +39,11 @@
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
-    "src/**/*.vue",
-    "test/**/*.ts",
-    "test/**/*.tsx"
+    "src/**/*.vue"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "cypress.config.ts",
+    "cypress"
   ],
 }

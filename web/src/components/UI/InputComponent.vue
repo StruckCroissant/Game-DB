@@ -81,6 +81,7 @@ const handlers = computed(() => {
       :name="name"
       :type="concreteType"
       :placeholder="placeholder"
+      :aria-label="name"
       v-on="handlers"
       v-model="value"
       class="rounded-input__input"

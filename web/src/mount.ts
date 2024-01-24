@@ -7,22 +7,44 @@ import type { AppConfigs } from "./configs";
 
 import AppVue from "./App.vue";
 import type { Pinia } from "pinia";
+import type { RouterConfigs } from "./router/configs";
 
-export function addConfigs(app: App<Element>, configs: AppConfigs) {
+type AppProps = {
+  router: Router;
+  pinia: Pinia;
+};
+
+type AppContext = {
+  routerConfigs: RouterConfigs;
+  appConfigs: AppConfigs;
+};
+
+function addAppConfigs(app: App<Element>, configs: AppConfigs) {
   app.config.errorHandler = configs.errorHandler;
 }
 
-export function mount({
-  router,
-  pinia,
-}: {
-  router: Router;
-  pinia: Pinia;
-}): void {
+function addRouterConfigs(
+  router: Router,
+  routerConfigs: RouterConfigs
+): Router {
+  if (routerConfigs.beforeEach) {
+    router.beforeEach(routerConfigs.beforeEach);
+  }
+
+  return router;
+}
+
+export function mount(
+  { router, pinia }: AppProps,
+  { routerConfigs, appConfigs }: AppContext
+): void {
   const app = createApp(AppVue);
 
   app.use(router);
   app.use(pinia);
   app.component("FontAwesomeIcon", FontAwesomeIcon);
   app.mount("#app");
+
+  addAppConfigs(app, appConfigs);
+  addRouterConfigs(router, routerConfigs);
 }

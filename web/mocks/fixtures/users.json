@@ -1,0 +1,12 @@
+{
+  "jdeveloper": {
+    "accountNonExpired": true,
+    "accountNonLocked": true,
+    "authorities": [{"authority": "USER"}],
+    "credentialsNonExpired": true,
+    "enabled": true,
+    "id": 1,
+    "role": "USER",
+    "username": "jdeveloper"
+  }
+}
