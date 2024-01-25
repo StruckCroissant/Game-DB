@@ -17,7 +17,7 @@
     "noImplicitThis": true,
     "removeComments": true,
     "preserveConstEnums": true,
-    "verbatimModuleSyntax": true,
+    // "verbatimModuleSyntax": true,
     "isolatedModules": true,
     "baseUrl": ".",
     "outDir": "./dist/js",

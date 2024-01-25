@@ -1,9 +1,10 @@
 import { defineConfig } from "cypress";
+import { config } from "./cypress/support/config";
 import path from "path";
 
 export default defineConfig({
   e2e: {
-    baseUrl: "http://localhost:4173",
+    baseUrl: config.baseUrl,
     specPattern: "./**/*.spec.cy.ts",
     supportFile: "./cypress/support/e2e.ts",
     video: false,
