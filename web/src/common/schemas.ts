@@ -2,10 +2,12 @@
  *
  * Used to define Zod schemas
  */
+import { toTypedSchema } from "@vee-validate/zod";
+import { TypedSchema } from "vee-validate";
 import * as z from "zod";
 
 //<editor-fold desc="Request">
-const userLoginSchema = z.object({
+export const userLoginSchema = z.object({
   username: z.string().min(1, "username is required"),
   password: z.string().min(1, "password is required"),
 });
@@ -13,7 +15,7 @@ const userLoginSchema = z.object({
 
 //<editor-fold desc="Response">
 // Error
-const problemSchema = z.object({
+export const problemSchema = z.object({
   type: z.string(),
   title: z.string(),
   message: z.string(),
@@ -21,4 +23,9 @@ const problemSchema = z.object({
 });
 //</editor-fold>
 
-export { userLoginSchema, problemSchema };
+//<editor-fold desc="Utility">
+export const requiredFieldSchema = (
+  fieldName: string
+): TypedSchema<string, string> =>
+  toTypedSchema(z.string().nonempty(`${fieldName} is required`));
+//</editor-fold>

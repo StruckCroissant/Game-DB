@@ -10,9 +10,9 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 library.add(faEye, faEyeSlash);
 
 interface Props {
+  name: string;
   type?: string;
   initialValue?: string;
-  name: string;
   label?: string;
   placeholder?: string;
   mode?: string;

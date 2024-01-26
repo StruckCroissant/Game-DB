@@ -23,14 +23,10 @@
 </template>
 
 <script lang="ts" setup>
-import { useField, TypedSchema } from "vee-validate";
-import { toTypedSchema } from "@vee-validate/zod";
-import * as zod from "zod";
+import { useField } from "vee-validate";
 import ModalComponent from "@/components/UI/ModalComponent.vue";
 import InputComponent from "@/components/UI/InputComponent.vue";
-
-const requiredFieldSchema = (fieldName: string): TypedSchema<string, string> =>
-  toTypedSchema(zod.string().nonempty(`${fieldName} is required`));
+import { requiredFieldSchema } from "@/common/schemas";
 
 const { value: username, errorMessage: usernameErrorMessage } = useField(
   "username",
