@@ -1,6 +1,6 @@
 {
   "include": [
-    "./**/*.*", 
+    "./**/*.*"
   ],
   "compilerOptions": {
     "target": "es5",
@@ -10,5 +10,5 @@
       "cypress",
       "@types/mocha"
     ]
-  },
+  }
 }

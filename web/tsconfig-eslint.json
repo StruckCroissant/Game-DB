@@ -10,5 +10,5 @@
         "cypress/**/*.ts",
         "cypress/**/*.cy.ts",
         "mocks/**/*.ts"
-    ],
+    ]
 }
