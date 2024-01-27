@@ -3,10 +3,12 @@ on: [push]
 jobs:
   test-e2e:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./web
     steps:
       - uses: actions/checkout@v3
-      - name: Cypress run
-        uses: cypress-io/github-action@v6
-        with:
-          build: npm run build
-          working-directory: ./web
+      - name: Install dependencies
+        run: npm install
+      - name: Run tests
+        run: npm run test:e2e
