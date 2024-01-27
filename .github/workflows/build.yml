@@ -1,12 +1,7 @@
-name: "Build"
-on:  
-  workflow_run:
-    workflows: [Lint]
-    types:
-      - completed
+name: "Main"
+on: [push]
 jobs:
   build-java:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -26,3 +21,11 @@ jobs:
           packages: libncurses5
       - name: Build with Maven
         run: mvn -B package --file pom.xml
+  build-vue:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install packages
+        run: npm install
+      - name:
+        run: npm run build
