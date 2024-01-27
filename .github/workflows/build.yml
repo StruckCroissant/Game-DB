@@ -25,6 +25,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Change directory
+        run: cd web
       - name: Install packages
         run: npm install
       - name:
