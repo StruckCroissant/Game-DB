@@ -7,7 +7,7 @@ export default defineConfig({
     baseUrl: config.baseUrl,
     specPattern: "./**/*.spec.cy.ts",
     supportFile: "./cypress/support/e2e.ts",
-    video: false,
+    video: true,
     env: {
       "cypress-watch-and-reload": {
         watch: [
