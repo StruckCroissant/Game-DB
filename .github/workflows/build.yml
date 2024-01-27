@@ -23,11 +23,12 @@ jobs:
         run: mvn -B package --file pom.xml
   build-vue:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./web
     steps:
       - uses: actions/checkout@v3
-      - name: Change directory
-        run: cd web
       - name: Install packages
         run: npm install
-      - name:
+      - name: Run Vue build
         run: npm run build
