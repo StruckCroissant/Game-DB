@@ -8,7 +8,8 @@ jobs:
         working-directory: ./web
     steps:
       - uses: actions/checkout@v3
-      - name: Install dependencies
-        run: npm install
-      - name: Run tests
-        run: npm run test:e2e
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          build: npm run build
+          start: npm run preview
