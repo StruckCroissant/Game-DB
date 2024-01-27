@@ -2,8 +2,7 @@
   "extends": "./tsconfig.app.json",
   "exclude": [],
   "compilerOptions": {
-    "composite": true,
-    "lib": [],
-    "types": ["node", "happy-dom"]
+    "lib": ["dom"],
+    "types": ["node", "vitest/globals"]
   }
 }

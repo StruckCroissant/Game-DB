@@ -10,8 +10,8 @@
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
     "lint": "eslint . --ignore-path .gitignore",
     "lint:ci": "eslint . --ignore-path .gitignore --max-warnings 0 --no-fix",
-    "test:unit": "vue-cli-service test:unit",
-    "test:unit:watch": "vue-cli-service test:unit --watch",
+    "test:unit": "vue-cli-service test:unit --environment=happy-dom",
+    "test:unit:watch": "vue-cli-service test:unit --watch --environment=happy-dom",
     "test:e2e": "start-server-and-test preview :4173 'cypress run --e2e'",
     "test:e2e:dev": "start-server-and-test 'vite dev --port 4173' :4173 'cypress open --e2e'"
   },
@@ -22,6 +22,7 @@
     "@fortawesome/vue-fontawesome": "^3.0.3",
     "@vee-validate/zod": "^4.11.8",
     "@vueuse/core": "^9.11.1",
+    "happy-dom": "^13.3.1",
     "lodash": "^4.17.21",
     "pinia": "^2.0.28",
     "vee-validate": "^4.11.8",

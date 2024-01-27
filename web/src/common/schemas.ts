@@ -3,7 +3,7 @@
  * Used to define Zod schemas
  */
 import { toTypedSchema } from "@vee-validate/zod";
-import { TypedSchema } from "vee-validate";
+import type { TypedSchema } from "vee-validate";
 import * as z from "zod";
 
 //<editor-fold desc="Request">
