@@ -14,7 +14,6 @@ export const userLoginSchema = z.object({
 //</editor-fold>
 
 //<editor-fold desc="Response">
-// Error
 export const problemSchema = z.object({
   type: z.string(),
   title: z.string(),
