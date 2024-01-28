@@ -13,7 +13,7 @@ jobs:
         with:
           build: npm run build
           start: npm run preview
-          working-directory: ./web
+          working-directory: web
       - name: Transform coverage report to lcov
         run: npx nyc report --reporter=lcov
       - name: Upload coverage reports to Codecov
@@ -30,7 +30,7 @@ jobs:
       - name: Set up dependencies
         run: npm install
       - name: Run tests
-        run: DEBUG=cypress:net* npm run test:unit:coverage
+        run: npm run test:unit:coverage
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
         with:
