@@ -16,6 +16,11 @@ export default defineConfig({
         ],
       },
     },
+    setupNodeEvents(on, config) {
+      require("@cypress/code-coverage/task")(on, config);
+
+      return config;
+    },
   },
   downloadsFolder: "./cypress/downloads",
   fixturesFolder: "./cypress/fixtures",
