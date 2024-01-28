@@ -15,13 +15,16 @@ export default function config() {
     },
   };
 
-  if (process.env.NODE_ENV !== "production") {
+  if (
+    process.env.NODE_ENV !== "production" ||
+    Boolean(process.env.INSTRUMENT_BUILD)
+  ) {
     config["build"].sourcemap = true;
     config.plugins.push(
       istanbul({
         exclude: ["node_modules"],
         requireEnv: true,
-        forceBuildInstrument: Boolean(process.env.INSTRUMENT_BUILD),
+        forceBuildInstrument: true,
         checkProd: false,
       })
     );
