@@ -30,7 +30,7 @@ jobs:
       - name: Set up dependencies
         run: npm install
       - name: Run tests
-        run: npm run test:unit:coverage
+        run: DEBUG=cypress:net* npm run test:unit:coverage
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
         with:

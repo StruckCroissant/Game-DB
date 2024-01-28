@@ -1,16 +1,17 @@
 name: "Lint"
-on: ["push"]
+on: [push]
 jobs:
   lint-js:
+    defaults:
+      run:
+        working-directory: ./web
     runs-on: ubuntu-latest
     if: github.ref != 'refs/heads/main'
     steps:
       - uses: actions/checkout@v3
       - name: Install packages
-        working-directory: ./web
         run: npm install
       - name: Run ESLint
-        working-directory: ./web
         run: npm run lint:ci
   format-java:
     runs-on: ubuntu-latest
