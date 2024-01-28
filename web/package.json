@@ -12,7 +12,7 @@
     "lint:ci": "eslint . --ignore-path .gitignore --max-warnings 0 --no-fix",
     "test:unit": "vue-cli-service test:unit --environment=happy-dom",
     "test:unit:watch": "vue-cli-service test:unit --watch --environment=happy-dom",
-    "test:unit:coverage": "nyc -t ./.nyc_output/unit --reporter=lcov vue-cli-service test:unit",
+    "test:unit:coverage": "vue-cli-service test:unit --coverage",
     "test:e2e": "start-server-and-test preview :4173 'cypress run --e2e'",
     "test:e2e:dev": "start-server-and-test 'vite dev --port 4173' :4173 'cypress open --e2e'"
   },
@@ -46,6 +46,7 @@
     "@types/lodash": "^4.14.200",
     "@types/node": "^18.16.9",
     "@vitejs/plugin-vue": "^4.0.0",
+    "@vitest/coverage-istanbul": "^1.2.2",
     "@vue/cli-plugin-typescript": "~5.0.0",
     "@vue/cli-plugin-unit-jest": "~5.0.0",
     "@vue/eslint-config-prettier": "^7.0.0",
@@ -69,12 +70,30 @@
     "typescript": "~4.7.4",
     "vite": "^4.0.0",
     "vite-plugin-istanbul": "^5.0.0",
-    "vitest": "^0.25.6",
+    "vitest": "^1.2.2",
     "vue-tsc": "^1.0.12"
   },
   "msw": {
     "workerDirectory": [
       "public"
+    ]
+  },
+  "nyc": {
+    "instrument": true,
+    "sourceMap": true,
+    "cache": true,
+    "all": true,
+    "extension": [
+      ".vue",
+      ".ts",
+      ".js"
+    ],
+    "exclude": [
+      "*.coverage.ts",
+      "cypress/**/*",
+      "dist/**/*",
+      "public/**/*",
+      "src/**/*.spec.ts"
     ]
   }
 }
