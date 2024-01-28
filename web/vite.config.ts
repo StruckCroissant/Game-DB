@@ -5,21 +5,27 @@ import vue from "@vitejs/plugin-vue";
 import istanbul from "vite-plugin-istanbul";
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  build: {
-    sourcemap: true,
-  },
-  plugins: [
-    vue(),
-    istanbul({
-      exclude: ["node_modules"],
-      requireEnv: false,
-      forceBuildInstrument: Boolean(process.env.INSTRUMENT_BUILD),
-    }),
-  ],
-  resolve: {
-    alias: {
-      "@": fileURLToPath(new URL("./src", import.meta.url)),
+export default function config() {
+  const config = {
+    plugins: [vue()],
+    resolve: {
+      alias: {
+        "@": fileURLToPath(new URL("./src", import.meta.url)),
+      },
     },
-  },
-});
+  };
+
+  if (process.env.NODE_ENV !== "production") {
+    config["build"].sourcemap = true;
+    config.plugins.push(
+      istanbul({
+        exclude: ["node_modules"],
+        requireEnv: true,
+        forceBuildInstrument: Boolean(process.env.INSTRUMENT_BUILD),
+        checkProd: false,
+      })
+    );
+  }
+
+  return defineConfig(config);
+}
