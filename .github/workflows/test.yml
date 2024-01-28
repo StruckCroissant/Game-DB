@@ -4,7 +4,7 @@ defaults:
   run:
     working-directory: ./web
 jobs:
-  test-e2e:
+  frontend-e2e:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -23,7 +23,7 @@ jobs:
           fail_ci_if_error: true
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-  test-component:
+  frontend-component:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

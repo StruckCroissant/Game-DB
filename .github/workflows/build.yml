@@ -1,7 +1,7 @@
 name: "Build"
 on: [push]
 jobs:
-  build-java:
+  backend:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,7 +21,7 @@ jobs:
           packages: libncurses5
       - name: Build with Maven
         run: mvn -B package --file pom.xml
-  build-vue:
+  frontend:
     runs-on: ubuntu-latest
     defaults:
       run:
