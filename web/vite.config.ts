@@ -12,8 +12,9 @@ export default defineConfig({
   plugins: [
     vue(),
     istanbul({
-      cypress: true,
+      exclude: ["node_modules"],
       requireEnv: false,
+      forceBuildInstrument: Boolean(process.env.INSTRUMENT_BUILD),
     }),
   ],
   resolve: {
