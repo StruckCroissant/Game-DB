@@ -1,5 +1,8 @@
 name: "Test"
 on: [push]
+defaults:
+  run:
+    working-directory: ./web
 jobs:
   test-e2e:
     runs-on: ubuntu-latest
@@ -11,6 +14,8 @@ jobs:
           build: npm run build
           start: npm run preview
           working-directory: ./web
+      - name: Transform coverage report to lcov
+        run: npx nyc report --reporter=lcov
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
         with:
@@ -20,9 +25,6 @@ jobs:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
   test-component:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./web
     steps:
       - uses: actions/checkout@v4
       - name: Set up dependencies
