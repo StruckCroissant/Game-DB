@@ -12,7 +12,7 @@
     "lint:ci": "eslint . --ignore-path .gitignore --max-warnings 0 --no-fix",
     "test:unit": "vue-cli-service test:unit --environment=happy-dom",
     "test:unit:watch": "vue-cli-service test:unit --watch --environment=happy-dom",
-    "test:unit:coverage": "nyc -t ./.nyc_output/unit vue-cli-service test:unit",
+    "test:unit:coverage": "nyc -t ./.nyc_output/unit --reporter=lcov vue-cli-service test:unit",
     "test:e2e": "start-server-and-test preview :4173 'cypress run --e2e'",
     "test:e2e:dev": "start-server-and-test 'vite dev --port 4173' :4173 'cypress open --e2e'"
   },

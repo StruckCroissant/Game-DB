@@ -4,7 +4,7 @@ jobs:
   test-e2e:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
@@ -17,8 +17,12 @@ jobs:
       run:
         working-directory: ./web
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up dependencies
         run: npm install
       - name: Run tests
-        run: npm run test:unit
+        run: npm run test:unit:coverage && npx codecov
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
