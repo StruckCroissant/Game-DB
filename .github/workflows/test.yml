@@ -11,6 +11,13 @@ jobs:
           build: npm run build
           start: npm run preview
           working-directory: ./web
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          flags: frontend-e2e
+          fail_ci_if_error: true
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
   test-component:
     runs-on: ubuntu-latest
     defaults:
@@ -24,7 +31,8 @@ jobs:
         run: npm run test:unit:coverage && npx codecov
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
+        with:
+          flags: frontend-unit
+          fail_ci_if_error: true
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-        with:
-          fail_ci_if_error: true
