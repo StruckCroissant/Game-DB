@@ -1,5 +1,6 @@
 # Game-DB
 [![Discord](https://img.shields.io/discord/900430987987681330?label=Discord&logo=discord)](https://discord.gg/jx3JQZDwR8)
+[![codecov](https://codecov.io/github/StruckCroissant/Game-DB/graph/badge.svg?token=Z9VAUP8FII)](https://codecov.io/github/StruckCroissant/Game-DB)
 ## **A web-based game search engine powered by Spring Boot, Angular, Java, and MySQL**
 
 ### Description
