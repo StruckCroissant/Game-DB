@@ -12,7 +12,7 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           build: npm run instrument-build
-          start: npm run preview
+          start: npm run instrument-preview
           working-directory: web
       - name: Transform coverage report to lcov
         run: npx nyc report --reporter=lcov
