@@ -19,7 +19,9 @@ export default function config() {
     process.env.NODE_ENV !== "production" ||
     Boolean(process.env.INSTRUMENT_BUILD)
   ) {
-    config["build"].sourcemap = true;
+    config["build"] = {
+      sourcemap: true,
+    };
     config.plugins.push(
       istanbul({
         exclude: ["node_modules"],
