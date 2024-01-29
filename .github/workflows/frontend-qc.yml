@@ -38,8 +38,7 @@ jobs:
         with:
           flag: frontend-e2e
           token: ${{ secrets.CODECOV_TOKEN }}
-
-  frontend-component:
+  test-component:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
