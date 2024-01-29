@@ -1,10 +1,27 @@
-name: "Test"
+name: "Frontend QC"
 on: [push]
 defaults:
   run:
     working-directory: ./web
 jobs:
-  frontend-e2e:
+  lint:
+    runs-on: ubuntu-latest
+    if: github.ref != 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install packages
+        run: npm install
+      - name: Run ESLint
+        run: npm run lint:ci
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install packages
+        run: npm install
+      - name: Run Vue build
+        run: npm run build
+  test-e2e:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -17,12 +34,9 @@ jobs:
       - name: Transform coverage report to lcov
         run: npx nyc report --reporter=lcov
       - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3
+        uses: ./.github/actions/upload-codecov
         with:
-          flags: frontend-e2e
-          fail_ci_if_error: true
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+          flag: frontend-e2e
   frontend-component:
     runs-on: ubuntu-latest
     steps:
@@ -32,9 +46,6 @@ jobs:
       - name: Run tests
         run: npm run test:unit:coverage
       - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3
+        uses: ./.github/actions/upload-codecov
         with:
-          flags: frontend-unit
-          fail_ci_if_error: true
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+          flag: frontend-unit
