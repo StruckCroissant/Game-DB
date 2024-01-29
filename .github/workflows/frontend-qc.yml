@@ -37,6 +37,8 @@ jobs:
         uses: ./.github/actions/upload-codecov
         with:
           flag: frontend-e2e
+          token: ${{ secrets.CODECOV_TOKEN }}
+
   frontend-component:
     runs-on: ubuntu-latest
     steps:
@@ -49,3 +51,4 @@ jobs:
         uses: ./.github/actions/upload-codecov
         with:
           flag: frontend-unit
+          token: ${{ secrets.CODECOV_TOKEN }}
