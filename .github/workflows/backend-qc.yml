@@ -1,7 +1,5 @@
 name: "Backend QC"
-on: 
-  push:
-    paths: ['api/**/*']
+on: [push]
 jobs:
   lint:
     runs-on: ubuntu-latest

@@ -1,7 +1,5 @@
 name: "Frontend QC"
-on: 
-  push:
-    paths: ['web/**/*']
+on: [push]
 defaults:
   run:
     working-directory: ./web
