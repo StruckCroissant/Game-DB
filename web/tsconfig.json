@@ -17,12 +17,14 @@
     "noImplicitThis": true,
     "removeComments": true,
     "preserveConstEnums": true,
-    // "verbatimModuleSyntax": true,
     "isolatedModules": true,
     "baseUrl": ".",
     "outDir": "./dist/js",
     "types": [
-      "webpack-env", "vite/client"
+      "webpack-env",
+      "vite/client",
+      "@testing-library/vue",
+      "jest"
     ],
     "paths": {
       "@/*": [
@@ -39,11 +41,11 @@
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
-    "src/**/*.vue",
-    "test/**/*.ts",
-    "test/**/*.tsx"
+    "src/**/*.vue"
   ],
   "exclude": [
-    "node_modules"
-  ],
+    "node_modules",
+    "cypress.config.ts",
+    "cypress"
+  ]
 }

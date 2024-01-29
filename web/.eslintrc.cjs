@@ -21,4 +21,9 @@ module.exports = {
     tsconfigRootDir: __dirname,
     ignorePath: ".gitignore"
   },
+  env: {
+    browser: true,
+    amd: true,
+    node: true
+  }
 };

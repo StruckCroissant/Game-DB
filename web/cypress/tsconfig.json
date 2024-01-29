@@ -1,0 +1,14 @@
+{
+  "include": [
+    "./**/*.*"
+  ],
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["es5", "dom", "ES2015"],
+    "types": [
+      "@testing-library/cypress",
+      "cypress",
+      "@types/mocha"
+    ]
+  }
+}

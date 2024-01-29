@@ -10,9 +10,9 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 library.add(faEye, faEyeSlash);
 
 interface Props {
+  name: string;
   type?: string;
   initialValue?: string;
-  name: string;
   label?: string;
   placeholder?: string;
   mode?: string;
@@ -38,8 +38,6 @@ function togglePasswordShown(): void {
 }
 
 //<editor-fold desc="Form Context">
-// we don't provide any rules here because we are using form-level validation
-// https://vee-validate.logaretm.com/v4/guide/validation#form-level-validation
 const { value, errorMessage, handleBlur, handleChange, meta }: FieldContext =
   useField(name, undefined, {
     initialValue: props.initialValue,
@@ -81,6 +79,7 @@ const handlers = computed(() => {
       :name="name"
       :type="concreteType"
       :placeholder="placeholder"
+      :aria-label="name"
       v-on="handlers"
       v-model="value"
       class="rounded-input__input"

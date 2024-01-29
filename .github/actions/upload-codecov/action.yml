@@ -1,0 +1,25 @@
+name: "Publish coverage report to codecov"
+description: "Takes a coverage report inside the .nyc_output directory and uploads it to the codecov repository"
+
+inputs:
+  flag:
+    description: "The coverage report flag"
+    required: true
+  fail-on-error:
+    description: "If the CI should fail on errors"
+    required: false
+    default: true
+  token:
+    description: "Codecov access token"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        flags: ${{ inputs.flag }}
+        fail_ci_if_error: ${{ inputs.fail-on-error }}
+      env:
+        CODECOV_TOKEN: ${{ inputs.token }}

@@ -1,0 +1,53 @@
+name: "Frontend QC"
+on: [push]
+defaults:
+  run:
+    working-directory: ./web
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    if: github.ref != 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install packages
+        run: npm install
+      - name: Run ESLint
+        run: npm run lint:ci
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install packages
+        run: npm install
+      - name: Run Vue build
+        run: npm run build
+  test-e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          build: npm run instrument-build
+          start: npm run preview
+          working-directory: web
+      - name: Transform coverage report to lcov
+        run: npx nyc report --reporter=lcov
+      - name: Upload coverage reports to Codecov
+        uses: ./.github/actions/upload-codecov
+        with:
+          flag: frontend-e2e
+          token: ${{ secrets.CODECOV_TOKEN }}
+  test-component:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up dependencies
+        run: npm install
+      - name: Run tests
+        run: npm run test:unit:coverage
+      - name: Upload coverage reports to Codecov
+        uses: ./.github/actions/upload-codecov
+        with:
+          flag: frontend-unit
+          token: ${{ secrets.CODECOV_TOKEN }}
