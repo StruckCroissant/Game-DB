@@ -38,8 +38,6 @@ function togglePasswordShown(): void {
 }
 
 //<editor-fold desc="Form Context">
-// we don't provide any rules here because we are using form-level validation
-// https://vee-validate.logaretm.com/v4/guide/validation#form-level-validation
 const { value, errorMessage, handleBlur, handleChange, meta }: FieldContext =
   useField(name, undefined, {
     initialValue: props.initialValue,
