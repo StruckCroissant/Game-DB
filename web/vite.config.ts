@@ -25,7 +25,7 @@ export default function config() {
     config.plugins.push(
       istanbul({
         exclude: ["node_modules"],
-        requireEnv: true,
+        requireEnv: false,
         forceBuildInstrument: true,
         checkProd: false,
       })
