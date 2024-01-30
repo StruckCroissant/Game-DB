@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import { toRef, computed, ref } from "vue";
+import { toRef, ref } from "vue";
 import type { Ref } from "vue";
-import { useField } from "vee-validate";
-import type { FieldContext } from "vee-validate";
-import { modes } from "@/services/validation/interactionModes";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { useFieldMode } from "@/composables/validation/useFieldMode";
 library.add(faEye, faEyeSlash);
 
 interface Props {
@@ -30,7 +28,7 @@ const name = toRef(props, "name");
 
 const passwordShown: Ref<boolean> = ref(false);
 const isPasswordInput: boolean = props.type === "password";
-const concreteType: Ref<string> = ref(props.type);
+const concreteType: Ref<string> = toRef(props, "type");
 
 function togglePasswordShown(): void {
   concreteType.value = passwordShown.value ? "password" : "text";
@@ -38,37 +36,11 @@ function togglePasswordShown(): void {
 }
 
 //<editor-fold desc="Form Context">
-const { value, errorMessage, handleBlur, handleChange, meta }: FieldContext =
-  useField(name, undefined, {
-    initialValue: props.initialValue,
-  });
-
-type EventCallback = (e: Event, validate?: boolean) => void;
-const handlers = computed(() => {
-  const on: Record<string, EventCallback | EventCallback[]> = {
-    blur: handleBlur,
-    // default input event to sync the value
-    // the `false` here prevents validation
-    input: [(e: Event) => handleChange(e, false)],
-  };
-
-  // Get list of validation events based on the current mode
-  const triggers = modes[props.mode]({
-    errorMessage,
-    meta,
-  });
-
-  // add them to the "on" handlers object
-  triggers.forEach((t: string) => {
-    if (Array.isArray(on[t])) {
-      (on[t] as Array<EventCallback>).push(handleChange);
-    } else {
-      on[t] = handleChange;
-    }
-  });
-
-  return on;
-});
+const { value, errorMessage, handlers } = useFieldMode(
+  name,
+  props.initialValue,
+  props.mode
+);
 //</editor-fold>
 </script>
 
