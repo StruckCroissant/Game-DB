@@ -1,6 +1,6 @@
 import { useAuthenticationStore } from "@/stores/authentication";
-import type { NetworkComposable } from "@/composables/useFetch";
-import { usePost } from "@/composables/useFetch";
+import type { NetworkComposable } from "@/composables/network/useFetch";
+import { usePost } from "@/composables/network/useFetch";
 import { toRefs } from "vue";
 import type { UserLoginRequest } from "@/common/types";
 
