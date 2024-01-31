@@ -1,23 +1,29 @@
 <script lang="ts" setup>
-import { useRegister } from "@/services/network/authenticationHttp";
-import ModalComponent from "@/components/UI/ModalComponent.vue";
-import InputComponent from "@/components/UI/InputComponent.vue";
+import { reactive } from "vue";
 import { useForm } from "vee-validate";
+import { useRouter } from "vue-router";
+import { useRegister } from "@/services/network/authenticationHttp";
 import { userLoginSchema } from "@/common/schemas";
 import { toTypedSchema } from "@vee-validate/zod";
-import { reactive } from "vue";
+import ModalComponent from "@/components/UI/ModalComponent.vue";
+import InputComponent from "@/components/UI/InputComponent.vue";
 import ButtonComponent from "@/components/UI/ButtonComponent.vue";
 import type { UserLoginRequest } from "@/common/types";
+import NavigationModalComponent from "./UI/NavigationModalComponent.vue";
 
+//<editor-fold desc="Form validation">
 const { values, handleSubmit } = useForm({
   validationSchema: toTypedSchema(userLoginSchema),
 });
+//</editor-fold>
 
+//<editor-fold desc="Login">
 const registerRequest: UserLoginRequest = reactive({
   username: values.username ?? "",
   password: values.password ?? "",
 });
 
+const { push } = useRouter();
 const { loading, error, doRegister } = useRegister(registerRequest);
 
 const onSubmit = handleSubmit(async (values) => {
@@ -27,11 +33,13 @@ const onSubmit = handleSubmit(async (values) => {
   ];
 
   await doRegister();
+  push({ name: "login" });
 });
+//</editor-fold>
 </script>
 
 <template>
-  <ModalComponent>
+  <NavigationModalComponent>
     <template #header>
       <label><strong>Register</strong></label>
     </template>
@@ -56,7 +64,7 @@ const onSubmit = handleSubmit(async (values) => {
       </form>
     </template>
     <template #footer> </template>
-  </ModalComponent>
+  </NavigationModalComponent>
 </template>
 
 <style scoped></style>

@@ -55,18 +55,14 @@ const onSubmit = handleSubmit(async (values) => {
             type="password"
             label="Password"
           ></InputComponent>
-          <div class="login-modal__remember">
-            <div>
-              <input type="checkbox" name="rememberUser" />
-              <label for="rememberUser">Remember me</label>
-            </div>
+          <div class="login-modal__under-buttons">
             <RouterLink to="/register">Forgot password?</RouterLink>
           </div>
         </div>
         <ButtonComponent :loading="loading" :error="!!error" type="submit">
           Log in
         </ButtonComponent>
-        <div id="account-create">
+        <div class="d-flex">
           Dont have an account? <RouterLink to="/register">Create</RouterLink>
         </div>
       </form>
@@ -74,8 +70,4 @@ const onSubmit = handleSubmit(async (values) => {
   </ModalComponent>
 </template>
 
-<style lang="scss" scoped>
-#account-create {
-  display: flex;
-}
-</style>
+<style lang="scss" scoped></style>

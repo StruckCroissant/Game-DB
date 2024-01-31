@@ -1,3 +1,5 @@
+import { addCompareSnapshotCommand } from "cypress-visual-regression/dist/command";
+
 // ***********************************************************
 // This example support/index.js is processed and
 // loaded automatically before your test files.
@@ -17,6 +19,9 @@
 import "./commands";
 import "./index";
 import "@cypress/code-coverage/support";
+addCompareSnapshotCommand({
+  capture: "viewport",
+});
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

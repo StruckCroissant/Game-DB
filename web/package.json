@@ -58,6 +58,7 @@
     "@vue/vue3-jest": "^27.0.0-alpha.1",
     "cross-env": "^7.0.3",
     "cypress": "^13.6.3",
+    "cypress-visual-regression": "^4.0.0",
     "eslint": "^8.22.0",
     "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-vue": "^9.3.0",

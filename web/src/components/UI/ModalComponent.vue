@@ -15,8 +15,8 @@
 </template>
 
 <style scoped>
+@include box-shadow(#6a6a6a);
 .modal {
-  @include box-shadow(#6a6a6a);
   display: flex;
   align-items: center;
   justify-content: space-between;

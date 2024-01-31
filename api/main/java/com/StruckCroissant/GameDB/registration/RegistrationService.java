@@ -19,7 +19,6 @@ public class RegistrationService {
   }
 
   public boolean registerUser(UserRegistrationRequest request) {
-
     // Prompts user service to sign up the user
     return userService.signUpUser(
         new User(request.getUsername(), request.getPassword(), UserRoleEnum.USER, false, true));

@@ -8,7 +8,8 @@
     "types": [
       "@testing-library/cypress",
       "cypress",
-      "@types/mocha"
+      "@types/mocha",
+      "cypress-visiual-regression"
     ]
   }
 }

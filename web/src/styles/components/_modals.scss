@@ -10,17 +10,12 @@
   border-radius: 5px;
 }
 
-.login-modal__remember {
+.login-modal__under-buttons {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   position: relative;
-
-  div {
-    display: flex;
-    align-items: center;
-  }
 }
 
 .login-modal__label {
