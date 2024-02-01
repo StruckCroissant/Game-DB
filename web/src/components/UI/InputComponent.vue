@@ -28,7 +28,7 @@ const name = toRef(props, "name");
 
 const passwordShown: Ref<boolean> = ref(false);
 const isPasswordInput: boolean = props.type === "password";
-const concreteType: Ref<string> = toRef(props, "type");
+const concreteType: Ref<string> = ref(props.type);
 
 function togglePasswordShown(): void {
   concreteType.value = passwordShown.value ? "password" : "text";

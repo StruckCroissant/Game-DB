@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="modal">
+  <div class="modal modal--thin">
     <header class="modal__header">
       <slot name="header"></slot>
     </header>
@@ -14,8 +14,7 @@
   </div>
 </template>
 
-<style scoped>
-@include box-shadow(#6a6a6a);
+<style lang="scss" scoped>
 .modal {
   display: flex;
   align-items: center;
@@ -23,12 +22,23 @@
   flex-direction: column;
   background-color: white;
   border-radius: 5px;
-  padding: 2rem 3rem;
+  padding: 1rem;
+  position: relative;
+  /* These transforms provide a containing block for all children including */
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  transform: rotate(0deg);
 
   * {
     width: 100%;
     display: flex;
   }
+}
+
+.modal--thin {
+  padding: 2rem 3rem;
 }
 
 .modal__header {

@@ -11,5 +11,6 @@ import ToastComponent from "@/components/UI/ToastComponent.vue";
 <style>
 * {
   font-family: Lato, system-ui;
+  box-sizing: border-box;
 }
 </style>

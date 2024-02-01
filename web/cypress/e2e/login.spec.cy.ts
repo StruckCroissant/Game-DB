@@ -52,7 +52,7 @@ describe("Login page tests", () => {
     });
 
     it("Clicking back button on register modal should navigate back to login page", () => {
-      cy.findByRole("link", { name: "back" }).click();
+      cy.get("a#back-button").should("be.visible").click();
       cy.url().should("contain", "/login");
     });
   });
