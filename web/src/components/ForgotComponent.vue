@@ -7,7 +7,7 @@
       <div class="input-group">
         <InputComponent
           name="username"
-          placeholder="Username"
+          label="Username"
           :invalid-message="usernameErrorMessage"
           v-model="username"
         >

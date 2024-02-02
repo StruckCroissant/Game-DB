@@ -46,13 +46,8 @@ const onSubmit = handleSubmit(async (values) => {
     <template #default>
       <form class="form form--centered" @submit="onSubmit">
         <div class="input-group">
+          <InputComponent label="Username" name="username"></InputComponent>
           <InputComponent
-            placeholder="Username"
-            label="Username"
-            name="username"
-          ></InputComponent>
-          <InputComponent
-            placeholder="Password"
             label="Password"
             name="password"
             type="password"

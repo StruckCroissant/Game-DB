@@ -5,6 +5,7 @@ import type { FieldContext } from "vee-validate";
 import type { MaybeRefOrGetter } from "vue";
 
 type EventCallback = (e: Event, validate?: boolean) => void;
+export type InteractionModes = keyof typeof modes;
 
 export function useFieldMode(
   name: MaybeRefOrGetter<string>,

@@ -18,13 +18,9 @@ const props = withDefaults(defineProps<Props>(), {
   loadingSuccessText: "Success",
   loadingSuccessIcon: "circle-check",
 });
-const emit = defineEmits<{
-  "conclusion-start": [];
-  "conclusion-end": [];
-}>();
 
-const loadingFinished = ref<boolean>(false);
-const clicking = ref<boolean>(false);
+const loadingFinished = ref(false);
+const clicking = ref(false);
 
 watch(
   () => props.loading,
@@ -32,10 +28,8 @@ watch(
     if (newVal != oldVal && !newVal) return;
 
     loadingFinished.value = true;
-    emit("conclusion-start");
     setTimeout(() => {
       loadingFinished.value = false;
-      emit("conclusion-end");
     }, 3000);
   }
 );

@@ -1,30 +1,31 @@
 <script setup lang="ts">
 import { toRef, ref } from "vue";
-import type { Ref } from "vue";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { useFieldMode } from "@/composables/validation/useFieldMode";
+import { InteractionModes } from "@/composables/validation/useFieldMode";
+import * as _ from "lodash";
+import type { InputTypeHTMLAttribute, Ref } from "vue";
 library.add(faEye, faEyeSlash);
 
 interface Props {
   name: string;
-  type?: string;
+  type?: InputTypeHTMLAttribute | undefined;
   initialValue?: string;
   label?: string;
-  placeholder?: string;
-  mode?: string;
+  mode?: InteractionModes;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   type: "text",
   initialValue: "",
   label: "",
-  placeholder: "",
   mode: "aggressive",
 });
 
 const name = toRef(props, "name");
+const id = _.uniqueId(name.value);
 
 const passwordShown: Ref<boolean> = ref(false);
 const isPasswordInput: boolean = props.type === "password";
@@ -47,11 +48,11 @@ const { value, errorMessage, handlers } = useFieldMode(
 <template>
   <div :class="['rounded-input', errorMessage ? 'rounded-input--error' : '']">
     <input
-      :id="name"
+      :id="id"
       :name="name"
       :type="concreteType"
-      :placeholder="placeholder"
-      :aria-label="name"
+      :placeholder="label"
+      :aria-label="label"
       v-on="handlers"
       v-model="value"
       class="rounded-input__input"
@@ -64,7 +65,10 @@ const { value, errorMessage, handlers } = useFieldMode(
       @click="togglePasswordShown"
       class="rounded-input__end-icon"
     >
-      <FontAwesomeIcon :icon="passwordShown ? faEyeSlash : faEye" />
+      <FontAwesomeIcon
+        :icon="passwordShown ? faEyeSlash : faEye"
+        aria-label="show password"
+      />
     </div>
   </div>
 </template>

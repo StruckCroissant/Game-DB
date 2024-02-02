@@ -44,13 +44,11 @@ const onSubmit = handleSubmit(async (values) => {
       <form class="form form--centered" @submit="onSubmit">
         <div class="input-group">
           <InputComponent
-            placeholder="Username"
             name="username"
             type="text"
             label="Username"
           ></InputComponent>
           <InputComponent
-            placeholder="Password"
             name="password"
             type="password"
             label="Password"
