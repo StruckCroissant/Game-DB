@@ -1,22 +1,38 @@
 import { render as tlRender, fireEvent, waitFor } from "@testing-library/vue";
 import InputComponent from "./InputComponent.vue";
-import { FormContextKey, useForm } from "vee-validate";
+import { FormContext, FormContextKey, useForm } from "vee-validate";
 import type { RenderOptions } from "@testing-library/vue";
 import userEvent from "@testing-library/user-event";
+import { Component, provide } from "vue";
 
-const render = (options: RenderOptions) => tlRender(InputComponent, options);
-const user = userEvent.setup();
-const mockFormContext = useForm({
-  validationSchema: {
-    username(value: string) {
-      if (value && value.trim()) {
-        return true;
-      }
+const ComponentWithNewSetup: Component = {
+  ...InputComponent,
+  setup(props, ctx) {
+    let result = {};
 
-      return "required";
-    },
+    const mockFormContext = useForm({
+      validationSchema: {
+        username(value: string) {
+          if (value && value.trim()) {
+            return true;
+          }
+
+          return "required";
+        },
+      },
+    });
+    provide(FormContextKey, mockFormContext);
+
+    if (InputComponent.setup) {
+      result = { ...result, ...InputComponent.setup(props, ctx) };
+    }
+
+    return result;
   },
-});
+};
+const render = (options: RenderOptions) =>
+  tlRender(ComponentWithNewSetup, options);
+const user = userEvent.setup();
 
 describe("InputComponent tests", () => {
   it("Should have a placeholder", () => {
@@ -46,9 +62,7 @@ describe("InputComponent tests", () => {
 
     const { getByRole, getByText } = render({
       props: props,
-      global: { provide: { [FormContextKey]: mockFormContext } },
     });
-
     const input = getByRole("textbox", { name: "Username" });
     user.type(input, " ");
     await waitFor(() => {
