@@ -1,5 +1,6 @@
 import { fileURLToPath, URL } from "node:url";
 
+import { configDefaults } from "vitest/config";
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import istanbul from "vite-plugin-istanbul";
@@ -17,7 +18,7 @@ export default function config() {
       globals: true,
       environment: "happy-dom",
       coverage: {
-        provider: "istanbul",
+        // provider: "istanbul",
         reporter: ["lcov"],
       },
     },
@@ -30,14 +31,14 @@ export default function config() {
     config["build"] = {
       sourcemap: true,
     };
-    config.plugins.push(
-      istanbul({
-        exclude: ["node_modules"],
-        requireEnv: false,
-        forceBuildInstrument: true,
-        checkProd: false,
-      })
-    );
+    // config.plugins.push(
+    //   istanbul({
+    //     exclude: ["node_modules"],
+    //     requireEnv: false,
+    //     forceBuildInstrument: true,
+    //     checkProd: false,
+    //   })
+    // );
   }
 
   return defineConfig(config);
