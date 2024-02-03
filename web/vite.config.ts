@@ -13,6 +13,14 @@ export default function config() {
         "@": fileURLToPath(new URL("./src", import.meta.url)),
       },
     },
+    test: {
+      globals: true,
+      environment: "happy-dom",
+      coverage: {
+        provider: "istanbul",
+        reporter: ["lcov"],
+      },
+    },
   };
 
   if (

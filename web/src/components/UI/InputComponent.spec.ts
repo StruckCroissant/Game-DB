@@ -1,5 +1,6 @@
 import { render as tlRender, fireEvent } from "@testing-library/vue";
 import InputComponent from "./InputComponent.vue";
+import { mountWithHoc } from "../../../utilities/test/helpers";
 import type { RenderOptions } from "@testing-library/vue";
 
 const render = (options: RenderOptions) => tlRender(InputComponent, options);
@@ -26,8 +27,9 @@ describe("InputComponent tests", () => {
   });
 
   it("Should show an error message", () => {
-    const { getByDisplayValue } = render({
+    const { getByDisplayValue } = mountWithHoc(InputComponent, {
       props: { name: "username", label: "Username" },
+      template: "<div></div>",
     });
 
     // TODO will have to render this in a form context
