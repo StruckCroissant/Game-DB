@@ -9,13 +9,3 @@ export async function flushPromises() {
   vi.advanceTimersByTime(5);
   await flushP();
 }
-
-export function mountWithHoc(
-  component: Component,
-  options: RenderOptions & { template: string }
-): RenderResult {
-  const container = document.createElement("div");
-  container.innerHTML = options.template;
-
-  return render(component, options);
-}

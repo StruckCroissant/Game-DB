@@ -12,6 +12,7 @@ export default function config() {
     resolve: {
       alias: {
         "@": fileURLToPath(new URL("./src", import.meta.url)),
+        "~": fileURLToPath(new URL("./utilities", import.meta.url)),
       },
     },
     test: {
