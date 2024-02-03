@@ -1,4 +1,4 @@
-import flushP from "flush-promises";
+import { flushPromises as flushP } from "@vue/test-utils";
 import { vi } from "vitest";
 import { render } from "@testing-library/vue";
 import type { RenderOptions, RenderResult } from "@testing-library/vue";
