@@ -1,8 +1,13 @@
 import { flushPromises as flushP } from "@vue/test-utils";
 import { vi } from "vitest";
 import { provide } from "vue";
-import { FormContext, FormContextKey } from "vee-validate";
+import { FormContextKey } from "vee-validate";
 import type { Component, defineComponent } from "vue";
+import { useForm } from "vee-validate";
+
+type FormData = {
+  validationSchema: Record<string, (...args: any[]) => string | boolean>;
+};
 
 export async function flushPromises() {
   await flushP();
@@ -12,17 +17,17 @@ export async function flushPromises() {
 
 export function getExtendedComponent(
   inputComponent: ReturnType<typeof defineComponent>,
-  options: { mockFormCallback: () => FormContext }
+  options: { mockFormData: FormData }
 ): Component {
   return {
     ...inputComponent,
     setup(props, ctx) {
       let result = {};
 
-      if (options.mockFormCallback) {
-        const mockFormContext = options.mockFormCallback();
+      if (options.mockFormData) {
+        const useFormResult = useForm(options.mockFormData);
         /** @ts-ignore non-problematic type differences */
-        provide(FormContextKey, mockFormContext);
+        provide(FormContextKey, useFormResult);
       }
 
       if (inputComponent.setup) {

@@ -15,7 +15,7 @@ export async function startWorker(options: StartOptions | undefined) {
 }
 
 export async function stopWorker() {
-  await worker.stop();
+  worker.stop();
   workerActive = false;
 }
 

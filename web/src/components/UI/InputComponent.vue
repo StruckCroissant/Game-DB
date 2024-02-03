@@ -4,9 +4,9 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { useFieldMode } from "@/composables/validation/useFieldMode";
-import { InteractionModes } from "@/composables/validation/useFieldMode";
 import * as _ from "lodash";
 import type { InputTypeHTMLAttribute, Ref } from "vue";
+import type { InteractionModes } from "@/composables/validation/useFieldMode";
 library.add(faEye, faEyeSlash);
 
 interface Props {
