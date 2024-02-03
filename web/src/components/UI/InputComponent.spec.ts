@@ -3,33 +3,25 @@ import InputComponent from "./InputComponent.vue";
 import { FormContext, FormContextKey, useForm } from "vee-validate";
 import type { RenderOptions } from "@testing-library/vue";
 import userEvent from "@testing-library/user-event";
-import { Component, provide } from "vue";
+import { Component } from "vue";
+import { getExtendedComponent } from "~/test/helpers";
 
-const ComponentWithNewSetup: Component = {
-  ...InputComponent,
-  setup(props, ctx) {
-    let result = {};
+const mockFormCallback = () =>
+  useForm({
+    validationSchema: {
+      username(value: string) {
+        if (value && value.trim()) {
+          return true;
+        }
 
-    const mockFormContext = useForm({
-      validationSchema: {
-        username(value: string) {
-          if (value && value.trim()) {
-            return true;
-          }
-
-          return "required";
-        },
+        return "required";
       },
-    });
-    provide(FormContextKey, mockFormContext);
+    },
+  });
 
-    if (InputComponent.setup) {
-      result = { ...result, ...InputComponent.setup(props, ctx) };
-    }
-
-    return result;
-  },
-};
+const ComponentWithNewSetup: Component = getExtendedComponent(InputComponent, {
+  mockFormCallback,
+});
 const render = (options: RenderOptions) =>
   tlRender(ComponentWithNewSetup, options);
 const user = userEvent.setup();
