@@ -14,7 +14,7 @@ export function mountWithHoc(
   component: Component,
   options: RenderOptions & { template: string }
 ): RenderResult {
-  const container = new HTMLElement();
+  const container = document.createElement("div");
   container.innerHTML = options.template;
 
   return render(component, options);
