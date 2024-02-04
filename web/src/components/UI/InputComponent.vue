@@ -47,28 +47,30 @@ const { value, errorMessage, handlers } = useFieldMode(
 
 <template>
   <div :class="['rounded-input', errorMessage ? 'rounded-input--error' : '']">
-    <input
-      :id="id"
-      :name="name"
-      :type="concreteType"
-      :placeholder="label"
-      :aria-label="label"
-      v-on="handlers"
-      v-model="value"
-      class="rounded-input__input"
-    />
+    <div class="rounded-input__input-container">
+      <input
+        :id="id"
+        :name="name"
+        :type="concreteType"
+        :placeholder="label"
+        :aria-label="label"
+        v-on="handlers"
+        v-model="value"
+        class="rounded-input__input"
+      />
+      <div
+        v-if="isPasswordInput"
+        @click="togglePasswordShown"
+        class="rounded-input__end-icon"
+      >
+        <FontAwesomeIcon
+          :icon="passwordShown ? faEyeSlash : faEye"
+          aria-label="show password"
+        />
+      </div>
+    </div>
     <div v-if="errorMessage" class="rounded-input__invalid-message">
       {{ errorMessage }}
-    </div>
-    <div
-      v-if="isPasswordInput"
-      @click="togglePasswordShown"
-      class="rounded-input__end-icon"
-    >
-      <FontAwesomeIcon
-        :icon="passwordShown ? faEyeSlash : faEye"
-        aria-label="show password"
-      />
     </div>
   </div>
 </template>

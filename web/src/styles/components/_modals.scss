@@ -8,24 +8,25 @@
   height: 340px;
   background-color: white;
   border-radius: 5px;
-}
 
-.login-modal__under-buttons {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  position: relative;
-}
+  &__under-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    margin-top: 3px;
+  }
 
-.login-modal__label {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 1rem;
-  font-size: x-large;
-  padding: 5px;
-  border-radius: 5px;
-  width: 80px;
-  height: 30px;
+  &__label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem;
+    font-size: x-large;
+    padding: 5px;
+    border-radius: 5px;
+    width: 80px;
+    height: 30px;
+  }
 }

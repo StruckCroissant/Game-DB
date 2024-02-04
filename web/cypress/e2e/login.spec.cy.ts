@@ -11,7 +11,7 @@ describe("Login page tests", () => {
     });
 
     it("Login should redirect to home page", () => {
-      cy.findByRole("textbox", { name: "username" }).type("test");
+      cy.findByRole("textbox", { name: "Username" }).type("test");
       cy.findByPlaceholderText("Password").type("test");
       cy.findByRole("button", { name: "Log in" }).click();
       cy.url().should("include", "/home");
@@ -20,7 +20,7 @@ describe("Login page tests", () => {
     it("Clicking forgot password should direct to the registration page", () => {
       cy.findByRole("link", { name: "Forgot password?" }).click();
       cy.url().should("include", "/register");
-      cy.findByRole("textbox", { name: "username" }).should("be.visible");
+      cy.findByRole("textbox", { name: "Username" }).should("be.visible");
       cy.findByPlaceholderText("Password").should("be.visible");
       cy.findByRole("button", { name: "Register" }).should("be.visible");
     });
@@ -45,7 +45,7 @@ describe("Login page tests", () => {
     });
 
     it("Providing valid input for username and password should redirect to login page", () => {
-      cy.findByRole("textbox", { name: "username" }).type("test");
+      cy.findByRole("textbox", { name: "Username" }).type("test");
       cy.findByPlaceholderText("Password").type("test");
       cy.findByRole("button", { name: "Register" }).click();
       cy.url().should("contain", "/login");

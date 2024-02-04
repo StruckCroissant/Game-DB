@@ -1,11 +1,16 @@
 @import '@/styles/abstracts/mixins';
 
 .rounded-input {
-  position: relative;
   font-size: 15px;
 
   &--error &__input {
     @include border-box-shadow(#ff9d9d);
+  }
+
+  &__input-container {
+    display: flex;
+    align-items: center;
+    position: relative;
   }
 
   &__input {
@@ -28,7 +33,6 @@
   }
 
   &__end-icon {
-    top: 13px;
     right: 0;
     margin-right: 10px;
     position: absolute;
