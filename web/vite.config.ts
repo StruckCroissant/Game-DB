@@ -1,5 +1,6 @@
 import { fileURLToPath, URL } from "node:url";
 import { defineConfig } from "vite";
+import { configDefaults } from 'vitest/config'
 import vue from "@vitejs/plugin-vue";
 import istanbul from "vite-plugin-istanbul";
 import type { UserConfig } from "vite";
@@ -19,6 +20,7 @@ export default function config() {
       coverage: {
         reporter: ["lcov"],
       },
+      exclude: [...configDefaults.exclude, "./public/**", "./mocks/**", "./utilities/**"],
     },
   };
 
@@ -31,7 +33,7 @@ export default function config() {
     };
     config.plugins.push(
       istanbul({
-        exclude: ["node_modules"],
+        exclude: [...configDefaults.exclude, , "./public/**", "./mocks/**", "./utilities/**"],
         requireEnv: false,
         forceBuildInstrument: true,
         checkProd: false,
