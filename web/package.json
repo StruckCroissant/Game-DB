@@ -47,7 +47,6 @@
     "@types/lodash": "^4.14.200",
     "@types/node": "^18.16.9",
     "@vitejs/plugin-vue": "^4.0.0",
-    "@vitest/coverage-istanbul": "^1.2.2",
     "@vitest/coverage-v8": "^1.2.2",
     "@vue/cli-plugin-typescript": "~5.0.0",
     "@vue/cli-plugin-unit-jest": "~5.0.0",

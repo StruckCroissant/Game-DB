@@ -17,9 +17,10 @@ export default defineConfig({
       reporter: [["lcov", { projectRoot: "./src" }]],
       exclude: [
         ...coverageConfigDefaults.exclude,
-        "./utilities/**/*",
-        "./mocks/**/*",
-        "./dist/**/*",
+        "utilities/**/*",
+        "mocks/**/*",
+        "dist/**/*",
+        "public/**/*",
       ],
     },
   },
