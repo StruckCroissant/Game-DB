@@ -1,6 +1,5 @@
 import { fileURLToPath, URL } from "node:url";
 import { defineConfig } from "vite";
-import { configDefaults } from 'vitest/config'
 import vue from "@vitejs/plugin-vue";
 import istanbul from "vite-plugin-istanbul";
 import type { UserConfig } from "vite";
@@ -14,26 +13,14 @@ export default function config() {
         "@": fileURLToPath(new URL("./src", import.meta.url)),
       },
     },
-    test: {
-      globals: true,
-      environment: "happy-dom",
-      coverage: {
-        reporter: ["lcov"],
-      },
-      exclude: [...configDefaults.exclude, "./public/**", "./mocks/**", "./utilities/**"],
-    },
   };
 
-  if (
-    process.env.NODE_ENV !== "production" ||
-    Boolean(process.env.INSTRUMENT_BUILD)
-  ) {
+  if (process.env.INSTRUMENT_BUILD) {
     config["build"] = {
       sourcemap: true,
     };
     config.plugins.push(
       istanbul({
-        exclude: [...configDefaults.exclude, , "./public/**", "./mocks/**", "./utilities/**"],
         requireEnv: false,
         forceBuildInstrument: true,
         checkProd: false,

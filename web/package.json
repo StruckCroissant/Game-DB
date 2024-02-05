@@ -12,8 +12,8 @@
     "lint": "eslint . --ignore-path .gitignore",
     "lint:ci": "eslint . --ignore-path .gitignore --max-warnings 0 --no-fix",
     "test:unit": "vitest --environment=happy-dom",
-    "test:unit:watch": "vitest --watch --environment=happy-dom",
-    "test:unit:coverage": "vitest --coverage",
+    "test:unit:watch": "vitest --watch --config vitest.config.ts",
+    "test:unit:coverage": "vitest --coverage.enabled --config vitest.config.ts",
     "test:e2e": "start-server-and-test preview :4173 'cypress run --e2e'",
     "test:e2e:coverage": "npm run instrument-build && start-server-and-test preview :4173 'cypress run --e2e'",
     "test:e2e:dev": "start-server-and-test 'vite dev --port 4173' :4173 'cypress open --e2e'"
@@ -78,24 +78,6 @@
   "msw": {
     "workerDirectory": [
       "public"
-    ]
-  },
-  "nyc": {
-    "instrument": true,
-    "sourceMap": true,
-    "cache": true,
-    "all": true,
-    "extension": [
-      ".vue",
-      ".ts",
-      ".js"
-    ],
-    "exclude": [
-      "*.coverage.ts",
-      "cypress/**/*",
-      "dist/**/*",
-      "public/**/*",
-      "src/**/*.spec.ts"
     ]
   }
 }
