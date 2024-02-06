@@ -1,16 +1,17 @@
 import { computed } from "vue";
 import { useField } from "vee-validate";
 import { modes } from "@/services/validation/interactionModes";
+import type { InteractionTypes as InteractionModeTypes } from "@/services/validation/interactionModes";
 import type { FieldContext } from "vee-validate";
 import type { MaybeRefOrGetter } from "vue";
 
 type EventCallback = (e: Event, validate?: boolean) => void;
-export type InteractionModes = keyof typeof modes;
+export type InteractionTypes = InteractionModeTypes;
 
 export function useFieldMode(
   name: MaybeRefOrGetter<string>,
   initialValue: string,
-  mode: string
+  mode: InteractionTypes
 ) {
   const { value, errorMessage, handleBlur, handleChange, meta }: FieldContext =
     useField(name, undefined, {

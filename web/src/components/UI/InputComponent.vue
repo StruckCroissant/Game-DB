@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { useFieldMode } from "@/composables/validation/useFieldMode";
 import * as _ from "lodash";
 import type { InputTypeHTMLAttribute, Ref } from "vue";
-import type { InteractionModes } from "@/composables/validation/useFieldMode";
+import type { InteractionTypes } from "@/composables/validation/useFieldMode";
 library.add(faEye, faEyeSlash);
 
 interface Props {
@@ -14,14 +14,14 @@ interface Props {
   type?: InputTypeHTMLAttribute | undefined;
   initialValue?: string;
   label?: string;
-  mode?: InteractionModes;
+  mode?: InteractionTypes;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   type: "text",
   initialValue: "",
   label: "",
-  mode: "aggressive",
+  mode: "lazy",
 });
 
 const name = toRef(props, "name");

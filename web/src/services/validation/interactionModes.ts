@@ -4,6 +4,8 @@ type InteractionEventGetter = (
   ctx: Required<Pick<FieldContext, "meta" | "errorMessage">>
 ) => string[];
 
+export type InteractionTypes = "passive" | "lazy" | "aggressive" | "eager";
+
 // Validates on submit only
 const passive: InteractionEventGetter = () => [];
 
@@ -21,7 +23,7 @@ const eager: InteractionEventGetter = ({ errorMessage }) => {
   return ["change"];
 };
 
-export const modes: Record<string, InteractionEventGetter> = {
+export const modes: Record<InteractionTypes, InteractionEventGetter> = {
   passive: passive,
   lazy: lazy,
   aggressive: aggressive,

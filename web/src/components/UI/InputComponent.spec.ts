@@ -20,7 +20,7 @@ const InputComponentWrapped: Component = getExtendedComponent(InputComponent, {
   mockFormData,
 });
 
-describe("InputComponent tests", () => {
+describe("UI Tests", () => {
   it("Should have a placeholder", () => {
     const { getByRole } = render(InputComponentWrapped, {
       props: { name: "username", label: "Username" },
@@ -45,8 +45,7 @@ describe("InputComponent tests", () => {
   });
 
   it("Should show an error message", async () => {
-    const fieldName = "username";
-    const props = { name: fieldName, label: "Username", initialValue: "" };
+    const props = { name: "username", label: "Username", initialValue: "" };
 
     const { getByRole, getByText } = render(InputComponentWrapped, {
       props: props,
@@ -55,6 +54,49 @@ describe("InputComponent tests", () => {
     await userEvent.type(input, " ");
     await waitFor(() => {
       expect(getByText("required")).toBeDefined();
+    });
+  });
+});
+
+describe("Functionality tests", () => {
+  it("Should validate on input when mode is agressive", async () => {
+    const { getByRole, getByText, queryByText } = render(
+      InputComponentWrapped,
+      {
+        props: {
+          name: "username",
+          label: "Username",
+          mode: "aggressive",
+        },
+      }
+    );
+    const input = getByRole("textbox", { name: "Username" });
+
+    await userEvent.type(input, " ");
+    await waitFor(() => {
+      expect(getByText("required")).toBeDefined();
+    });
+
+    await userEvent.type(input, "test");
+    await waitFor(() => {
+      expect(queryByText("required")).toBeNull();
+    });
+  });
+
+  it("Should validate on change only when mode is lazy", async () => {
+    const { getByRole, queryByText } = render(InputComponentWrapped, {
+      props: {
+        name: "username",
+        label: "Username",
+        mode: "lazy",
+      },
+    });
+    const input = getByRole("textbox", { name: "Username" });
+
+    await userEvent.click(input);
+    await userEvent.keyboard("{Enter}");
+    await waitFor(() => {
+      expect(queryByText("required")).toBeNull();
     });
   });
 });
