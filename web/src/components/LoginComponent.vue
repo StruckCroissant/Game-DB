@@ -41,7 +41,7 @@ const onSubmit = handleSubmit(async (values) => {
       <label><strong>Login</strong></label>
     </template>
     <template #default>
-      <form class="form form--centered" @submit="onSubmit">
+      <div class="form form--centered">
         <div class="input-group">
           <InputComponent
             name="username"
@@ -59,13 +59,18 @@ const onSubmit = handleSubmit(async (values) => {
             >Forgot password?</RouterLink
           >
         </div>
-        <ButtonComponent :loading="loading" :error="!!error" type="submit">
+        <ButtonComponent
+          :loading="loading"
+          :error="!!error"
+          type="submit"
+          @click="onSubmit"
+        >
           Log in
         </ButtonComponent>
         <div class="d-flex">
           Dont have an account? <RouterLink to="/register">Create</RouterLink>
         </div>
-      </form>
+      </div>
     </template>
   </ModalComponent>
 </template>

@@ -1,3 +1,31 @@
+const login = {
+  inputs: {
+    username: () => cy.findByRole("textbox", { name: "Username" }),
+    password: () => cy.findByPlaceholderText("Password"),
+  },
+  buttons: {
+    login: () => cy.findByRole("button", { name: "Log in" }),
+  },
+  links: {
+    "forgot-password": () =>
+      cy.findByRole("link", { name: "Forgot password?" }),
+    "create-user": () => cy.findByRole("link", { name: "Create" }),
+  },
+};
+
+const register = {
+  inputs: {
+    username: () => cy.findByRole("textbox", { name: "Username" }),
+    password: () => cy.findByPlaceholderText("Password"),
+  },
+  buttons: {
+    register: () => cy.findByRole("button", { name: "Register" }),
+  },
+  links: {
+    back: () => cy.get("a#back-button"),
+  },
+};
+
 describe("Login page tests", () => {
   describe("Default page tests", () => {
     beforeEach(() => cy.visit("/"));
@@ -10,23 +38,34 @@ describe("Login page tests", () => {
       cy.get(".modal").compareSnapshot("loginPage");
     });
 
+    it("Clicking login without input should show errors", () => {
+      login.buttons.login().click();
+      cy.get(".rounded-input__invalid-message").contains(
+        "username is required"
+      );
+      cy.get(".rounded-input__invalid-message").contains(
+        "password is required"
+      );
+      cy.get(".modal").compareSnapshot("loginPage-errors");
+    });
+
     it("Login should redirect to home page", () => {
-      cy.findByRole("textbox", { name: "Username" }).type("test");
-      cy.findByPlaceholderText("Password").type("test");
-      cy.findByRole("button", { name: "Log in" }).click();
+      login.inputs.username().type("test");
+      login.inputs.password().type("test");
+      login.buttons.login().click();
       cy.url().should("include", "/home");
     });
 
     it("Clicking forgot password should direct to the registration page", () => {
-      cy.findByRole("link", { name: "Forgot password?" }).click();
+      login.links["forgot-password"]().click();
       cy.url().should("include", "/register");
-      cy.findByRole("textbox", { name: "Username" }).should("be.visible");
-      cy.findByPlaceholderText("Password").should("be.visible");
-      cy.findByRole("button", { name: "Register" }).should("be.visible");
+      login.inputs.username().should("be.visible");
+      login.inputs.password().should("be.visible");
+      register.buttons.register().should("be.visible");
     });
 
     it("Clicking create user should direct to the registration page", () => {
-      cy.findByRole("link", { name: "Create" }).click();
+      login.links["create-user"]().click();
       cy.url().should("include", "/register");
     });
   });
@@ -35,7 +74,7 @@ describe("Login page tests", () => {
     beforeEach(() => cy.visit("/register"));
 
     it("Clicking register without input should show errors", () => {
-      cy.findByRole("button", { name: "Register" }).click();
+      register.buttons.register().click();
       cy.get(".rounded-input__invalid-message").contains(
         "username is required"
       );
@@ -45,14 +84,14 @@ describe("Login page tests", () => {
     });
 
     it("Providing valid input for username and password should redirect to login page", () => {
-      cy.findByRole("textbox", { name: "Username" }).type("test");
-      cy.findByPlaceholderText("Password").type("test");
-      cy.findByRole("button", { name: "Register" }).click();
+      register.inputs.username().type("test");
+      register.inputs.password().type("test");
+      register.buttons.register().click();
       cy.url().should("contain", "/login");
     });
 
     it("Clicking back button on register modal should navigate back to login page", () => {
-      cy.get("a#back-button").should("be.visible").click();
+      register.links.back().should("be.visible").click();
       cy.url().should("contain", "/login");
     });
   });
