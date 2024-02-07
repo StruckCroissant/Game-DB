@@ -1,5 +1,3 @@
-import { flushPromises as flushP } from "@vue/test-utils";
-import { vi } from "vitest";
 import { provide } from "vue";
 import { FormContextKey } from "vee-validate";
 import type { Component, defineComponent } from "vue";
@@ -8,12 +6,6 @@ import { useForm } from "vee-validate";
 type FormData = {
   validationSchema: Record<string, (...args: any[]) => string | boolean>;
 };
-
-export async function flushPromises() {
-  await flushP();
-  vi.advanceTimersByTime(5);
-  await flushP();
-}
 
 export function getExtendedComponent(
   inputComponent: ReturnType<typeof defineComponent>,

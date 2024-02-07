@@ -2,7 +2,7 @@ import type { Component } from "vue";
 import { render, fireEvent, waitFor } from "@testing-library/vue";
 import userEvent from "@testing-library/user-event";
 import InputComponent from "./InputComponent.vue";
-import { getExtendedComponent } from "../../../utilities/test/helpers";
+import { getExtendedComponent } from "@/utilities/testHelpers";
 
 const mockFormData = {
   validationSchema: {

@@ -26,7 +26,7 @@
 import { useField } from "vee-validate";
 import ModalComponent from "@/components/UI/ModalComponent.vue";
 import InputComponent from "@/components/UI/InputComponent.vue";
-import { requiredFieldSchema } from "@/common/schemas";
+import { requiredFieldSchema } from "@/utilities/schemas";
 
 const { value: username, errorMessage: usernameErrorMessage } = useField(
   "username",

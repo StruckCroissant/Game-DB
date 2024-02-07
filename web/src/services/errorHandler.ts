@@ -1,6 +1,6 @@
 import { useToast } from "@/stores/toastStore";
 import { AxiosError } from "axios";
-import { problemSchema } from "@/common/schemas";
+import { problemSchema } from "@/utilities/schemas";
 
 function errorGuard(err: unknown) {
   if (!(err instanceof AxiosError)) {

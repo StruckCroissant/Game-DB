@@ -2,7 +2,7 @@ import { useAuthenticationStore } from "@/stores/authentication";
 import type { NetworkComposable } from "@/composables/network/useFetch";
 import { usePost } from "@/composables/network/useFetch";
 import { toRefs } from "vue";
-import type { UserLoginRequest } from "@/common/types";
+import type { UserLoginRequest } from "@/utilities/types";
 
 interface UseLogin extends NetworkComposable {
   doLogin: () => Promise<void>;

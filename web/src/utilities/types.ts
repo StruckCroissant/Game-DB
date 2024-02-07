@@ -3,7 +3,7 @@
  * Used to define HTTP return types
  */
 import type * as z from "zod";
-import type { userLoginSchema, problemSchema } from "@/common/schemas";
+import type { userLoginSchema, problemSchema } from "@/utilities/schemas";
 
 //<editor-fold desc="Request">
 type UserLoginRequest = z.infer<typeof userLoginSchema>;
