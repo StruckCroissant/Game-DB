@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, watch, computed } from "vue";
+import { ref, toRef } from "vue";
+import { useLoadingDelay } from "@/composables/network/useLoadingDelay";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
@@ -21,22 +22,10 @@ const props = withDefaults(defineProps<Props>(), {
   loadingSuccessIcon: "circle-check",
 });
 
-const loadingTimeoutId = ref<number | undefined>(undefined);
 const clicking = ref(false);
+const loading = toRef(props, "loading");
 
-const loadingFinished = computed(() => !!loadingTimeoutId.value);
-
-watch(
-  () => props.loading,
-  (newVal, oldVal) => {
-    if (newVal != oldVal && !newVal) return;
-
-    clearTimeout(loadingTimeoutId.value);
-    loadingTimeoutId.value = setTimeout(() => {
-      loadingTimeoutId.value = undefined;
-    }, 3000);
-  }
-);
+const { loadingFinished } = useLoadingDelay(toRef(props, "loading"));
 </script>
 
 <template>
@@ -48,9 +37,9 @@ watch(
     @mouseup="clicking = false"
     @mouseleave="clicking = false"
   >
-    <span v-if="loadingFinished && !loading && !error">
+    <span v-if="loadingFinished && !error">
       {{ loadingSuccessText }}
-      <FontAwesomeIcon :icon="loadingSuccessIcon" />
+      <FontAwesomeIcon :icon="loadingSuccessIcon" data-testid="success" />
     </span>
     <slot v-else-if="!loading"></slot>
     <span v-else class="loader loader--small" data-testid="spinner"></span>

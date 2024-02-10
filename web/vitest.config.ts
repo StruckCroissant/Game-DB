@@ -10,6 +10,9 @@ export default defineConfig({
     },
   },
   test: {
+    fakeTimers: {
+      toFake: ["setTimeout", "nextTick"],
+    },
     globals: true,
     environment: "happy-dom",
     coverage: {

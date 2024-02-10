@@ -1,5 +1,8 @@
 {
   "extends": "./tsconfig.app.json",
+  "include": [
+    "*.spec.ts"
+  ],
   "exclude": [],
   "compilerOptions": {
     "lib": ["dom"],

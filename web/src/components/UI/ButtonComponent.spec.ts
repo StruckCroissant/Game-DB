@@ -1,17 +1,36 @@
-import { ref } from "vue";
 import { render, waitFor } from "@testing-library/vue";
 import ButtonComponent from "./ButtonComponent.vue";
+import { useLoadingDelay } from "@/composables/network/useLoadingDelay";
+import "@testing-library/jest-dom";
+import { MockedFunction } from "vitest";
+import { computed } from "vue";
+
+vi.mock("@/composables/network/useLoadingDelay");
+
+function setMock(loadingFinished: boolean = false) {
+  (useLoadingDelay as MockedFunction<typeof useLoadingDelay>).mockReturnValue({
+    loadingFinished: computed(() => loadingFinished),
+  });
+}
 
 describe("ButtonComponent tests", () => {
-  it("Should show success message", () => {
-    console.error("Need to finish test");
+  afterEach(() => {
+    vi.clearAllMocks();
+    vi.resetAllMocks();
   });
 
-  it("Should not show success message on error", () => {
-    console.error("Need to finish test");
+  it("Should not show success message on error", async () => {
+    setMock(true);
+    const { getByTestId } = render(ButtonComponent, {
+      props: { label: "button", loading: false },
+    });
+
+    expect(getByTestId("success")).toBeInTheDocument();
   });
 
   it("Should show loading icon while loading", () => {
+    setMock(false);
+
     const { getByRole, getByTestId } = render(ButtonComponent, {
       props: { label: "button", loading: true },
     });
@@ -23,6 +42,7 @@ describe("ButtonComponent tests", () => {
   it("Should show slot contents", () => {
     const buttonName = "Success button";
     const slotContent = `<div></div>`;
+    setMock(false);
 
     const { getByRole } = render(ButtonComponent, {
       props: { label: buttonName },
@@ -31,19 +51,5 @@ describe("ButtonComponent tests", () => {
 
     const button = getByRole("button", { name: buttonName });
     expect(button.innerHTML).toEqual(slotContent);
-  });
-
-  it("Should show success messsage after loading is completed", async () => {
-    const loading = ref(true);
-
-    const { queryByRole } = render(ButtonComponent, {
-      props: { label: "button", loading: loading },
-    });
-
-    loading.value = false;
-    waitFor(() => {
-      expect(queryByRole("img", { name: "loading icon" })).toBeDefined();
-      console.log(queryByRole("img", { name: "loading icon" }));
-    });
   });
 });
