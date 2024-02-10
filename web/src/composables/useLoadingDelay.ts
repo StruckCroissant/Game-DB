@@ -10,7 +10,7 @@ export function useLoadingDelay(
   loading: MaybeRefOrGetter<boolean>,
   delay: number = 3000
 ) {
-  const loadingTimeoutId = ref<NodeJS.Timeout | undefined>(undefined);
+  const loadingTimeoutId = ref<NodeJS.Timeout | undefined>();
   const loadingFinished = computed(
     () => !!loadingTimeoutId.value && !toValue(loading)
   );
@@ -20,6 +20,7 @@ export function useLoadingDelay(
     (newVal, oldVal) => {
       if (newVal != oldVal && !newVal) return;
       clearTimeout(loadingTimeoutId.value);
+
       loadingTimeoutId.value = setTimeout(() => {
         loadingTimeoutId.value = undefined;
       }, delay);
