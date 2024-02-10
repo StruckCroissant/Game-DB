@@ -28,6 +28,7 @@ export default defineConfig({
         "src/router/index.ts",
         "src/config/*",
         "src/utilities/*",
+        "**/__mocks__/**",
       ],
     },
     setupFiles: ["vitest.setup.ts"],

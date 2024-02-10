@@ -1,5 +1,4 @@
 import { useLoadingDelay } from "@/composables/useLoadingDelay";
-import { waitFor } from "@testing-library/vue";
 import { ref } from "vue";
 
 describe("useLoadingDelay tests", () => {
