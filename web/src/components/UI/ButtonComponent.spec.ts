@@ -1,26 +1,14 @@
-import { render, waitFor } from "@testing-library/vue";
+import { setUseLoadingDelayMock } from "@/composables/__mocks__/useLoadingDelay.mock";
+import { render } from "@testing-library/vue";
 import ButtonComponent from "./ButtonComponent.vue";
-import { useLoadingDelay } from "@/composables/network/useLoadingDelay";
 import "@testing-library/jest-dom";
-import { MockedFunction } from "vitest";
-import { computed } from "vue";
-
-vi.mock("@/composables/network/useLoadingDelay");
-
-function setMock(loadingFinished: boolean = false) {
-  (useLoadingDelay as MockedFunction<typeof useLoadingDelay>).mockReturnValue({
-    loadingFinished: computed(() => loadingFinished),
-  });
-}
+vi.mock("@/composables/useLoadingDelay");
 
 describe("ButtonComponent tests", () => {
-  afterEach(() => {
-    vi.clearAllMocks();
-    vi.resetAllMocks();
-  });
+  beforeEach(() => setUseLoadingDelayMock());
 
   it("Should not show success message on error", async () => {
-    setMock(true);
+    setUseLoadingDelayMock(true);
     const { getByTestId } = render(ButtonComponent, {
       props: { label: "button", loading: false },
     });
@@ -29,8 +17,6 @@ describe("ButtonComponent tests", () => {
   });
 
   it("Should show loading icon while loading", () => {
-    setMock(false);
-
     const { getByRole, getByTestId } = render(ButtonComponent, {
       props: { label: "button", loading: true },
     });
@@ -42,7 +28,6 @@ describe("ButtonComponent tests", () => {
   it("Should show slot contents", () => {
     const buttonName = "Success button";
     const slotContent = `<div></div>`;
-    setMock(false);
 
     const { getByRole } = render(ButtonComponent, {
       props: { label: buttonName },

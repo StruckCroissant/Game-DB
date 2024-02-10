@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, toRef } from "vue";
-import { useLoadingDelay } from "@/composables/network/useLoadingDelay";
+import { useLoadingDelay } from "@/composables/useLoadingDelay";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";

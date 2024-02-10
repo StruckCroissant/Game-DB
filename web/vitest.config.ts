@@ -30,5 +30,6 @@ export default defineConfig({
         "src/utilities/*",
       ],
     },
+    setupFiles: ["vitest.setup.ts"],
   },
 });
