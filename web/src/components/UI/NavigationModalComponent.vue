@@ -11,6 +11,7 @@ const { push } = useRouter();
     <template #header>
       <a
         id="back-button"
+        data-testid="back-link"
         alt="Go back"
         aria-role="link"
         @click="push({ name: 'login' })"
