@@ -9,6 +9,15 @@ describe("ButtonComponent tests", () => {
 
   it("Should not show success message on error", async () => {
     setUseLoadingDelayMock(true);
+    const { queryByTestId } = render(ButtonComponent, {
+      props: { label: "button", loading: false, error: true },
+    });
+
+    expect(queryByTestId("success")).toBeNull();
+  });
+
+  it("Should show success message on error", async () => {
+    setUseLoadingDelayMock(true);
     const { getByTestId } = render(ButtonComponent, {
       props: { label: "button", loading: false },
     });
