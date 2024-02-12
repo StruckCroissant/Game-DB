@@ -62,6 +62,7 @@ const onSubmit = handleSubmit(async (values) => {
         <ButtonComponent
           :loading="loading"
           :error="!!error"
+          label="Log in"
           type="submit"
           @click="onSubmit"
         >

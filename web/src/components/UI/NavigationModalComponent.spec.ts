@@ -1,5 +1,5 @@
 import NavigationModalComponent from "./NavigationModalComponent.vue";
-import { render, getSuggestedQuery } from "@testing-library/vue";
+import { render } from "@testing-library/vue";
 import "@testing-library/jest-dom";
 import { useRouter } from "vue-router";
 import { userEvent } from "@testing-library/user-event";

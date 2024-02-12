@@ -51,7 +51,12 @@ const onSubmit = handleSubmit(async (values) => {
             name="password"
             type="password"
           ></InputComponent>
-          <ButtonComponent :loading="loading" :error="!!error" type="submit">
+          <ButtonComponent
+            :loading="loading"
+            :error="!!error"
+            label="Register"
+            type="submit"
+          >
             Register
           </ButtonComponent>
         </div>
