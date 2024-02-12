@@ -2,8 +2,14 @@ import { MockedFunction } from "vitest";
 import { computed } from "vue";
 import { useLoadingDelay } from "../useLoadingDelay";
 
-export function setUseLoadingDelayMock(loadingFinished: boolean = false) {
-  (useLoadingDelay as MockedFunction<typeof useLoadingDelay>).mockReturnValue({
+type UseLoadingDelayMock = MockedFunction<typeof useLoadingDelay>;
+
+export function getUseLoadingDelayMock(
+  loadingFinished: boolean = false
+): UseLoadingDelayMock {
+  (useLoadingDelay as UseLoadingDelayMock).mockReturnValue({
     loadingFinished: computed(() => loadingFinished),
   });
+
+  return useLoadingDelay as UseLoadingDelayMock;
 }

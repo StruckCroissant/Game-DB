@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { useRouter } from "vue-router";
-import ModalComponent from "./ModalComponent.vue";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { faArrowLeftLong } from "@fortawesome/free-solid-svg-icons";
+import ModalComponent from "./ModalComponent.vue";
 
 const { push } = useRouter();
 </script>
