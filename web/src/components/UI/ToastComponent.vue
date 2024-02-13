@@ -37,8 +37,6 @@ const wrapperInDom = ref(false);
 
 const setSingletonTimeout = singletonTimeoutFactory();
 
-console.log(toasts.value);
-
 watch(
   () => toasts.value.length,
   (value) => {

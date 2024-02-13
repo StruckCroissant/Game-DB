@@ -10,12 +10,11 @@ import "@testing-library/jest-dom";
 
 vi.mock("@/stores/toastStore");
 vi.mock("pinia", async () => {
-  const { toasts } = await mocks;
   return {
     storeToRefs: vi.fn(() => ({ toasts })),
   };
 });
-const mocks = vi.hoisted(async () => {
+const { toasts } = await vi.hoisted(async () => {
   const { ref } = await import("vue");
   return {
     toasts: ref<Array<any>>([]),
@@ -23,10 +22,7 @@ const mocks = vi.hoisted(async () => {
 });
 
 describe("ToastComponent tests", () => {
-  let toasts: Ref | null = null;
-  beforeEach(async () => {
-    toasts = (await mocks).toasts;
-  });
+  beforeEach(() => vi.restoreAllMocks());
 
   it("Should display new messages", async () => {
     const { getByTestId } = render(ToastComponent);
