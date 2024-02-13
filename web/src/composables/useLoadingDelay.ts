@@ -1,5 +1,8 @@
+import { singletonTimeoutFactory } from "@/utilities/common";
 import { ref, toValue, computed, watch } from "vue";
 import type { MaybeRefOrGetter } from "vue";
+
+const setSingletonTimeout = singletonTimeoutFactory();
 
 /**
  * Sets a result variable to true for a specified amount of time after loading finishes
@@ -19,9 +22,8 @@ export function useLoadingDelay(
     () => toValue(loading),
     (newVal, oldVal) => {
       if (newVal != oldVal && !newVal) return;
-      clearTimeout(loadingTimeoutId.value);
 
-      loadingTimeoutId.value = setTimeout(() => {
+      loadingTimeoutId.value = setSingletonTimeout(() => {
         loadingTimeoutId.value = undefined;
       }, delay);
     }

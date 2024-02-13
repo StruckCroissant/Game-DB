@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import { useToast } from "@/stores/toastStore";
-import type { ToastStatus } from "@/stores/toastStore";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
@@ -11,6 +10,8 @@ import {
   faCircleExclamation,
 } from "@fortawesome/free-solid-svg-icons";
 import { storeToRefs } from "pinia";
+import { singletonTimeoutFactory } from "@/utilities/common";
+import type { ToastStatus } from "@/stores/toastStore";
 library.add(faCircleCheck, faTriangleExclamation, faX, faCircleExclamation);
 
 type ToastIcon =
@@ -18,6 +19,7 @@ type ToastIcon =
   | "fa-circle-exclamation"
   | "circle-check";
 type ToastClass = "icon--success" | "icon--warning" | "icon--error";
+
 const toastIconMap: Record<ToastStatus, ToastIcon> = {
   success: "circle-check",
   warning: "triangle-exclamation",
@@ -33,6 +35,10 @@ const toastStore = useToast();
 const { toasts } = storeToRefs(toastStore);
 const wrapperInDom = ref(false);
 
+const setSingletonTimeout = singletonTimeoutFactory();
+
+console.log(toasts.value);
+
 watch(
   () => toasts.value.length,
   (value) => {
@@ -41,7 +47,7 @@ watch(
       return;
     }
 
-    setTimeout(() => {
+    setSingletonTimeout(() => {
       wrapperInDom.value = false;
     }, 300);
   }
@@ -57,7 +63,12 @@ watch(
       class="toast__wrapper"
       appear
     >
-      <li v-for="toast in toasts" :class="['toast__list-item']" :key="toast.id">
+      <li
+        v-for="toast in toasts"
+        :class="['toast__list-item']"
+        :key="toast.id"
+        data-testid="toast-list"
+      >
         <FontAwesomeIcon
           :class="['icon--large', toastClassMap[toast.status]]"
           :icon="toastIconMap[toast.status]"
@@ -65,7 +76,11 @@ watch(
         <span class="toast__list-text">
           {{ toast.text }}
         </span>
-        <button id="close-button" @click="toastStore.remove(toast.id)">
+        <button
+          id="close-button"
+          @click="toastStore.remove(toast.id)"
+          data-testid="toast-close"
+        >
           x
         </button>
       </li>
