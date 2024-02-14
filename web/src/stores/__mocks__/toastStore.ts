@@ -16,3 +16,5 @@ const toastActions = {
 export const useToast = vi.fn(() => {
   return toastActions;
 });
+
+export default { useToast, toasts };
