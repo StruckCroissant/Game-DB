@@ -1,12 +1,12 @@
 import ToastComponent from "@/components/UI/ToastComponent.vue";
-import { waitFor } from "@testing-library/vue";
-import type { Ref } from "vue";
-import { render } from "@testing-library/vue";
+import { render, waitFor } from "@testing-library/vue";
+import { userEvent } from "@testing-library/user-event";
 import {
   getByText as glGetByText,
   getByTestId as glGetByTestId,
 } from "@testing-library/vue";
 import "@testing-library/jest-dom";
+import { Toast, useToast } from "@/stores/toastStore";
 
 vi.mock("@/stores/toastStore");
 vi.mock("pinia", async () => {
@@ -17,17 +17,24 @@ vi.mock("pinia", async () => {
 const { toasts } = await vi.hoisted(async () => {
   const { ref } = await import("vue");
   return {
-    toasts: ref<Array<any>>([]),
+    toasts: ref<Array<Toast>>([]),
   };
 });
 
 describe("ToastComponent tests", () => {
-  beforeEach(() => vi.restoreAllMocks());
+  beforeEach(() => {
+    vi.restoreAllMocks();
+    vi.clearAllMocks();
+  });
+  afterEach(() => {
+    toasts.value = [];
+  });
 
   it("Should display new messages", async () => {
     const { getByTestId } = render(ToastComponent);
-    (toasts as Ref).value.push({ id: 1, status: "warning", text: "test" });
+    toasts.value.push({ id: 1, status: "warning", text: "test" });
 
+    expect(useToast).toBeCalled();
     await waitFor(() => {
       expect(getByTestId("toast-list")).toBeInTheDocument();
     });
@@ -36,8 +43,15 @@ describe("ToastComponent tests", () => {
     glGetByTestId(list, "toast-close");
   });
 
-  it("Clicking remove on the toast item removes the item", () => {
-    throw new Error("need to finish");
+  it("Clicking remove on the toast item removes the item", async () => {
+    const { getByTestId } = render(ToastComponent);
+    toasts.value.push({ id: 1, status: "warning", text: "test" });
+
+    await waitFor(() => {
+      expect(getByTestId("toast-close")).toBeInTheDocument();
+    });
+    await userEvent.click(getByTestId("toast-close"));
+    expect(useToast().remove).toBeCalled();
   });
 
   it("Should time out old messages after a set period", () => {
