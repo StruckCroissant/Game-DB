@@ -6,29 +6,25 @@ import {
   getByTestId as glGetByTestId,
 } from "@testing-library/vue";
 import "@testing-library/jest-dom";
-const toastStore: any = await import("@/stores/toastStore");
+import { toasts, useToast, addToast } from "@/stores/__mocks__/toastStore";
 
 vi.mock("@/stores/toastStore");
 vi.mock("pinia", async () => {
   return {
-    storeToRefs: vi.fn(() => ({ toasts: toastStore.toasts })),
+    storeToRefs: vi.fn(() => ({ toasts })),
   };
 });
 
 describe("ToastComponent tests", () => {
-  beforeEach(() => {
-    vi.restoreAllMocks();
-    vi.clearAllMocks();
-  });
   afterEach(() => {
-    toastStore.toasts.value = [];
+    toasts.value = [];
   });
 
   it("Should display new messages", async () => {
     const { getByTestId } = render(ToastComponent);
-    toastStore.toasts.value.push({ id: 1, status: "warning", text: "test" });
+    addToast("warning", "test");
 
-    expect(toastStore.useToast).toBeCalled();
+    expect(useToast).toBeCalled();
     await waitFor(() => {
       expect(getByTestId("toast-list")).toBeInTheDocument();
     });
@@ -39,23 +35,23 @@ describe("ToastComponent tests", () => {
 
   it("Clicking remove on the toast item removes the item", async () => {
     const { getByTestId } = render(ToastComponent);
-    toastStore.toasts.value.push({ id: 1, status: "warning", text: "test" });
+    addToast("warning", "test");
 
     await waitFor(() => {
       expect(getByTestId("toast-close")).toBeInTheDocument();
     });
     await userEvent.click(getByTestId("toast-close"));
-    expect(toastStore.useToast().remove).toBeCalled();
+    expect(useToast().remove).toBeCalled();
   });
 
   it("Should remove old toasts", async () => {
     const { getByTestId, queryByTestId } = render(ToastComponent);
-    toastStore.toasts.value.push({ id: 1, status: "warning", text: "test" });
+    addToast("warning", "test");
 
     await waitFor(() => {
       expect(getByTestId("toast-list")).toBeInTheDocument();
     });
-    toastStore.toasts.value = [];
+    toasts.value = [];
     await waitFor(() => {
       expect(queryByTestId("toast-list")).not.toBeInTheDocument();
     });

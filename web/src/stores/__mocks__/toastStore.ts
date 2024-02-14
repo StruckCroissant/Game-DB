@@ -1,7 +1,5 @@
 import { ref } from "vue";
-import type { Toast } from "../toastStore";
-
-export const toasts = ref<Toast[]>([]);
+import type { Toast, ToastStatus } from "../toastStore";
 
 const toastActions = {
   updateState: vi.fn(),
@@ -13,8 +11,16 @@ const toastActions = {
   unpause: vi.fn(),
 };
 
+export const toasts = ref<Toast[]>([]);
+
 export const useToast = vi.fn(() => {
   return toastActions;
 });
 
-export default { useToast, toasts };
+export function addToast(status: ToastStatus, text: string) {
+  toasts.value.push({
+    text,
+    status,
+    id: Math.random() * 1000,
+  });
+}
