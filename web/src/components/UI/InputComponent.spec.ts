@@ -2,6 +2,7 @@ import type { Component } from "vue";
 import { render, fireEvent, waitFor } from "@testing-library/vue";
 import userEvent from "@testing-library/user-event";
 import InputComponent from "./InputComponent.vue";
+import "@testing-library/jest-dom";
 import { getExtendedComponent } from "@/utilities/testHelpers";
 
 const mockFormData = {
@@ -26,14 +27,14 @@ describe("UI Tests", () => {
       props: { name: "username", label: "Username" },
     });
 
-    expect(getByRole("textbox", { name: "Username" })).toBeDefined();
+    expect(getByRole("textbox", { name: "username" })).toBeDefined();
   });
 
   it("Should hide password text", async () => {
     const { getByPlaceholderText, getByLabelText, getByRole } = render(
       InputComponentWrapped,
       {
-        props: { name: "username", label: "Password", type: "password" },
+        props: { name: "password", label: "Password", type: "password" },
       }
     );
 
@@ -41,19 +42,21 @@ describe("UI Tests", () => {
     const icon = getByLabelText("show password");
 
     await fireEvent.click(icon);
-    expect(getByRole("textbox", { name: "Password" })).toBeDefined();
+    expect(getByRole("textbox", { name: "password" })).toBeDefined();
   });
 
   it("Should show an error message", async () => {
     const props = { name: "username", label: "Username", initialValue: "" };
 
-    const { getByRole, getByText } = render(InputComponentWrapped, {
+    const { getByRole } = render(InputComponentWrapped, {
       props: props,
     });
-    const input = getByRole("textbox", { name: "Username" });
+    const input = getByRole("textbox", { name: "username" });
     await userEvent.type(input, " ");
     await waitFor(() => {
-      expect(getByText("required")).toBeDefined();
+      expect(
+        getByRole("alert", { name: /username-error.*/i })
+      ).toBeInTheDocument();
     });
   });
 });

@@ -21,7 +21,7 @@ const props = withDefaults(defineProps<Props>(), {
   label: "",
 });
 
-const id = _.uniqueId(props.name);
+const inputId = _.uniqueId(props.name);
 
 const passwordShown: Ref<boolean> = ref(false);
 const isPasswordInput: boolean = props.type === "password";
@@ -43,11 +43,11 @@ const { value, errorMessage } = useField(props.name, undefined, {
   <div :class="['rounded-input', errorMessage ? 'rounded-input--error' : '']">
     <div class="rounded-input__input-container">
       <input
-        :id="id"
+        :id="inputId"
         :name="name"
         :type="concreteType"
         :placeholder="label"
-        :aria-label="label"
+        :aria-label="name"
         v-model="value"
         class="rounded-input__input"
       />
@@ -62,7 +62,12 @@ const { value, errorMessage } = useField(props.name, undefined, {
         />
       </div>
     </div>
-    <div v-if="errorMessage" class="rounded-input__invalid-message">
+    <div
+      v-if="errorMessage"
+      :aria-label="name + '-error'"
+      class="rounded-input__invalid-message"
+      role="alert"
+    >
       {{ errorMessage }}
     </div>
   </div>

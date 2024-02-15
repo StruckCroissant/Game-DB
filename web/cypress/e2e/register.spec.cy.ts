@@ -1,6 +1,6 @@
 const dsl = {
   inputs: {
-    username: () => cy.findByRole("textbox", { name: "Username" }),
+    username: () => cy.findByRole("textbox", { name: "username" }),
     password: () => cy.findByPlaceholderText("Password"),
   },
   buttons: {
