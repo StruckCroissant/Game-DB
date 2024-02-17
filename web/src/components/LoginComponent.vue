@@ -7,8 +7,8 @@ import { RouterLink, useRouter } from "vue-router";
 import InputComponent from "@/components/UI/InputComponent.vue";
 import ModalComponent from "@/components/UI/ModalComponent.vue";
 import ButtonComponent from "@/components/UI/ButtonComponent.vue";
-import { userLoginSchema } from "@/utilities/schemas";
-import type { UserLoginRequest } from "@/utilities/types";
+import { userLoginSchema } from "@/types/schemas";
+import type { UserLoginRequest } from "@/types";
 
 //<editor-fold desc="Routing">
 const { push } = useRouter();
@@ -30,7 +30,7 @@ const onSubmit = handleSubmit(async (values) => {
   loginRequest.username = values.username;
   loginRequest.password = values.password;
   await doLogin();
-  await push({ name: "home" });
+  push({ name: "home" });
 });
 //</editor-fold>
 </script>

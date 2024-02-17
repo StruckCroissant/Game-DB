@@ -14,11 +14,28 @@ export const userLoginSchema = z.object({
 //</editor-fold>
 
 //<editor-fold desc="Response">
+// TODO make this type more descriptive
+export const userSchema = z.object({
+  accountNonExpired: z.boolean(),
+  accountNonLocked: z.boolean(),
+  authorities: z.array(z.object({ authority: z.string() })),
+  credentialsNonExpired: z.boolean(),
+  enabled: z.boolean(),
+  id: z.number(),
+  role: z.string(),
+  username: z.string(),
+});
+
+export const registerSchema = z.boolean();
+
+// TODO make this type more descriptive
 export const problemSchema = z.object({
   type: z.string(),
   title: z.string(),
   message: z.string(),
   status: z.number(),
+  path: z.string().optional(),
+  timestamp: z.string().optional(),
 });
 //</editor-fold>
 

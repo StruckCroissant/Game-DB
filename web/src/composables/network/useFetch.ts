@@ -2,6 +2,7 @@ import { ref } from "vue";
 import type { Ref } from "vue";
 import { axiosInstance as axios } from "@/config/axiosConfig";
 import type { AxiosResponse, AxiosError } from "axios";
+import { MaybeProblemPromise } from "@/types";
 
 export interface NetworkComposable {
   error: Ref<AxiosError | unknown>;
@@ -22,7 +23,7 @@ export interface UseFetch extends AxiosComposable {
 }
 
 export interface UsePost extends AxiosComposable {
-  postData: (inputData: any) => Promise<void>;
+  postData: <T>(inputData: any) => MaybeProblemPromise<T>;
 }
 
 interface Request {

@@ -3,12 +3,12 @@ import { reactive } from "vue";
 import { useForm } from "vee-validate";
 import { useRouter } from "vue-router";
 import { useRegister } from "@/services/network/authenticationHttp";
-import { userLoginSchema } from "@/utilities/schemas";
+import { userLoginSchema } from "@/types/schemas";
 import { toTypedSchema } from "@vee-validate/zod";
 import InputComponent from "@/components/UI/InputComponent.vue";
 import ButtonComponent from "@/components/UI/ButtonComponent.vue";
 import NavigationModalComponent from "./UI/NavigationModalComponent.vue";
-import type { UserLoginRequest } from "@/utilities/types";
+import type { UserLoginRequest } from "@/types";
 
 //<editor-fold desc="Form validation">
 const { values, handleSubmit } = useForm({

@@ -19,7 +19,7 @@ export const routes: Readonly<RouteRecordRaw[]> = [
   {
     path: "/auth",
     name: RouteNames.AUTH,
-    redirect: "login",
+    redirect: RouteNames.LOGIN,
   },
   {
     path: "/home",
