@@ -8,6 +8,7 @@
     "src/router/routes.ts",
     "src/router/index.ts",
     "src/config/*",
-    "src/utilities/*"
+    "src/utilities/*",
+    "types/*"
   ]
 }
