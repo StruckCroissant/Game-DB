@@ -64,7 +64,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration corsConfiguration = new CorsConfiguration();
     // corsConfiguration.setAllowCredentials(true);
-    corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:4173"));
+    corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
     corsConfiguration.setAllowedHeaders(
         Arrays.asList(
             "Origin",
@@ -89,8 +89,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "x-auth-token"));
     corsConfiguration.setAllowedMethods(
         Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-    UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource =
-        new UrlBasedCorsConfigurationSource();
+    UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
     urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
     return urlBasedCorsConfigurationSource;
   }

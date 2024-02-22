@@ -36,6 +36,10 @@ const defaultConfig: () => UserConfig = () => ({
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
+  server: {
+    port: 5173,
+    strictPort: true,
+  },
 });
 
 // https://vitejs.dev/config/
@@ -43,7 +47,8 @@ export default function config(): UserConfig {
   const config = { ...defaultConfig() };
 
   if (process.env.INSTRUMENT_BUILD) {
-    config["build"] = {
+    config.build = {
+      ...(config?.build ?? {}),
       sourcemap: true,
     };
     config.plugins.push(

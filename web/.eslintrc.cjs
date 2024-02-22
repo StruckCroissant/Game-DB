@@ -5,6 +5,7 @@ module.exports = {
   root: true,
   extends: [
     "plugin:vue/vue3-essential",
+    "plugin:@typescript-eslint/recommended",
     "eslint:recommended",
     "@vue/eslint-config-typescript",
     "@vue/eslint-config-prettier",
@@ -15,15 +16,18 @@ module.exports = {
       extends: ["plugin:cypress/recommended"],
     },
   ],
+  parser: "vue-eslint-parser",
   parserOptions: {
+    parser: "@typescript-eslint/parser",
     ecmaVersion: "latest",
     project: "./tsconfig-eslint.json",
     tsconfigRootDir: __dirname,
-    ignorePath: ".gitignore"
+    ignorePath: ".gitignore",
   },
   env: {
     browser: true,
     amd: true,
-    node: true
-  }
+    node: true,
+  },
+  ignorePatterns: ["public/*"]
 };

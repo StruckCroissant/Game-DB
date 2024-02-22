@@ -11,7 +11,7 @@ const setSingletonTimeout = singletonTimeoutFactory();
  */
 export function useLoadingDelay(
   loading: MaybeRefOrGetter<boolean>,
-  delay: number = 3000
+  delay = 3000
 ) {
   const loadingTimeoutId = ref<NodeJS.Timeout | undefined>();
   const loadingFinished = computed(

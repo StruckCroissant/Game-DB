@@ -2,13 +2,13 @@ import NavigationModalComponent from "./NavigationModalComponent.vue";
 import { render } from "@testing-library/vue";
 import "@testing-library/jest-dom";
 import { useRouter } from "vue-router";
+import type { Router } from "vue-router";
 import { userEvent } from "@testing-library/user-event";
 
 vi.mock("vue-router");
 
 describe("Navigation modal component tests", () => {
-  /** @ts-ignore */
-  vi.mocked(useRouter).mockReturnValue({
+  vi.mocked(useRouter as () => Pick<Router, "push">).mockReturnValue({
     push: vi.fn(),
   });
 

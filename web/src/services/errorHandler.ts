@@ -1,20 +1,12 @@
 import { useToast } from "@/stores/toastStore";
-import { AxiosError } from "axios";
-import { problemSchema } from "@/types/schemas";
+import { isAxiosError, isProblem } from "@/types";
 
-function errorGuard(err: unknown) {
-  if (!(err instanceof AxiosError)) {
-    return;
-  }
-  handleError(err);
-}
-
-function handleError(err: AxiosError) {
+export function handleAxiosError(error: unknown) {
   const toastStore = useToast();
-  const result = problemSchema.safeParse(err?.response?.data);
-  const message = result.success ? result.data.message : err.message;
+  const message =
+    isProblem(error) || isAxiosError(error)
+      ? error.message
+      : "An unexpected error occurred";
 
   toastStore.error({ text: message });
 }
-
-export default { errorGuard };

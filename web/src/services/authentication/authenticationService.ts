@@ -3,7 +3,7 @@ import {
   updateAxiosAuthorization,
 } from "@/config/axiosConfig";
 
-const authKey: string = "auth";
+const authKey = "auth";
 
 export function updateAuthListeners(basicAuthToken: string) {
   window.localStorage.setItem(authKey, basicAuthToken);

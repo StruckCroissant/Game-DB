@@ -8,7 +8,7 @@ export function hasKey<T extends object>(
 export function singletonTimeoutFactory() {
   let timeoutId: NodeJS.Timeout | undefined = undefined;
 
-  return function setSingletonTimeout(callback: () => any, delay: number) {
+  return function setSingletonTimeout(callback: () => unknown, delay: number) {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(callback, delay);
     return timeoutId;

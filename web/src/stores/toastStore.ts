@@ -12,7 +12,7 @@ export type ToastPayload = {
   text: string;
 };
 
-const defaultTimeout: number = 10000;
+const defaultTimeout = 10000;
 
 const createToast = (text: string, status: ToastStatus): Toast => ({
   text,
@@ -23,7 +23,7 @@ const createToast = (text: string, status: ToastStatus): Toast => ({
 export const useToast = defineStore("toast", {
   state: (): {
     toasts: Toast[];
-    paused: Boolean;
+    paused: boolean;
   } => ({
     toasts: [],
     paused: false,

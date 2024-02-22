@@ -33,7 +33,7 @@ export function useLogin(
 
 export function useRegister(
   registerRequest: UserLoginRequest
-): NetworkComposable & { doRegister: () => MaybeProblemPromise<Boolean> } {
+): NetworkComposable & { doRegister: () => MaybeProblemPromise<boolean> } {
   const { username, password } = toRefs(registerRequest);
 
   const register = usePost("/register");

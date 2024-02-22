@@ -24,8 +24,8 @@ export default defineConfig({
         failSilently: true,
       },
     },
-    setupNodeEvents(on, config) {
-      require("@cypress/code-coverage/task")(on, config);
+    async setupNodeEvents(on, config) {
+      (await import("@cypress/code-coverage/task")).default(on, config);
       configureVisualRegression(on);
 
       return config;

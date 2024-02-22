@@ -14,6 +14,21 @@ export const userLoginSchema = z.object({
 //</editor-fold>
 
 //<editor-fold desc="Response">
+
+export const dataSchema = z.object({
+  data: z.unknown(),
+});
+
+// TODO make this type more descriptive
+export const problemSchema = z.object({
+  type: z.string(),
+  title: z.string(),
+  message: z.string(),
+  status: z.number(),
+  path: z.string().optional(),
+  timestamp: z.string().optional(),
+});
+
 // TODO make this type more descriptive
 export const userSchema = z.object({
   accountNonExpired: z.boolean(),
@@ -27,16 +42,10 @@ export const userSchema = z.object({
 });
 
 export const registerSchema = z.boolean();
+//</editor-fold>
 
-// TODO make this type more descriptive
-export const problemSchema = z.object({
-  type: z.string(),
-  title: z.string(),
-  message: z.string(),
-  status: z.number(),
-  path: z.string().optional(),
-  timestamp: z.string().optional(),
-});
+//<editor-fold desc="Entities">
+
 //</editor-fold>
 
 //<editor-fold desc="Utility">

@@ -3,7 +3,7 @@ import { handlers } from "./handlers";
 import { http } from "msw";
 import type { SetupWorker, StartOptions } from "msw/browser";
 
-let workerActive: boolean = false;
+let workerActive = false;
 
 export const worker = setupWorker(...handlers);
 
