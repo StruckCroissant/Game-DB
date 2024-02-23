@@ -226,4 +226,22 @@ describe("useFetch and usePost error tests", () => {
       expect(fetchResult.error.value).toStrictEqual(problemData)
     );
   });
+
+  it("useFetch should throw on unexpected response format", async () => {
+    vi.mocked(axiosInstance.get).mockResolvedValue({ test: "test" });
+
+    const fetchResult = useFetch(ref("test"));
+    expect(fetchResult.getData()).rejects.toStrictEqual(
+      new Error("An unexpected error ocurred")
+    );
+  });
+
+  it("usePost should throw on unexpected response format", async () => {
+    vi.mocked(axiosInstance.post).mockResolvedValue({ test: "test" });
+
+    const fetchResult = usePost(ref("test"));
+    expect(fetchResult.postData({ test: "test" })).rejects.toStrictEqual(
+      new Error("An unexpected error ocurred")
+    );
+  });
 });
