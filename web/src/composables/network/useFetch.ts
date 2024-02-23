@@ -110,7 +110,7 @@ function useRequest(): AxiosBaseComposable {
       error.value = null;
     } catch (errorResponse) {
       if (!isAxiosError(errorResponse))
-        throw Error(`An unexpected error ocurred`);
+        throw Error("An unexpected error ocurred");
 
       if (isProblem(errorResponse?.response?.data)) {
         error.value = errorResponse?.response?.data;
@@ -160,13 +160,13 @@ export function usePost(
   const { doAction, ...rest } = useRequest();
 
   const postData = async (callInputData?: object) => {
-    if (!callInputData && !toValue(reactiveInputData))
-      throw new Error("You must provide data for a post action");
+    const data = callInputData ?? toValue(reactiveInputData);
+    if (!data) throw new Error("You must provide data for a post action");
 
     return await doAction({
       type: "post",
       endpoint: toValue(endpoint),
-      data: callInputData ?? toValue(reactiveInputData),
+      data,
     });
   };
 

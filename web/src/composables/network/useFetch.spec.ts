@@ -6,6 +6,7 @@ import { AxiosError, AxiosResponse } from "axios";
 import { Problem, isProblem } from "@/types";
 
 vi.mock("@/config/axiosConfig");
+
 const dataResponse = { data: "response" };
 const problemData = {
   type: "error",
@@ -53,11 +54,14 @@ const errorResponse = new AxiosError(
 );
 
 describe("useFetch and usePost success tests", () => {
-  beforeEach(() =>
-    vi
-      .mocked(axiosInstance.get)
-      .mockReturnValue(Promise.resolve({ data: dataResponse }))
-  );
+  beforeEach(() => {
+    vi.mocked(axiosInstance.get).mockReturnValue(
+      Promise.resolve({ data: dataResponse })
+    );
+    vi.mocked(axiosInstance.post).mockReturnValue(
+      Promise.resolve({ data: dataResponse })
+    );
+  });
 
   it("useFetch should call axios get", async () => {
     const endpoint = "test";
@@ -77,8 +81,39 @@ describe("useFetch and usePost success tests", () => {
     expect(fetchResult.response.value).toStrictEqual({ data: dataResponse });
   });
 
-  it.skip("usePost should call axios post", () => {});
-  it.skip("usePost should set proper state", () => {});
+  it("usePost should call axios post", async () => {
+    const endpoint = "test";
+    const inputData = { test: "test" };
+    const postResult = usePost(ref(endpoint));
+
+    const result = await postResult.postData(inputData);
+    expect(axiosInstance.post).toHaveBeenCalledWith(endpoint, inputData);
+
+    expect(postResult.data.value).toStrictEqual({ data: "response" });
+    expect(result).toStrictEqual({ data: "response" });
+    expect(postResult.error.value).toBeNull();
+    expect(postResult.response.value).toStrictEqual({ data: dataResponse });
+  });
+
+  it("usePost should default to provided reactive data", async () => {
+    const endpoint = "test";
+    const inputData = { test: "test" };
+    const postResult = usePost(ref(endpoint), () => inputData);
+
+    await postResult.postData();
+    expect(axiosInstance.post).toHaveBeenCalledWith(endpoint, inputData);
+  });
+
+  it("usePost should set proper state", async () => {
+    const postResult = usePost(ref("test"));
+
+    const result = await postResult.postData({ test: "test" });
+
+    expect(postResult.data.value).toStrictEqual({ data: "response" });
+    expect(result).toStrictEqual({ data: "response" });
+    expect(postResult.error.value).toBeNull();
+    expect(postResult.response.value).toStrictEqual({ data: dataResponse });
+  });
 });
 
 describe("useFetch and usePost error tests", () => {
