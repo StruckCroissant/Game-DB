@@ -104,7 +104,7 @@ function useRequest(): AxiosBaseComposable {
       }
 
       response.value = serverResponse;
-      if (!isDataResponse(serverResponse.data)) throw serverResponse;
+      if (!isDataResponse(serverResponse)) throw serverResponse;
 
       data.value = response.value.data as DataResponse;
       error.value = null;
