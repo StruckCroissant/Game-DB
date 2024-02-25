@@ -15,9 +15,9 @@ export const handlers = [
       const loginRequest = await request.json();
       if (
         typeof loginRequest !== "object" ||
-        !(loginRequest?.username in Object.keys(users))
+        !(loginRequest?.username in users)
       ) {
-        return HttpResponse.json(getFailedLoginResource());
+        return getFailedLoginResource();
       }
 
       return HttpResponse.json(users.jdeveloper);
@@ -25,15 +25,13 @@ export const handlers = [
   ),
   http.post(
     endpoint("/register"),
-    async ({
-      request,
-    }): Promise<StrictResponse<ErrorResource | typeof user>> => {
+    async ({ request }): Promise<StrictResponse<ErrorResource | boolean>> => {
       const registerRequest = await request.json();
       if (
         typeof registerRequest !== "object" ||
         registerRequest?.username in Object.keys(users)
       ) {
-        return HttpResponse.json(getErrorResource());
+        return getErrorResource();
       }
 
       return HttpResponse.json(true);

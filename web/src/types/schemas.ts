@@ -14,9 +14,8 @@ export const userLoginSchema = z.object({
 //</editor-fold>
 
 //<editor-fold desc="Response">
-
-export const dataSchema = z.object({
-  data: z.unknown(),
+export const dataResponseSchema = z.object({
+  data: z.custom((x) => x !== undefined),
 });
 
 // TODO make this type more descriptive
@@ -27,6 +26,10 @@ export const problemSchema = z.object({
   status: z.number(),
   path: z.string().optional(),
   timestamp: z.string().optional(),
+});
+
+export const problemResponseSchema = z.object({
+  data: problemSchema,
 });
 
 // TODO make this type more descriptive

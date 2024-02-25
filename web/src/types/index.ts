@@ -6,10 +6,11 @@ import * as z from "zod";
 import { AxiosError } from "axios";
 import {
   userLoginSchema,
-  problemSchema,
+  dataResponseSchema,
   userSchema,
   registerSchema,
-  dataSchema,
+  problemResponseSchema,
+  problemSchema,
 } from "@/types/schemas";
 
 //<editor-fold desc="Request">
@@ -18,12 +19,15 @@ export type UserLoginRequest = z.infer<typeof userLoginSchema>;
 
 //<editor-fold desc="Response">
 export type DataOrProblemResponse = Problem | DataResponse;
-export type DataResponse = z.infer<typeof dataSchema>;
+export type DataResponse = z.infer<typeof dataResponseSchema>;
 export const isDataResponse = (
   maybeData: DataOrProblemResponse
-): maybeData is DataResponse => dataSchema.safeParse(maybeData).success;
+): maybeData is DataResponse => {
+  return dataResponseSchema.safeParse(maybeData).success;
+};
 
 export type Problem = z.infer<typeof problemSchema>;
+export type ProblemResponse = z.infer<typeof problemResponseSchema>;
 export const isProblem = (maybeProblem: unknown): maybeProblem is Problem =>
   problemSchema.safeParse(maybeProblem).success;
 
@@ -34,5 +38,5 @@ export const isAxiosError = (error: unknown): error is AxiosError =>
 //</editor-fold>
 
 //<editor-fold desc="Utility types">
-export type MaybeProblemPromise<T> = Promise<T | Problem>;
+export type MaybeProblemPromise<T> = Promise<T | ProblemResponse>;
 //</editor-fold>

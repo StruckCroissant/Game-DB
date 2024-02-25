@@ -32,7 +32,7 @@ describe("Login page tests", () => {
   });
 
   it("Login should redirect to home page", () => {
-    dsl.inputs.username().type("test");
+    dsl.inputs.username().type("jdeveloper");
     dsl.inputs.password().type("test");
     dsl.buttons.login().click();
     cy.url().should("include", "/home");
@@ -46,5 +46,13 @@ describe("Login page tests", () => {
   it("Clicking create user should direct to the registration page", () => {
     dsl.links["create-user"]().click();
     cy.url().should("include", "/register");
+  });
+
+  it("Authentication error should show in the toast component", () => {
+    dsl.inputs.username().type("teeest");
+    dsl.inputs.password().type("teeeest");
+    dsl.buttons.login().click();
+    // TODO set up the toast component to handle errors as 'alerts' and use findByRole here
+    cy.findByText("Username or Password is incorrect");
   });
 });

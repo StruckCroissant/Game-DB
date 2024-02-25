@@ -5,6 +5,7 @@ import {
   DataOrProblemResponse,
   DataResponse,
   Problem,
+  isAxiosError,
   isDataResponse,
   isProblem,
 } from "@/types";
@@ -12,6 +13,7 @@ import type { AxiosResponse, AxiosError } from "axios";
 import { MaybeRefOrGetter } from "vue";
 import { toValue } from "vue";
 import _ from "lodash";
+import { createProblem } from "@/types/factories";
 
 export interface NetworkComposable {
   error: Ref<AxiosError | unknown>;
@@ -49,25 +51,6 @@ interface PostRequest extends Request {
 interface GetRequest extends Request {
   type: "get";
 }
-
-const isAxiosError = (err: unknown): err is AxiosError =>
-  (err as AxiosError).isAxiosError;
-
-const createProblem = (
-  type: string,
-  title: string,
-  message: string,
-  status: number,
-  path: string | undefined,
-  timestamp: string | undefined
-): Problem => ({
-  type,
-  title,
-  message,
-  status,
-  path,
-  timestamp,
-});
 
 const createProblemFromAxiosError = (error: AxiosError): Problem => {
   return createProblem(
@@ -109,8 +92,9 @@ function useRequest(): AxiosBaseComposable {
       data.value = response.value.data as DataResponse;
       error.value = null;
     } catch (errorResponse) {
-      if (!isAxiosError(errorResponse))
+      if (!isAxiosError(errorResponse)) {
         throw Error("An unexpected error ocurred");
+      }
 
       if (isProblem(errorResponse?.response?.data)) {
         error.value = errorResponse?.response?.data;
