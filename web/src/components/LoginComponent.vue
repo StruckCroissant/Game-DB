@@ -10,11 +10,11 @@ import ButtonComponent from "@/components/UI/ButtonComponent.vue";
 import { userLoginSchema } from "@/types/schemas";
 import type { UserLoginRequest } from "@/types";
 
-//<editor-fold desc="Routing">
+//#region Routing
 const { push } = useRouter();
-//</editor-fold>
+//#endregion
 
-//<editor-fold desc="Form Context">
+//#region Form Context
 const { handleSubmit, values } = useForm({
   validationSchema: toTypedSchema(userLoginSchema),
 });
@@ -32,7 +32,7 @@ const onSubmit = handleSubmit(async (values) => {
   await doLogin();
   push({ name: "home" });
 });
-//</editor-fold>
+//#endregion
 </script>
 
 <template>

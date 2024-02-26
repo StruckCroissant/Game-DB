@@ -1,23 +1,18 @@
 import { useAuthenticationStore } from "@/stores/authentication";
 import { NetworkComposable, usePost } from "@/composables/network/useFetch";
 import { toRefs } from "vue";
-import type {
-  MaybeProblemPromise,
-  Register,
-  User,
-  UserLoginRequest,
-} from "@/types";
+import type { MaybeProblemPromise, User, UserLoginRequest } from "@/types";
 
-export function useLogin(
-  loginRequest: UserLoginRequest
-): NetworkComposable & { doLogin: () => MaybeProblemPromise<User> } {
+export function useLogin(loginRequest: UserLoginRequest): NetworkComposable & {
+  doLogin: () => MaybeProblemPromise<User | null>;
+} {
   const { username, password } = toRefs(loginRequest);
 
   const authStore = useAuthenticationStore();
-  const login = usePost("/login");
+  const login = usePost<User>("/login");
 
   const doLogin = async () => {
-    const loginData = await login.postData<User>({
+    const loginData = await login.postData({
       username: username.value,
       password: password.value,
     });
@@ -33,13 +28,15 @@ export function useLogin(
 
 export function useRegister(
   registerRequest: UserLoginRequest
-): NetworkComposable & { doRegister: () => MaybeProblemPromise<boolean> } {
+): NetworkComposable & {
+  doRegister: () => MaybeProblemPromise<boolean | null>;
+} {
   const { username, password } = toRefs(registerRequest);
 
-  const register = usePost("/register");
+  const register = usePost<boolean>("/register");
 
   const doRegister = async () => {
-    return await register.postData<Register>({
+    return await register.postData({
       username: username.value,
       password: password.value,
     });

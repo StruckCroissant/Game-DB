@@ -2,12 +2,11 @@ import { ref, unref } from "vue";
 import type { Ref } from "vue";
 import { axiosInstance as axios } from "@/config/axiosConfig";
 import {
-  DataOrProblemResponse,
-  DataResponse,
   Problem,
   isAxiosError,
   isDataResponse,
   isProblem,
+  MaybeProblemPromise,
 } from "@/types";
 import type { AxiosResponse, AxiosError } from "axios";
 import { MaybeRefOrGetter } from "vue";
@@ -20,23 +19,23 @@ export interface NetworkComposable {
   loading: Ref<boolean>;
 }
 
-interface AxiosBaseComposable extends AxiosComposable {
-  doAction: (
+interface AxiosBaseComposable<T> extends AxiosComposable<T> {
+  doAction: <K extends T>(
     request: GetRequest | PostRequest
-  ) => Promise<DataOrProblemResponse | null>;
+  ) => MaybeProblemPromise<K | null>;
 }
 
-export interface AxiosComposable extends NetworkComposable {
+export interface AxiosComposable<T> extends NetworkComposable {
   response: Ref<AxiosResponse | null>;
-  data: Ref<unknown>;
+  data: Ref<T | null>;
 }
 
-export interface UseFetch extends AxiosComposable {
-  getData: () => Promise<DataOrProblemResponse | null>;
+export interface UseFetch<T> extends AxiosComposable<T> {
+  getData: () => MaybeProblemPromise<T | null>;
 }
 
-export interface UsePost extends AxiosComposable {
-  postData: (inputData?: object) => Promise<DataOrProblemResponse | null>;
+export interface UsePost<T> extends AxiosComposable<T> {
+  postData: (inputData?: object) => MaybeProblemPromise<T | null>;
 }
 
 interface Request {
@@ -64,15 +63,15 @@ const createProblemFromAxiosError = (error: AxiosError): Problem => {
   );
 };
 
-function useRequest(): AxiosBaseComposable {
-  const data: Ref<DataResponse | null> = ref(null);
+function useRequest<T = unknown>(): AxiosBaseComposable<T> {
+  const data: Ref<T | null> = ref(null);
   const response: Ref<AxiosResponse | null> = ref(null);
   const error: Ref<Problem | null> = ref(null);
   const loading: Ref<boolean> = ref(false);
 
-  const doAction = async (
+  const doAction = async <K extends T>(
     request: GetRequest | PostRequest
-  ): Promise<DataOrProblemResponse | null> => {
+  ): MaybeProblemPromise<K | null> => {
     try {
       loading.value = true;
 
@@ -89,7 +88,7 @@ function useRequest(): AxiosBaseComposable {
       response.value = serverResponse;
       if (!isDataResponse(serverResponse)) throw serverResponse;
 
-      data.value = response.value.data as DataResponse;
+      data.value = response.value.data;
       error.value = null;
     } catch (errorResponse) {
       if (!isAxiosError(errorResponse)) {
@@ -99,9 +98,7 @@ function useRequest(): AxiosBaseComposable {
       if (isProblem(errorResponse?.response?.data)) {
         error.value = errorResponse?.response?.data;
       } else {
-        const reformattedError = createProblemFromAxiosError(
-          errorResponse as AxiosError
-        );
+        const reformattedError = createProblemFromAxiosError(errorResponse);
         error.value = reformattedError;
       }
       throw unref(error.value);
@@ -109,7 +106,7 @@ function useRequest(): AxiosBaseComposable {
       loading.value = false;
     }
 
-    return data.value ?? error.value;
+    return (data.value as K) ?? error.value;
   };
 
   return {
@@ -121,11 +118,11 @@ function useRequest(): AxiosBaseComposable {
   };
 }
 
-export function useFetch(endpoint: MaybeRefOrGetter<string>): UseFetch {
-  const { doAction, ...rest } = useRequest();
+export function useFetch<T>(endpoint: MaybeRefOrGetter<string>): UseFetch<T> {
+  const { doAction, ...rest } = useRequest<T>();
 
   const getData = async () => {
-    return await doAction({
+    return await doAction<T>({
       type: "get",
       endpoint: toValue(endpoint),
     });
@@ -137,14 +134,14 @@ export function useFetch(endpoint: MaybeRefOrGetter<string>): UseFetch {
   };
 }
 
-export function usePost(
+export function usePost<T>(
   endpoint: MaybeRefOrGetter<string>,
   reactiveInputData?: MaybeRefOrGetter<object>
-): UsePost {
-  const { doAction, ...rest } = useRequest();
+): UsePost<T> {
+  const { doAction, ...rest } = useRequest<T | null>();
 
-  const postData = async (callInputData?: object) => {
-    const data = callInputData ?? toValue(reactiveInputData);
+  const postData = async (inputData?: object | undefined) => {
+    const data = inputData ?? toValue(reactiveInputData);
     if (!data) throw new Error("You must provide data for a post action");
 
     return await doAction({

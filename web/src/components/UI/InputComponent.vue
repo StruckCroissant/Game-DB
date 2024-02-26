@@ -4,7 +4,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { useField } from "vee-validate";
-import * as _ from "lodash";
+import _ from "lodash";
 import type { InputTypeHTMLAttribute, Ref } from "vue";
 library.add(faEye, faEyeSlash);
 
@@ -32,11 +32,11 @@ function togglePasswordShown(): void {
   passwordShown.value = !passwordShown.value;
 }
 
-//<editor-fold desc="Form Context">
+//#region Form Context
 const { value, errorMessage } = useField(props.name, undefined, {
   initialValue: props.initialValue,
 });
-//</editor-fold>
+//#endregion
 </script>
 
 <template>

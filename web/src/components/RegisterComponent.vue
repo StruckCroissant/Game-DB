@@ -10,13 +10,13 @@ import ButtonComponent from "@/components/UI/ButtonComponent.vue";
 import NavigationModalComponent from "./UI/NavigationModalComponent.vue";
 import type { UserLoginRequest } from "@/types";
 
-//<editor-fold desc="Form validation">
+//#region Form validation
 const { values, handleSubmit } = useForm({
   validationSchema: toTypedSchema(userLoginSchema),
 });
-//</editor-fold>
+//#endregion
 
-//<editor-fold desc="Login">
+//#region Login
 const registerRequest: UserLoginRequest = reactive({
   username: values.username ?? "",
   password: values.password ?? "",
@@ -34,7 +34,7 @@ const onSubmit = handleSubmit(async (values) => {
   await doRegister();
   push({ name: "login" });
 });
-//</editor-fold>
+//#endregion
 </script>
 
 <template>

@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { axiosInstance } from "@/config/axiosConfig";
 import { waitFor } from "@testing-library/dom";
 import { AxiosError, AxiosResponse } from "axios";
-import { ProblemResponse, isProblem } from "@/types";
+import { Problem, isProblem } from "@/types";
 
 vi.mock("@/config/axiosConfig");
 
@@ -138,7 +138,7 @@ describe("useFetch and usePost error tests", () => {
     vi.mocked(axiosInstance.get).mockRejectedValue(errorResponse);
     const fetchResult = useFetch(ref("test"));
 
-    let error: ProblemResponse | null = null;
+    let error: Problem | null = null;
     try {
       await fetchResult.getData();
     } catch (problem) {
@@ -194,7 +194,7 @@ describe("useFetch and usePost error tests", () => {
     vi.mocked(axiosInstance.post).mockRejectedValue(errorResponse);
     const postResult = usePost(ref("test"), ref({ data: "test" }));
 
-    let error: ProblemResponse | null = null;
+    let error: Problem | null = null;
     try {
       await postResult.postData();
     } catch (problem) {

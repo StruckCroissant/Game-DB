@@ -6,25 +6,31 @@ import * as z from "zod";
 import { AxiosError } from "axios";
 import {
   userLoginSchema,
-  dataResponseSchema,
+  createGenericDataResponseSchema,
   userSchema,
   registerSchema,
   problemResponseSchema,
   problemSchema,
+  nonUndefinedSchema,
+  dataResponseSchema,
 } from "@/types/schemas";
 
-//<editor-fold desc="Request">
-export type UserLoginRequest = z.infer<typeof userLoginSchema>;
-//</editor-fold>
+//#region Utilty types
+export type NonUndefined = z.infer<typeof nonUndefinedSchema>;
+export type MaybeProblemPromise<T> = Promise<T | Problem>;
+//#endregion
 
-//<editor-fold desc="Response">
-export type DataOrProblemResponse = Problem | DataResponse;
-export type DataResponse = z.infer<typeof dataResponseSchema>;
-export const isDataResponse = (
-  maybeData: DataOrProblemResponse
-): maybeData is DataResponse => {
-  return dataResponseSchema.safeParse(maybeData).success;
-};
+export type UserLoginRequest = z.infer<typeof userLoginSchema>;
+
+//#region Response
+export type DataResponse<T extends NonUndefined> = z.infer<
+  ReturnType<typeof createGenericDataResponseSchema<z.ZodType<T>>>
+>;
+export type DataOrProblemResponse<T> = Problem | DataResponse<T>;
+export const isDataResponse = <T>(
+  maybeData: unknown
+): maybeData is DataResponse<T> =>
+  dataResponseSchema.safeParse(maybeData).success;
 
 export type Problem = z.infer<typeof problemSchema>;
 export type ProblemResponse = z.infer<typeof problemResponseSchema>;
@@ -35,8 +41,4 @@ export type User = z.infer<typeof userSchema>;
 export type Register = z.infer<typeof registerSchema>;
 export const isAxiosError = (error: unknown): error is AxiosError =>
   (error as AxiosError).isAxiosError;
-//</editor-fold>
-
-//<editor-fold desc="Utility types">
-export type MaybeProblemPromise<T> = Promise<T | ProblemResponse>;
-//</editor-fold>
+//#endregion
