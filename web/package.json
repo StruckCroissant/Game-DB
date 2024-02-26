@@ -15,9 +15,9 @@
     "test:unit": "vitest --environment=happy-dom",
     "test:unit:dev": "vitest --ui",
     "test:unit:coverage": "vitest --coverage.enabled --config vitest.config.ts",
-    "test:e2e": "start-server-and-test preview :4173 'cypress run --e2e'",
-    "test:e2e:coverage": "npm run instrument-build && start-server-and-test preview :4173 'cypress run --e2e'",
-    "test:e2e:dev": "start-server-and-test 'vite dev --port 4173' :4173 'cypress open --e2e'"
+    "test:e2e": "start-server-and-test preview :5173 'cypress run --e2e'",
+    "test:e2e:coverage": "npm run instrument-build && start-server-and-test preview :5173 'cypress run --e2e'",
+    "test:e2e:dev": "start-server-and-test 'vite dev --port 5173' :5173 'cypress open --e2e'"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.2",

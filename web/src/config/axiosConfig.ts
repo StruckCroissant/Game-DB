@@ -2,7 +2,7 @@ import axios from "axios";
 import type { AxiosInstance } from "axios";
 
 export const axiosInstance: AxiosInstance = axios.create({
-  baseURL: "http://localhost:9191/api/v1",
+  baseURL: `${import.meta.env.API_DOMAIN}:${import.meta.env.API_PORT}/api/v1`,
 });
 axiosInstance.interceptors.response.use(
   (response) => response,

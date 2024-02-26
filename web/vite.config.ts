@@ -1,5 +1,5 @@
 import { fileURLToPath, URL } from "node:url";
-import { defineConfig } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
 import istanbul from "vite-plugin-istanbul";
 import type { UserConfig } from "vite";
@@ -37,13 +37,20 @@ const defaultConfig: () => UserConfig = () => ({
     },
   },
   server: {
-    port: 5173,
+    port: parseInt(process.env.VITE_APP_PORT),
     strictPort: true,
   },
+  preview: {
+    port: parseInt(process.env.VITE_APP_PORT),
+    strictPort: true,
+  },
+  envDir: ".",
+  envPrefix: "API",
 });
 
 // https://vitejs.dev/config/
-export default function config(): UserConfig {
+export default function config({ mode }): UserConfig {
+  process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
   const config = { ...defaultConfig() };
 
   if (process.env.INSTRUMENT_BUILD) {
