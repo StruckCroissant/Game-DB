@@ -1,6 +1,6 @@
 import { defineConfig } from "cypress";
 import { configureVisualRegression } from "cypress-visual-regression/dist/plugin";
-import { config } from "./cypress/support/config";
+import { config } from "./mocks/config";
 import path from "path";
 
 export default defineConfig({
