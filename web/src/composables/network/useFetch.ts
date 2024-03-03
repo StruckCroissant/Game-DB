@@ -13,6 +13,7 @@ import { MaybeRefOrGetter } from "vue";
 import { toValue } from "vue";
 import _ from "lodash";
 import { createProblem } from "@/types/factories";
+import { getRelativePath } from "@/utilities/common";
 
 export interface NetworkComposable {
   error: Ref<AxiosError | unknown>;
@@ -56,9 +57,8 @@ const createProblemFromAxiosError = (error: AxiosError): Problem => {
     error.response?.statusText ?? "Internal Server Error",
     "An error occurred",
     error.message,
-    !_.isNaN(+(error?.code ?? "")) ? +(error.code ?? "") : 500,
-    // TODO this should be the relative path
-    error.response?.config.url,
+    !_.isNaN(+(error?.status ?? "")) ? +(error.status ?? "") : 500,
+    getRelativePath(error.response?.config?.url ?? ""),
     new Date().toISOString()
   );
 };

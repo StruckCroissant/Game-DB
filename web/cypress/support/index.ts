@@ -1,5 +1,5 @@
-import { initialize } from "../../mocks";
+import { startWorker } from "../../mocks/browser";
 
 Cypress.on("test:before:run:async", async () => {
-  await initialize();
+  await startWorker();
 });

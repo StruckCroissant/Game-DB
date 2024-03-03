@@ -38,6 +38,8 @@ export const isProblem = (maybeProblem: unknown): maybeProblem is Problem =>
   problemSchema.safeParse(maybeProblem).success;
 
 export type User = z.infer<typeof userSchema>;
+export const isUser = (user: unknown): user is User =>
+  userSchema.safeParse(user).success;
 export type Register = z.infer<typeof registerSchema>;
 export const isAxiosError = (error: unknown): error is AxiosError =>
   (error as AxiosError).isAxiosError;

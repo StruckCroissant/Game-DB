@@ -1,16 +1,17 @@
 import { setupWorker } from "msw/browser";
 import { handlers } from "./handlers";
 import { http } from "msw";
-import type { SetupWorker, StartOptions } from "msw/browser";
+import { config } from "./config";
+import type { SetupWorker } from "msw/browser";
 
 let workerActive = false;
 
 export const worker = setupWorker(...handlers);
 
-export async function startWorker(options: StartOptions | undefined) {
+export async function startWorker() {
   if (workerActive) return;
 
-  await worker.start(options);
+  await worker.start(config.handlerConfigs);
   workerActive = true;
 }
 

@@ -14,3 +14,8 @@ export function singletonTimeoutFactory() {
     return timeoutId;
   };
 }
+
+export function getRelativePath(fullPath: string): string | undefined {
+  const regex = RegExp(/(?<=.*:\/\/[^/]+)\/.*/g);
+  return regex.exec(fullPath)?.[0];
+}

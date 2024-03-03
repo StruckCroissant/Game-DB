@@ -4,5 +4,5 @@ const actions = {
 };
 
 export const useAuthenticationStore = vi.fn(() => ({
-  actions,
+  ...actions,
 }));

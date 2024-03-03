@@ -3,10 +3,14 @@ import { ref } from "vue";
 import { axiosInstance } from "@/config/axiosConfig";
 import { waitFor } from "@testing-library/dom";
 import { AxiosError, AxiosResponse } from "axios";
-import { Problem, isProblem } from "@/types";
+import { isProblem } from "@/types";
+import type { Problem } from "@/types";
 
 vi.mock("@/config/axiosConfig");
 
+/* TODO this structure kindof sucks. There should be a clear
+ * flow of data here
+ */
 const dataResponse = { data: "response" };
 const problemData = {
   type: "error",
@@ -19,10 +23,11 @@ const problemData = {
 const errorResponseData = { error: "error" };
 const defaultAxiosProblemData = {
   message: "error message",
-  path: "https://localhost:1234/api/test",
+  path: "/api/test",
   status: 500,
   type: "Internal Server Error",
   title: "An error occurred",
+  timestamp: new Date().toISOString(),
 };
 
 const axiosResponseFactory = (
@@ -38,20 +43,25 @@ const axiosResponseFactory = (
   config: { ...config },
 });
 
-const errorResponse = new AxiosError(
-  "error message",
-  "500",
-  {},
-  undefined,
-  axiosResponseFactory(
+const errorResponse: AxiosError = {
+  message: "error message",
+  config: {},
+  request: undefined,
+  status: "500",
+  response: axiosResponseFactory(
     errorResponseData,
     defaultAxiosProblemData.status,
     "Internal Server Error",
     {
-      url: defaultAxiosProblemData.path,
+      url: `https://localhost${defaultAxiosProblemData.path}`,
     }
-  )
-);
+  ),
+  isAxiosError: true,
+  toJSON: function (): object {
+    throw new Error("Function not implemented.");
+  },
+  name: "AxiosError",
+};
 
 describe("useFetch and usePost success tests", () => {
   beforeEach(() => {
@@ -134,23 +144,19 @@ describe("useFetch and usePost error tests", () => {
     expect(isProblem(fetchResult.error.value)).toBe(true);
   });
 
-  it("useFetch should use inherit proper Axios state", async () => {
+  it("useFetch should inherit proper Axios state", async () => {
     vi.mocked(axiosInstance.get).mockRejectedValue(errorResponse);
     const fetchResult = useFetch(ref("test"));
 
-    let error: Problem | null = null;
     try {
       await fetchResult.getData();
-    } catch (problem) {
-      if (!isProblem(problem)) throw Error("Response is not a problem");
-      error = problem;
+    } catch (error) {
+      expect(isProblem(error)).toBe(true);
+      expect(error).toHaveProperty("message", errorResponse.message);
+      expect(error).toHaveProperty("type", errorResponse.response?.statusText);
+      expect(error).toHaveProperty("status", errorResponse.response?.status);
+      expect(error).toHaveProperty("path", defaultAxiosProblemData.path);
     }
-
-    expect(error?.type).toEqual(defaultAxiosProblemData.type);
-    expect(error?.title).toEqual(defaultAxiosProblemData.title);
-    expect(error?.message).toEqual(defaultAxiosProblemData.message);
-    expect(error?.status).toEqual(defaultAxiosProblemData.status);
-    expect(error?.path).toEqual(defaultAxiosProblemData.path);
   });
 
   it("useFetch should set sate on problem format errors", async () => {
@@ -190,7 +196,7 @@ describe("useFetch and usePost error tests", () => {
     );
   });
 
-  it("usePost should use inherit proper Axios state", async () => {
+  it("usePost should inherit proper Axios state", async () => {
     vi.mocked(axiosInstance.post).mockRejectedValue(errorResponse);
     const postResult = usePost(ref("test"), ref({ data: "test" }));
 
