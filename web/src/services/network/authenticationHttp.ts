@@ -1,6 +1,6 @@
 import { useAuthenticationStore } from "@/stores/authentication";
 import { NetworkComposable, usePost } from "@/composables/network/useFetch";
-import { toRefs, toValue } from "vue";
+import { toValue } from "vue";
 import type { MaybeProblemPromise, User, UserLoginRequest } from "@/types";
 import type { MaybeRefOrGetter } from "vue";
 
@@ -29,18 +29,17 @@ export function useLogin(
 }
 
 export function useRegister(
-  registerRequest: UserLoginRequest
+  registerRequest: MaybeRefOrGetter<UserLoginRequest>
 ): NetworkComposable & {
   doRegister: () => MaybeProblemPromise<boolean | null>;
 } {
-  const { username, password } = toRefs(registerRequest);
-
   const register = usePost<boolean>("/register");
 
   const doRegister = async () => {
+    const registerRequestData = toValue(registerRequest);
     return await register.postData({
-      username: username.value,
-      password: password.value,
+      username: registerRequestData.username,
+      password: registerRequestData.password,
     });
   };
 

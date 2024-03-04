@@ -1,4 +1,4 @@
-const actions = {
+export const actions = {
   addBasicAuth: vi.fn(),
   removeAuthToken: vi.fn(),
 };
