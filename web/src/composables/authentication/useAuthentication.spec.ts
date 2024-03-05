@@ -1,4 +1,4 @@
-import { useLogin, useRegister } from "./authenticationHttp";
+import { useLogin, useRegister, logout } from "./useAuthentication";
 import { isUser } from "@/types";
 import { actions as authenticationStoreActions } from "@/stores/__mocks__/authentication";
 
@@ -21,6 +21,11 @@ describe("authenticationHttp tests", () => {
         username,
         password
       );
+    });
+
+    it("Should remove credentials on logout", () => {
+      logout();
+      expect(authenticationStoreActions.removeAuthToken).toHaveBeenCalled();
     });
   });
 

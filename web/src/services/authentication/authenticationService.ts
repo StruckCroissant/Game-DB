@@ -3,14 +3,14 @@ import {
   updateAxiosAuthorization,
 } from "@/config/axiosConfig";
 
-const authKey = "auth";
+const AUTH_KEY = "auth";
 
 export function updateAuthListeners(basicAuthToken: string) {
-  window.localStorage.setItem(authKey, basicAuthToken);
+  window.localStorage.setItem(AUTH_KEY, basicAuthToken);
   updateAxiosAuthorization(basicAuthToken);
 }
 
 export function clearAuth(): void {
-  window.localStorage.removeItem(authKey);
+  window.localStorage.removeItem(AUTH_KEY);
   clearAxiosAuthorization();
 }

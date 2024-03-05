@@ -16,7 +16,7 @@ const { values, handleSubmit } = useForm({
 });
 //#endregion
 
-//#region Login
+//#region Registration
 const registerRequest: UserLoginRequest = reactive({
   username: values.username ?? "",
   password: values.password ?? "",
