@@ -2,7 +2,7 @@
 import { reactive } from "vue";
 import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
-import { useLogin } from "@/services/network/authenticationHttp";
+import { useLogin } from "@/composables/authentication/useAuthentication";
 import { RouterLink, useRouter } from "vue-router";
 import InputComponent from "@/components/UI/InputComponent.vue";
 import ModalComponent from "@/components/UI/ModalComponent.vue";

@@ -2,7 +2,7 @@
 import { reactive } from "vue";
 import { useForm } from "vee-validate";
 import { useRouter } from "vue-router";
-import { useRegister } from "@/services/network/authenticationHttp";
+import { useRegister } from "@/composables/authentication/useAuthentication";
 import { userLoginSchema } from "@/types/schemas";
 import { toTypedSchema } from "@vee-validate/zod";
 import InputComponent from "@/components/UI/InputComponent.vue";

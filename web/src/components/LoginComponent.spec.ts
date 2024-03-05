@@ -10,7 +10,7 @@ vi.mock("vue-router", () => ({
   useRouter: () => useRouter,
   RouterLink: vi.fn(),
 }));
-vi.mock("@/services/network/authenticationHttp");
+vi.mock("@/composables/authentication/useAuthentication");
 
 describe("LoginComponent tests", () => {
   it("Should show inputs", async () => {
