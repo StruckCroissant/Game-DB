@@ -14,3 +14,7 @@ export function clearAuth(): void {
   window.localStorage.removeItem(AUTH_KEY);
   clearAxiosAuthorization();
 }
+
+export function createBasicAuthToken(username: string, password: string) {
+  return "basic " + btoa(`${username}:${password}`);
+}

@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import {
   updateAuthListeners,
   clearAuth,
+  createBasicAuthToken,
 } from "@/services/authentication/authenticationService";
 
 export const useAuthenticationStore = defineStore("Authentication", {
@@ -11,7 +12,7 @@ export const useAuthenticationStore = defineStore("Authentication", {
   }),
   actions: {
     addBasicAuth(username: string, password: string) {
-      this.basicAuthToken = "basic " + btoa(`${username}:${password}`);
+      this.basicAuthToken = createBasicAuthToken(username, password);
       this.isAuthenticated = true;
       updateAuthListeners(this.basicAuthToken);
     },
