@@ -1,8 +1,6 @@
 import { useAuthenticationStore } from "@/stores/authentication";
 import { storeToRefs } from "pinia";
-import type { NavigationGuard } from "vue-router";
-
-export type RouterConfigs = Record<string, NavigationGuard>;
+import { RouterConfigs } from ".";
 
 export const configs: RouterConfigs = {
   beforeEach(to, from, next) {
