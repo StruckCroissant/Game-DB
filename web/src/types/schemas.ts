@@ -31,7 +31,6 @@ export const createGenericDataResponseSchema = <
 export const dataResponseSchema =
   createGenericDataResponseSchema(nonUndefinedSchema);
 
-// TODO make this type more descriptive
 export const problemSchema = z.object({
   type: z.string(),
   title: z.string(),

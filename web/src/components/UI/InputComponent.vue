@@ -64,7 +64,7 @@ const { value, errorMessage } = useField(props.name, undefined, {
     </div>
     <div
       v-if="errorMessage"
-      :aria-label="name + '-error'"
+      :aria-label="`${name}-error`"
       class="rounded-input__invalid-message"
       role="alert"
     >

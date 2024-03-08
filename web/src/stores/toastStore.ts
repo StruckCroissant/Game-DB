@@ -1,11 +1,14 @@
 import { defineStore } from "pinia";
 export type ToastStatus = "success" | "warning" | "error";
 
-export type Toast = {
+export interface ToastInterface {
   text: string;
   status: ToastStatus;
   id: number;
-};
+  isError: () => boolean;
+  isWarning: () => boolean;
+  isSuccess: () => boolean;
+}
 
 export type ToastPayload = {
   timeout?: number;
@@ -14,11 +17,31 @@ export type ToastPayload = {
 
 const defaultTimeout = 10000;
 
-const createToast = (text: string, status: ToastStatus): Toast => ({
-  text,
-  status,
-  id: Math.random() * 1000,
-});
+const createToast = (text: string, status: ToastStatus): Toast =>
+  new Toast(text, status);
+
+// TODO could convert these to magic calls and reduce duplicate code
+class Toast implements ToastInterface {
+  text: string;
+  status: ToastStatus;
+  id: number;
+
+  constructor(text: string, status: ToastStatus) {
+    this.text = text;
+    this.status = status;
+    this.id = Math.random() * 1000;
+  }
+
+  isError() {
+    return this.status === "error";
+  }
+  isSuccess() {
+    return this.status === "success";
+  }
+  isWarning() {
+    return this.status === "warning";
+  }
+}
 
 export const useToast = defineStore("toast", {
   state: (): {

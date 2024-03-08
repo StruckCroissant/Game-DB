@@ -71,7 +71,11 @@ watch(
           :class="['icon--large', toastClassMap[toast.status]]"
           :icon="toastIconMap[toast.status]"
         />
-        <span class="toast__list-text">
+        <span
+          class="toast__list-text"
+          :aria-label="toast.isError() ? 'toast-error' : undefined"
+          :role="toast.isError() ? 'alert' : undefined"
+        >
           {{ toast.text }}
         </span>
         <button

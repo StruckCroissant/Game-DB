@@ -9,15 +9,23 @@ const dsl = {
   links: {
     back: () => cy.get("a#back-button"),
   },
+  alerts: {
+    username: () => cy.findByRole("alert", { name: "username-error" }),
+    password: () => cy.findByRole("alert", { name: "password-error" }),
+  },
 };
 
 describe("Register page tests", () => {
   beforeEach(() => cy.visit("/register"));
 
+  it("Register page should match snapshot", () => {
+    cy.get("body").compareSnapshot("registerPage");
+  });
+
   it("Clicking register without input should show errors", () => {
     dsl.buttons.register().click();
-    cy.get(".rounded-input__invalid-message").contains("username is required");
-    cy.get(".rounded-input__invalid-message").contains("password is required");
+    dsl.alerts.username().contains("username is required");
+    dsl.alerts.password().contains("password is required");
   });
 
   it("Providing valid input for username and password should redirect to login page", () => {

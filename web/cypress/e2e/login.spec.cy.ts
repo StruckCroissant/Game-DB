@@ -11,6 +11,10 @@ const dsl = {
       cy.findByRole("link", { name: "Forgot password?" }),
     "create-user": () => cy.findByRole("link", { name: "Create" }),
   },
+  alerts: {
+    username: () => cy.findByRole("alert", { name: "username-error" }),
+    password: () => cy.findByRole("alert", { name: "password-error" }),
+  },
 };
 
 describe("Login page tests", () => {
@@ -21,13 +25,13 @@ describe("Login page tests", () => {
   });
 
   it("Login page should match snapshot", () => {
-    cy.get(".modal").compareSnapshot("loginPage");
+    cy.get("body").compareSnapshot("loginPage");
   });
 
   it("Clicking login without input should show errors", () => {
     dsl.buttons.login().click();
-    cy.get(".rounded-input__invalid-message").contains("username is required");
-    cy.get(".rounded-input__invalid-message").contains("password is required");
+    dsl.alerts.username().contains("username is required");
+    dsl.alerts.password().contains("password is required");
     cy.get(".modal").compareSnapshot("loginPage-errors");
   });
 
@@ -52,7 +56,7 @@ describe("Login page tests", () => {
     dsl.inputs.username().type("teeest");
     dsl.inputs.password().type("teeeest");
     dsl.buttons.login().click();
-    // TODO set up the toast component to handle errors as 'alerts' and use findByRole here
-    cy.findByText("Username or Password is incorrect");
+    cy.findByRole("alert");
+    cy.findByRole("alert", { name: "toast-error" });
   });
 });
