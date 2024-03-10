@@ -2,13 +2,14 @@
 import { reactive } from "vue";
 import { useForm } from "vee-validate";
 import { useRouter } from "vue-router";
+import { faArrowLeftLong } from "@fortawesome/free-solid-svg-icons";
 import { useRegister } from "@/composables/authentication/useAuthentication";
 import { userLoginSchema } from "@/types/schemas";
 import { toTypedSchema } from "@vee-validate/zod";
 import InputComponent from "@/components/UI/InputComponent.vue";
 import ButtonComponent from "@/components/UI/ButtonComponent.vue";
-import NavigationModalComponent from "./UI/NavigationModalComponent.vue";
 import type { UserLoginRequest } from "@/types";
+import ModalComponent from "@/components/UI/ModalComponent.vue";
 
 //#region Form validation
 const { values, handleSubmit } = useForm({
@@ -38,13 +39,22 @@ const onSubmit = handleSubmit(async (values) => {
 </script>
 
 <template>
-  <NavigationModalComponent>
+  <ModalComponent>
     <template #header>
+      <a
+        id="back-button"
+        data-testid="back-link"
+        alt="Go back"
+        aria-role="link"
+        @click="push({ name: 'login' })"
+      >
+        <FontAwesomeIcon :icon="faArrowLeftLong" />
+      </a>
       <label><strong>Register</strong></label>
     </template>
     <template #default>
       <form class="form form--centered" @submit="onSubmit">
-        <div class="input-group">
+        <div class="form__input-group">
           <InputComponent label="Username" name="username"></InputComponent>
           <InputComponent
             label="Password"
@@ -63,7 +73,18 @@ const onSubmit = handleSubmit(async (values) => {
       </form>
     </template>
     <template #footer> </template>
-  </NavigationModalComponent>
+  </ModalComponent>
 </template>
 
-<style scoped></style>
+<style lang="scss" scoped>
+@import "@/styles/abstracts/variables";
+
+#back-button {
+  color: $grey;
+  position: fixed;
+  top: 5px;
+  left: 5px;
+  cursor: pointer;
+  font-size: x-large;
+}
+</style>

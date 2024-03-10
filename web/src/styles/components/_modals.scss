@@ -1,32 +1,43 @@
-.login-modal {
-  @include box-shadow(#6a6a6a);
+.modal {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   flex-direction: column;
-  width: 400px;
-  height: 340px;
   background-color: white;
   border-radius: 5px;
+  padding: 1rem;
+  position: relative;
+  /* These transforms provide a containing block for all children */
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  transform: rotate(0deg);
 
-  &__under-buttons {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    position: relative;
-    margin-top: 3px;
+  &--thin {
+    padding: 2rem 3rem;
   }
 
-  &__label {
+  &__header {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 1rem;
-    font-size: x-large;
+    margin-bottom: 0.5rem;
     padding: 5px;
-    border-radius: 5px;
-    width: 80px;
-    height: 30px;
+    font-size: x-large;
+  }
+
+  &__body {
+    justify-content: center;
+    margin: 10px;
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    flex-direction: column;
   }
 }
