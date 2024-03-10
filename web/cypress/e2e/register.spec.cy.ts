@@ -26,6 +26,7 @@ describe("Register page tests", () => {
     dsl.buttons.register().click();
     dsl.alerts.username().contains("username is required");
     dsl.alerts.password().contains("password is required");
+    cy.get(".modal").compareSnapshot("registerPage-errors");
   });
 
   it("Providing valid input for username and password should redirect to login page", () => {

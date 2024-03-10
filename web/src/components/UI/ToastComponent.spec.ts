@@ -1,5 +1,6 @@
 import ToastComponent from "@/components/UI/ToastComponent.vue";
 import { render, waitFor } from "@testing-library/vue";
+import * as _ from "lodash";
 import { userEvent } from "@testing-library/user-event";
 import {
   getByText as glGetByText,
@@ -54,6 +55,19 @@ describe("ToastComponent tests", () => {
     toasts.value = [];
     await waitFor(() => {
       expect(queryByTestId("toast-list")).not.toBeInTheDocument();
+    });
+  });
+
+  it("Should create error toasts on status error", async () => {
+    const expectedToastCount = 5;
+    const { getAllByRole } = render(ToastComponent);
+
+    _.range(0, expectedToastCount).forEach(() => addToast("error", "text"));
+
+    await waitFor(() => {
+      expect(getAllByRole("alert", { name: /toast-error\d*/ }).length).toEqual(
+        expectedToastCount
+      );
     });
   });
 });

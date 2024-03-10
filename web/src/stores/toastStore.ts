@@ -17,10 +17,8 @@ export type ToastPayload = {
 
 const defaultTimeout = 10000;
 
-const createToast = (text: string, status: ToastStatus): Toast =>
+export const createToast = (text: string, status: ToastStatus): Toast =>
   new Toast(text, status);
-
-// TODO could convert these to magic calls and reduce duplicate code
 class Toast implements ToastInterface {
   text: string;
   status: ToastStatus;
@@ -29,7 +27,7 @@ class Toast implements ToastInterface {
   constructor(text: string, status: ToastStatus) {
     this.text = text;
     this.status = status;
-    this.id = Math.random() * 1000;
+    this.id = Math.round(Math.random() * 1000);
   }
 
   isError() {

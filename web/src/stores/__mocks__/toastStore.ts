@@ -1,5 +1,5 @@
 import { ref } from "vue";
-import type { Toast, ToastStatus } from "../toastStore";
+import type { ToastInterface, ToastStatus } from "../toastStore";
 
 const toastActions = {
   updateState: vi.fn(),
@@ -11,16 +11,21 @@ const toastActions = {
   unpause: vi.fn(),
 };
 
-export const toasts = ref<Toast[]>([]);
+export const toasts = ref<ToastInterface[]>([]);
+
+const createToast = (status: ToastStatus, text: string): ToastInterface => ({
+  status,
+  text,
+  id: Math.floor(Math.random() * 1000),
+  isError: () => status === "error",
+  isSuccess: () => status === "success",
+  isWarning: () => status === "error",
+});
 
 export const useToast = vi.fn(() => {
   return toastActions;
 });
 
 export function addToast(status: ToastStatus, text: string) {
-  toasts.value.push({
-    text,
-    status,
-    id: Math.random() * 1000,
-  });
+  toasts.value.push(createToast(status, text));
 }

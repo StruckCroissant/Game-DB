@@ -57,6 +57,6 @@ describe("Login page tests", () => {
     dsl.inputs.password().type("teeeest");
     dsl.buttons.login().click();
     cy.findByRole("alert");
-    cy.findByRole("alert", { name: "toast-error" });
+    cy.findByRole("alert", { name: /toast-error\d*/g });
   });
 });

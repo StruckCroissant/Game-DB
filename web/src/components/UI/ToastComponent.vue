@@ -11,7 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { storeToRefs } from "pinia";
 import { singletonTimeoutFactory } from "@/utilities/common";
-import type { ToastStatus } from "@/stores/toastStore";
+import type { ToastInterface, ToastStatus } from "@/stores/toastStore";
 library.add(faCircleCheck, faTriangleExclamation, faX, faCircleExclamation);
 
 type ToastIcon =
@@ -50,6 +50,14 @@ watch(
     }, 300);
   }
 );
+
+function getToastRoleName(toast: ToastInterface): string {
+  let name = "toast";
+  if (toast.isError()) {
+    name += "-error";
+  }
+  return (name += `-${toast.id}`);
+}
 </script>
 
 <template>
@@ -73,8 +81,8 @@ watch(
         />
         <span
           class="toast__list-text"
-          :aria-label="toast.isError() ? 'toast-error' : undefined"
-          :role="toast.isError() ? 'alert' : undefined"
+          :aria-label="getToastRoleName(toast)"
+          role="alert"
         >
           {{ toast.text }}
         </span>
