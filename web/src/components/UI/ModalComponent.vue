@@ -24,7 +24,7 @@
   border-radius: 5px;
   padding: 1rem;
   position: relative;
-  /* These transforms provide a containing block for all children including */
+  /* These transforms provide a containing block for all children */
   -webkit-transform: rotate(0deg);
   -moz-transform: rotate(0deg);
   -ms-transform: rotate(0deg);
@@ -35,33 +35,35 @@
     width: 100%;
     display: flex;
   }
-}
 
-.modal--thin {
-  padding: 2rem 3rem;
-}
+  &--thin {
+    padding: 2rem 3rem;
+  }
 
-.modal__header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 0.5rem;
-  font-size: x-large;
-  padding: 5px;
-  border-radius: 5px;
-}
+  &__header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    padding: 5px;
 
-.modal__body {
-  justify-content: center;
-  margin: 10px;
-}
+    &--title {
+      font-size: x-large;
+    }
+  }
 
-.modal__footer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  position: relative;
-  flex-direction: column;
+  &__body {
+    justify-content: center;
+    margin: 10px;
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    flex-direction: column;
+  }
 }
 </style>
