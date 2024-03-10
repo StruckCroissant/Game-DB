@@ -3,6 +3,7 @@ import { reactive } from "vue";
 import { useForm } from "vee-validate";
 import { useRouter } from "vue-router";
 import { faArrowLeftLong } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { useRegister } from "@/composables/authentication/useAuthentication";
 import { userLoginSchema } from "@/types/schemas";
 import { toTypedSchema } from "@vee-validate/zod";
