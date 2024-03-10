@@ -1,6 +1,6 @@
 import { http, HttpResponse } from "msw";
 import { endpoint } from "../baseUrls";
-import { getFailedLoginResource } from "../repos/error";
+import { getFailedLoginResource, getErrorResource } from "../repos/error";
 // Has to be imported this way because for whatever reason the default import fails
 import * as users from "../fixtures/users.json";
 import type { ErrorResource } from "../repos/error";
@@ -15,12 +15,26 @@ export const handlers = [
       const loginRequest = await request.json();
       if (
         typeof loginRequest !== "object" ||
-        !(loginRequest?.username in Object.keys(users))
+        !(loginRequest?.username in users)
       ) {
-        return HttpResponse.json(getFailedLoginResource());
+        return getFailedLoginResource();
       }
 
       return HttpResponse.json(users.jdeveloper);
+    }
+  ),
+  http.post(
+    endpoint("/register"),
+    async ({ request }): Promise<StrictResponse<ErrorResource | boolean>> => {
+      const registerRequest = await request.json();
+      if (
+        typeof registerRequest !== "object" ||
+        registerRequest?.username in Object.keys(users)
+      ) {
+        return getErrorResource();
+      }
+
+      return HttpResponse.json(true);
     }
   ),
 ];

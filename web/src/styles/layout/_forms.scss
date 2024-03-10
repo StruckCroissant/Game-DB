@@ -3,7 +3,10 @@
   align-items: center;
   flex-direction: column;
   width: 100%;
-  gap: 15px;
+
+  >*:not(:last-child) {
+    margin-bottom: 15px;
+  }
 }
 
 .form {
@@ -13,4 +16,9 @@
   &--centered {
     align-items: center;
   }
+}
+
+.float-right {
+  margin-right: 0;
+  margin-left: auto;
 }

@@ -110,30 +110,30 @@ public class UserDAOImpl implements UserDao {
   public List<Game> selectSavedGames(int uid) {
     final String sql =
         """
-    SELECT
-        g.gid,
-        g.gname,
-        g.cost,
-        g.discounted_cost,
-        g.url,
-        g.age_rating,
-        g.indie,
-        g.description,
-        GROUP_CONCAT(gn.genre_name) as genres,
-        f.fname as franchise,
-        g.rdate,
-        g.rawgId
-    FROM
-        game g LEFT JOIN gamegenre ggn ON
-            g.gid = ggn.gid
-        LEFT JOIN genre gn ON
-            gn.genre_id = ggn.genre_id
-        LEFT JOIN franchise f ON
-            g.gid = f.gid
-        INNER JOIN plays p ON g.gid = p.gid
-        INNER JOIN user u ON p.uid = u.uid
-    WHERE u.uid = ?;
-    """;
+        SELECT
+            g.gid,
+            g.gname,
+            g.cost,
+            g.discounted_cost,
+            g.url,
+            g.age_rating,
+            g.indie,
+            g.description,
+            GROUP_CONCAT(gn.genre_name) as genres,
+            f.fname as franchise,
+            g.rdate,
+            g.rawgId
+        FROM
+            game g LEFT JOIN gamegenre ggn ON
+                g.gid = ggn.gid
+            LEFT JOIN genre gn ON
+                gn.genre_id = ggn.genre_id
+            LEFT JOIN franchise f ON
+                g.gid = f.gid
+            INNER JOIN plays p ON g.gid = p.gid
+            INNER JOIN user u ON p.uid = u.uid
+        WHERE u.uid = ?;
+        """;
     return jdbcTemplate.query(
         sql, (resultSet, i) -> SQLGameAccessor.getGameFromResultSet(resultSet), uid);
   }
@@ -154,19 +154,19 @@ public class UserDAOImpl implements UserDao {
   public int updateUserById(int id, User user) {
     final String sql =
         """
-    UPDATE
-      user u join role r
-      on u.uid = r.uid
-    SET
-      u.username = ?,
-      u.password = ?,
-      u.locked = ?,
-      u.enabled = ?,
-      r.role = ?
-    WHERE
-      u.uid = ?
-    ;
-    """;
+        UPDATE
+          user u join role r
+          on u.uid = r.uid
+        SET
+          u.username = ?,
+          u.password = ?,
+          u.locked = ?,
+          u.enabled = ?,
+          r.role = ?
+        WHERE
+          u.uid = ?
+        ;
+        """;
     return jdbcTemplate.update(
         sql,
         user.getUsername(),

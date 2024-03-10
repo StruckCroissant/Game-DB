@@ -1,60 +1,48 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref, toRef } from "vue";
+import { useLoadingDelay } from "@/composables/useLoadingDelay";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 library.add(faCircleCheck);
 
 interface Props {
-  loading: boolean;
-  error: boolean;
+  loading?: boolean;
+  label?: string;
+  error?: boolean;
   loadingSuccessText?: string;
   loadingSuccessIcon?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   loading: false,
+  label: "button",
   error: false,
   loadingSuccessText: "Success",
   loadingSuccessIcon: "circle-check",
 });
-const emit = defineEmits<{
-  "conclusion-start": [];
-  "conclusion-end": [];
-}>();
 
-const loadingFinished = ref<boolean>(false);
-const clicking = ref<boolean>(false);
+const clicking = ref(false);
+const loading = toRef(props, "loading");
 
-watch(
-  () => props.loading,
-  (newVal, oldVal) => {
-    if (newVal != oldVal && !newVal) return;
-
-    loadingFinished.value = true;
-    emit("conclusion-start");
-    setTimeout(() => {
-      loadingFinished.value = false;
-      emit("conclusion-end");
-    }, 3000);
-  }
-);
+const { loadingFinished } = useLoadingDelay(toRef(props, "loading"));
 </script>
 
 <template>
   <button
     id="button"
+    :aria-label="label"
     :class="['gradient-button', clicking ? 'gradient-button--clicked' : '']"
     @mousedown="clicking = true"
     @mouseup="clicking = false"
     @mouseleave="clicking = false"
   >
-    <span v-if="loadingFinished && !loading && !error">
+    <span v-if="loadingFinished && !error">
       {{ loadingSuccessText }}
-      <FontAwesomeIcon :icon="loadingSuccessIcon" />
+      <FontAwesomeIcon :icon="loadingSuccessIcon" data-testid="success" />
     </span>
     <slot v-else-if="!loading"></slot>
-    <span v-else class="loader loader--small"></span>
+    <span v-else class="loader loader--small" data-testid="spinner"></span>
   </button>
 </template>
 

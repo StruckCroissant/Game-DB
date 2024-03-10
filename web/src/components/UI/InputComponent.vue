@@ -1,70 +1,74 @@
 <script setup lang="ts">
-import { toRef, ref } from "vue";
-import type { Ref } from "vue";
+import { ref } from "vue";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { useFieldMode } from "@/composables/validation/useFieldMode";
+import { useField } from "vee-validate";
+import _ from "lodash";
+import type { InputTypeHTMLAttribute, Ref } from "vue";
 library.add(faEye, faEyeSlash);
 
 interface Props {
   name: string;
-  type?: string;
+  type?: InputTypeHTMLAttribute | undefined;
   initialValue?: string;
   label?: string;
-  placeholder?: string;
-  mode?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   type: "text",
   initialValue: "",
   label: "",
-  placeholder: "",
-  mode: "aggressive",
 });
 
-const name = toRef(props, "name");
+const inputId = _.uniqueId(props.name);
 
 const passwordShown: Ref<boolean> = ref(false);
 const isPasswordInput: boolean = props.type === "password";
-const concreteType: Ref<string> = toRef(props, "type");
+const concreteType: Ref<string> = ref(props.type);
 
 function togglePasswordShown(): void {
   concreteType.value = passwordShown.value ? "password" : "text";
   passwordShown.value = !passwordShown.value;
 }
 
-//<editor-fold desc="Form Context">
-const { value, errorMessage, handlers } = useFieldMode(
-  name,
-  props.initialValue,
-  props.mode
-);
-//</editor-fold>
+//#region Form Context
+const { value, errorMessage } = useField(props.name, undefined, {
+  initialValue: props.initialValue,
+});
+//#endregion
 </script>
 
 <template>
   <div :class="['rounded-input', errorMessage ? 'rounded-input--error' : '']">
-    <input
-      :id="name"
-      :name="name"
-      :type="concreteType"
-      :placeholder="placeholder"
-      :aria-label="name"
-      v-on="handlers"
-      v-model="value"
-      class="rounded-input__input"
-    />
-    <div v-if="errorMessage" class="rounded-input__invalid-message">
-      {{ errorMessage }}
+    <div class="rounded-input__input-container">
+      <input
+        :id="inputId"
+        :name="name"
+        :type="concreteType"
+        :placeholder="label"
+        :aria-label="name"
+        v-model="value"
+        class="rounded-input__input"
+      />
+      <div
+        v-if="isPasswordInput"
+        @click="togglePasswordShown"
+        class="rounded-input__end-icon"
+      >
+        <FontAwesomeIcon
+          :icon="passwordShown ? faEyeSlash : faEye"
+          aria-label="show password"
+        />
+      </div>
     </div>
     <div
-      v-if="isPasswordInput"
-      @click="togglePasswordShown"
-      class="rounded-input__end-icon"
+      v-if="errorMessage"
+      :aria-label="`${name}-error`"
+      class="rounded-input__invalid-message"
+      role="alert"
     >
-      <FontAwesomeIcon :icon="passwordShown ? faEyeSlash : faEye" />
+      {{ errorMessage }}
     </div>
   </div>
 </template>

@@ -1,5 +1,6 @@
 import { defineConfig } from "cypress";
-import { config } from "./cypress/support/config";
+import { configureVisualRegression } from "cypress-visual-regression/dist/plugin";
+import { config } from "./mocks/config";
 import path from "path";
 
 export default defineConfig({
@@ -15,15 +16,23 @@ export default defineConfig({
           path.resolve(process.cwd(), "src/**/*"),
         ],
       },
+      visualRegression: {
+        type: "regression",
+        baseDirectory: "cypress/snapshot/base",
+        diffDirectory: "cypress/snapshot/diff",
+        generateDiff: "always",
+        failSilently: true,
+      },
     },
-    setupNodeEvents(on, config) {
-      require("@cypress/code-coverage/task")(on, config);
+    async setupNodeEvents(on, config) {
+      (await import("@cypress/code-coverage/task")).default(on, config);
+      configureVisualRegression(on);
 
       return config;
     },
   },
   downloadsFolder: "./cypress/downloads",
   fixturesFolder: "./cypress/fixtures",
-  screenshotsFolder: "./cypress/screenshots",
+  screenshotsFolder: "./cypress/screenshots/actual",
   videosFolder: "./cypress/videos",
 });

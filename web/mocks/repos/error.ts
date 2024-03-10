@@ -1,3 +1,5 @@
+import { HttpResponse } from "msw";
+
 export type ErrorResource = {
   message: string;
   status: number;
@@ -5,21 +7,29 @@ export type ErrorResource = {
   type: string;
 };
 
-export function getErrorResource(initialValue: Partial<ErrorResource> = {}) {
-  return {
-    message: "Failed",
-    status: 500,
-    title: "Request failed",
-    type: "Server error",
-    ...initialValue,
-  };
+export function getErrorResource(
+  initialValue: Partial<ErrorResource> = {},
+  status = 500
+) {
+  return HttpResponse.json(
+    {
+      message: "Failed",
+      status,
+      title: "Request failed",
+      type: "Server error",
+      ...initialValue,
+    },
+    { status }
+  );
 }
 
 export function getFailedLoginResource() {
-  return getErrorResource({
-    message: "Username or Password is incorrect",
-    status: 401,
-    title: "Unauthorized",
-    type: "Unauthorized",
-  });
+  return getErrorResource(
+    {
+      message: "Username or Password is incorrect",
+      title: "Unauthorized",
+      type: "Unauthorized",
+    },
+    401
+  );
 }

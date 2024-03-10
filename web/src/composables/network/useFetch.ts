@@ -1,28 +1,42 @@
-import { ref } from "vue";
+import { ref, unref } from "vue";
 import type { Ref } from "vue";
 import { axiosInstance as axios } from "@/config/axiosConfig";
+import {
+  Problem,
+  isAxiosError,
+  isDataResponse,
+  isProblem,
+  MaybeProblemPromise,
+} from "@/types";
 import type { AxiosResponse, AxiosError } from "axios";
+import { MaybeRefOrGetter } from "vue";
+import { toValue } from "vue";
+import _ from "lodash";
+import { createProblem } from "@/types/factories";
+import { getRelativePath } from "@/utilities/common";
 
 export interface NetworkComposable {
   error: Ref<AxiosError | unknown>;
   loading: Ref<boolean>;
 }
 
-interface AxiosBaseComposable extends AxiosComposable {
-  doAction: (request: GetRequest | PostRequest) => Promise<any>;
+interface AxiosBaseComposable<T> extends AxiosComposable<T> {
+  doAction: <K extends T>(
+    request: GetRequest | PostRequest
+  ) => MaybeProblemPromise<K | null>;
 }
 
-export interface AxiosComposable extends NetworkComposable {
+export interface AxiosComposable<T> extends NetworkComposable {
   response: Ref<AxiosResponse | null>;
-  data: Ref<any>;
+  data: Ref<T | null>;
 }
 
-export interface UseFetch extends AxiosComposable {
-  getData: () => Promise<void>;
+export interface UseFetch<T> extends AxiosComposable<T> {
+  getData: () => MaybeProblemPromise<T | null>;
 }
 
-export interface UsePost extends AxiosComposable {
-  postData: (inputData: any) => Promise<void>;
+export interface UsePost<T> extends AxiosComposable<T> {
+  postData: (inputData?: object) => MaybeProblemPromise<T | null>;
 }
 
 interface Request {
@@ -38,13 +52,26 @@ interface GetRequest extends Request {
   type: "get";
 }
 
-function useRequest(): AxiosBaseComposable {
-  const data: Ref<any> = ref(null);
+const createProblemFromAxiosError = (error: AxiosError): Problem => {
+  return createProblem(
+    error.response?.statusText ?? "Internal Server Error",
+    "An error occurred",
+    error.message,
+    !_.isNaN(+(error?.status ?? "")) ? +(error.status ?? "") : 500,
+    getRelativePath(error.response?.config?.url ?? ""),
+    new Date().toISOString()
+  );
+};
+
+function useRequest<T = unknown>(): AxiosBaseComposable<T> {
+  const data: Ref<T | null> = ref(null);
   const response: Ref<AxiosResponse | null> = ref(null);
-  const error: Ref<AxiosError | unknown> = ref(null);
+  const error: Ref<Problem | null> = ref(null);
   const loading: Ref<boolean> = ref(false);
 
-  const doAction = async (request: GetRequest | PostRequest): Promise<any> => {
+  const doAction = async <K extends T>(
+    request: GetRequest | PostRequest
+  ): MaybeProblemPromise<K | null> => {
     try {
       loading.value = true;
 
@@ -55,17 +82,31 @@ function useRequest(): AxiosBaseComposable {
           break;
         case "post":
           serverResponse = await axios.post(request.endpoint, request.data);
+          break;
       }
 
       response.value = serverResponse;
-      data.value = response.value.data.data;
+      if (!isDataResponse(serverResponse)) throw serverResponse;
+
+      data.value = response.value.data;
       error.value = null;
-    } catch (axiosError) {
-      error.value = axiosError;
-      throw axiosError;
+    } catch (errorResponse) {
+      if (!isAxiosError(errorResponse)) {
+        throw Error("An unexpected error ocurred");
+      }
+
+      if (isProblem(errorResponse?.response?.data)) {
+        error.value = errorResponse?.response?.data;
+      } else {
+        const reformattedError = createProblemFromAxiosError(errorResponse);
+        error.value = reformattedError;
+      }
+      throw unref(error.value);
     } finally {
       loading.value = false;
     }
+
+    return (data.value as K) ?? error.value;
   };
 
   return {
@@ -77,41 +118,41 @@ function useRequest(): AxiosBaseComposable {
   };
 }
 
-export function useFetch(endpoint: string): UseFetch {
-  const { data, response, error, loading, doAction } = useRequest();
+export function useFetch<T>(endpoint: MaybeRefOrGetter<string>): UseFetch<T> {
+  const { doAction, ...rest } = useRequest<T>();
 
   const getData = async () => {
-    return await doAction({
+    return await doAction<T>({
       type: "get",
-      endpoint: endpoint,
+      endpoint: toValue(endpoint),
     });
   };
 
   return {
     getData,
-    data,
-    response,
-    error,
-    loading,
+    ...rest,
   };
 }
 
-export function usePost(endpoint: string): UsePost {
-  const { data, response, error, loading, doAction } = useRequest();
+export function usePost<T>(
+  endpoint: MaybeRefOrGetter<string>,
+  reactiveInputData?: MaybeRefOrGetter<object>
+): UsePost<T> {
+  const { doAction, ...rest } = useRequest<T | null>();
 
-  const postData = async (inputData: any) => {
+  const postData = async (inputData?: object | undefined) => {
+    const data = inputData ?? toValue(reactiveInputData);
+    if (!data) throw new Error("You must provide data for a post action");
+
     return await doAction({
       type: "post",
-      endpoint: endpoint,
-      data: inputData,
+      endpoint: toValue(endpoint),
+      data,
     });
   };
 
   return {
     postData,
-    data,
-    response,
-    error,
-    loading,
+    ...rest,
   };
 }

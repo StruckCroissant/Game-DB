@@ -2,19 +2,19 @@
 import { reactive } from "vue";
 import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
-import { useLogin } from "@/services/network/authenticationHttp";
+import { useLogin } from "@/composables/authentication/useAuthentication";
 import { RouterLink, useRouter } from "vue-router";
 import InputComponent from "@/components/UI/InputComponent.vue";
 import ModalComponent from "@/components/UI/ModalComponent.vue";
 import ButtonComponent from "@/components/UI/ButtonComponent.vue";
-import { userLoginSchema } from "@/common/schemas";
-import type { UserLoginRequest } from "@/common/types";
+import { userLoginSchema } from "@/types/schemas";
+import type { UserLoginRequest } from "@/types";
 
-//<editor-fold desc="Routing">
+//#region Routing
 const { push } = useRouter();
-//</editor-fold>
+//#endregion
 
-//<editor-fold desc="Form Context">
+//#region Form Context
 const { handleSubmit, values } = useForm({
   validationSchema: toTypedSchema(userLoginSchema),
 });
@@ -30,9 +30,9 @@ const onSubmit = handleSubmit(async (values) => {
   loginRequest.username = values.username;
   loginRequest.password = values.password;
   await doLogin();
-  await push({ name: "home" });
+  push({ name: "home" });
 });
-//</editor-fold>
+//#endregion
 </script>
 
 <template>
@@ -41,41 +41,39 @@ const onSubmit = handleSubmit(async (values) => {
       <label><strong>Login</strong></label>
     </template>
     <template #default>
-      <form class="form form--centered" @submit="onSubmit">
+      <div class="form form--centered">
         <div class="input-group">
           <InputComponent
-            placeholder="Username"
             name="username"
             type="text"
             label="Username"
           ></InputComponent>
           <InputComponent
-            placeholder="Password"
             name="password"
             type="password"
             label="Password"
           ></InputComponent>
-          <div class="login-modal__remember">
-            <div>
-              <input type="checkbox" name="rememberUser" />
-              <label for="rememberUser">Remember me</label>
-            </div>
-            <RouterLink to="/register">Forgot password?</RouterLink>
-          </div>
         </div>
-        <ButtonComponent :loading="loading" :error="!!error" type="submit">
+        <div class="login-modal__under-buttons">
+          <RouterLink to="/register" class="float-right"
+            >Forgot password?</RouterLink
+          >
+        </div>
+        <ButtonComponent
+          :loading="loading"
+          :error="!!error"
+          label="Log in"
+          type="submit"
+          @click="onSubmit"
+        >
           Log in
         </ButtonComponent>
-        <div id="account-create">
+        <div class="d-flex">
           Dont have an account? <RouterLink to="/register">Create</RouterLink>
         </div>
-      </form>
+      </div>
     </template>
   </ModalComponent>
 </template>
 
-<style lang="scss" scoped>
-#account-create {
-  display: flex;
-}
-</style>
+<style lang="scss" scoped></style>

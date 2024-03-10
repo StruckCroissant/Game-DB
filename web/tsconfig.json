@@ -3,6 +3,7 @@
     "target": "ESNext",
     "module": "ESNext",
     "strict": true,
+    "strictNullChecks": true,
     "jsx": "preserve",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
@@ -23,13 +24,12 @@
     "types": [
       "webpack-env",
       "vite/client",
-      "@testing-library/vue",
-      "jest"
+      "vitest/globals"
     ],
     "paths": {
       "@/*": [
         "src/*"
-      ]
+      ],
     },
     "lib": [
       "esnext",

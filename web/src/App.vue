@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { RouterView } from "vue-router";
 import ToastComponent from "@/components/UI/ToastComponent.vue";
 </script>
@@ -11,5 +11,6 @@ import ToastComponent from "@/components/UI/ToastComponent.vue";
 <style>
 * {
   font-family: Lato, system-ui;
+  box-sizing: border-box;
 }
 </style>

@@ -1,32 +1,51 @@
 import { defineStore } from "pinia";
 export type ToastStatus = "success" | "warning" | "error";
 
-export type Toast = {
+export interface ToastInterface {
   text: string;
   status: ToastStatus;
   id: number;
-};
+  isError: () => boolean;
+  isWarning: () => boolean;
+  isSuccess: () => boolean;
+}
 
 export type ToastPayload = {
   timeout?: number;
   text: string;
 };
 
-const defaultTimeout: number = 10000;
+const defaultTimeout = 10000;
 
-const createToast = (text: string, status: ToastStatus): Toast => ({
-  text,
-  status,
-  id: Math.random() * 1000,
-});
+export const createToast = (text: string, status: ToastStatus): Toast =>
+  new Toast(text, status);
+class Toast implements ToastInterface {
+  text: string;
+  status: ToastStatus;
+  id: number;
+
+  constructor(text: string, status: ToastStatus) {
+    this.text = text;
+    this.status = status;
+    this.id = Math.round(Math.random() * 1000);
+  }
+
+  isError() {
+    return this.status === "error";
+  }
+  isSuccess() {
+    return this.status === "success";
+  }
+  isWarning() {
+    return this.status === "warning";
+  }
+}
 
 export const useToast = defineStore("toast", {
   state: (): {
     toasts: Toast[];
-    paused: Boolean;
   } => ({
     toasts: [],
-    paused: false,
   }),
   actions: {
     updateState(payload: ToastPayload, status: ToastStatus) {
@@ -52,12 +71,6 @@ export const useToast = defineStore("toast", {
         (toast: Toast) => toast.id == toastId
       );
       this.toasts.splice(existingToastIdx, 1);
-    },
-    pause(): void {
-      this.paused = true;
-    },
-    unpause(): void {
-      this.paused = false;
     },
   },
 });

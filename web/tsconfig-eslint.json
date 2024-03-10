@@ -5,10 +5,9 @@
         "src/**/*.ts",
         "src/**/*.tsx",
         "src/**/*.vue",
-        "test/**/*.ts",
-        "test/**/*.tsx",
         "cypress/**/*.ts",
         "cypress/**/*.cy.ts",
-        "mocks/**/*.ts"
+        "mocks/**/*.ts",
+        "utilities/**/*.ts"
     ]
 }

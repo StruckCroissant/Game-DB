@@ -1,0 +1,14 @@
+{
+  "exclude": [
+    "node_modules",
+    "utilities/**/*",
+    "mocks/**/*",
+    "dist/**/*",
+    "public/**/*",
+    "src/router/routes.ts",
+    "src/router/index.ts",
+    "src/config/*",
+    "src/utilities/*",
+    "types/*"
+  ]
+}

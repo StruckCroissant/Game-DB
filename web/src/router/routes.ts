@@ -4,6 +4,13 @@ import LoginComponent from "@/components/LoginComponent.vue";
 import RegisterComponent from "@/components/RegisterComponent.vue";
 import type { RouteRecordRaw } from "vue-router";
 
+export const RouteNames = {
+  AUTH: "auth",
+  LOGIN: "login",
+  HOME: "home",
+  REGISTER: "register",
+};
+
 export const routes: Readonly<RouteRecordRaw[]> = [
   {
     path: "/:pathMatch(.*)*",
@@ -11,12 +18,12 @@ export const routes: Readonly<RouteRecordRaw[]> = [
   },
   {
     path: "/auth",
-    name: "auth",
-    redirect: "login",
+    name: RouteNames.AUTH,
+    redirect: RouteNames.LOGIN,
   },
   {
     path: "/home",
-    name: "home",
+    name: RouteNames.HOME,
     component: HomeView,
     meta: {
       requiresAuth: true,
@@ -28,16 +35,16 @@ export const routes: Readonly<RouteRecordRaw[]> = [
     children: [
       {
         path: "",
-        redirect: "login",
+        redirect: RouteNames.LOGIN,
       },
       {
         path: "/login",
-        name: "login",
+        name: RouteNames.LOGIN,
         component: LoginComponent,
       },
       {
         path: "/register",
-        name: "register",
+        name: RouteNames.REGISTER,
         component: RegisterComponent,
       },
     ],

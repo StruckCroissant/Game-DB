@@ -1,11 +1,6 @@
-import errorHandler from "@/services/errorHandler";
-
-export type AppConfigs = {
-  errorHandler: (err: unknown) => void;
-};
+import { handleAxiosError } from "@/services/errorHandler";
+import { AppConfigs } from "./mount";
 
 export const configs: AppConfigs = {
-  errorHandler: (err: unknown) => {
-    errorHandler.errorGuard(err);
-  },
+  errorHandler: handleAxiosError,
 };

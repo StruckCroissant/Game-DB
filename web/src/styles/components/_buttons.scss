@@ -1,4 +1,5 @@
 @import "@/styles/abstracts/placeholders";
+@import "@/styles/abstracts/variables";
 
 .button {
   font-family: inherit;
@@ -19,12 +20,11 @@
 .gradient-button {
   @extend .button;
   @extend %animated;
-  $base-color: #ff49fd;
   $border-depth: 4px;
 
-  background-image: linear-gradient(155deg, #ff49fd, #6200ff, #ff0052);
+  background-image: linear-gradient(155deg, $base--light, $base--dark, #ff0052);
   background-size: 2000% 2000%;
-  box-shadow: $base-color 0 $border-depth 0 0;
+  box-shadow: $base--light 0 $border-depth 0 0;
 
   &--disabled {
     cursor: default;
@@ -37,7 +37,7 @@
 
   &--clicked {
     transform: translateY($border-depth);
-    box-shadow: $base-color 0 0 0 0;
+    box-shadow: $base--light 0 0 0 0;
   }
 }
 

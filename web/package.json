@@ -5,18 +5,19 @@
   "scripts": {
     "dev": "vite",
     "preview": "vite preview",
+    "build-preview": "npm run build && npm run preview",
     "build": "run-p type-check build-only",
     "build-only": "vite build",
     "instrument-build": "cross-env INSTRUMENT_BUILD=true vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
     "lint": "eslint . --ignore-path .gitignore",
     "lint:ci": "eslint . --ignore-path .gitignore --max-warnings 0 --no-fix",
-    "test:unit": "vue-cli-service test:unit --environment=happy-dom",
-    "test:unit:watch": "vue-cli-service test:unit --watch --environment=happy-dom",
-    "test:unit:coverage": "vue-cli-service test:unit --coverage",
-    "test:e2e": "start-server-and-test preview :4173 'cypress run --e2e'",
-    "test:e2e:coverage": "npm run instrument-build && start-server-and-test preview :4173 'cypress run --e2e'",
-    "test:e2e:dev": "start-server-and-test 'vite dev --port 4173' :4173 'cypress open --e2e'"
+    "test:unit": "vitest --environment=happy-dom",
+    "test:unit:dev": "vitest --ui",
+    "test:unit:coverage": "vitest --coverage.enabled --config vitest.config.ts",
+    "test:e2e": "start-server-and-test preview :5173 'cypress run --e2e'",
+    "test:e2e:coverage": "npm run instrument-build && start-server-and-test preview :5173 'cypress run --e2e'",
+    "test:e2e:dev": "start-server-and-test 'vite dev --port 5173' :5173 'cypress open --e2e'"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
@@ -25,7 +26,7 @@
     "@fortawesome/vue-fontawesome": "^3.0.3",
     "@vee-validate/zod": "^4.11.8",
     "@vueuse/core": "^9.11.1",
-    "happy-dom": "^13.3.1",
+    "happy-dom": "^13.6.2",
     "lodash": "^4.17.21",
     "pinia": "^2.0.28",
     "vee-validate": "^4.11.8",
@@ -43,12 +44,12 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/user-event": "^14.4.3",
     "@testing-library/vue": "^8.0.1",
-    "@types/jest": "^27.0.1",
     "@types/jsdom": "^20.0.1",
     "@types/lodash": "^4.14.200",
-    "@types/node": "^18.16.9",
+    "@types/node": "^18.19.15",
     "@vitejs/plugin-vue": "^4.0.0",
-    "@vitest/coverage-istanbul": "^1.2.2",
+    "@vitest/coverage-v8": "^1.2.2",
+    "@vitest/ui": "^1.2.2",
     "@vue/cli-plugin-typescript": "~5.0.0",
     "@vue/cli-plugin-unit-jest": "~5.0.0",
     "@vue/eslint-config-prettier": "^7.0.0",
@@ -58,10 +59,10 @@
     "@vue/vue3-jest": "^27.0.0-alpha.1",
     "cross-env": "^7.0.3",
     "cypress": "^13.6.3",
+    "cypress-visual-regression": "^4.0.0",
     "eslint": "^8.22.0",
     "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-vue": "^9.3.0",
-    "jest": "^27.0.5",
     "jsdom": "^20.0.3",
     "msw": "^2.1.2",
     "npm-run-all": "^4.1.5",
@@ -78,24 +79,6 @@
   "msw": {
     "workerDirectory": [
       "public"
-    ]
-  },
-  "nyc": {
-    "instrument": true,
-    "sourceMap": true,
-    "cache": true,
-    "all": true,
-    "extension": [
-      ".vue",
-      ".ts",
-      ".js"
-    ],
-    "exclude": [
-      "*.coverage.ts",
-      "cypress/**/*",
-      "dist/**/*",
-      "public/**/*",
-      "src/**/*.spec.ts"
     ]
   }
 }

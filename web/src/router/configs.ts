@@ -1,12 +1,9 @@
 import { useAuthenticationStore } from "@/stores/authentication";
 import { storeToRefs } from "pinia";
-import type { NavigationGuardWithThis, Router } from "vue-router";
-
-type RouterConfigAction = NavigationGuardWithThis<undefined>;
-export type RouterConfigs = Partial<Record<keyof Router, RouterConfigAction>>;
+import { RouterConfigs } from ".";
 
 export const configs: RouterConfigs = {
-  beforeEach: (to, from, next) => {
+  beforeEach(to, from, next) {
     const authStore = useAuthenticationStore();
     const { isAuthenticated } = storeToRefs(authStore);
 
