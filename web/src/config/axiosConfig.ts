@@ -1,9 +1,8 @@
 import axios from "axios";
 import type { AxiosInstance } from "axios";
 
-// TODO defaults should exist in Vite instead of here
-const API_DOMAIN = import.meta.env.API_DOMAIN ?? "http://localhost";
-const API_PORT = import.meta.env.API_PORT ?? "9191";
+const API_DOMAIN = import.meta.env.API_DOMAIN;
+const API_PORT = import.meta.env.API_PORT;
 
 export const axiosInstance: AxiosInstance = axios.create({
   baseURL: `${API_DOMAIN}:${API_PORT}/api/v1`,

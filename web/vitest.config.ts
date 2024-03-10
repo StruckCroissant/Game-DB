@@ -14,6 +14,7 @@ export default defineConfig({
       toFake: ["setTimeout", "nextTick"],
     },
     globals: true,
+    clearMocks: true,
     environment: "happy-dom",
     coverage: {
       provider: "v8",
@@ -31,6 +32,6 @@ export default defineConfig({
         "**/__mocks__/**",
       ],
     },
-    setupFiles: ["vitest.setup.ts"],
+    setupFiles: ["vitest.setup.ts", "dotenv/config"],
   },
 });
