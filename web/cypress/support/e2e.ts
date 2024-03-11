@@ -20,7 +20,7 @@ import "./commands";
 import "./index";
 import "@cypress/code-coverage/support";
 addCompareSnapshotCommand({
-  capture: "viewport",
+  capture: "fullPage",
   errorThreshold: 0.1,
 });
 
