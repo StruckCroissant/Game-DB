@@ -38,6 +38,12 @@ jobs:
         with:
           flag: frontend-e2e
           token: ${{ secrets.CODECOV_TOKEN }}
+      - name: Upload diff artifacts on failure
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: snapshot-diff
+          path: web/**/snapshot/diff/
   test-component:
     runs-on: ubuntu-latest
     steps:
