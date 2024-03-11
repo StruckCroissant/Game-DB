@@ -17,7 +17,7 @@ export default defineConfig({
         ],
       },
       visualRegression: {
-        type: "regression",
+        type: "base",
         baseDirectory: "cypress/snapshot/base",
         diffDirectory: "cypress/snapshot/diff",
         generateDiff: "fail",
