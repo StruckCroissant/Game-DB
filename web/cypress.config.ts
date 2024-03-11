@@ -22,15 +22,11 @@ export default defineConfig({
         diffDirectory: "cypress/snapshot/diff",
         generateDiff: "always",
         failSilently: false,
-        capture: "fullPage",
-        errorThreshold: 0.01,
       },
     },
     async setupNodeEvents(on, config) {
       (await import("@cypress/code-coverage/task")).default(on, config);
       configureVisualRegression(on);
-
-      return config;
     },
   },
   downloadsFolder: "./cypress/downloads",
