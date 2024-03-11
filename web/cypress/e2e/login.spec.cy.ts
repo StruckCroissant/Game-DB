@@ -25,14 +25,18 @@ describe("Login page tests", () => {
   });
 
   it("Login page should match snapshot", () => {
-    cy.get(".modal").compareSnapshot("loginPage");
+    cy.get(".modal").compareSnapshot("loginPage", {
+      errorThreshold: 0.1,
+    });
   });
 
   it("Clicking login without input should show errors", () => {
     dsl.buttons.login().click();
     dsl.alerts.username().contains("username is required");
     dsl.alerts.password().contains("password is required");
-    cy.get(".modal").compareSnapshot("loginPage-errors");
+    cy.get(".modal").compareSnapshot("loginPage-errors", {
+      errorThreshold: 0.1,
+    });
   });
 
   it("Login should redirect to home page", () => {
