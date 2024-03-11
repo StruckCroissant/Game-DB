@@ -17,11 +17,13 @@ export default defineConfig({
         ],
       },
       visualRegression: {
-        type: "regression",
+        type: "base",
         baseDirectory: "cypress/snapshot/base",
         diffDirectory: "cypress/snapshot/diff",
         generateDiff: "always",
         failSilently: false,
+        capture: "fullPage",
+        errorThreshold: 0.01,
       },
     },
     async setupNodeEvents(on, config) {
