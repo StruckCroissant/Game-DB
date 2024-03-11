@@ -20,7 +20,7 @@ export default defineConfig({
         type: "regression",
         baseDirectory: "cypress/snapshot/base",
         diffDirectory: "cypress/snapshot/diff",
-        generateDiff: "always",
+        generateDiff: "fail",
         failSilently: false,
       },
     },
