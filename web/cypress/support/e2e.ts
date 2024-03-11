@@ -20,8 +20,7 @@ import "./commands";
 import "./index";
 import "@cypress/code-coverage/support";
 addCompareSnapshotCommand({
-  capture: "fullPage",
-  errorThreshold: 0.1,
+  capture: "viewport",
 });
 
 // Alternatively you can use CommonJS syntax:
