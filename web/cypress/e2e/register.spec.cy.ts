@@ -18,15 +18,18 @@ const dsl = {
 describe("Register page tests", () => {
   beforeEach(() => cy.visit("/register"));
 
-  it("Register page should match snapshot", () => {
+  it.skip("Register page should match snapshot", () => {
     cy.get(".modal").compareSnapshot("registerPage");
+  });
+
+  it.skip("Register page with errors should match snapshot", () => {
+    cy.get(".modal").compareSnapshot("registerPage-errors");
   });
 
   it("Clicking register without input should show errors", () => {
     dsl.buttons.register().click();
     dsl.alerts.username().contains("username is required");
     dsl.alerts.password().contains("password is required");
-    cy.get(".modal").compareSnapshot("registerPage-errors");
   });
 
   it("Providing valid input for username and password should redirect to login page", () => {

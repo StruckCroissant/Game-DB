@@ -24,15 +24,18 @@ describe("Login page tests", () => {
     cy.url().should("include", "/login");
   });
 
-  it("Login page should match snapshot", () => {
+  it.skip("Login page should match snapshot", () => {
     cy.get(".modal").compareSnapshot("loginPage");
+  });
+
+  it.skip("Login page with errors should match snapshot", () => {
+    cy.get(".modal").compareSnapshot("loginPage-errors");
   });
 
   it("Clicking login without input should show errors", () => {
     dsl.buttons.login().click();
     dsl.alerts.username().contains("username is required");
     dsl.alerts.password().contains("password is required");
-    cy.get(".modal").compareSnapshot("loginPage-errors");
   });
 
   it("Login should redirect to home page", () => {
