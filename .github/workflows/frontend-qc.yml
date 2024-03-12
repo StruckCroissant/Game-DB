@@ -31,13 +31,12 @@ jobs:
           build: npm run instrument-build
           start: npm run preview
           working-directory: web
-      - name: Transform coverage report to lcov
-        run: npx nyc report --reporter=lcov
       - name: Upload coverage reports to Codecov
         uses: ./.github/actions/upload-codecov
         with:
           flag: frontend-e2e
           token: ${{ secrets.CODECOV_TOKEN }}
+          directory: ./coverage
   test-component:
     runs-on: ubuntu-latest
     steps:

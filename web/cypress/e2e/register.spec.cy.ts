@@ -19,7 +19,7 @@ describe("Register page tests", () => {
   beforeEach(() => cy.visit("/register"));
 
   it("Register page should match snapshot", () => {
-    cy.get(".modal").compareSnapshot("registerPage");
+    cy.get("body").compareSnapshot("registerPage");
   });
 
   it("Clicking register without input should show errors", () => {

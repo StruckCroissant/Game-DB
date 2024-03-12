@@ -5,39 +5,25 @@
   flex-direction: column;
   background-color: white;
   border-radius: 5px;
-  padding: 1rem;
-  position: relative;
-  /* These transforms provide a containing block for all children */
-  -webkit-transform: rotate(0deg);
-  -moz-transform: rotate(0deg);
-  -ms-transform: rotate(0deg);
-  -o-transform: rotate(0deg);
-  transform: rotate(0deg);
 
-  &--thin {
-    padding: 2rem 3rem;
-  }
-
-  &__header {
+  &__under-buttons {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 0.5rem;
-    padding: 5px;
-    font-size: x-large;
-  }
-
-  &__body {
-    justify-content: center;
-    margin: 10px;
-  }
-
-  &__footer {
-    display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     width: 100%;
     position: relative;
-    flex-direction: column;
+    margin-top: 3px;
+  }
+
+  &__label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem;
+    font-size: x-large;
+    padding: 5px;
+    border-radius: 5px;
+    width: 80px;
+    height: 30px;
   }
 }

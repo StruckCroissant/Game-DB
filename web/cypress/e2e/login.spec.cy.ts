@@ -25,7 +25,7 @@ describe("Login page tests", () => {
   });
 
   it("Login page should match snapshot", () => {
-    cy.get(".modal").compareSnapshot("loginPage");
+    cy.get("body").compareSnapshot("loginPage");
   });
 
   it("Clicking login without input should show errors", () => {

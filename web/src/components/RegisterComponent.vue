@@ -2,15 +2,13 @@
 import { reactive } from "vue";
 import { useForm } from "vee-validate";
 import { useRouter } from "vue-router";
-import { faArrowLeftLong } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { useRegister } from "@/composables/authentication/useAuthentication";
 import { userLoginSchema } from "@/types/schemas";
 import { toTypedSchema } from "@vee-validate/zod";
 import InputComponent from "@/components/UI/InputComponent.vue";
 import ButtonComponent from "@/components/UI/ButtonComponent.vue";
+import NavigationModalComponent from "./UI/NavigationModalComponent.vue";
 import type { UserLoginRequest } from "@/types";
-import ModalComponent from "@/components/UI/ModalComponent.vue";
 
 //#region Form validation
 const { values, handleSubmit } = useForm({
@@ -40,7 +38,7 @@ const onSubmit = handleSubmit(async (values) => {
 </script>
 
 <template>
-  <ModalComponent>
+  <NavigationModalComponent>
     <template #header>
       <a
         id="back-button"
@@ -55,7 +53,7 @@ const onSubmit = handleSubmit(async (values) => {
     </template>
     <template #default>
       <form class="form form--centered" @submit="onSubmit">
-        <div class="form__input-group">
+        <div class="input-group">
           <InputComponent label="Username" name="username"></InputComponent>
           <InputComponent
             label="Password"
@@ -74,7 +72,7 @@ const onSubmit = handleSubmit(async (values) => {
       </form>
     </template>
     <template #footer> </template>
-  </ModalComponent>
+  </NavigationModalComponent>
 </template>
 
 <style lang="scss" scoped>
