@@ -36,7 +36,7 @@ jobs:
         with:
           flag: frontend-e2e
           token: ${{ secrets.CODECOV_TOKEN }}
-          directory: ./coverage
+          directory: ./coverage/lcov-report
   test-component:
     runs-on: ubuntu-latest
     steps:
