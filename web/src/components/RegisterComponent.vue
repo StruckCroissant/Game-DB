@@ -40,15 +40,6 @@ const onSubmit = handleSubmit(async (values) => {
 <template>
   <NavigationModalComponent>
     <template #header>
-      <a
-        id="back-button"
-        data-testid="back-link"
-        alt="Go back"
-        aria-role="link"
-        @click="push({ name: 'login' })"
-      >
-        <FontAwesomeIcon :icon="faArrowLeftLong" />
-      </a>
       <label><strong>Register</strong></label>
     </template>
     <template #default>
