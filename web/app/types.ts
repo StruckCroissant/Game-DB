@@ -6,6 +6,7 @@ export const ElementTypes = {
 } as const;
 
 export const NodeTypes = {
+  ROOT: 0,
   ELEMENT: 1,
   ATTRIBUTE: 6,
 } as const;

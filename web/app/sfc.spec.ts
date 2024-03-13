@@ -8,10 +8,14 @@ const getDummyLoc = () => ({
   source: "test",
 });
 
-const getNode = (props: AttributeNode[]): PlainElementNode => ({
-  tagType: ElementTypes.ELEMENT,
+const getNode = (
+  props: AttributeNode[],
+  tagType: (typeof ElementTypes)[keyof typeof ElementTypes],
+  type: (typeof NodeTypes)[keyof typeof NodeTypes]
+): PlainElementNode => ({
+  tagType: tagType as number,
   codegenNode: undefined,
-  type: NodeTypes.ELEMENT,
+  type: type as number,
   ns: 0,
   tag: "div",
   isSelfClosing: true,
@@ -30,10 +34,27 @@ const getProp = (name: string): AttributeNode => ({
 describe("SFC compiler extensions tests", () => {
   it("Should remove the specified attribute", () => {
     const expectedAttributeName = "data-testid";
-    const node = getNode([getProp(expectedAttributeName)]);
+    const node = getNode(
+      [getProp(expectedAttributeName)],
+      ElementTypes.ELEMENT,
+      NodeTypes.ELEMENT
+    );
 
     stripAttribute(node, expectedAttributeName);
 
     expect(node.props.length).toBe(0);
+  });
+
+  it("Should ignore non-element types", () => {
+    const expectedAttributeName = "data-testid";
+    const node = getNode(
+      [getProp(expectedAttributeName)],
+      ElementTypes.COMPONENT,
+      NodeTypes.ROOT
+    );
+
+    stripAttribute(node, expectedAttributeName);
+
+    expect(node.props.length).toBe(1);
   });
 });

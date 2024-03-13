@@ -4,6 +4,7 @@ import vue from "@vitejs/plugin-vue";
 import istanbul from "vite-plugin-istanbul";
 import type { UserConfig } from "vite";
 import { stripAttribute } from "./app/sfc";
+import { NodeTypes } from "./app/types";
 
 const vuePlugin = () =>
   vue({
@@ -12,6 +13,7 @@ const vuePlugin = () =>
         nodeTransforms: [
           (node) => {
             if (process.env.NODE_ENV !== "production") return;
+            if (node.type === NodeTypes.ROOT) return;
             stripAttribute(node, "data-testid");
           },
         ],
