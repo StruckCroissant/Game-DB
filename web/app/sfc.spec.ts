@@ -1,6 +1,6 @@
 import { PlainElementNode, AttributeNode } from "@vue/compiler-core";
 import { stripAttribute } from "./sfc";
-import { NodeTypes, ElementTypes } from "@/types";
+import { NodeTypes, ElementTypes } from "./types";
 
 const getDummyLoc = () => ({
   start: { offset: 0, line: 0, column: 0 },

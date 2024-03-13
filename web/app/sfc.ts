@@ -1,11 +1,10 @@
-import { NodeTypes } from "@/types";
+import { NodeTypes } from "./types";
 import type { RootNode, TemplateChildNode } from "@vue/compiler-core";
 
 export function stripAttribute(
   node: RootNode | TemplateChildNode,
   attributeName: string
 ) {
-  console.log("here");
   if (node.type !== NodeTypes.ELEMENT) return;
   if (!("props" in node)) return;
 
