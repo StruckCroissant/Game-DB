@@ -29,6 +29,7 @@ describe("Login page tests", () => {
   });
 
   it("Login page with errors should match snapshot", () => {
+    dsl.buttons.login().click();
     cy.get(".modal").compareSnapshot("loginPage-errors");
   });
 

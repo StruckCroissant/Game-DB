@@ -23,6 +23,7 @@ describe("Register page tests", () => {
   });
 
   it("Register page with errors should match snapshot", () => {
+    dsl.buttons.register().click();
     cy.get(".modal").compareSnapshot("registerPage-errors");
   });
 
