@@ -11,3 +11,14 @@
     box-shadow: $color 0 0 0 3px;
   }
 }
+
+/**
+ * Provides a containing box for all fixed positioned elements - including grandchildren
+ */ 
+@mixin provide-fixed-box() {
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  transform: rotate(0deg);
+}

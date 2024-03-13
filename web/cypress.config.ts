@@ -17,16 +17,18 @@ export default defineConfig({
         ],
       },
       visualRegression: {
-        type: "base",
+        type: "regression",
         baseDirectory: "cypress/snapshot/base",
         diffDirectory: "cypress/snapshot/diff",
-        generateDiff: "fail",
-        failSilently: false,
+        generateDiff: "always",
+        failSilently: true,
       },
     },
     async setupNodeEvents(on, config) {
       (await import("@cypress/code-coverage/task")).default(on, config);
       configureVisualRegression(on);
+
+      return config;
     },
   },
   downloadsFolder: "./cypress/downloads",
