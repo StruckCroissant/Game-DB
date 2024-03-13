@@ -2,12 +2,14 @@
 import { reactive } from "vue";
 import { useForm } from "vee-validate";
 import { useRouter } from "vue-router";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { faArrowLeftLong } from "@fortawesome/free-solid-svg-icons";
 import { useRegister } from "@/composables/authentication/useAuthentication";
 import { userLoginSchema } from "@/types/schemas";
 import { toTypedSchema } from "@vee-validate/zod";
 import InputComponent from "@/components/UI/InputComponent.vue";
 import ButtonComponent from "@/components/UI/ButtonComponent.vue";
-import NavigationModalComponent from "./UI/NavigationModalComponent.vue";
+import ModalComponent from "./UI/ModalComponent.vue";
 import type { UserLoginRequest } from "@/types";
 
 //#region Form validation
@@ -38,8 +40,17 @@ const onSubmit = handleSubmit(async (values) => {
 </script>
 
 <template>
-  <NavigationModalComponent>
+  <ModalComponent>
     <template #header>
+      <a
+        id="back-button"
+        data-testid="back-link"
+        alt="Go back"
+        aria-role="link"
+        @click="push({ name: 'login' })"
+      >
+        <FontAwesomeIcon :icon="faArrowLeftLong" />
+      </a>
       <label><strong>Register</strong></label>
     </template>
     <template #default>
@@ -63,7 +74,7 @@ const onSubmit = handleSubmit(async (values) => {
       </form>
     </template>
     <template #footer> </template>
-  </NavigationModalComponent>
+  </ModalComponent>
 </template>
 
 <style lang="scss" scoped>

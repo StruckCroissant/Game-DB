@@ -1,29 +1,44 @@
+@import "@/styles/abstracts/mixins";
+
 .modal {
+  @include provide-fixed-box;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
   background-color: white;
   border-radius: 5px;
+  padding: 1rem;
+  position: relative;
 
-  &__under-buttons {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    position: relative;
-    margin-top: 3px;
+  &--thin {
+    padding: 2rem 3rem;
   }
 
-  &__label {
+  &__header {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 1rem;
+    margin-bottom: 0.5rem;
     font-size: x-large;
     padding: 5px;
-    border-radius: 5px;
-    width: 80px;
-    height: 30px;
+
+    &--medium {
+      font-size: medium;
+    }
+  }
+
+  &__body {
+    justify-content: center;
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    flex-direction: column;
   }
 }

@@ -54,11 +54,9 @@ const onSubmit = handleSubmit(async (values) => {
             label="Password"
           ></InputComponent>
         </div>
-        <div class="login-modal__under-buttons">
-          <RouterLink to="/register" class="float-right"
-            >Forgot password?</RouterLink
-          >
-        </div>
+        <RouterLink to="/register" class="float-right">
+          Forgot password?
+        </RouterLink>
         <ButtonComponent
           :loading="loading"
           :error="!!error"
