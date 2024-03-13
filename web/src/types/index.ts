@@ -44,3 +44,17 @@ export type Register = z.infer<typeof registerSchema>;
 export const isAxiosError = (error: unknown): error is AxiosError =>
   (error as AxiosError).isAxiosError;
 //#endregion
+
+//#region Vue internal utility types
+export const ElementTypes = {
+  ELEMENT: 0,
+  COMPONENT: 1,
+  SLOT: 2,
+  TEMPLATE: 3,
+} as const;
+
+export const NodeTypes = {
+  ELEMENT: 1,
+  ATTRIBUTE: 6,
+} as const;
+//#endregion
