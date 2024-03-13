@@ -24,11 +24,11 @@ describe("Login page tests", () => {
     cy.url().should("include", "/login");
   });
 
-  it.skip("Login page should match snapshot", () => {
+  it("Login page should match snapshot", () => {
     cy.get(".modal").compareSnapshot("loginPage");
   });
 
-  it.skip("Login page with errors should match snapshot", () => {
+  it("Login page with errors should match snapshot", () => {
     cy.get(".modal").compareSnapshot("loginPage-errors");
   });
 

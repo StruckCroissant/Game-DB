@@ -18,11 +18,11 @@ const dsl = {
 describe("Register page tests", () => {
   beforeEach(() => cy.visit("/register"));
 
-  it.skip("Register page should match snapshot", () => {
+  it("Register page should match snapshot", () => {
     cy.get(".modal").compareSnapshot("registerPage");
   });
 
-  it.skip("Register page with errors should match snapshot", () => {
+  it("Register page with errors should match snapshot", () => {
     cy.get(".modal").compareSnapshot("registerPage-errors");
   });
 
