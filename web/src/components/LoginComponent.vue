@@ -42,7 +42,7 @@ const onSubmit = handleSubmit(async (values) => {
     </template>
     <template #default>
       <div class="form form--centered">
-        <div class="form__input-group">
+        <div class="input-group">
           <InputComponent
             name="username"
             type="text"
@@ -54,11 +54,9 @@ const onSubmit = handleSubmit(async (values) => {
             label="Password"
           ></InputComponent>
         </div>
-        <div class="form__inputs-post">
-          <RouterLink to="/register" class="float-right">
-            Forgot password?
-          </RouterLink>
-        </div>
+        <RouterLink to="/register" class="float-right">
+          Forgot password?
+        </RouterLink>
         <ButtonComponent
           :loading="loading"
           :error="!!error"

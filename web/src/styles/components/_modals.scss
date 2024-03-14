@@ -1,4 +1,8 @@
+@import "@/styles/abstracts/mixins";
+
 .modal {
+  @include provide-fixed-box;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -7,12 +11,6 @@
   border-radius: 5px;
   padding: 1rem;
   position: relative;
-  /* These transforms provide a containing block for all children */
-  -webkit-transform: rotate(0deg);
-  -moz-transform: rotate(0deg);
-  -ms-transform: rotate(0deg);
-  -o-transform: rotate(0deg);
-  transform: rotate(0deg);
 
   &--thin {
     padding: 2rem 3rem;
@@ -23,13 +21,16 @@
     justify-content: center;
     align-items: center;
     margin-bottom: 0.5rem;
-    padding: 5px;
     font-size: x-large;
+    padding: 5px;
+
+    &--medium {
+      font-size: medium;
+    }
   }
 
   &__body {
     justify-content: center;
-    margin: 10px;
   }
 
   &__footer {

@@ -1,3 +1,15 @@
+.input-group {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin: 5px;
+  width: 100%;
+
+  >*:not(:last-child) {
+    margin-bottom: 15px;
+  }
+}
+
 .form {
   display: flex;
   flex-direction: column;
@@ -5,24 +17,9 @@
   &--centered {
     align-items: center;
   }
+}
 
-  &__input-group {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    width: 100%;
-  
-    >* {
-      margin-bottom: 15px;
-    }
-  
-    >*:last-child {
-      margin-bottom: 3px;
-    }
-  }
-
-  &__inputs-post {
-    display: flex;
-    width: 100%;
-  }
+.float-right {
+  margin-right: 0;
+  margin-left: auto;
 }
