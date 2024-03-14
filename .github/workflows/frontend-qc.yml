@@ -31,6 +31,10 @@ jobs:
           build: npm run instrument-build
           start: npm run preview
           working-directory: web
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cypress-snapshot-diffs
+          path: ./web/cypress/snapshot/diff
       - name: Transform coverage report to lcov
         run: npx nyc report --reporter=lcov
       - name: Upload coverage reports to Codecov
