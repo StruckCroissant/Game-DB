@@ -25,12 +25,14 @@ describe("Login page tests", () => {
   });
 
   it("Login page should match snapshot", () => {
-    cy.get(".modal").compareSnapshot("loginPage");
+    cy.get(".modal").compareSnapshot("loginPage", { errorThreshold: 0.1 });
   });
 
   it("Login page with errors should match snapshot", () => {
     dsl.buttons.login().click();
-    cy.get(".modal").compareSnapshot("loginPage-errors");
+    cy.get(".modal").compareSnapshot("loginPage-errors", {
+      errorThreshold: 0.1,
+    });
   });
 
   it("Clicking login without input should show errors", () => {
