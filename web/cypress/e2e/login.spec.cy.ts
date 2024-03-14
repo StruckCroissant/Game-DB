@@ -28,11 +28,15 @@ describe("Login page tests", () => {
     cy.get(".modal").compareSnapshot("loginPage");
   });
 
+  it("Login page with errors should match snapshot", () => {
+    dsl.buttons.login().click();
+    cy.get(".modal").compareSnapshot("loginPage-errors");
+  });
+
   it("Clicking login without input should show errors", () => {
     dsl.buttons.login().click();
     dsl.alerts.username().contains("username is required");
     dsl.alerts.password().contains("password is required");
-    cy.get(".modal").compareSnapshot("loginPage-errors");
   });
 
   it("Login should redirect to home page", () => {

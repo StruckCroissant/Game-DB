@@ -3,6 +3,8 @@ import { defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
 import istanbul from "vite-plugin-istanbul";
 import type { UserConfig } from "vite";
+import { stripAttribute } from "./app/sfc";
+import { NodeTypes } from "./app/types";
 
 const vuePlugin = () =>
   vue({
@@ -11,18 +13,8 @@ const vuePlugin = () =>
         nodeTransforms: [
           (node) => {
             if (process.env.NODE_ENV !== "production") return;
-            if (node.type !== 1 /*NodeTypes.ELEMENT*/) return;
-            for (let i = 0; i < node.props.length; i++) {
-              const prop = node.props[i];
-              if (
-                !prop ||
-                prop.type !== 6 /*NodeTypes.ELEMENT*/ ||
-                prop.name !== "data-testid"
-              )
-                continue;
-              node.props.splice(i, 1);
-              i--;
-            }
+            if (node.type === NodeTypes.ROOT) return;
+            stripAttribute(node, "data-testid");
           },
         ],
       },

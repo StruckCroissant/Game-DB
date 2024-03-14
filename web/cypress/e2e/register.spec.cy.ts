@@ -22,11 +22,15 @@ describe("Register page tests", () => {
     cy.get(".modal").compareSnapshot("registerPage");
   });
 
+  it("Register page with errors should match snapshot", () => {
+    dsl.buttons.register().click();
+    cy.get(".modal").compareSnapshot("registerPage-errors");
+  });
+
   it("Clicking register without input should show errors", () => {
     dsl.buttons.register().click();
     dsl.alerts.username().contains("username is required");
     dsl.alerts.password().contains("password is required");
-    cy.get(".modal").compareSnapshot("registerPage-errors");
   });
 
   it("Providing valid input for username and password should redirect to login page", () => {
