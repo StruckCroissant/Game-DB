@@ -32,6 +32,7 @@ jobs:
           start: npm run preview
           working-directory: web
       - uses: actions/upload-artifact@v4
+        if: failure()
         with:
           name: cypress-snapshot-diffs
           path: ./web/cypress/snapshot/diff
