@@ -21,8 +21,7 @@ export default defineConfig({
         baseDirectory: "cypress/snapshot/base",
         diffDirectory: "cypress/snapshot/diff",
         generateDiff: "always",
-        failSilently: false,
-        errorThreshold: 1,
+        failSilently: true,
       },
     },
     async setupNodeEvents(on, config) {

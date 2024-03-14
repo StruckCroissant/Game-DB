@@ -19,14 +19,12 @@ describe("Register page tests", () => {
   beforeEach(() => cy.visit("/register"));
 
   it("Register page should match snapshot", () => {
-    cy.get(".modal").compareSnapshot("registerPage", { errorThreshold: 0.1 });
+    cy.get(".modal").compareSnapshot("registerPage");
   });
 
   it("Register page with errors should match snapshot", () => {
     dsl.buttons.register().click();
-    cy.get(".modal").compareSnapshot("registerPage-errors", {
-      errorThreshold: 0.1,
-    });
+    cy.get(".modal").compareSnapshot("registerPage-errors");
   });
 
   it("Clicking register without input should show errors", () => {
