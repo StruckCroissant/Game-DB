@@ -12,6 +12,7 @@ interface Props {
   error?: boolean;
   loadingSuccessText?: string;
   loadingSuccessIcon?: string;
+  persistentLabel?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -25,7 +26,7 @@ const props = withDefaults(defineProps<Props>(), {
 const clicking = ref(false);
 const loading = toRef(props, "loading");
 
-const { loadingFinished } = useLoadingDelay(toRef(props, "loading"));
+const { loadingFinished } = useLoadingDelay(loading);
 </script>
 
 <template>

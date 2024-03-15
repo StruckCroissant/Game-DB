@@ -1,7 +1,7 @@
 @import "@/styles/abstracts/mixins";
 
 .modal {
-  @include provide-fixed-box;
+  @extend %provide-fixed-box;
 
   display: flex;
   align-items: center;

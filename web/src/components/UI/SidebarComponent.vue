@@ -1,21 +1,28 @@
 <script lang="ts" setup>
+import { usePersistentState } from "@/composables/usePersistentState";
 import { faAnglesRight, faAnglesLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { ref, computed, TransitionGroup } from "vue";
-
-const collapsed = ref(false);
-function toggleCollapsed() {
-  collapsed.value = !collapsed.value;
-}
+import { computed } from "vue";
 
 const buttonIcon = computed(() =>
-  collapsed.value ? faAnglesRight : faAnglesLeft
+  sidebarOpen.value ? faAnglesLeft : faAnglesRight
 );
+
+function toggleCollapsed() {
+  update(`${!JSON.parse(persistentValue.value as string)}`);
+}
+
+const { persistentValue, update } = usePersistentState(
+  "state/binary/sidebar-open",
+  "true"
+);
+
+const sidebarOpen = computed(() => persistentValue.value === "true");
 </script>
 
 <template>
-  <TransitionGroup name="slide" appear>
-    <div class="sidebar" v-if="!collapsed">
+  <TransitionGroup name="slide">
+    <div class="sidebar" v-if="sidebarOpen" :key="'sidebar-content'">
       <div class="sidebar__header">
         <button
           class="button sidebar__collapse-button"
@@ -25,7 +32,7 @@ const buttonIcon = computed(() =>
         </button>
       </div>
     </div>
-    <div class="sidebar-tab" v-if="collapsed">
+    <div class="sidebar-tab" v-if="!sidebarOpen" :key="'sidebar-tab'">
       <button
         class="button button--left-attach sidebar__collapse-button"
         @click="toggleCollapsed"
@@ -38,21 +45,18 @@ const buttonIcon = computed(() =>
 
 <style lang="scss" scoped>
 $sidebar-height: 60px;
-
-.slide-enter-active {
-  transform: translateX(-100%);
+%transition-speed {
+  transition: all 0.3s ease;
 }
 
+.slide-enter-active,
 .slide-leave-active {
   transform: translateX(-100%);
-}
-
-.slide-enter-from,
-.slide-leave-to {
-  opacity: 0;
+  position: absolute;
 }
 
 .sidebar {
+  @extend %transition-speed;
   position: sticky;
   top: 0;
   width: 220px;
@@ -61,7 +65,6 @@ $sidebar-height: 60px;
   background-color: red;
   overflow: hidden;
   flex-direction: column;
-  transition: ease all 0.5s;
 
   &__header {
     height: $sidebar-height;
@@ -75,14 +78,16 @@ $sidebar-height: 60px;
   &__collapse-button {
     margin-left: auto;
     margin-right: 0.3rem;
-    // order: 2;
     justify-self: flex-end;
+  }
+
+  &__item {
   }
 }
 
 .sidebar-tab {
+  @extend %transition-speed;
   position: absolute;
-  margin-top: calc(10px);
-  transition: ease all 0.5s;
+  margin-top: 10px;
 }
 </style>

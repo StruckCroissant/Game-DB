@@ -18,3 +18,7 @@ export function clearAuth(): void {
 export function createBasicAuthToken(username: string, password: string) {
   return "basic " + btoa(`${username}:${password}`);
 }
+
+export function isAuthenticated(): boolean {
+  return !!window.localStorage.getItem(AUTH_KEY);
+}

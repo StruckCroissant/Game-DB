@@ -30,6 +30,7 @@
   color: white;
   width: 150px;
   height: 35px;
+  margin-bottom: $border-depth;
 
   &--disabled {
     cursor: default;
@@ -43,6 +44,10 @@
   &--clicked {
     transform: translateY($border-depth);
     box-shadow: $base--light 0 0 0 0;
+  }
+
+  &--grey {
+    color: $grey;
   }
 }
 
