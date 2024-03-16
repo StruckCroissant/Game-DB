@@ -13,9 +13,17 @@
   border-radius: 15px;
   padding: 0.5rem 1rem;
 
+  &:hover {
+    filter: brightness(110%);
+  }
+
   &--left-attach {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
+  }
+  
+  &--grey {
+    color: $grey;
   }
 }
 
@@ -37,17 +45,9 @@
     filter: brightness(85%);
   }
 
-  &:hover {
-    filter: brightness(120%);
-  }
-
   &--clicked {
     transform: translateY($border-depth);
     box-shadow: $base--light 0 0 0 0;
-  }
-
-  &--grey {
-    color: $grey;
   }
 }
 

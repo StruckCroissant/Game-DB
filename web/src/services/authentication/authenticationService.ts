@@ -22,3 +22,7 @@ export function createBasicAuthToken(username: string, password: string) {
 export function isAuthenticated(): boolean {
   return !!window.localStorage.getItem(AUTH_KEY);
 }
+
+export function logout(): void {
+  clearAuth();
+}

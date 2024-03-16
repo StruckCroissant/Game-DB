@@ -12,3 +12,15 @@
   -o-transform: rotate(0deg);
   transform: rotate(0deg);
 }
+
+%float { 
+  &-right {
+    margin-right: 0;
+    margin-left: auto;
+  }
+
+  &-down {
+    margin-top: auto;
+    margin-bottom: 0;
+  }
+}
