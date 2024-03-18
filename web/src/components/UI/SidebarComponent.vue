@@ -25,7 +25,7 @@ const { persistentValue: sidebarOpen } = usePersistentState<boolean>(
     <div class="sidebar" v-if="sidebarOpen" key="sidebar-content">
       <header class="sidebar__header">
         <span>{{ documentTitle }}</span>
-        <button class="button button--grey" @click="sidebarOpen = false">
+        <button class="button button--raised" @click="sidebarOpen = false">
           <FontAwesomeIcon :icon="buttonIcon" />
         </button>
       </header>

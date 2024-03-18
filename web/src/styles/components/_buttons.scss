@@ -1,7 +1,9 @@
 @import "@/styles/abstracts/placeholders";
 @import "@/styles/abstracts/variables";
 
-.button {
+@mixin button($border-depth: 4px, $border-color: $grey) {
+  $button: &;
+
   font-family: inherit;
   font-size: large;
   display: flex;
@@ -25,29 +27,39 @@
   &--grey {
     color: $grey;
   }
-}
-
-.gradient-button {
-  @extend .button;
-  @extend %animated;
-  $border-depth: 4px;
-
-  background-image: linear-gradient(155deg, $base--light, $base--dark, #ff0052);
-  background-size: 2000% 2000%;
-  box-shadow: $base--light 0 $border-depth 0 0;
-  color: white;
-  width: 150px;
-  height: 35px;
-  margin-bottom: $border-depth;
-
+  
   &--disabled {
     cursor: default;
     filter: brightness(85%);
   }
 
-  &--clicked {
-    transform: translateY($border-depth);
-    box-shadow: $base--light 0 0 0 0;
+  &--raised {
+    box-shadow: $border-color 0 $border-depth 0 0;
+    margin-bottom: $border-depth;
+  }
+  
+  &--raised#{$button}:active {
+      transform: translateY($border-depth);
+      box-shadow: white 0 0 0 0;
   }
 }
 
+.button {
+  @include button;
+}
+
+.gradient-button {
+  @include button(4px, $base--light);
+  @extend %animated;
+  $button: &;
+
+  background-image: linear-gradient(155deg, $base--light, $base--dark, #ff0052);
+  background-size: 2000% 2000%;
+  color: white;
+  width: 150px;
+  height: 35px;
+
+  &--raised#{$button}:active {
+    box-shadow: $grey--light 0 0 0 0;
+  }
+}
