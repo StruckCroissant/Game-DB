@@ -48,15 +48,17 @@ const onSubmit = handleSubmit(async (values) => {
             type="text"
             label="Username"
           ></InputComponent>
-          <InputComponent
-            name="password"
-            type="password"
-            label="Password"
-          ></InputComponent>
+          <div>
+            <InputComponent
+              name="password"
+              type="password"
+              label="Password"
+            ></InputComponent>
+            <RouterLink to="/register" class="form__text float-right">
+              Forgot password?
+            </RouterLink>
+          </div>
         </div>
-        <RouterLink to="/register" class="float-right">
-          Forgot password?
-        </RouterLink>
         <ButtonComponent
           :loading="loading"
           :error="!!error"
@@ -66,7 +68,7 @@ const onSubmit = handleSubmit(async (values) => {
         >
           Log in
         </ButtonComponent>
-        <div class="d-flex">
+        <div class="d-flex form__text">
           Dont have an account? <RouterLink to="/register">Create</RouterLink>
         </div>
       </div>

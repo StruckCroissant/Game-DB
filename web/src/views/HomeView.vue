@@ -1,7 +1,21 @@
 <script setup lang="ts">
-// TODO remove eslint disable once this feature is finished
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const authenticated = true;
+import { RouterView } from "vue-router";
+import SidebarComponent from "@/components/UI/SidebarComponent.vue";
 </script>
 
-<style scoped></style>
+<template>
+  <section class="container">
+    <SidebarComponent class="container__sidebar" />
+    <RouterView class="container__content" />
+  </section>
+</template>
+
+<style lang="scss" scoped>
+.container {
+  display: flex;
+
+  &__content {
+    padding: 1rem;
+  }
+}
+</style>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, toRef } from "vue";
+import { toRef } from "vue";
 import { useLoadingDelay } from "@/composables/useLoadingDelay";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -12,6 +12,7 @@ interface Props {
   error?: boolean;
   loadingSuccessText?: string;
   loadingSuccessIcon?: string;
+  persistentLabel?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -22,20 +23,16 @@ const props = withDefaults(defineProps<Props>(), {
   loadingSuccessIcon: "circle-check",
 });
 
-const clicking = ref(false);
 const loading = toRef(props, "loading");
 
-const { loadingFinished } = useLoadingDelay(toRef(props, "loading"));
+const { loadingFinished } = useLoadingDelay(loading);
 </script>
 
 <template>
   <button
     id="button"
     :aria-label="label"
-    :class="['gradient-button', clicking ? 'gradient-button--clicked' : '']"
-    @mousedown="clicking = true"
-    @mouseup="clicking = false"
-    @mouseleave="clicking = false"
+    class="gradient-button gradient-button--raised"
   >
     <span v-if="loadingFinished && !error">
       {{ loadingSuccessText }}
