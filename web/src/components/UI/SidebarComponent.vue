@@ -8,21 +8,15 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import type { IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { computed, reactive, defineEmits } from "vue";
+import { computed, reactive } from "vue";
 import { usePersistentState } from "@/composables/usePersistentState";
 import { RouteNames } from "@/router/routes";
 import { firstLetterUppercase } from "@/utilities/common";
-
-const emits = defineEmits<{
-  open: [width: number];
-  close: [];
-}>();
 
 const documentTitle = computed(() => document.title);
 const buttonIcon = computed(() =>
   sidebarOpen.value ? faAnglesLeft : faAnglesRight
 );
-const width = computed(() => (sidebarOpen.value ? 220 : 0));
 
 const { persistentValue: sidebarOpen } = usePersistentState<boolean>(
   "state/binary/sidebar-open",
@@ -45,12 +39,10 @@ const options = reactive<NavOption[]>([
 
 function open() {
   sidebarOpen.value = true;
-  emits("open", width.value);
 }
 
 function close() {
   sidebarOpen.value = false;
-  emits("close");
 }
 </script>
 
@@ -59,12 +51,7 @@ function close() {
     <section
       class="sidebar"
       key="sidebar-content"
-      :class="$attrs.class"
-      :style="{
-        minWidth: width + 'px',
-        width: width + 'px',
-        visibility: sidebarOpen ? 'visible' : 'hidden',
-      }"
+      :class="($attrs.class, !sidebarOpen ? 'sidebar--closed' : '')"
     >
       <header class="sidebar__header">
         <span>{{ documentTitle }}</span>
@@ -133,6 +120,15 @@ function close() {
   flex-direction: column;
   border-right: 1px solid $grey--light;
   display: flex;
+  min-width: 220px;
+  width: 220px;
+  visibility: visible;
+
+  &--closed {
+    width: 0;
+    min-width: 0px;
+    visibility: hidden;
+  }
 
   &__header {
     height: 60px;
