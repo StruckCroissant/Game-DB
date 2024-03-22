@@ -19,3 +19,7 @@ export function getRelativePath(fullPath: string): string | undefined {
   const regex = RegExp(/(?<=.*:\/\/[^/]+)\/.*/g);
   return regex.exec(fullPath)?.[0];
 }
+
+export function firstLetterUppercase(word: string): string {
+  return word.charAt(0).toUpperCase() + word.slice(1);
+}

@@ -1,47 +1,88 @@
 <script lang="ts" setup>
-import { usePersistentState } from "@/composables/usePersistentState";
 import {
   faAnglesRight,
   faAnglesLeft,
   faGear,
   faRightFromBracket,
+  faHouseChimney,
 } from "@fortawesome/free-solid-svg-icons";
+import type { IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { computed } from "vue";
+import { computed, reactive, defineEmits } from "vue";
+import { usePersistentState } from "@/composables/usePersistentState";
+import { RouteNames } from "@/router/routes";
+import { firstLetterUppercase } from "@/utilities/common";
+
+const emits = defineEmits<{
+  open: [width: number];
+  close: [];
+}>();
 
 const documentTitle = computed(() => document.title);
 const buttonIcon = computed(() =>
   sidebarOpen.value ? faAnglesLeft : faAnglesRight
 );
+const width = computed(() => (sidebarOpen.value ? 220 : 0));
 
 const { persistentValue: sidebarOpen } = usePersistentState<boolean>(
   "state/binary/sidebar-open",
   true
 );
+
+type NavOption = {
+  name: string;
+  selected: boolean;
+  icon: IconDefinition;
+};
+
+const options = reactive<NavOption[]>([
+  {
+    name: RouteNames.HOME,
+    selected: true,
+    icon: faHouseChimney,
+  },
+]);
+
+function open() {
+  sidebarOpen.value = true;
+  emits("open", width.value);
+}
+
+function close() {
+  sidebarOpen.value = false;
+  emits("close");
+}
 </script>
 
 <template>
   <TransitionGroup name="slide">
-    <div class="sidebar" v-if="sidebarOpen" key="sidebar-content">
+    <section
+      class="sidebar"
+      key="sidebar-content"
+      :class="$attrs.class"
+      :style="{
+        minWidth: width + 'px',
+        width: width + 'px',
+        visibility: sidebarOpen ? 'visible' : 'hidden',
+      }"
+    >
       <header class="sidebar__header">
         <span>{{ documentTitle }}</span>
-        <button class="button button--raised" @click="sidebarOpen = false">
+        <button class="button" @click="close()">
           <FontAwesomeIcon :icon="buttonIcon" />
         </button>
       </header>
       <nav class="sidebar__item-container">
-        <div class="sidebar__item">
-          lorem ipsum <FontAwesomeIcon :icon="faAnglesRight" />
-        </div>
-        <div class="sidebar__item">
-          lorem ipsum <FontAwesomeIcon :icon="faAnglesRight" />
-        </div>
-        <div class="sidebar__item">
-          lorem ipsum <FontAwesomeIcon :icon="faAnglesRight" />
-        </div>
-        <div class="sidebar__item">
-          lorem ipsum <FontAwesomeIcon :icon="faAnglesRight" />
-        </div>
+        <RouterLink
+          v-for="option in options"
+          class="sidebar__item"
+          :to="option.name"
+          :key="option.name"
+          :class="[option.selected ? 'sidebar__item--selected' : '']"
+        >
+          {{ firstLetterUppercase(option.name) }}
+          <FontAwesomeIcon :icon="option.icon" />
+        </RouterLink>
       </nav>
       <footer class="sidebar__footer">
         <RouterLink to="logout">
@@ -49,11 +90,11 @@ const { persistentValue: sidebarOpen } = usePersistentState<boolean>(
         </RouterLink>
         <FontAwesomeIcon :icon="faGear" />
       </footer>
-    </div>
+    </section>
     <div class="sidebar-tab" v-if="!sidebarOpen" key="sidebar-tab">
       <button
         class="button button--left-attach sidebar__collapse-button"
-        @click="sidebarOpen = true"
+        @click="open()"
       >
         <FontAwesomeIcon :icon="buttonIcon" />
       </button>
@@ -66,7 +107,6 @@ const { persistentValue: sidebarOpen } = usePersistentState<boolean>(
 @import "@/styles/abstracts/mixins";
 @import "@/styles/abstracts/placeholders";
 
-$sidebar-height: 60px;
 %transition-speed {
   transition: all 0.3s ease;
 }
@@ -77,25 +117,15 @@ $sidebar-height: 60px;
   position: absolute;
 }
 
-.nav-item {
-  background-color: green;
-  border: 1px solid black;
-  font-weight: bold;
-  font-size: large;
-  display: flex;
-  text-align: center;
-  text-justify: auto;
-  border-radius: 5px;
-  padding: 0.35rem 0.75rem;
-  margin-bottom: 0.5rem;
-}
-
 .sidebar {
   @extend %transition-speed;
   @include box-shadow($grey--light);
+  $header-color-base: #e091ffe8;
+  transition: all 0.3s ease;
+
   position: sticky;
+  left: 0;
   top: 0;
-  width: 220px;
   height: 100vh;
   border-radius: 0 10px 10px 0;
   background-color: white;
@@ -105,8 +135,7 @@ $sidebar-height: 60px;
   display: flex;
 
   &__header {
-    height: $sidebar-height;
-    background-color: white;
+    height: 60px;
     width: 100%;
     align-items: center;
     justify-content: space-between;
@@ -140,20 +169,27 @@ $sidebar-height: 60px;
   }
 
   &__item {
-    background-color: green;
-    border: 1px solid black;
     font-weight: bold;
     font-size: large;
     display: flex;
     text-align: center;
-    text-justify: auto;
     border-radius: 5px;
     padding: 0.35rem 0.75rem;
     margin-bottom: 0.5rem;
+    background-color: rgb(240 240 240);
+    border: 2px solid rgb(240 240 240);
+
+    &:hover {
+      filter: brightness(115%);
+    }
 
     > i,
     > svg {
       @extend %float-right;
+    }
+
+    &--selected {
+      border: 2px solid #afafaf;
     }
   }
 }

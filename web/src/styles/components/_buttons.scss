@@ -14,9 +14,10 @@
   border: none;
   border-radius: 15px;
   padding: 0.5rem 1rem;
+  background-color: rgb(240 240 240);
 
   &:hover {
-    filter: brightness(110%);
+    filter: brightness(103%);
   }
 
   &--left-attach {
@@ -39,8 +40,8 @@
   }
   
   &--raised#{$button}:active {
-      transform: translateY($border-depth);
-      box-shadow: white 0 0 0 0;
+    transform: translateY($border-depth);
+    box-shadow: white 0 0 0 0;
   }
 }
 
