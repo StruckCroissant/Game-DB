@@ -1,6 +1,6 @@
-import { provide } from "vue";
+import { createApp, provide } from "vue";
 import { FormContext, FormContextKey } from "vee-validate";
-import type { Component, defineComponent } from "vue";
+import type { App, Component, defineComponent } from "vue";
 import { useForm } from "vee-validate";
 import { InjectionKey } from "vue";
 import { GenericObject } from "vee-validate";
@@ -39,4 +39,19 @@ export function getExtendedComponent(
       return result;
     },
   };
+}
+
+export function withSetup<T>(composable: () => T): {
+  instance: T;
+  app: App<Element>;
+} {
+  let result: T;
+  const app = createApp({
+    setup() {
+      result = composable();
+    },
+    template: `<div></div>`,
+  });
+  app.mount(document.createElement("div"));
+  return { instance: result, app };
 }

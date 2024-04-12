@@ -1,3 +1,5 @@
+import { log } from "console";
+import _ from "lodash";
 import { ref, watchEffect, onBeforeMount, UnwrapRef } from "vue";
 
 export function usePersistentState<
@@ -16,8 +18,8 @@ export function usePersistentState<
     try {
       return JSON.parse(item) as T;
     } catch (error) {
-      console.error("Could not parse item from local storage!", item);
-      return null;
+      // This error is swallowed because we can safely assume that the value is a string at this point
+      return item as T;
     }
   }
 
