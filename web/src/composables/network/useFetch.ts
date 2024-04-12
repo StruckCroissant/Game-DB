@@ -20,15 +20,15 @@ export interface NetworkComposable {
   loading: Ref<boolean>;
 }
 
+export interface AxiosComposable<T> extends NetworkComposable {
+  response: Ref<AxiosResponse | null>;
+  data: Ref<T | null>;
+}
+
 interface AxiosBaseComposable<T> extends AxiosComposable<T> {
   doAction: <K extends T>(
     request: GetRequest | PostRequest
   ) => MaybeProblemPromise<K | null>;
-}
-
-export interface AxiosComposable<T> extends NetworkComposable {
-  response: Ref<AxiosResponse | null>;
-  data: Ref<T | null>;
 }
 
 export interface UseFetch<T> extends AxiosComposable<T> {
@@ -96,7 +96,7 @@ function useRequest<T = unknown>(): AxiosBaseComposable<T> {
       }
 
       if (isProblem(errorResponse?.response?.data)) {
-        error.value = errorResponse?.response?.data;
+        error.value = errorResponse?.response?.data ?? null;
       } else {
         const reformattedError = createProblemFromAxiosError(errorResponse);
         error.value = reformattedError;

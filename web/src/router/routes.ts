@@ -25,9 +25,9 @@ export const routes: Readonly<RouteRecordRaw[]> = [
   {
     path: "/logout",
     name: RouteNames.LOGOUT,
-    beforeEnter(to, from, next) {
+    redirect: () => {
       logout();
-      next({ name: RouteNames.LOGIN });
+      return { name: RouteNames.LOGIN };
     },
   },
   {

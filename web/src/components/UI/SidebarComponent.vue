@@ -8,20 +8,47 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import type { IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { computed, reactive } from "vue";
+import { computed, onBeforeMount, onBeforeUnmount, reactive, ref } from "vue";
+import * as _ from "lodash";
 import { usePersistentState } from "@/composables/usePersistentState";
 import { RouteNames } from "@/router/routes";
 import { firstLetterUppercase } from "@/utilities/common";
+
+const sidebar = ref<HTMLElement | null>(null);
+
+onBeforeMount(() => {
+  window.addEventListener("resize", _.debounce(reactToCoverage, 200));
+});
+onBeforeUnmount(() => {
+  window.removeEventListener("resize", _.debounce(reactToCoverage, 200));
+});
+
+function reactToCoverage() {
+  if (sidebar.value === null) return;
+
+  const sidebarCoverage = (sidebar.value.clientWidth / window.innerWidth) * 100;
+  if (sidebarCoverage > 25) {
+    close();
+  }
+}
+
+const { persistentValue: sidebarOpen } = usePersistentState<boolean>(
+  "sidebar/open",
+  true
+);
 
 const documentTitle = computed(() => document.title);
 const buttonIcon = computed(() =>
   sidebarOpen.value ? faAnglesLeft : faAnglesRight
 );
 
-const { persistentValue: sidebarOpen } = usePersistentState<boolean>(
-  "state/binary/sidebar-open",
-  true
-);
+function open() {
+  sidebarOpen.value = true;
+}
+
+function close() {
+  sidebarOpen.value = false;
+}
 
 type NavOption = {
   name: string;
@@ -36,20 +63,13 @@ const options = reactive<NavOption[]>([
     icon: faHouseChimney,
   },
 ]);
-
-function open() {
-  sidebarOpen.value = true;
-}
-
-function close() {
-  sidebarOpen.value = false;
-}
 </script>
 
 <template>
   <TransitionGroup name="slide">
     <section
       class="sidebar"
+      ref="sidebar"
       key="sidebar-content"
       :class="($attrs.class, !sidebarOpen ? 'sidebar--closed' : '')"
     >

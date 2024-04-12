@@ -1,5 +1,4 @@
 import { ref, watchEffect, onBeforeMount, UnwrapRef } from "vue";
-import * as _ from "lodash";
 
 export function usePersistentState<
   T extends string | Record<string, unknown> | boolean | null

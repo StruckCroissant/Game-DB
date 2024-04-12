@@ -6,7 +6,10 @@ import { InjectionKey } from "vue";
 import { GenericObject } from "vee-validate";
 
 type FormData = {
-  validationSchema: Record<string, (...args: unknown[]) => string | boolean>;
+  validationSchema: Record<
+    string,
+    (...args: (object & string)[]) => string | boolean
+  >;
 };
 
 export function getExtendedComponent(

@@ -1,10 +1,12 @@
 import { configs } from "./configs";
+import { isAuthenticated } from "@/services/authentication/authenticationService";
 import { storeToRefs } from "pinia";
 import { computed } from "vue";
 import { RouteLocationNormalized, RouteRecordNormalized } from "vue-router";
 
-vi.mock("@/stores/authentication");
 vi.mock("pinia");
+vi.mock("@/stores/authentication");
+vi.mock("@/services/authentication/authenticationService");
 
 const nextMock = vi.fn();
 // TODO pull this out into a factory and make this signature not suck
@@ -65,6 +67,7 @@ describe("router config tests", () => {
     });
 
     it("should pass to destination when user is logged in", () => {
+      vi.mocked(isAuthenticated).mockReturnValue(true);
       configs.beforeEach?.(toMock(true), toMock(undefined), nextMock);
       expect(nextMock).not.toHaveBeenCalledWith({ name: "auth" });
       expect(nextMock).toHaveBeenCalledWith();
