@@ -41,11 +41,13 @@ export function getExtendedComponent(
   };
 }
 
-export function withSetup<T>(composable: () => T): {
+export function withSetup<T extends object>(
+  composable: () => T
+): {
   instance: T;
   app: App<Element>;
 } {
-  let result: T;
+  let result: T = {} as T;
   const app = createApp({
     setup() {
       result = composable();

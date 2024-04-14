@@ -1,10 +1,47 @@
-import { log } from "console";
 import _ from "lodash";
 import { ref, watchEffect, onBeforeMount, UnwrapRef } from "vue";
 
-export function usePersistentState<
-  T extends string | Record<string, unknown> | boolean | null
->(label = "", defaultValue?: T) {
+type Options = {
+  onError?: (error: Error) => null;
+};
+type AcceptedStateTypes = string | Record<string, unknown> | boolean;
+type SerializerTypes = "generic" | "none";
+
+const serializers: Record<
+  string,
+  {
+    read: (value: string) => AcceptedStateTypes;
+    write: (value: AcceptedStateTypes) => string;
+  }
+> = {
+  generic: {
+    read: (value: string) => JSON.parse(value),
+    write: (value: AcceptedStateTypes) => JSON.stringify(value),
+  },
+  none: {
+    read: (value: string) => value,
+    write: (value: AcceptedStateTypes) => String(value),
+  },
+};
+
+function guessSerializerType(
+  rawValue: AcceptedStateTypes | null
+): SerializerTypes {
+  if (rawValue === undefined || rawValue === null) return "none";
+  if (typeof rawValue === "object" || typeof rawValue === "boolean")
+    return "generic";
+  if (typeof rawValue === "string") return "none";
+  return "none";
+}
+
+export function usePersistentState<T extends AcceptedStateTypes>(
+  label = "",
+  defaultValue: T | null = null,
+  options: Options = {}
+) {
+  const { onError = () => null } = options;
+  const serializer = serializers[guessSerializerType(defaultValue)];
+
   const persistentValue = ref<T | null>(null);
 
   watchEffect(update);
@@ -12,22 +49,22 @@ export function usePersistentState<
 
   function getItem(): T | null {
     const item = window.localStorage.getItem(label);
-
     if (item === null) return null;
 
     try {
-      return JSON.parse(item) as T;
+      return serializer.read(item) as T;
     } catch (error) {
-      // This error is swallowed because we can safely assume that the value is a string at this point
-      return item as T;
+      if (_.isError(error)) onError(error);
+      return null;
     }
   }
 
   function setItem(item: T) {
     try {
-      window.localStorage.setItem(label, JSON.stringify(item));
+      window.localStorage.setItem(label, serializer.write(item));
     } catch (error) {
-      console.error("Could not set item into local storage!", error);
+      if (_.isError(error)) onError(error);
+      return null;
     }
   }
 
