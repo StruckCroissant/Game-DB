@@ -7,18 +7,18 @@ import type { TypedSchema } from "vee-validate";
 import * as z from "zod";
 import { NonUndefined } from ".";
 
-//#region="Utility schemas">
+//#region Utility schemas
 export const nonUndefinedSchema = z.custom((x) => x !== undefined);
-//</editor-fold>
+//#endregion
 
-//#region="Request">
+//#region Request
 export const userLoginSchema = z.object({
   username: z.string().min(1, "username is required"),
   password: z.string().min(1, "password is required"),
 });
-//</editor-fold>
+//#endregion
 
-//#region="Response">
+//#region Response
 
 export const createGenericDataResponseSchema = <
   DataType extends z.ZodType<NonUndefined>
@@ -44,7 +44,6 @@ export const problemResponseSchema = z.object({
   data: problemSchema,
 });
 
-// TODO make this type more descriptive
 export const userSchema = z.object({
   accountNonExpired: z.boolean(),
   accountNonLocked: z.boolean(),
@@ -57,15 +56,11 @@ export const userSchema = z.object({
 });
 
 export const registerSchema = z.boolean();
-//</editor-fold>
+//#endregion
 
-//#region="Entities">
-
-//</editor-fold>
-
-//#region="Utility">
+//#region Utility
 export const requiredFieldSchema = (
   fieldName: string
 ): TypedSchema<string, string> =>
   toTypedSchema(z.string().nonempty(`${fieldName} is required`));
-//</editor-fold>
+//#endregion

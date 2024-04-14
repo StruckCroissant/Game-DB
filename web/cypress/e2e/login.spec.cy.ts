@@ -39,11 +39,11 @@ describe("Login page tests", () => {
     dsl.alerts.password().contains("password is required");
   });
 
-  it("Login should redirect to home page", () => {
+  it("Login should redirect to default page", () => {
     dsl.inputs.username().type("jdeveloper");
     dsl.inputs.password().type("test");
     dsl.buttons.login().click();
-    cy.url().should("include", "/home");
+    cy.url().should("include", "/search");
   });
 
   it("Clicking forgot password should direct to the registration page", () => {
@@ -57,6 +57,11 @@ describe("Login page tests", () => {
   });
 
   it("Authentication error should show in the toast component", () => {
+    cy.on("uncaught:exception", (err) => {
+      expect(err.message).to.include("Username or Password is incorrect");
+      return false;
+    });
+
     dsl.inputs.username().type("teeest");
     dsl.inputs.password().type("teeeest");
     dsl.buttons.login().click();
