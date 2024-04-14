@@ -4,7 +4,7 @@ import LoginComponent from "@/components/LoginComponent.vue";
 import RegisterComponent from "@/components/RegisterComponent.vue";
 import SearchComponent from "@/components/SearchComponent.vue";
 import type { RouteRecordRaw } from "vue-router";
-import { logout } from "@/services/authentication/authenticationService";
+import { clearAuth } from "@/services/authentication/authenticationService";
 
 export const RouteNames = {
   AUTH: "auth",
@@ -21,12 +21,11 @@ export const routes: Readonly<RouteRecordRaw[]> = [
     name: RouteNames.AUTH,
     redirect: RouteNames.LOGIN,
   },
-  // TODO fix the intellisense error here
   {
     path: "/logout",
     name: RouteNames.LOGOUT,
     redirect: () => {
-      logout();
+      clearAuth();
       return { name: RouteNames.LOGIN };
     },
   },
