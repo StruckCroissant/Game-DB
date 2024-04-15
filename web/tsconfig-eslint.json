@@ -9,6 +9,7 @@
         "cypress/**/*.cy.ts",
         "mocks/**/*.ts",
         "utilities/**/*.ts",
-        "app/**/*.ts"
+        "app/**/*.ts",
+        "app/*.ts"
     ]
 }
