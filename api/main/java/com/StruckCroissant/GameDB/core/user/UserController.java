@@ -7,7 +7,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.web.bind.annotation.*;
-import javax.security.auth.login.AccountNotFoundException;
 
 @RequestMapping("/user")
 @CrossOrigin("*") // Replace with proxy later

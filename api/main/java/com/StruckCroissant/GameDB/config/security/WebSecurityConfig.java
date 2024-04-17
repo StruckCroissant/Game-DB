@@ -34,8 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   public WebSecurityConfig(
       UserService userService,
       BCryptPasswordEncoder bCryptPasswordEncoder,
-      SecurityProblemSupport problemSupport
-  ) {
+      SecurityProblemSupport problemSupport) {
     this.userService = userService;
     this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     this.problemSupport = problemSupport;
@@ -55,11 +54,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
         .csrf() // TODO turn on CSRF
         .disable()
-        .exceptionHandling(exceptionHandling ->
-            exceptionHandling
-                .authenticationEntryPoint(problemSupport)
-                .accessDeniedHandler(problemSupport)
-        );
+        .exceptionHandling(
+            exceptionHandling ->
+                exceptionHandling
+                    .authenticationEntryPoint(problemSupport)
+                    .accessDeniedHandler(problemSupport));
   }
 
   @Override
@@ -103,8 +102,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "Access-Control-Allow-Credentials",
             "x-auth-token"));
     corsConfiguration.setAllowedMethods(
-        Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
-    );
+        Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
     UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource =
         new UrlBasedCorsConfigurationSource();
     urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);

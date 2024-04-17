@@ -1,7 +1,7 @@
 package com.StruckCroissant.GameDB.core;
 
-import com.StruckCroissant.GameDB.core.user.User;
 import com.StruckCroissant.GameDB.core.game.Game;
+import com.StruckCroissant.GameDB.core.user.User;
 
 /**
  * Provides generic exception for use by Game and User objects.
