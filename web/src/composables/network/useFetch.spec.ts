@@ -13,20 +13,20 @@ vi.mock("@/config/axiosConfig");
  */
 const dataResponse = { data: "response" };
 const problemData = {
-  type: "error",
+  type: "about:blank",
   title: "error",
-  message: "error",
+  detail: "error",
   status: 500,
-  path: "waow",
+  instance: "waow",
   timestamp: "now",
 };
 const errorResponseData = { error: "error" };
-const defaultAxiosProblemData = {
-  message: "error message",
-  path: "/api/test",
+const defaultAxiosProblemData: Problem = {
+  instance: "/api/test",
   status: 500,
-  type: "Internal Server Error",
-  title: "An error occurred",
+  type: "about:blank",
+  title: "Internal Server Error",
+  detail: "An error occurred",
   timestamp: new Date().toISOString(),
 };
 
@@ -53,7 +53,7 @@ const errorResponse: AxiosError = {
     defaultAxiosProblemData.status,
     "Internal Server Error",
     {
-      url: `https://localhost${defaultAxiosProblemData.path}`,
+      url: `https://localhost${defaultAxiosProblemData.instance}`,
     }
   ),
   isAxiosError: true,
@@ -152,10 +152,14 @@ describe("useFetch and usePost error tests", () => {
       await fetchResult.getData();
     } catch (error) {
       expect(isProblem(error)).toBe(true);
-      expect(error).toHaveProperty("message", errorResponse.message);
-      expect(error).toHaveProperty("type", errorResponse.response?.statusText);
+      expect(error).toHaveProperty("title", errorResponse.response?.statusText);
+      expect(error).toHaveProperty("detail", defaultAxiosProblemData.detail);
+      expect(error).toHaveProperty("type", defaultAxiosProblemData.type);
       expect(error).toHaveProperty("status", errorResponse.response?.status);
-      expect(error).toHaveProperty("path", defaultAxiosProblemData.path);
+      expect(error).toHaveProperty(
+        "instance",
+        defaultAxiosProblemData.instance
+      );
     }
   });
 
@@ -208,11 +212,11 @@ describe("useFetch and usePost error tests", () => {
       error = problem;
     }
 
-    expect(error?.type).toEqual(defaultAxiosProblemData.type);
-    expect(error?.title).toEqual(defaultAxiosProblemData.title);
-    expect(error?.message).toEqual(defaultAxiosProblemData.message);
-    expect(error?.status).toEqual(defaultAxiosProblemData.status);
-    expect(error?.path).toEqual(defaultAxiosProblemData.path);
+    expect(error).toHaveProperty("type", defaultAxiosProblemData.type);
+    expect(error).toHaveProperty("title", defaultAxiosProblemData.title);
+    expect(error).toHaveProperty("detail", defaultAxiosProblemData.detail);
+    expect(error).toHaveProperty("status", defaultAxiosProblemData.status);
+    expect(error).toHaveProperty("instance", defaultAxiosProblemData.instance);
   });
 
   it("usePost should set sate on problem format errors", async () => {

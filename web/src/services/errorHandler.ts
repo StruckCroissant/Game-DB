@@ -5,7 +5,7 @@ export function handleError(error: unknown) {
   const toastStore = useToast();
   const message =
     isProblem(error) || isAxiosError(error)
-      ? error.message
+      ? error?.message ?? error?.detail
       : "An unexpected error occurred";
 
   toastStore.error({ text: message });

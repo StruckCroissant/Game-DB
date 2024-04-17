@@ -55,11 +55,11 @@ interface GetRequest extends Request {
 const createProblemFromAxiosError = (error: AxiosError): Problem => {
   return createProblem(
     error.response?.statusText ?? "Internal Server Error",
-    "An error occurred",
-    error.message,
     !_.isNaN(+(error?.status ?? "")) ? +(error.status ?? "") : 500,
-    getRelativePath(error.response?.config?.url ?? ""),
-    new Date().toISOString()
+    "An error occurred",
+    undefined,
+    new Date().toISOString(),
+    getRelativePath(error.response?.config?.url ?? "")
   );
 };
 

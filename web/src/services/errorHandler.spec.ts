@@ -30,6 +30,7 @@ describe("Error handler tests", () => {
         title: "test",
         message: expectedErrorMessage,
         status: 0,
+        isAxiosError: true,
       })
     ).toThrowError(expectedErrorMessage);
 

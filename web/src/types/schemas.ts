@@ -32,11 +32,11 @@ export const dataResponseSchema =
   createGenericDataResponseSchema(nonUndefinedSchema);
 
 export const problemSchema = z.object({
-  type: z.string(),
   title: z.string(),
-  message: z.string(),
+  detail: z.string(),
   status: z.number(),
-  path: z.string().optional(),
+  type: z.string().optional(),
+  instance: z.string().optional(),
   timestamp: z.string().optional(),
 });
 

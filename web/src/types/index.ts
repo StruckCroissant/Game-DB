@@ -9,7 +9,6 @@ import {
   createGenericDataResponseSchema,
   userSchema,
   registerSchema,
-  problemResponseSchema,
   problemSchema,
   nonUndefinedSchema,
   dataResponseSchema,
@@ -33,7 +32,6 @@ export const isDataResponse = <T>(
   dataResponseSchema.safeParse(maybeData).success;
 
 export type Problem = z.infer<typeof problemSchema>;
-export type ProblemResponse = z.infer<typeof problemResponseSchema>;
 export const isProblem = (maybeProblem: unknown): maybeProblem is Problem =>
   problemSchema.safeParse(maybeProblem).success;
 

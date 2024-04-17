@@ -1,17 +1,19 @@
 import { Problem } from ".";
 
-export const createProblem = (
-  type: string,
+export function createProblem(
   title: string,
-  message: string,
   status: number,
-  path: string | undefined,
-  timestamp: string | undefined
-): Problem => ({
-  type,
-  title,
-  message,
-  status,
-  path,
-  timestamp,
-});
+  detail: string,
+  type = "about:blank",
+  timestamp: string | undefined,
+  instance: string | undefined
+): Problem {
+  return {
+    type,
+    title,
+    detail,
+    status,
+    timestamp,
+    instance,
+  };
+}
