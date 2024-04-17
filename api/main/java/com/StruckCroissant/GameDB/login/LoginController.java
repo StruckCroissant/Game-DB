@@ -25,7 +25,6 @@ public class LoginController {
   public UserDetails login(@RequestBody @Valid UserLoginRequest request)
       throws BadCredentialsException {
     if (!this.loginService.login(request)) {
-      // This message is overwritten in the ApplicationExceptionHandler
       throw new BadCredentialsException("Username or password is incorrect");
     }
     return this.userService.getUserByUsername(request.getUsername());

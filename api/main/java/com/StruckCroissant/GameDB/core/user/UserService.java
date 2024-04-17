@@ -81,24 +81,22 @@ public class UserService implements UserDetailsService {
     return userDao.insertUser(user);
   }
 
-  public List<Game> getSavedGames(int uid) {
+  public List<Game> getSavedGames(int uid) throws ResourceNotFoundException {
     // Check if user in db; will throw when not in db
-    User userFromDb = getUserById(uid);
+    getUserById(uid);
 
     List<Game> result = userDao.selectSavedGames(uid);
-    if (result.size() < 1 || result.get(0).getGid() == 0) {
-      return new ArrayList<Game>();
+    if (result.isEmpty() || result.get(0).getGid() == 0) {
+      return new ArrayList<>();
     }
     return userDao.selectSavedGames(uid);
   }
 
-  public User getUserById(int id) {
+  public User getUserById(int id) throws ResourceNotFoundException {
     return userDao
         .selectUserById(id)
         .orElseThrow(
-            () -> {
-              throw new ResourceNotFoundException(String.format("User with id %s not found", id));
-            });
+            () -> new ResourceNotFoundException(String.format("User with id %s not found", id)));
   }
 
   /*

@@ -81,9 +81,8 @@ public class UserDAOImpl implements UserDao {
   public User selectUserByUsernameOrThrow(String username) throws UsernameNotFoundException {
     return this.selectUserByUsername(username)
         .orElseThrow(
-            () ->
-                new UsernameNotFoundException(
-                    String.format("user with username %s not found", username)));
+            () -> new UsernameNotFoundException(
+                    String.format("User with username %s not found", username)));
   }
 
   public Optional<Integer> getUidByUsername(String username) {
