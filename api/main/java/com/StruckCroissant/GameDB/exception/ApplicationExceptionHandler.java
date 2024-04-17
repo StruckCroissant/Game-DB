@@ -14,9 +14,7 @@ public class ApplicationExceptionHandler implements ProblemHandling {
   @ExceptionHandler
   @Override
   public ResponseEntity<Problem> handleProblem(
-      final @NotNull ThrowableProblem problem,
-      final @NotNull NativeWebRequest request
-  ) {
+      final @NotNull ThrowableProblem problem, final @NotNull NativeWebRequest request) {
     return ProblemHandling.super.handleProblem(problem, request);
   }
 }

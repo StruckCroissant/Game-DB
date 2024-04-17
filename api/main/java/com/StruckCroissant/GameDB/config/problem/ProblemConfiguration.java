@@ -21,9 +21,7 @@ public class ProblemConfiguration implements InitializingBean {
   @Override
   public void afterPropertiesSet() {
     objectMapper.registerModules(
-        ProblemConfiguration.getProblemMapper(),
-        new ConstraintViolationProblemModule()
-    );
+        ProblemConfiguration.getProblemMapper(), new ConstraintViolationProblemModule());
   }
 
   private static ProblemModule getProblemMapper() {
