@@ -1,6 +1,7 @@
 import { AxiosError } from "axios";
 import { handleError } from "./errorHandler";
 import { useToast } from "@/stores/toastStore";
+import { ProblemError } from "@/types/problem";
 
 vi.mock("@/stores/toastStore");
 
@@ -12,9 +13,7 @@ describe("Error handler tests", () => {
   it("Should return problem message", () => {
     const expectedErrorMessage = "test";
 
-    expect(() =>
-      handleError(new AxiosError(expectedErrorMessage))
-    ).toThrowError(expectedErrorMessage);
+    handleError(new ProblemError(expectedErrorMessage, expectedErrorMessage));
 
     expect(useToast().error).toHaveBeenCalledWith({
       text: expectedErrorMessage,
@@ -23,27 +22,18 @@ describe("Error handler tests", () => {
 
   it("Should return axios message", () => {
     const expectedErrorMessage = "test";
-
-    expect(() =>
-      handleError({
-        type: "test",
-        title: "test",
-        message: expectedErrorMessage,
-        status: 0,
-        isAxiosError: true,
-      })
-    ).toThrowError(expectedErrorMessage);
+    handleError(new AxiosError(expectedErrorMessage));
 
     expect(useToast().error).toHaveBeenCalledWith({
       text: expectedErrorMessage,
     });
   });
 
-  it("Should return default message", () => {
+  it("Should work with default error type", () => {
     const expectedErrorMessage = "An unexpected error occurred";
-    const expectedError = new Error("beep boop");
+    const expectedError = new Error(expectedErrorMessage);
 
-    expect(() => handleError(expectedError)).toThrowError(expectedError);
+    handleError(expectedError);
 
     expect(useToast().error).toHaveBeenCalledWith({
       text: expectedErrorMessage,

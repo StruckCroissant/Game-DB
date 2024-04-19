@@ -1,4 +1,4 @@
-import type { User } from "@/types";
+import { User } from "@/types/user";
 import axios from "axios";
 
 export async function getAllUsers(): Promise<Array<User>> {

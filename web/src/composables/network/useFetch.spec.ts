@@ -3,8 +3,12 @@ import { ref } from "vue";
 import { axiosInstance } from "@/config/axiosConfig";
 import { waitFor } from "@testing-library/dom";
 import { AxiosError, AxiosResponse } from "axios";
-import { isProblem } from "@/types";
-import type { Problem } from "@/types";
+import {
+  createProblemErrorFromProblem,
+  isAxiosError,
+  isProblemError,
+  Problem,
+} from "@/types/problem";
 
 vi.mock("@/config/axiosConfig");
 
@@ -34,12 +38,13 @@ const axiosResponseFactory = (
   data: Record<string, string | number>,
   status = 500,
   statusText = "Internal Server Error",
+  headers = {},
   config?: object | undefined
 ): AxiosResponse => ({
   data,
   status,
   statusText,
-  headers: {},
+  headers,
   config: { ...config },
 });
 
@@ -141,7 +146,9 @@ describe("useFetch and usePost error tests", () => {
     expect(fetchResult.getData()).rejects.not.toBeFalsy();
     await waitFor(() => expect(fetchResult.loading.value).toBe(true));
     await waitFor(() => expect(fetchResult.loading.value).toBe(false));
-    expect(isProblem(fetchResult.error.value)).toBe(true);
+    await waitFor(() =>
+      expect(isAxiosError(fetchResult.error.value)).toBe(true)
+    );
   });
 
   it("useFetch should inherit proper Axios state", async () => {
@@ -151,34 +158,34 @@ describe("useFetch and usePost error tests", () => {
     try {
       await fetchResult.getData();
     } catch (error) {
-      expect(isProblem(error)).toBe(true);
-      expect(error).toHaveProperty("title", errorResponse.response?.statusText);
-      expect(error).toHaveProperty("detail", defaultAxiosProblemData.detail);
-      expect(error).toHaveProperty("type", defaultAxiosProblemData.type);
-      expect(error).toHaveProperty("status", errorResponse.response?.status);
-      expect(error).toHaveProperty(
-        "instance",
-        defaultAxiosProblemData.instance
-      );
+      expect(isAxiosError(error)).toBe(true);
+      expect(isProblemError(error)).toBe(false);
+      expect(error).toStrictEqual(errorResponse);
     }
   });
 
-  it("useFetch should set sate on problem format errors", async () => {
+  it("useFetch should set state on problem format errors", async () => {
     vi.mocked(axiosInstance.get).mockRejectedValue(
       new AxiosError(
         errorResponse.message,
         errorResponse.status,
         errorResponse.config,
         errorResponse.request,
-        axiosResponseFactory(problemData)
+        axiosResponseFactory(problemData, 500, "error", {
+          "content-type": "application/problem+json",
+        })
       )
     );
 
     const fetchResult = useFetch(ref("test"));
-    expect(fetchResult.getData()).rejects.toStrictEqual(problemData);
-    await waitFor(() =>
-      expect(fetchResult.error.value).toStrictEqual(problemData)
+    expect(fetchResult.getData()).rejects.toStrictEqual(
+      createProblemErrorFromProblem(problemData)
     );
+    await waitFor(() => {
+      expect(fetchResult.error.value).toStrictEqual(
+        createProblemErrorFromProblem(problemData)
+      );
+    });
   });
 
   it("usePost should bubble Axios errors and set state", async () => {
@@ -186,10 +193,10 @@ describe("useFetch and usePost error tests", () => {
     const postResult = usePost(ref("test"));
 
     expect(postResult.loading.value).toBe(false);
-    expect(postResult.postData({})).rejects.not.toBeFalsy();
+    expect(postResult.postData({})).rejects.toBeTruthy();
     await waitFor(() => expect(postResult.loading.value).toBe(true));
     await waitFor(() => expect(postResult.loading.value).toBe(false));
-    expect(isProblem(postResult.error.value)).toBe(true);
+    expect(isAxiosError(postResult.error.value)).toBe(true);
   });
 
   it("usePost should throw errors when no data is provided", () => {
@@ -204,54 +211,50 @@ describe("useFetch and usePost error tests", () => {
     vi.mocked(axiosInstance.post).mockRejectedValue(errorResponse);
     const postResult = usePost(ref("test"), ref({ data: "test" }));
 
-    let error: Problem | null = null;
-    try {
-      await postResult.postData();
-    } catch (problem) {
-      if (!isProblem(problem)) throw Error("Response is not a problem");
-      error = problem;
-    }
+    const result = postResult.postData();
 
-    expect(error).toHaveProperty("type", defaultAxiosProblemData.type);
-    expect(error).toHaveProperty("title", defaultAxiosProblemData.title);
-    expect(error).toHaveProperty("detail", defaultAxiosProblemData.detail);
-    expect(error).toHaveProperty("status", defaultAxiosProblemData.status);
-    expect(error).toHaveProperty("instance", defaultAxiosProblemData.instance);
+    expect(result).rejects.toEqual(errorResponse);
   });
 
-  it("usePost should set sate on problem format errors", async () => {
+  it("usePost should set state on problem format errors", async () => {
     vi.mocked(axiosInstance.get).mockRejectedValue(
       new AxiosError(
         errorResponse.message,
         errorResponse.status,
         errorResponse.config,
         errorResponse.request,
-        axiosResponseFactory(problemData)
+        axiosResponseFactory(problemData, undefined, undefined, {
+          "content-type": "application/problem+json",
+        })
       )
     );
-
-    const fetchResult = useFetch(ref("test"));
-    expect(fetchResult.getData()).rejects.toStrictEqual(problemData);
-    await waitFor(() =>
-      expect(fetchResult.error.value).toStrictEqual(problemData)
-    );
-  });
-
-  it("useFetch should throw on unexpected response format", async () => {
-    vi.mocked(axiosInstance.get).mockResolvedValue({ test: "test" });
-
     const fetchResult = useFetch(ref("test"));
     expect(fetchResult.getData()).rejects.toStrictEqual(
-      new Error("An unexpected error ocurred")
+      createProblemErrorFromProblem(problemData)
     );
+
+    await waitFor(() => {
+      expect(fetchResult.error.value).toStrictEqual(
+        createProblemErrorFromProblem(problemData)
+      );
+    });
   });
 
-  it("usePost should throw on unexpected response format", async () => {
-    vi.mocked(axiosInstance.post).mockResolvedValue({ test: "test" });
+  it("useFetch should rethrow unexpected error", async () => {
+    const mockError = { test: "test" };
+    vi.mocked(axiosInstance.get).mockResolvedValue(mockError);
+
+    const fetchResult = useFetch(ref("test"));
+    expect(fetchResult.getData()).rejects.toStrictEqual(mockError);
+  });
+
+  it("usePost should rethrow unexpected error", async () => {
+    const mockError = { test: "test" };
+    vi.mocked(axiosInstance.post).mockResolvedValue(mockError);
 
     const fetchResult = usePost(ref("test"));
     expect(fetchResult.postData({ test: "test" })).rejects.toStrictEqual(
-      new Error("An unexpected error ocurred")
+      mockError
     );
   });
 });

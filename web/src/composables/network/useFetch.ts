@@ -1,22 +1,19 @@
 import { ref, unref } from "vue";
 import type { Ref } from "vue";
+import { AxiosError } from "axios";
 import { axiosInstance as axios } from "@/config/axiosConfig";
-import {
-  Problem,
-  isAxiosError,
-  isDataResponse,
-  isProblem,
-  MaybeProblemPromise,
-} from "@/types";
-import type { AxiosResponse, AxiosError } from "axios";
+import type { AxiosResponse } from "axios";
 import { MaybeRefOrGetter } from "vue";
 import { toValue } from "vue";
-import _ from "lodash";
-import { createProblem } from "@/types/factories";
-import { getRelativePath } from "@/utilities/common";
+import { isDataResponse } from "@/types/request";
+import {
+  isAxiosError,
+  createProblemErrorFromAxiosError,
+  ProblemError,
+} from "@/types/problem";
 
 export interface NetworkComposable {
-  error: Ref<AxiosError | unknown>;
+  error: Ref<ProblemError | unknown>;
   loading: Ref<boolean>;
 }
 
@@ -28,15 +25,15 @@ export interface AxiosComposable<T> extends NetworkComposable {
 interface AxiosBaseComposable<T> extends AxiosComposable<T> {
   doAction: <K extends T>(
     request: GetRequest | PostRequest
-  ) => MaybeProblemPromise<K | null>;
+  ) => Promise<K | null>;
 }
 
 export interface UseFetch<T> extends AxiosComposable<T> {
-  getData: () => MaybeProblemPromise<T | null>;
+  getData: () => Promise<T | null>;
 }
 
 export interface UsePost<T> extends AxiosComposable<T> {
-  postData: (inputData?: object) => MaybeProblemPromise<T | null>;
+  postData: (inputData?: object) => Promise<T | null>;
 }
 
 interface Request {
@@ -51,27 +48,17 @@ interface PostRequest extends Request {
 interface GetRequest extends Request {
   type: "get";
 }
-
-const createProblemFromAxiosError = (error: AxiosError): Problem => {
-  return createProblem(
-    error.response?.statusText ?? "Internal Server Error",
-    !_.isNaN(+(error?.status ?? "")) ? +(error.status ?? "") : 500,
-    "An error occurred",
-    undefined,
-    new Date().toISOString(),
-    getRelativePath(error.response?.config?.url ?? "")
-  );
-};
+1;
 
 function useRequest<T = unknown>(): AxiosBaseComposable<T> {
   const data: Ref<T | null> = ref(null);
   const response: Ref<AxiosResponse | null> = ref(null);
-  const error: Ref<Problem | null> = ref(null);
+  const error: Ref<AxiosError | ProblemError | null> = ref(null);
   const loading: Ref<boolean> = ref(false);
 
   const doAction = async <K extends T>(
     request: GetRequest | PostRequest
-  ): MaybeProblemPromise<K | null> => {
+  ): Promise<K | null> => {
     try {
       loading.value = true;
 
@@ -91,16 +78,13 @@ function useRequest<T = unknown>(): AxiosBaseComposable<T> {
       data.value = response.value.data;
       error.value = null;
     } catch (errorResponse) {
-      if (!isAxiosError(errorResponse)) {
-        throw Error("An unexpected error ocurred");
+      if (!isAxiosError(errorResponse)) throw errorResponse;
+
+      error.value = createProblemErrorFromAxiosError(errorResponse);
+      if (!error.value) {
+        error.value = errorResponse;
       }
 
-      if (isProblem(errorResponse?.response?.data)) {
-        error.value = errorResponse?.response?.data ?? null;
-      } else {
-        const reformattedError = createProblemFromAxiosError(errorResponse);
-        error.value = reformattedError;
-      }
       throw unref(error.value);
     } finally {
       loading.value = false;

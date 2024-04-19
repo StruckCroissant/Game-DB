@@ -57,15 +57,11 @@ describe("Login page tests", () => {
   });
 
   it("Authentication error should show in the toast component", () => {
-    cy.on("uncaught:exception", (err) => {
-      expect(err.message).to.include("Username or Password is incorrect");
-      return false;
-    });
-
     dsl.inputs.username().type("teeest");
     dsl.inputs.password().type("teeeest");
     dsl.buttons.login().click();
     cy.findByRole("alert");
     cy.findByRole("alert", { name: /toast-error\d*/g });
+    cy.findByText("Username or Password is incorrect");
   });
 });
