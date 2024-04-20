@@ -21,4 +21,4 @@ async function mount(): Promise<void> {
   app.mount("#app");
 }
 
-await mount();
+mount();
