@@ -2,9 +2,11 @@ package com.StruckCroissant.GameDB.config.security;
 
 import com.StruckCroissant.GameDB.core.user.UserService;
 import java.util.Arrays;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,19 +17,27 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.zalando.problem.spring.web.advice.security.SecurityProblemSupport;
 
 @Configuration
 @EnableWebSecurity
+@Import(SecurityProblemSupport.class)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   private final UserService userService;
 
   private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+  private final SecurityProblemSupport problemSupport;
+
   @Autowired
-  public WebSecurityConfig(UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+  public WebSecurityConfig(
+      UserService userService,
+      BCryptPasswordEncoder bCryptPasswordEncoder,
+      SecurityProblemSupport problemSupport) {
     this.userService = userService;
     this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    this.problemSupport = problemSupport;
   }
 
   @Override
@@ -42,8 +52,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
         .httpBasic()
         .and()
-        .csrf()
-        .disable();
+        .csrf() // TODO turn on CSRF
+        .disable()
+        .exceptionHandling(
+            exceptionHandling ->
+                exceptionHandling
+                    .authenticationEntryPoint(problemSupport)
+                    .accessDeniedHandler(problemSupport));
   }
 
   @Override
@@ -63,8 +78,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration corsConfiguration = new CorsConfiguration();
-    // corsConfiguration.setAllowCredentials(true);
-    corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
+    corsConfiguration.setAllowedOrigins(List.of("http://localhost:5173"));
     corsConfiguration.setAllowedHeaders(
         Arrays.asList(
             "Origin",

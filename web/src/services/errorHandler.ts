@@ -1,13 +1,11 @@
 import { useToast } from "@/stores/toastStore";
-import { isAxiosError, isProblem } from "@/types";
+import { isError } from "lodash";
 
-export function handleError(error: unknown) {
+export function handleError(error: unknown): void {
+  if (!isError(error)) return;
+
   const toastStore = useToast();
-  const message =
-    isProblem(error) || isAxiosError(error)
-      ? error.message
-      : "An unexpected error occurred";
 
-  toastStore.error({ text: message });
+  toastStore.error({ text: error.message });
   throw error;
 }

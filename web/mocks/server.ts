@@ -11,6 +11,7 @@ export async function startServer() {
 
   server.listen(config.handlerConfigs);
   workerActive = true;
+  return server;
 }
 
 export async function stopServer() {

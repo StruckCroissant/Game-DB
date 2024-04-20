@@ -14,6 +14,7 @@ const vuePlugin = () =>
           (node) => {
             if (process.env.NODE_ENV !== "production") return;
             if (node.type === NodeTypes.ROOT) return;
+
             stripAttribute(node, "data-testid");
           },
         ],
@@ -29,19 +30,18 @@ const defaultConfig: () => UserConfig = () => ({
     },
   },
   server: {
-    port: parseInt(process.env.VITE_APP_PORT),
+    port: parseInt(String(process.env.VITE_APP_PORT ?? "5173")),
     strictPort: true,
   },
   preview: {
-    port: parseInt(process.env.VITE_APP_PORT),
+    port: parseInt(process.env.VITE_APP_PORT ?? "9191"),
     strictPort: true,
   },
   envDir: ".",
   envPrefix: "API",
 });
 
-// https://vitejs.dev/config/
-export default function config({ mode }): UserConfig {
+export default async function config({ mode }): Promise<UserConfig> {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
   const config = { ...defaultConfig() };
 

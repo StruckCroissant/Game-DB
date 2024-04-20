@@ -54,21 +54,17 @@ public class GameControllerTest {
 
   @Test
   public void whenGetAllGames_thenReturns200() throws Exception {
-    // when
     mockMvc
         .perform(MockMvcRequestBuilders.get(ALL_URL).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk());
 
-    // then
     verify(gameService).getAllGames();
   }
 
   @Test
   public void whenGetGameByPresentId_thenReturns200() throws Exception {
-    // given
     final String URL_WITH_PARAMS = BY_ID_URL + "?id=1";
 
-    // when
     mockMvc
         .perform(MockMvcRequestBuilders.get(URL_WITH_PARAMS).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk());
@@ -76,18 +72,15 @@ public class GameControllerTest {
 
   @Test
   public void whenGetGameByAbsentId_thenReturns404() throws Exception {
-    // given
     final Integer GID = -1;
 
     final String URL_WITH_PARAMS = BY_ID_URL + "?id=" + GID;
-    when(gameService.getGameById(GID)).thenThrow(new GameNotFoundException("Game not found"));
+    when(gameService.getGameById(GID)).thenThrow(new GameNotFoundException(GID));
 
-    // when
     mockMvc
         .perform(MockMvcRequestBuilders.get(URL_WITH_PARAMS).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isNotFound());
 
-    // then
     ArgumentCaptor<Integer> argumentCaptor = ArgumentCaptor.forClass(Integer.class);
     verify(gameService).getGameById(argumentCaptor.capture());
     Integer capturedValue = argumentCaptor.getValue();
@@ -97,16 +90,13 @@ public class GameControllerTest {
 
   @Test
   public void whenGetGameById_thenMapsGameService() throws Exception {
-    // given
     final String URL_WITH_PARAMS = BY_ID_URL + "?id=1";
     final Integer GID = 1;
 
-    // when
     mockMvc
         .perform(MockMvcRequestBuilders.get(URL_WITH_PARAMS).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk());
 
-    // then
     ArgumentCaptor<Integer> argumentCaptor = ArgumentCaptor.forClass(Integer.class);
     verify(gameService).getGameById(argumentCaptor.capture());
     Integer capturedValue = argumentCaptor.getValue();

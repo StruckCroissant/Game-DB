@@ -93,7 +93,7 @@ public class UserServiceTest {
   }
 
   @Test
-  public void canGetSavedGames() {
+  public void canGetSavedGames() throws ResourceNotFoundException {
     // given
     when(userDao.selectUserById(this.testUser.getId().get()))
         .thenReturn(Optional.of(this.testUser));
@@ -106,15 +106,12 @@ public class UserServiceTest {
   }
 
   @Test
-  public void getUserById() {
-    // given
+  public void getUserById() throws ResourceNotFoundException {
     Integer testUid = 1;
     when(userDao.selectUserById(testUid)).thenReturn(Optional.of(this.testUser));
 
-    // when
     underTest.getUserById(testUid);
 
-    // then
     ArgumentCaptor<Integer> integerCaptor = ArgumentCaptor.forClass(Integer.class);
 
     verify(userDao).selectUserById(integerCaptor.capture());

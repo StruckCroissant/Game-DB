@@ -1,5 +1,5 @@
 import { useLogin, useRegister, logout } from "./useAuthentication";
-import { isUser } from "@/types";
+import { isUser } from "@/types/user";
 import { actions as authenticationStoreActions } from "@/stores/__mocks__/authentication";
 
 vi.mock("@/stores/authentication");
