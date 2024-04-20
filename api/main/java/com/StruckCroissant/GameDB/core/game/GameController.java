@@ -55,4 +55,11 @@ public class GameController extends GameDBCoreController {
   public List<Game> getRelatedGames(@RequestParam("id") int id) {
     return gameService.getRelatedGames(id);
   }
+
+  @GetMapping()
+  public List<Game> search(
+      @RequestParam("name") String name
+  ) {
+    return gameService.searchGames(name);
+  }
 }

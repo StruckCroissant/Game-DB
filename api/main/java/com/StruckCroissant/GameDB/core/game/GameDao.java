@@ -17,4 +17,6 @@ public interface GameDao {
   Optional<Game> selectGameById(int id);
 
   List<Game> selectRelatedGames(int id);
+
+  List<Game> searchGames(String name);
 }

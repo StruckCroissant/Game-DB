@@ -149,4 +149,32 @@ public class GameDAOImpl implements GameDao {
     return jdbcTemplate.query(
         SQL, (resultSet, i) -> SQLGameAccessor.getGameFromResultSet(resultSet), id);
   }
+
+  public List<Game> searchGames(String name) {
+    final String SQL = """
+     SELECT
+     g.gid,
+     g.gname,
+     g.cost,
+     g.discounted_cost,
+     g.url,
+     g.age_rating,
+     g.indie,
+     g.description,
+     g.rdate,
+     g.rawgId,
+     group_concat(gen.genre_name) AS genres,
+     f.fname as franchise
+     FROM game g
+      LEFT JOIN gamegenre gg ON gg.gid = g.gid
+      LEFT JOIN genre gen ON gg.genre_id = gen.genre_id
+      LEFT JOIN franchise f on g.gid = f.gid
+     where g.gname = ?;
+    """;
+    return jdbcTemplate.query(
+        SQL,
+        (resultSet, i) -> SQLGameAccessor.getGameFromResultSet(resultSet),
+        name
+    );
+  }
 }
