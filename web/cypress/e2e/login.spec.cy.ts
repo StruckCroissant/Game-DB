@@ -62,6 +62,6 @@ describe("Login page tests", () => {
     dsl.buttons.login().click();
     cy.findByRole("alert");
     cy.findByRole("alert", { name: /toast-error\d*/g });
-    cy.findByText("Username or Password is incorrect");
+    cy.findByText("Username or password is incorrect");
   });
 });

@@ -6,8 +6,8 @@ import {
 } from "./problem";
 
 const problem: Problem = {
-  title: "Internal Server Error",
-  detail: "Something went wrong",
+  title: "Something went wrong",
+  detail: "Internal Server Error",
   status: 500,
 };
 const axiosProblemResponse: AxiosResponse = {
@@ -30,8 +30,8 @@ describe("Problem type tests", () => {
     const problemError = createProblemErrorFromAxiosError(axiosError);
 
     expect(problemError).not.toBeNull();
-    expect(problemError?.message).toBe(problem.title);
-    expect(problemError?.description).toBe(problem.detail);
+    expect(problemError?.description).toBe(problem.title);
+    expect(problemError?.message).toBe(problem.detail);
   });
 
   it("isAxiosError should return true for an Axios Error", () => {
