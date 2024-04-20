@@ -13,7 +13,9 @@ describe("Error handler tests", () => {
   it("Should return problem message", () => {
     const expectedErrorMessage = "test";
 
-    handleError(new ProblemError(expectedErrorMessage, expectedErrorMessage));
+    expect(() =>
+      handleError(new ProblemError(expectedErrorMessage, expectedErrorMessage))
+    ).toThrowError(expectedErrorMessage);
 
     expect(useToast().error).toHaveBeenCalledWith({
       text: expectedErrorMessage,
@@ -22,7 +24,10 @@ describe("Error handler tests", () => {
 
   it("Should return axios message", () => {
     const expectedErrorMessage = "test";
-    handleError(new AxiosError(expectedErrorMessage));
+
+    expect(() =>
+      handleError(new AxiosError(expectedErrorMessage))
+    ).toThrowError(expectedErrorMessage);
 
     expect(useToast().error).toHaveBeenCalledWith({
       text: expectedErrorMessage,
@@ -33,7 +38,7 @@ describe("Error handler tests", () => {
     const expectedErrorMessage = "An unexpected error occurred";
     const expectedError = new Error(expectedErrorMessage);
 
-    handleError(expectedError);
+    expect(() => handleError(expectedError)).toThrow(expectedErrorMessage);
 
     expect(useToast().error).toHaveBeenCalledWith({
       text: expectedErrorMessage,

@@ -38,7 +38,7 @@ export function createProblemErrorFromAxiosError(
 ): ProblemError | null {
   const response = error?.response;
 
-  const isProblemResponse = response?.headers["content-type"]?.includes(
+  const isProblemResponse = response?.headers?.["content-type"]?.includes(
     "application/problem+json"
   );
   if (isProblemResponse) {
