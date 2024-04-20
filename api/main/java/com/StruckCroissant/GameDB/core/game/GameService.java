@@ -20,16 +20,12 @@ public class GameService {
   }
 
   public Game getGameById(int id) throws GameNotFoundException {
-    return gameDao
-        .selectGameById(id)
-        .orElseThrow(() -> new GameNotFoundException(id));
+    return gameDao.selectGameById(id).orElseThrow(() -> new GameNotFoundException(id));
   }
 
   public List<Game> getRelatedGames(int id) throws GameNotFoundException {
     // Just used to throw exception if game doesn't exist. Not sure if this is the best pattern
-    gameDao
-        .selectGameById(id)
-        .orElseThrow(() -> new GameNotFoundException(id));
+    gameDao.selectGameById(id).orElseThrow(() -> new GameNotFoundException(id));
     return gameDao.selectRelatedGames(id);
   }
 

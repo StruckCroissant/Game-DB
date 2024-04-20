@@ -57,9 +57,7 @@ public class GameController extends GameDBCoreController {
   }
 
   @GetMapping()
-  public List<Game> search(
-      @RequestParam("name") String name
-  ) {
+  public List<Game> search(@RequestParam("name") String name) {
     return gameService.searchGames(name);
   }
 }
