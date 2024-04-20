@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "dev-mocks": "cross-env ENABLE_MOCKS=true vite",
+    "dev-mocks": "cross-env API_ENABLE_MOCKS=true vite",
     "preview": "vite preview",
     "build-preview": "npm run build && npm run preview",
     "build": "run-p type-check build-only",

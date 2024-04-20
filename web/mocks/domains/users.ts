@@ -3,7 +3,6 @@ import { endpoint } from "../baseUrls";
 import { getFailedLoginResource, getErrorResource } from "../repos/error";
 // Has to be imported this way because for whatever reason the default import fails
 import * as users from "../fixtures/users.json";
-import type { StrictResponse } from "msw";
 
 export const handlers = [
   http.post(endpoint("/login"), async ({ request }): Promise<HttpResponse> => {

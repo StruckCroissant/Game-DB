@@ -21,6 +21,12 @@ function setupFontAwesomeLibrary(
 setupFontAwesomeLibrary(library, [faUserSecret]);
 
 function mount(): void {
+  if (import.meta.env.DEV && import.meta.env.API_ENABLE_MOCKS === "true") {
+    import("../mocks/browser").then(({ startWorker }) => {
+      startWorker();
+    });
+  }
+
   const app = createApp();
   const router = createRouter();
   const pinia = createPinia();

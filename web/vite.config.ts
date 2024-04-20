@@ -5,8 +5,6 @@ import istanbul from "vite-plugin-istanbul";
 import type { UserConfig } from "vite";
 import { stripAttribute } from "./app/sfc";
 import { NodeTypes } from "./app/types";
-import { startServer } from "./mocks/server";
-// import { startWorker } from "./mocks/browser";
 
 const vuePlugin = () =>
   vue({
@@ -44,12 +42,6 @@ const defaultConfig: () => UserConfig = () => ({
 });
 
 export default async function config({ mode }): Promise<UserConfig> {
-  if (process.env.NODE_ENV === "development" && process.env.ENABLE_MOCKS) {
-    await startServer();
-    // await startWorker();
-    // (await require("./mocks/browser")).startWorker();
-  }
-
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
   const config = { ...defaultConfig() };
 
