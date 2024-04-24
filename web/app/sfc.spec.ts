@@ -29,6 +29,7 @@ const getProp = (name: string): AttributeNode => ({
   name,
   value: undefined,
   loc: getDummyLoc(),
+  nameLoc: getDummyLoc(),
 });
 
 describe("SFC compiler extensions tests", () => {

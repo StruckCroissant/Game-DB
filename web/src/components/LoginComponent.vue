@@ -7,8 +7,8 @@ import { RouterLink, useRouter } from "vue-router";
 import InputComponent from "@/components/UI/InputComponent.vue";
 import ModalComponent from "@/components/UI/ModalComponent.vue";
 import ButtonComponent from "@/components/UI/ButtonComponent.vue";
-import { userLoginSchema } from "@/types/schemas";
-import type { UserLoginRequest } from "@/types";
+import { userLoginSchema } from "@/types/user";
+import type { UserLoginRequest } from "@/types/user";
 
 //#region Routing
 const { push } = useRouter();

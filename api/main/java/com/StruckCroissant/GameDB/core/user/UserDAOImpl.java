@@ -83,7 +83,7 @@ public class UserDAOImpl implements UserDao {
         .orElseThrow(
             () ->
                 new UsernameNotFoundException(
-                    String.format("user with username %s not found", username)));
+                    String.format("User with username %s not found", username)));
   }
 
   public Optional<Integer> getUidByUsername(String username) {

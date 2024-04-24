@@ -6,7 +6,7 @@ import { configs } from "./configs";
 
 export type RouterConfigs = Record<string, NavigationGuard>;
 
-export function addConfigs(router: Router, configs: RouterConfigs): Router {
+function addConfigs(router: Router, configs: RouterConfigs): Router {
   if (configs.beforeEach) router.beforeEach(configs.beforeEach);
 
   return router;

@@ -5,12 +5,12 @@ import { useRouter } from "vue-router";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { faArrowLeftLong } from "@fortawesome/free-solid-svg-icons";
 import { useRegister } from "@/composables/authentication/useAuthentication";
-import { userLoginSchema } from "@/types/schemas";
+import { userLoginSchema } from "@/types/user";
 import { toTypedSchema } from "@vee-validate/zod";
 import InputComponent from "@/components/UI/InputComponent.vue";
 import ButtonComponent from "@/components/UI/ButtonComponent.vue";
 import ModalComponent from "./UI/ModalComponent.vue";
-import type { UserLoginRequest } from "@/types";
+import type { UserLoginRequest } from "@/types/user";
 
 //#region Form validation
 const { values, handleSubmit } = useForm({
