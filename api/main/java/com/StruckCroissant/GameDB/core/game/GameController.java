@@ -2,10 +2,9 @@ package com.StruckCroissant.GameDB.core.game;
 
 import com.StruckCroissant.GameDB.core.GameDBCoreController;
 import java.util.List;
+import javax.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.constraints.NotBlank;
 
 /**
  * Controller for retrieving information about games. It contains simple endpoints for retrieving
@@ -59,9 +58,7 @@ public class GameController extends GameDBCoreController {
   }
 
   @GetMapping()
-  public List<Game> search(
-      @RequestParam("name") @NotBlank String name
-  ) {
+  public List<Game> search(@RequestParam("name") @NotBlank String name) {
     return gameService.searchGames(name);
   }
 }
