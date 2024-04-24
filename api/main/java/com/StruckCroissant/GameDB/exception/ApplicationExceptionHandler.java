@@ -1,5 +1,6 @@
 package com.StruckCroissant.GameDB.exception;
 
+import javax.servlet.http.HttpServletRequest;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -14,7 +15,6 @@ import org.zalando.problem.Problem;
 import org.zalando.problem.Status;
 import org.zalando.problem.ThrowableProblem;
 import org.zalando.problem.spring.web.advice.ProblemHandling;
-import javax.servlet.http.HttpServletRequest;
 
 @RestControllerAdvice
 public class ApplicationExceptionHandler implements ProblemHandling {
@@ -29,20 +29,18 @@ public class ApplicationExceptionHandler implements ProblemHandling {
   @ResponseStatus(HttpStatus.NOT_FOUND)
   @Override
   public ResponseEntity<Problem> handleNoHandlerFound(
-      final @NotNull NoHandlerFoundException exception,
-      final @NotNull NativeWebRequest request
-  ) {
+      final @NotNull NoHandlerFoundException exception, final @NotNull NativeWebRequest request) {
     HttpServletRequest httpServletRequest = request.getNativeRequest(HttpServletRequest.class);
     assert httpServletRequest != null;
-    Problem problem = Problem.builder()
-        .withTitle("Route Not Found")
-        .withDetail(String.format(
-            "No route found for %s %s",
-            httpServletRequest.getMethod(),
-            httpServletRequest.getRequestURI()
-        ))
-        .withStatus(Status.NOT_FOUND)
-        .build();
+    Problem problem =
+        Problem.builder()
+            .withTitle("Route Not Found")
+            .withDetail(
+                String.format(
+                    "No route found for %s %s",
+                    httpServletRequest.getMethod(), httpServletRequest.getRequestURI()))
+            .withStatus(Status.NOT_FOUND)
+            .build();
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_PROBLEM_JSON);
 
