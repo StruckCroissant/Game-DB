@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotBlank;
+
 /**
  * Controller for retrieving information about games. It contains simple endpoints for retrieving
  * Game objects. All calls are passed to the gameService for retrieval.
@@ -57,7 +59,9 @@ public class GameController extends GameDBCoreController {
   }
 
   @GetMapping()
-  public List<Game> search(@RequestParam("name") String name) {
+  public List<Game> search(
+      @RequestParam("name") @NotBlank String name
+  ) {
     return gameService.searchGames(name);
   }
 }

@@ -10,7 +10,6 @@ import org.zalando.problem.ProblemModule;
 import org.zalando.problem.validation.ConstraintViolationProblemModule;
 
 @Configuration
-@EnableAutoConfiguration(exclude = ErrorMvcAutoConfiguration.class)
 public class ProblemConfiguration implements InitializingBean {
   private final ObjectMapper objectMapper;
 

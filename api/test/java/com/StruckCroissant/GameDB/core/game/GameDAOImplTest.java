@@ -32,25 +32,19 @@ public class GameDAOImplTest {
 
   @Test
   public void shouldGetAllGames() {
-    // given
-    // nothing
-    // when
     List<Game> allGames = underTest.selectAllGames();
 
-    // then
     allGames.forEach((game) -> assertThat(game).isInstanceOf(Game.class));
     assertThat(allGames.size()).isGreaterThanOrEqualTo(30250);
   }
 
   @Test
   public void shouldGetGameById() {
-    // given
     int[] validGames = {1, 2, 3, 4, 5};
     int[] invalidGames = {-4, -56, -3, 879627};
     List<Optional<Game>> validResult = new ArrayList<>();
     List<Optional<Game>> invalidResult = new ArrayList<>();
 
-    // when
     for (int gameInt : validGames) {
       Optional<Game> currentGameOpt = underTest.selectGameById(gameInt);
       validResult.add(currentGameOpt);
@@ -60,20 +54,16 @@ public class GameDAOImplTest {
       invalidResult.add(currentGameOpt);
     }
 
-    // then
     validResult.forEach((gameOpt) -> assertThat(gameOpt).get().isInstanceOf(Game.class));
     invalidResult.forEach((gameOpt) -> assertThat(gameOpt).isEmpty());
   }
 
   @Test
   public void shouldGetRelatedGames() {
-    // given
     int id = 40;
 
-    // when
     List<Game> result = underTest.selectRelatedGames(id);
 
-    // then
     assertThat(result.size()).isGreaterThan(0);
     result.forEach((game) -> assertThat(game).isInstanceOf(Game.class));
   }
