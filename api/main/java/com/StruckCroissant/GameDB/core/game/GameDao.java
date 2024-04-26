@@ -1,5 +1,7 @@
 package com.StruckCroissant.GameDB.core.game;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -18,5 +20,5 @@ public interface GameDao {
 
   List<Game> selectRelatedGames(int id);
 
-  List<Game> searchGames(String name);
+  List<Game> searchGames(@Nullable String name, @Nullable Integer id);
 }

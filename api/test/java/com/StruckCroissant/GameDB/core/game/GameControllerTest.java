@@ -40,7 +40,6 @@ public class GameControllerTest {
 
   private final String BASE_URL = "/game";
   private final String ALL_URL = BASE_URL + "/all";
-  private final String BY_ID_URL = BASE_URL + "/byId";
 
   @Before
   public void setUp() {
@@ -63,7 +62,7 @@ public class GameControllerTest {
 
   @Test
   public void whenGetGameByPresentId_thenReturns200() throws Exception {
-    final String URL_WITH_PARAMS = BY_ID_URL + "?id=1";
+    final String URL_WITH_PARAMS = BASE_URL + "?id=1";
 
     mockMvc
         .perform(MockMvcRequestBuilders.get(URL_WITH_PARAMS).accept(MediaType.APPLICATION_JSON))
@@ -74,7 +73,7 @@ public class GameControllerTest {
   public void whenGetGameByAbsentId_thenReturns404() throws Exception {
     final Integer GID = -1;
 
-    final String URL_WITH_PARAMS = BY_ID_URL + "?id=" + GID;
+    final String URL_WITH_PARAMS = BASE_URL + "?id=" + GID;
     when(gameService.getGameById(GID)).thenThrow(new GameNotFoundException(GID));
 
     mockMvc
@@ -90,7 +89,7 @@ public class GameControllerTest {
 
   @Test
   public void whenGetGameById_thenMapsGameService() throws Exception {
-    final String URL_WITH_PARAMS = BY_ID_URL + "?id=1";
+    final String URL_WITH_PARAMS = BASE_URL + "?id=1";
     final Integer GID = 1;
 
     mockMvc

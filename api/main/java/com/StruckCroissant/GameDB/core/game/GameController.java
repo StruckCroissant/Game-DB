@@ -2,7 +2,8 @@ package com.StruckCroissant.GameDB.core.game;
 
 import com.StruckCroissant.GameDB.core.GameDBCoreController;
 import java.util.List;
-import javax.validation.constraints.NotBlank;
+
+import com.StruckCroissant.GameDB.validation.NullOrNotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,24 +42,16 @@ public class GameController extends GameDBCoreController {
     return gameService.getAllGames();
   }
 
-  /**
-   * Returns game object when given an id
-   *
-   * @param id game id
-   * @return Game
-   */
-  @GetMapping(path = "/byId")
-  public Game getGameById(@RequestParam("id") int id) {
-    return gameService.getGameById(id);
-  }
-
   @GetMapping(path = "/related")
   public List<Game> getRelatedGames(@RequestParam("id") int id) {
     return gameService.getRelatedGames(id);
   }
 
   @GetMapping()
-  public List<Game> search(@RequestParam("name") @NotBlank String name) {
-    return gameService.searchGames(name);
+  public List<Game> search(
+      @RequestParam(name = "name", required = false) @NullOrNotBlank String name,
+      @RequestParam(name = "id", required = false) @NullOrNotBlank Integer id
+  ) {
+    return gameService.searchGames(name, id);
   }
 }

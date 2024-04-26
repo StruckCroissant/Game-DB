@@ -2,6 +2,8 @@ package com.StruckCroissant.GameDB.core.game;
 
 import java.util.List;
 import java.util.Optional;
+
+import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -150,7 +152,7 @@ public class GameDAOImpl implements GameDao {
         SQL, (resultSet, i) -> SQLGameAccessor.getGameFromResultSet(resultSet), id);
   }
 
-  public List<Game> searchGames(String name) {
+  public List<Game> searchGames(@Nullable String name, @Nullable Integer id) {
     final String SQL =
         """
          SELECT
@@ -171,9 +173,14 @@ public class GameDAOImpl implements GameDao {
           LEFT JOIN genre gen ON gg.genre_id = gen.genre_id
           LEFT JOIN franchise f ON g.gid = f.gid
          WHERE g.gname LIKE CONCAT(?, '%')
+            OR g.gid = ?
          GROUP BY g.gid
         """;
     return jdbcTemplate.query(
-        SQL, (resultSet, i) -> SQLGameAccessor.getGameFromResultSet(resultSet), name);
+        SQL,
+        (resultSet, i) -> SQLGameAccessor.getGameFromResultSet(resultSet),
+        name,
+        id
+    );
   }
 }

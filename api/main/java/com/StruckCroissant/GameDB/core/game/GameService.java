@@ -2,6 +2,8 @@ package com.StruckCroissant.GameDB.core.game;
 
 import com.StruckCroissant.GameDB.exception.exceptions.GameNotFoundException;
 import java.util.List;
+
+import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -29,7 +31,7 @@ public class GameService {
     return gameDao.selectRelatedGames(id);
   }
 
-  public List<Game> searchGames(String name) {
-    return gameDao.searchGames(name);
+  public List<Game> searchGames(@Nullable String name, @Nullable Integer id) {
+    return gameDao.searchGames(name, id);
   }
 }
