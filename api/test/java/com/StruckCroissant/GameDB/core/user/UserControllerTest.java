@@ -7,7 +7,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.StruckCroissant.GameDB.config.security.PasswordEncoder;
 import com.StruckCroissant.GameDB.core.game.Game;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
@@ -34,8 +33,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 public class UserControllerTest {
 
   @Autowired private MockMvc mockMvc;
-
-  @Autowired private ObjectMapper objectMapper;
 
   @MockBean private UserService userService;
 
@@ -195,7 +192,6 @@ public class UserControllerTest {
 
   @Test
   public void whenGetPrincpal_ThenReturnsPrincipal() throws Exception {
-    // when
     MvcResult result =
         mockMvc
             .perform(MockMvcRequestBuilders.get(BASE_URL).accept(MediaType.APPLICATION_JSON))
