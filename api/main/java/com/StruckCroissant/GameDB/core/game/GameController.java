@@ -1,9 +1,8 @@
 package com.StruckCroissant.GameDB.core.game;
 
 import com.StruckCroissant.GameDB.core.GameDBCoreController;
-import java.util.List;
-
 import com.StruckCroissant.GameDB.validation.NullOrNotBlank;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,8 +49,7 @@ public class GameController extends GameDBCoreController {
   @GetMapping()
   public List<Game> search(
       @RequestParam(name = "name", required = false) @NullOrNotBlank String name,
-      @RequestParam(name = "id", required = false) @NullOrNotBlank Integer id
-  ) {
+      @RequestParam(name = "id", required = false) @NullOrNotBlank Integer id) {
     return gameService.searchGames(name, id);
   }
 }

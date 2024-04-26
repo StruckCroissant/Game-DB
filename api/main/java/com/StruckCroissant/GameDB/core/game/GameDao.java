@@ -1,9 +1,8 @@
 package com.StruckCroissant.GameDB.core.game;
 
-import org.jetbrains.annotations.Nullable;
-
 import java.util.List;
 import java.util.Optional;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Interface for Game Data Access Object

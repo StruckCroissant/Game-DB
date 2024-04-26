@@ -2,7 +2,6 @@ package com.StruckCroissant.GameDB.core.game;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -177,10 +176,6 @@ public class GameDAOImpl implements GameDao {
          GROUP BY g.gid
         """;
     return jdbcTemplate.query(
-        SQL,
-        (resultSet, i) -> SQLGameAccessor.getGameFromResultSet(resultSet),
-        name,
-        id
-    );
+        SQL, (resultSet, i) -> SQLGameAccessor.getGameFromResultSet(resultSet), name, id);
   }
 }
