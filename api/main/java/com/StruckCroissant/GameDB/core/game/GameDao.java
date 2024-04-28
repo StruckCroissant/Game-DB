@@ -12,8 +12,6 @@ import java.util.Optional;
  * @since 2022-06-20
  */
 public interface GameDao {
-  // TODO all return optional
-
   List<Game> selectAllGames();
 
   Optional<Game> selectGameById(int id);

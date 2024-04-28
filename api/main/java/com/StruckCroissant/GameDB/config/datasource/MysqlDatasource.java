@@ -1,4 +1,4 @@
-package com.StruckCroissant.GameDB.datasource;
+package com.StruckCroissant.GameDB.config.datasource;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;

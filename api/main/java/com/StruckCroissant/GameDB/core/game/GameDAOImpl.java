@@ -3,6 +3,7 @@ package com.StruckCroissant.GameDB.core.game;
 import java.util.List;
 import java.util.Optional;
 
+import com.StruckCroissant.GameDB.core.SimpleQueryBuilder;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,6 +20,34 @@ import org.springframework.stereotype.Service;
 @Repository("db-game")
 public class GameDAOImpl implements GameDao {
   private final JdbcTemplate jdbcTemplate;
+
+  private SimpleQueryBuilder getDefaultQueryBuilder() {
+    SimpleQueryBuilder builder = new SimpleQueryBuilder();
+    return builder.addSelect("game.gid")
+        .addSelect("game.gname")
+        .addSelect("game.cost")
+        .addSelect("game.discounted_cost")
+        .addSelect("game.url")
+        .addSelect("game.age_rating")
+        .addSelect("game.indie")
+        .addSelect("game.description")
+        .addSelect("GROUP_CONCAT(genre.genre_name) as genres")
+        .addSelect("franchise.fname as franchise")
+        .addSelect("game.rdate")
+        .addSelect("game.rawgId")
+        .addFrom("game LEFT JOIN gamegenre game_genre ON game.gid = game_genre.gid")
+        .addFrom("LEFT JOIN genre ON genre.genre_id = game_genre.genre_id")
+        .addFrom("LEFT JOIN franchise franchise ON game.gid = franchise.gid")
+        .addGroupBy("game.gid");
+  }
+
+  private List<Game> executeQuery(String SQL, Object... args) {
+    return jdbcTemplate.query(
+        SQL,
+        (resultSet, i) -> SQLGameAccessor.getGameFromResultSet(resultSet),
+        args
+    );
+  }
 
   /**
    * Constructor that initializes Object with a jdbcTemplate via Autowire
@@ -37,33 +66,8 @@ public class GameDAOImpl implements GameDao {
    */
   @Override
   public List<Game> selectAllGames() {
-    final String sql =
-        """
-        SELECT
-            g.gid,
-            g.gname,
-            g.cost,
-            g.discounted_cost,
-            g.url,
-            g.age_rating,
-            g.indie,
-            g.description,
-            GROUP_CONCAT(gn.genre_name) as genres,
-            f.fname as franchise,
-            g.rdate,
-            g.rawgId
-        FROM
-            game g LEFT JOIN gamegenre ggn ON
-                g.gid = ggn.gid
-            LEFT JOIN genre gn ON
-                gn.genre_id = ggn.genre_id
-            LEFT JOIN franchise f ON
-                g.gid = f.gid
-        GROUP BY g.gid
-        ;
-        """;
-    return jdbcTemplate.query(
-        sql, (resultSet, i) -> SQLGameAccessor.getGameFromResultSet(resultSet));
+    final String sql = this.getDefaultQueryBuilder().toString();
+    return this.executeQuery(sql);
   }
 
   /**
@@ -74,108 +78,31 @@ public class GameDAOImpl implements GameDao {
    */
   @Override
   public Optional<Game> selectGameById(int id) {
-    final String sql =
-        """
-        SELECT
-            g.gid,
-            g.gname,
-            g.cost,
-            g.discounted_cost,
-            g.url,
-            g.age_rating,
-            g.indie,
-            g.description,
-            GROUP_CONCAT(gn.genre_name) as genres,
-            f.fname as franchise,
-            g.rdate,
-            g.rawgId
-        FROM
-            game g LEFT JOIN gamegenre ggn ON
-                g.gid = ggn.gid
-            LEFT JOIN genre gn ON
-                gn.genre_id = ggn.genre_id
-            LEFT JOIN franchise f ON
-                g.gid = f.gid
-        WHERE g.gid = ?
-        GROUP BY
-            g.gid
-        LIMIT 1
-        ;
-        """;
-    return Optional.ofNullable(
-        jdbcTemplate.query(
-            sql,
-            (resultSet) -> {
-              if (resultSet.next()) {
-                return SQLGameAccessor.getGameFromResultSet(resultSet);
-              } else {
-                return null;
-              }
-            },
-            id));
+    final String sql = this.getDefaultQueryBuilder()
+        .addWhere("g.gid = ?")
+        .setLimit(1)
+        .toString();
+    final List<Game> result = this.executeQuery(sql, id);
+    return Optional.ofNullable(result.isEmpty() ? result.get(0) : null);
   }
 
   @Override
   public List<Game> selectRelatedGames(int id) {
-    final String SQL =
-        """
-         SELECT
-             g.gid,
-             g.gname,
-             g.cost,
-             g.discounted_cost,
-             g.url,
-             g.age_rating,
-             g.indie,
-             g.description,
-             g.rdate,
-             g.rawgId,
-             group_concat(gen.genre_name) AS genres,
-             f.fname as franchise
-         FROM
-             gamegenre gm1 INNER JOIN
-               gamegenre gm2 ON
-                 gm1.genre_id = gm2.genre_id AND gm1.gid <> gm2.gid
-             INNER JOIN
-               game g ON gm2.gid = g.gid
-             INNER JOIN
-               genre gen on gm2.genre_id = gen.genre_id
-             LEFT JOIN franchise f ON
-               g.gid = f.gid
-         WHERE
-             gm1.gid = ?
-         group by gm2.gid
-         order by COUNT(gm2.genre_id) DESC
-         LIMIT 10;
-        """;
+    final String SQL = this.getDefaultQueryBuilder()
+        .addFrom("INNER JOIN gamegenre game_genre2 ON game_genre.genre_id = game_genre2.genre_id AND game_genre.gid <> game_genre2.gid")
+        .addWhere("game_genre2.gid = ?")
+        .addOrderBy("COUNT(game_genre2.genre_id) DESC")
+        .setLimit(10)
+        .toString();
     return jdbcTemplate.query(
         SQL, (resultSet, i) -> SQLGameAccessor.getGameFromResultSet(resultSet), id);
   }
 
   public List<Game> searchGames(@Nullable String name, @Nullable Integer id) {
-    final String SQL =
-        """
-         SELECT
-         g.gid,
-         g.gname,
-         g.cost,
-         g.discounted_cost,
-         g.url,
-         g.age_rating,
-         g.indie,
-         g.description,
-         g.rdate,
-         g.rawgId,
-         GROUP_CONCAT(gen.genre_name) AS genres,
-         f.fname as franchise
-         FROM game g
-          LEFT JOIN gamegenre gg ON gg.gid = g.gid
-          LEFT JOIN genre gen ON gg.genre_id = gen.genre_id
-          LEFT JOIN franchise f ON g.gid = f.gid
-         WHERE g.gname LIKE CONCAT(?, '%')
-            OR g.gid = ?
-         GROUP BY g.gid
-        """;
+    final String SQL = this.getDefaultQueryBuilder()
+        .addWhere("game.gname LIKE CONCAT(?, '%')")
+        .addWhere("OR game.gid = ?")
+        .toString();
     return jdbcTemplate.query(
         SQL,
         (resultSet, i) -> SQLGameAccessor.getGameFromResultSet(resultSet),
