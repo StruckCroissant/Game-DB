@@ -1,12 +1,8 @@
 package com.StruckCroissant.GameDB.core;
 
-import org.jetbrains.annotations.Nullable;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import org.jetbrains.annotations.Nullable;
 
 public class SimpleQueryBuilder {
   private final List<String> select = new ArrayList<>();
@@ -51,24 +47,19 @@ public class SimpleQueryBuilder {
     StringBuilder stringBuilder = new StringBuilder();
 
     if (!this.select.isEmpty()) {
-      stringBuilder.append("SELECT ")
-          .append(String.join(",", this.select));
+      stringBuilder.append("SELECT ").append(String.join(",", this.select));
     }
     if (!this.from.isEmpty()) {
-      stringBuilder.append(" FROM ")
-          .append(String.join(" ", this.from));
+      stringBuilder.append(" FROM ").append(String.join(" ", this.from));
     }
     if (!this.where.isEmpty()) {
-      stringBuilder.append(" WHERE ")
-          .append(String.join(" ", this.where));
+      stringBuilder.append(" WHERE ").append(String.join(" ", this.where));
     }
     if (!this.groupBy.isEmpty()) {
-      stringBuilder.append(" GROUP BY ")
-          .append(String.join(",", this.groupBy));
+      stringBuilder.append(" GROUP BY ").append(String.join(",", this.groupBy));
     }
-    if (!this.orderBy.isEmpty()){
-      stringBuilder.append(" ORDER BY ")
-          .append(String.join(",", this.groupBy));
+    if (!this.orderBy.isEmpty()) {
+      stringBuilder.append(" ORDER BY ").append(String.join(",", this.groupBy));
     }
     if (this.limit != null) {
       stringBuilder.append(String.format("LIMIT %s", this.limit));
