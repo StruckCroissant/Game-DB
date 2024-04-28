@@ -104,10 +104,6 @@ public class GameDAOImpl implements GameDao {
         .addWhere("OR game.gid = ?")
         .toString();
     return jdbcTemplate.query(
-        SQL,
-        (resultSet, i) -> SQLGameAccessor.getGameFromResultSet(resultSet),
-        name,
-        id
-    );
+        SQL, (resultSet, i) -> SQLGameAccessor.getGameFromResultSet(resultSet), name, id);
   }
 }
