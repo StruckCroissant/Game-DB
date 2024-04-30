@@ -1,9 +1,8 @@
 package com.StruckCroissant.GameDB.core.game;
 
+import com.StruckCroissant.GameDB.core.SimpleQueryBuilder;
 import java.util.List;
 import java.util.Optional;
-
-import com.StruckCroissant.GameDB.core.SimpleQueryBuilder;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -23,7 +22,8 @@ public class GameDAOImpl implements GameDao {
 
   private SimpleQueryBuilder getDefaultQueryBuilder() {
     SimpleQueryBuilder builder = new SimpleQueryBuilder();
-    return builder.addSelect("game.gid")
+    return builder
+        .addSelect("game.gid")
         .addSelect("game.gname")
         .addSelect("game.cost")
         .addSelect("game.discounted_cost")
@@ -43,10 +43,7 @@ public class GameDAOImpl implements GameDao {
 
   private List<Game> executeQuery(String SQL, Object... args) {
     return jdbcTemplate.query(
-        SQL,
-        (resultSet, i) -> SQLGameAccessor.getGameFromResultSet(resultSet),
-        args
-    );
+        SQL, (resultSet, i) -> SQLGameAccessor.getGameFromResultSet(resultSet), args);
   }
 
   /**
@@ -78,31 +75,32 @@ public class GameDAOImpl implements GameDao {
    */
   @Override
   public Optional<Game> selectGameById(int id) {
-    final String sql = this.getDefaultQueryBuilder()
-        .addWhere("g.gid = ?")
-        .setLimit(1)
-        .toString();
+    final String sql = this.getDefaultQueryBuilder().addWhere("g.gid = ?").setLimit(1).toString();
     final List<Game> result = this.executeQuery(sql, id);
     return Optional.ofNullable(result.isEmpty() ? result.get(0) : null);
   }
 
   @Override
   public List<Game> selectRelatedGames(int id) {
-    final String SQL = this.getDefaultQueryBuilder()
-        .addFrom("INNER JOIN gamegenre game_genre2 ON game_genre.genre_id = game_genre2.genre_id AND game_genre.gid <> game_genre2.gid")
-        .addWhere("game_genre2.gid = ?")
-        .addOrderBy("COUNT(game_genre2.genre_id) DESC")
-        .setLimit(10)
-        .toString();
+    final String SQL =
+        this.getDefaultQueryBuilder()
+            .addFrom(
+                "INNER JOIN gamegenre game_genre2 ON game_genre.genre_id = game_genre2.genre_id AND"
+                    + " game_genre.gid <> game_genre2.gid")
+            .addWhere("game_genre2.gid = ?")
+            .addOrderBy("COUNT(game_genre2.genre_id) DESC")
+            .setLimit(10)
+            .toString();
     return jdbcTemplate.query(
         SQL, (resultSet, i) -> SQLGameAccessor.getGameFromResultSet(resultSet), id);
   }
 
   public List<Game> searchGames(@Nullable String name, @Nullable Integer id) {
-    final String SQL = this.getDefaultQueryBuilder()
-        .addWhere("game.gname LIKE CONCAT(?, '%')")
-        .addWhere("OR game.gid = ?")
-        .toString();
+    final String SQL =
+        this.getDefaultQueryBuilder()
+            .addWhere("game.gname LIKE CONCAT(?, '%')")
+            .addWhere("OR game.gid = ?")
+            .toString();
     return jdbcTemplate.query(
         SQL, (resultSet, i) -> SQLGameAccessor.getGameFromResultSet(resultSet), name, id);
   }
