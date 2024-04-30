@@ -78,7 +78,8 @@ public class GameControllerTest {
     when(gameService.getGameById(GID)).thenThrow(new GameNotFoundException(GID));
 
     mockMvc
-        .perform(MockMvcRequestBuilders.get(URL_WITH_PARAMS).accept(MediaType.APPLICATION_PROBLEM_JSON))
+        .perform(
+            MockMvcRequestBuilders.get(URL_WITH_PARAMS).accept(MediaType.APPLICATION_PROBLEM_JSON))
         .andExpect(status().isNotFound())
         .andExpect(jsonPath("$.violations[0].field").value("id"))
         .andExpect(jsonPath("$.violations[0].message").value("Greater than 1"));
@@ -107,7 +108,8 @@ public class GameControllerTest {
   }
 
   @Test
-  public void whenProvideNoParamsToGameSearch_thenThrowConstraintViolationMessage() throws Exception {
+  public void whenProvideNoParamsToGameSearch_thenThrowConstraintViolationMessage()
+      throws Exception {
     String expectedViolationMessage = "Search request must contain at least one search criteria";
 
     mockMvc
@@ -121,15 +123,19 @@ public class GameControllerTest {
     String expectedViolationMessage = "must be greater than or equal to 1";
 
     mockMvc
-        .perform(MockMvcRequestBuilders.get(BASE_URL + "?id=0").accept(MediaType.APPLICATION_PROBLEM_JSON))
+        .perform(
+            MockMvcRequestBuilders.get(BASE_URL + "?id=0")
+                .accept(MediaType.APPLICATION_PROBLEM_JSON))
         .andExpect(jsonPath("$.violations[0].message").value(expectedViolationMessage))
-        .andExpect(jsonPath("$.violations[0].field").value( "id"));
+        .andExpect(jsonPath("$.violations[0].field").value("id"));
   }
 
   @Test
   public void whenProvideOneParam_thenReturnOk() throws Exception {
-    mockMvc.perform(
-        MockMvcRequestBuilders.get(BASE_URL + "?id=1").accept(MediaType.APPLICATION_PROBLEM_JSON)
-    ).andExpect(status().isOk());
+    mockMvc
+        .perform(
+            MockMvcRequestBuilders.get(BASE_URL + "?id=1")
+                .accept(MediaType.APPLICATION_PROBLEM_JSON))
+        .andExpect(status().isOk());
   }
 }

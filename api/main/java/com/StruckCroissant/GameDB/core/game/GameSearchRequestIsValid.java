@@ -1,7 +1,7 @@
 package com.StruckCroissant.GameDB.core.game;
 
-import javax.validation.Constraint;
 import java.lang.annotation.*;
+import javax.validation.Constraint;
 import javax.validation.Payload;
 
 @Target({ElementType.TYPE, ElementType.PARAMETER})

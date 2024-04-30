@@ -1,20 +1,19 @@
 package com.StruckCroissant.GameDB.core.game;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
+import javax.validation.ConstraintValidatorContext;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.validation.ConstraintValidatorContext;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 public class GameSearchRequestValidatorTest {
-  private final GameSearchRequestValidator searchRequestValidator = new GameSearchRequestValidator();
+  private final GameSearchRequestValidator searchRequestValidator =
+      new GameSearchRequestValidator();
 
-  @Mock
-  ConstraintValidatorContext context;
+  @Mock ConstraintValidatorContext context;
 
   @Test
   public void whenGameSearchRequestIsValidWithAllParameters_ReturnTrue() {

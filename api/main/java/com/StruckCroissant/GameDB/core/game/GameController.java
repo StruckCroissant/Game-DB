@@ -1,15 +1,12 @@
 package com.StruckCroissant.GameDB.core.game;
 
 import com.StruckCroissant.GameDB.core.GameDBCoreController;
-
-import java.util.List;
-
 import com.StruckCroissant.GameDB.exception.exceptions.GameNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
+import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin("http://localhost:4200") // Replace with proxy later
 @RequestMapping("/game")
@@ -48,7 +45,8 @@ public class GameController extends GameDBCoreController {
   }
 
   @GetMapping("/{id}")
-  public Game getGame(@PathVariable @Valid @DecimalMin(value = "1") Integer id) throws GameNotFoundException {
+  public Game getGame(@PathVariable @Valid @DecimalMin(value = "1") Integer id)
+      throws GameNotFoundException {
     return gameService.getGameById(id);
   }
 }
