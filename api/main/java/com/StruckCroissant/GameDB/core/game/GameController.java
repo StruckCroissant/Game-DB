@@ -1,20 +1,16 @@
 package com.StruckCroissant.GameDB.core.game;
 
 import com.StruckCroissant.GameDB.core.GameDBCoreController;
-import com.StruckCroissant.GameDB.validation.NullOrNotBlank;
+
 import java.util.List;
+
+import com.StruckCroissant.GameDB.exception.exceptions.GameNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * Controller for retrieving information about games. It contains simple endpoints for retrieving
- * Game objects. All calls are passed to the gameService for retrieval.
- *
- * @author Dakota Vaughn
- * @see Game
- * @see GameService
- * @since 2022-06-20
- */
+import javax.validation.Valid;
+import javax.validation.constraints.DecimalMin;
+
 @CrossOrigin("http://localhost:4200") // Replace with proxy later
 @RequestMapping("/game")
 @RestController
@@ -46,10 +42,13 @@ public class GameController extends GameDBCoreController {
     return gameService.getRelatedGames(id);
   }
 
-  @GetMapping()
-  public List<Game> search(
-      @RequestParam(name = "name", required = false) @NullOrNotBlank String name,
-      @RequestParam(name = "id", required = false) @NullOrNotBlank Integer id) {
-    return gameService.searchGames(name, id);
+  @GetMapping
+  public List<Game> search(@Valid GameSearchRequest request) {
+    return gameService.searchGames(request.name(), request.id());
+  }
+
+  @GetMapping("/{id}")
+  public Game getGame(@PathVariable @Valid @DecimalMin(value = "1") Integer id) throws GameNotFoundException {
+    return gameService.getGameById(id);
   }
 }

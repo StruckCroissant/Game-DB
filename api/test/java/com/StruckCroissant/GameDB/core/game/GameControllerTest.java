@@ -3,6 +3,7 @@ package com.StruckCroissant.GameDB.core.game;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.StruckCroissant.GameDB.config.security.PasswordEncoder;
@@ -70,15 +71,17 @@ public class GameControllerTest {
   }
 
   @Test
-  public void whenGetGameByAbsentId_thenReturns404() throws Exception {
-    final Integer GID = -1;
+  public void whenGetGameByInvalidId_thenReturns400() throws Exception {
+    Integer GID = -1;
 
-    final String URL_WITH_PARAMS = BASE_URL + "?id=" + GID;
+    final String URL_WITH_PARAMS = String.format("%s/%s", BASE_URL, GID);
     when(gameService.getGameById(GID)).thenThrow(new GameNotFoundException(GID));
 
     mockMvc
-        .perform(MockMvcRequestBuilders.get(URL_WITH_PARAMS).accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isNotFound());
+        .perform(MockMvcRequestBuilders.get(URL_WITH_PARAMS).accept(MediaType.APPLICATION_PROBLEM_JSON))
+        .andExpect(status().isNotFound())
+        .andExpect(jsonPath("$.violations[0].field").value("id"))
+        .andExpect(jsonPath("$.violations[0].message").value("Greater than 1"));
 
     ArgumentCaptor<Integer> argumentCaptor = ArgumentCaptor.forClass(Integer.class);
     verify(gameService).getGameById(argumentCaptor.capture());
@@ -89,7 +92,7 @@ public class GameControllerTest {
 
   @Test
   public void whenGetGameById_thenMapsGameService() throws Exception {
-    final String URL_WITH_PARAMS = BASE_URL + "?id=1";
+    final String URL_WITH_PARAMS = BASE_URL + "/1";
     final Integer GID = 1;
 
     mockMvc
@@ -101,5 +104,32 @@ public class GameControllerTest {
     Integer capturedValue = argumentCaptor.getValue();
 
     assertThat(capturedValue).isEqualTo(GID);
+  }
+
+  @Test
+  public void whenProvideNoParamsToGameSearch_thenThrowConstraintViolationMessage() throws Exception {
+    String expectedViolationMessage = "Search request must contain at least one search criteria";
+
+    mockMvc
+        .perform(MockMvcRequestBuilders.get(BASE_URL).accept(MediaType.APPLICATION_PROBLEM_JSON))
+        .andExpect(jsonPath("$.violations[0].message").value(expectedViolationMessage))
+        .andExpect(jsonPath("$.violations[0].field").value("gameSearchRequest"));
+  }
+
+  @Test
+  public void whenProvideNullId_thenReturnMinimumMessage() throws Exception {
+    String expectedViolationMessage = "must be greater than or equal to 1";
+
+    mockMvc
+        .perform(MockMvcRequestBuilders.get(BASE_URL + "?id=0").accept(MediaType.APPLICATION_PROBLEM_JSON))
+        .andExpect(jsonPath("$.violations[0].message").value(expectedViolationMessage))
+        .andExpect(jsonPath("$.violations[0].field").value( "id"));
+  }
+
+  @Test
+  public void whenProvideOneParam_thenReturnOk() throws Exception {
+    mockMvc.perform(
+        MockMvcRequestBuilders.get(BASE_URL + "?id=1").accept(MediaType.APPLICATION_PROBLEM_JSON)
+    ).andExpect(status().isOk());
   }
 }
