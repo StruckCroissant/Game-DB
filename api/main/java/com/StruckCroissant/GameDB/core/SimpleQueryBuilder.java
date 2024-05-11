@@ -62,7 +62,7 @@ public class SimpleQueryBuilder {
       stringBuilder.append(" ORDER BY ").append(String.join(",", this.groupBy));
     }
     if (this.limit != null) {
-      stringBuilder.append(String.format("LIMIT %s", this.limit));
+      stringBuilder.append(String.format(" LIMIT %s ", this.limit));
     }
 
     stringBuilder.append(";");

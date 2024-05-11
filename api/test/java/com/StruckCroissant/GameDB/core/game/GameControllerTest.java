@@ -81,8 +81,9 @@ public class GameControllerTest {
         .perform(
             MockMvcRequestBuilders.get(URL_WITH_PARAMS).accept(MediaType.APPLICATION_PROBLEM_JSON))
         .andExpect(status().isNotFound())
-        .andExpect(jsonPath("$.violations[0].field").value("id"))
-        .andExpect(jsonPath("$.violations[0].message").value("Greater than 1"));
+        .andExpect(jsonPath("$.title").value("Requested game not found"))
+        .andExpect(jsonPath("$.status").value("404"))
+        .andExpect(jsonPath("$.detail").value("Game id {-1} not found"));
 
     ArgumentCaptor<Integer> argumentCaptor = ArgumentCaptor.forClass(Integer.class);
     verify(gameService).getGameById(argumentCaptor.capture());

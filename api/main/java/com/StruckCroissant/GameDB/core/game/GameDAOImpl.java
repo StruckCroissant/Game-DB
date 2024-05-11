@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 public class GameDAOImpl implements GameDao {
   private final JdbcTemplate jdbcTemplate;
 
-  private SimpleQueryBuilder getDefaultQueryBuilder() {
+  private static SimpleQueryBuilder getDefaultQueryBuilder() {
     SimpleQueryBuilder builder = new SimpleQueryBuilder();
     return builder
         .addSelect("game.gid")
@@ -63,7 +63,7 @@ public class GameDAOImpl implements GameDao {
    */
   @Override
   public List<Game> selectAllGames() {
-    final String sql = this.getDefaultQueryBuilder().toString();
+    final String sql = getDefaultQueryBuilder().toString();
     return this.executeQuery(sql);
   }
 
@@ -75,15 +75,15 @@ public class GameDAOImpl implements GameDao {
    */
   @Override
   public Optional<Game> selectGameById(int id) {
-    final String sql = this.getDefaultQueryBuilder().addWhere("g.gid = ?").setLimit(1).toString();
+    final String sql = getDefaultQueryBuilder().addWhere("game.gid = ?").setLimit(1).toString();
     final List<Game> result = this.executeQuery(sql, id);
-    return Optional.ofNullable(result.isEmpty() ? result.get(0) : null);
+    return Optional.ofNullable(!result.isEmpty() ? result.get(0) : null);
   }
 
   @Override
   public List<Game> selectRelatedGames(int id) {
     final String SQL =
-        this.getDefaultQueryBuilder()
+        getDefaultQueryBuilder()
             .addFrom(
                 "INNER JOIN gamegenre game_genre2 ON game_genre.genre_id = game_genre2.genre_id AND"
                     + " game_genre.gid <> game_genre2.gid")
@@ -92,12 +92,15 @@ public class GameDAOImpl implements GameDao {
             .setLimit(10)
             .toString();
     return jdbcTemplate.query(
-        SQL, (resultSet, i) -> SQLGameAccessor.getGameFromResultSet(resultSet), id);
+        SQL,
+        (resultSet, i) -> SQLGameAccessor.getGameFromResultSet(resultSet),
+        id
+    );
   }
 
   public List<Game> searchGames(@Nullable String name, @Nullable Integer id) {
     final String SQL =
-        this.getDefaultQueryBuilder()
+        getDefaultQueryBuilder()
             .addWhere("game.gname LIKE CONCAT(?, '%')")
             .addWhere("OR game.gid = ?")
             .toString();

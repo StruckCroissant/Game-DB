@@ -14,21 +14,11 @@ import org.springframework.web.bind.annotation.*;
 public class GameController extends GameDBCoreController {
   private final GameService gameService;
 
-  /**
-   * Autowired constructor retrieves gameService via Autowire
-   *
-   * @param gameService game service object
-   */
   @Autowired
   public GameController(GameService gameService) {
     this.gameService = gameService;
   }
 
-  /**
-   * Returns all game objects in DB
-   *
-   * @return List<Game>
-   */
   @GetMapping(path = "/all")
   public List<Game> getAllGames() {
     return gameService.getAllGames();
