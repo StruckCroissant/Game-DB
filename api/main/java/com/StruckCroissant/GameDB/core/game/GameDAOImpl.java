@@ -92,10 +92,7 @@ public class GameDAOImpl implements GameDao {
             .setLimit(10)
             .toString();
     return jdbcTemplate.query(
-        SQL,
-        (resultSet, i) -> SQLGameAccessor.getGameFromResultSet(resultSet),
-        id
-    );
+        SQL, (resultSet, i) -> SQLGameAccessor.getGameFromResultSet(resultSet), id);
   }
 
   public List<Game> searchGames(@Nullable String name, @Nullable Integer id) {
