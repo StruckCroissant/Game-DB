@@ -5,6 +5,7 @@ defaults:
     working-directory: ./web
 jobs:
   lint:
+    name: "Frontend Lint"
     runs-on: ubuntu-latest
     if: github.ref != 'refs/heads/main'
     steps:
@@ -14,6 +15,7 @@ jobs:
       - name: Run ESLint
         run: npm run lint:ci
   build:
+    name: "Frontend Build"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -22,6 +24,7 @@ jobs:
       - name: Run Vue build
         run: npm run build
   test-e2e:
+    name: "Frontend e2e Tests"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -44,6 +47,7 @@ jobs:
           flag: frontend-e2e
           token: ${{ secrets.CODECOV_TOKEN }}
   test-component:
+    name: "Frontend Component Tests"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

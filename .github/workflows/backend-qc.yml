@@ -2,6 +2,7 @@ name: "Backend QC"
 on: [push]
 jobs:
   lint:
+    name: "Backend Lint"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -11,6 +12,7 @@ jobs:
           java-version: 17
       - uses: axel-op/googlejavaformat-action@v3
   build:
+    name: "Backend Build"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
