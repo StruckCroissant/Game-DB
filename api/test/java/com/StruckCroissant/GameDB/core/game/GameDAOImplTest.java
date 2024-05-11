@@ -2,7 +2,7 @@ package com.StruckCroissant.GameDB.core.game;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import com.StruckCroissant.GameDB.TestDbConfig;
+import config.TestDbConfig;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,10 +25,6 @@ public class GameDAOImplTest {
   @Qualifier("db-game")
   @Autowired
   private GameDAOImpl underTest;
-
-  @Qualifier("testTemplate")
-  @Autowired
-  private JdbcTemplate jdbcTemplate;
 
   @Test
   public void shouldGetAllGames() {

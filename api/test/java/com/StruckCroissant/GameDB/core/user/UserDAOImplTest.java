@@ -3,7 +3,7 @@ package com.StruckCroissant.GameDB.core.user;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 
-import com.StruckCroissant.GameDB.TestDbConfig;
+import config.TestDbConfig;
 import com.StruckCroissant.GameDB.core.game.Game;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;

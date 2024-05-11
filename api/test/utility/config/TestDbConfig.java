@@ -1,4 +1,4 @@
-package com.StruckCroissant.GameDB;
+package config;
 
 import ch.vorburger.exec.ManagedProcessException;
 import ch.vorburger.mariadb4j.DB;

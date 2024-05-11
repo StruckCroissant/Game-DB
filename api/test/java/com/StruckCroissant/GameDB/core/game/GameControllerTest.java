@@ -6,26 +6,22 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.StruckCroissant.GameDB.config.security.PasswordEncoder;
 import com.StruckCroissant.GameDB.core.user.UserService;
 import com.StruckCroissant.GameDB.exception.exceptions.GameNotFoundException;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@WebMvcTest(value = GameController.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest
 @AutoConfigureMockMvc(addFilters = false)
 public class GameControllerTest {
 
@@ -35,22 +31,8 @@ public class GameControllerTest {
 
   @MockBean private UserService userService;
 
-  @MockBean private PasswordEncoder passwordEncoder;
-
-  private AutoCloseable autoCloseable;
-
   private final String BASE_URL = "/game";
   private final String ALL_URL = BASE_URL + "/all";
-
-  @Before
-  public void setUp() {
-    autoCloseable = MockitoAnnotations.openMocks(this);
-  }
-
-  @After
-  public void tearDown() throws Exception {
-    autoCloseable.close();
-  }
 
   @Test
   public void whenGetAllGames_thenReturns200() throws Exception {
