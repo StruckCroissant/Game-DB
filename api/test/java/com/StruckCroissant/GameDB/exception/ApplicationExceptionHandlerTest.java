@@ -4,10 +4,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import config.TestDbConfig;
 import com.StruckCroissant.GameDB.core.game.GameController;
 import com.StruckCroissant.GameDB.core.game.GameService;
 import com.StruckCroissant.GameDB.core.user.UserDAOImpl;
+import config.TestDbConfig;
 import java.lang.reflect.Field;
 import java.util.*;
 import org.junit.Before;
