@@ -32,8 +32,8 @@ public class TestDbConfig {
       @Value("${app.datasource.name}") String databaseName,
       @Value("${app.datasource.username}") String datasourceUsername,
       @Value("${app.datasource.username}") String datasourcePassword,
-      @Value("${app.datasource.driver-class-name}") String datasourceDriver
-  ) throws ManagedProcessException {
+      @Value("${app.datasource.driver-class-name}") String datasourceDriver)
+      throws ManagedProcessException {
     DB db = DB.newEmbeddedDB(dbConfig);
     db.start();
     db.createDB(databaseName, "root", "");

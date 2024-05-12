@@ -6,9 +6,9 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import config.TestDbConfig;
 import com.StruckCroissant.GameDB.core.user.UserService;
 import com.StruckCroissant.GameDB.exception.exceptions.GameNotFoundException;
+import config.TestDbConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
