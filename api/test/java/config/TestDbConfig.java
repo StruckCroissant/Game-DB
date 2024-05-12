@@ -6,13 +6,16 @@ import ch.vorburger.mariadb4j.DBConfiguration;
 import ch.vorburger.mariadb4j.DBConfigurationBuilder;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.*;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.TestPropertySource;
 
-@Configuration
-@PropertySource("classpath:test.properties")
+@TestConfiguration
+@TestPropertySource("classpath:application.yml")
 public class TestDbConfig {
 
   @Bean
@@ -23,14 +26,14 @@ public class TestDbConfig {
     return config.build();
   }
 
-  @Bean
+  @Bean("testDatasource")
   public DataSource dataSource(
       @Autowired DBConfiguration dbConfig,
-      @Value("${test.datasource.name}") String databaseName,
-      @Value("${test.datasource.username}") String datasourceUsername,
-      @Value("${test.datasource.username}") String datasourcePassword,
-      @Value("${test.datasource.driver-class-name}") String datasourceDriver)
-      throws ManagedProcessException {
+      @Value("${app.datasource.name}") String databaseName,
+      @Value("${app.datasource.username}") String datasourceUsername,
+      @Value("${app.datasource.username}") String datasourcePassword,
+      @Value("${app.datasource.driver-class-name}") String datasourceDriver
+  ) throws ManagedProcessException {
     DB db = DB.newEmbeddedDB(dbConfig);
     db.start();
     db.createDB(databaseName, "root", "");
@@ -47,7 +50,7 @@ public class TestDbConfig {
   }
 
   @Bean("testTemplate")
-  public JdbcTemplate jdbcTemplate(DataSource dataSource) {
+  public JdbcTemplate jdbcTemplate(@Qualifier("testDatasource") DataSource dataSource) {
     return new JdbcTemplate(dataSource);
   }
 }

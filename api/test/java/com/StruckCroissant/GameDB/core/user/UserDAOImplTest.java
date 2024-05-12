@@ -22,7 +22,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.jdbc.JdbcTestUtils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@TestPropertySource(locations = "classpath:test.properties")
+@TestPropertySource(locations = "classpath:application.yml")
 @ContextConfiguration(classes = {TestDbConfig.class, UserDAOImpl.class})
 @SpringBootTest
 public class UserDAOImplTest {

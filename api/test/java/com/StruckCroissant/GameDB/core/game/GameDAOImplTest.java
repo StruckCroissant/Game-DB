@@ -16,7 +16,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@TestPropertySource(locations = "classpath:test.properties")
+@TestPropertySource(locations = "classpath:application.yml")
 @ContextConfiguration(classes = {TestDbConfig.class, GameDAOImpl.class})
 @SpringBootTest
 public class GameDAOImplTest {

@@ -6,6 +6,7 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 
 /**
  * This class provides a hikariDataSource bean for usage throughout the API. This database houses
@@ -26,6 +27,7 @@ public class MysqlDatasource {
   @Bean
   @Primary
   @ConfigurationProperties("app.datasource")
+  @Profile("prod")
   public HikariDataSource hikariDataSource() {
     return DataSourceBuilder.create().type(HikariDataSource.class).build();
   }

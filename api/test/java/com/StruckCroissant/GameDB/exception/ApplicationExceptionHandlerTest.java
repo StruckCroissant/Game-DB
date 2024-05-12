@@ -26,7 +26,7 @@ import org.springframework.web.accept.FixedContentNegotiationStrategy;
 import org.springframework.web.servlet.DispatcherServlet;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@TestPropertySource(locations = "classpath:test.properties")
+@TestPropertySource(locations = "classpath:application.yml")
 @ContextConfiguration(classes = {TestDbConfig.class, UserDAOImpl.class})
 @SpringBootTest
 public class ApplicationExceptionHandlerTest {
