@@ -2,6 +2,7 @@ package com.StruckCroissant.GameDB;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @since 2022-06-20
  */
-@SpringBootApplication
+@SpringBootApplication(exclude = {JdbcTemplateAutoConfiguration.class})
 @RestController
 public class GameDbApplication {
   public static void main(String[] args) {

@@ -1,6 +1,6 @@
 package com.StruckCroissant.GameDB.core.game;
 
-import com.StruckCroissant.GameDB.core.GameDBCoreController;
+import com.StruckCroissant.GameDB.core.web.GameDBCoreController;
 import com.StruckCroissant.GameDB.exception.exceptions.GameNotFoundException;
 import java.util.List;
 import javax.validation.Valid;

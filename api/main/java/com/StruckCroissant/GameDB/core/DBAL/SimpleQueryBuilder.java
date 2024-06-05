@@ -1,4 +1,4 @@
-package com.StruckCroissant.GameDB.core;
+package com.StruckCroissant.GameDB.core.DBAL;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +11,7 @@ public class SimpleQueryBuilder {
   private final List<String> groupBy = new ArrayList<>();
   private final List<String> orderBy = new ArrayList<>();
   @Nullable private Integer limit = null;
+  @Nullable private Long offset = null;
 
   public SimpleQueryBuilder addSelect(String statement) {
     this.select.add(statement);
@@ -42,8 +43,12 @@ public class SimpleQueryBuilder {
     return this;
   }
 
-  @Override
-  public String toString() {
+  public SimpleQueryBuilder setOffset(long offset) {
+    this.offset = offset;
+    return this;
+  }
+
+  public String build() {
     StringBuilder stringBuilder = new StringBuilder();
 
     if (!this.select.isEmpty()) {
@@ -64,9 +69,17 @@ public class SimpleQueryBuilder {
     if (this.limit != null) {
       stringBuilder.append(String.format(" LIMIT %s ", this.limit));
     }
+    if (this.offset != null) {
+      stringBuilder.append(String.format(" OFFSET %s ", this.offset));
+    }
 
     stringBuilder.append(";");
 
     return stringBuilder.toString();
+  }
+
+  @Override
+  public String toString() {
+    return this.build();
   }
 }

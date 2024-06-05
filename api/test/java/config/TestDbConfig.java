@@ -12,6 +12,7 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.*;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.TestPropertySource;
 
 @TestConfiguration
@@ -49,8 +50,13 @@ public class TestDbConfig {
         .build();
   }
 
-  @Bean("testTemplate")
+  @Bean
   public JdbcTemplate jdbcTemplate(@Qualifier("testDatasource") DataSource dataSource) {
     return new JdbcTemplate(dataSource);
+  }
+
+  @Bean
+  public NamedParameterJdbcTemplate NamedParameterJdbcTemplate(@Qualifier("testDatasource") DataSource dataSource) {
+    return new NamedParameterJdbcTemplate(dataSource);
   }
 }

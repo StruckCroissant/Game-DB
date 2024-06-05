@@ -1,4 +1,4 @@
-package com.StruckCroissant.GameDB.config.datasource;
+package com.StruckCroissant.GameDB.config.database;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Profile;
  * @since 2022-06-20
  */
 @Configuration
-public class MysqlDatasource {
+public class MysqlDatasourceConfiguration {
 
   /**
    * Creates a hikari datasource configured via properties in application.yaml
