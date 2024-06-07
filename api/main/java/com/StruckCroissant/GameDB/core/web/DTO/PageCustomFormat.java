@@ -22,7 +22,8 @@ public class PageCustomFormat<T> {
     return new PaginationDetails(
         this.page.getNumber(),
         this.page.getNumberOfElements(),
-        this.page.getTotalPages()
+        this.page.getTotalPages(),
+        this.page.getTotalElements()
     );
   }
 }

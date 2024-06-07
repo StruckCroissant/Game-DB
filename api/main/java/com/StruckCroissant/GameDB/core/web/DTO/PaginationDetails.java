@@ -9,14 +9,18 @@ public final class PaginationDetails {
 
   private final int totalPages;
 
+  private final long totalElements;
+
   public PaginationDetails(
       int page,
       int size,
-      int totalPages
+      int totalPages,
+      long totalElements
   ) {
     this.page = page;
     this.size = size;
     this.totalPages = totalPages;
+    this.totalElements = totalElements;
   }
 
   @JsonProperty("page")
@@ -24,7 +28,7 @@ public final class PaginationDetails {
     return page;
   }
 
-  @JsonProperty("size")
+  @JsonProperty("pageSize")
   public int getPageSize() {
     return size;
   }
@@ -32,5 +36,11 @@ public final class PaginationDetails {
   @JsonProperty("totalPages")
   public int getTotalPages() {
     return totalPages;
+  }
+
+  @JsonProperty("totalElements")
+  public long getTotalElements()
+  {
+    return totalElements;
   }
 }
