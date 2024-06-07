@@ -5,6 +5,8 @@ import java.util.List;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -30,7 +32,7 @@ public class GameService {
     return gameDao.selectRelatedGames(id);
   }
 
-  public List<Game> searchGames(@Nullable String name, @Nullable Integer id) {
-    return gameDao.searchGames(name, id);
+  public Page<Game> searchGames(Pageable pageable, @Nullable String name, @Nullable Integer id) {
+    return gameDao.searchGamesPaginated(pageable, name, id);
   }
 }

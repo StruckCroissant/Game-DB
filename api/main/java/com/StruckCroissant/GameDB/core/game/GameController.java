@@ -1,11 +1,13 @@
 package com.StruckCroissant.GameDB.core.game;
 
+import com.StruckCroissant.GameDB.core.web.DTO.PageCustomFormat;
 import com.StruckCroissant.GameDB.core.web.GameDBCoreController;
 import com.StruckCroissant.GameDB.exception.exceptions.GameNotFoundException;
 import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin("http://localhost:4200") // Replace with proxy later
@@ -30,8 +32,9 @@ public class GameController extends GameDBCoreController {
   }
 
   @GetMapping
-  public List<Game> search(@Valid GameSearchRequest request) {
-    return gameService.searchGames(request.name(), request.id());
+  public PageCustomFormat<Game> search(Pageable pageable, @Valid GameSearchRequest request) {
+    // TODO replace the new PageCustomFormat instantiation with a listener of some sort
+    return new PageCustomFormat<>(gameService.searchGames(pageable, request.name(), request.id()));
   }
 
   @GetMapping("/{id}")

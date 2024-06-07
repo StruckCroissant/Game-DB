@@ -3,6 +3,8 @@ package com.StruckCroissant.GameDB.core.game;
 import java.util.List;
 import java.util.Optional;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * Interface for Game Data Access Object
@@ -17,5 +19,5 @@ public interface GameDao {
 
   List<Game> selectRelatedGames(int id);
 
-  List<Game> searchGames(@Nullable String name, @Nullable Integer id);
+  Page<Game> searchGamesPaginated(Pageable pageable, @Nullable String name, @Nullable Integer id);
 }

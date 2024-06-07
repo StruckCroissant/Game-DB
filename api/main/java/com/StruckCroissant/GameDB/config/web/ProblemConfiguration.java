@@ -1,4 +1,4 @@
-package com.StruckCroissant.GameDB.config.problem;
+package com.StruckCroissant.GameDB.config.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.InitializingBean;

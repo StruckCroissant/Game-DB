@@ -3,6 +3,7 @@ package com.StruckCroissant.GameDB.core.DBAL;
 import java.util.ArrayList;
 import java.util.List;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 
 public class SimpleQueryBuilder {
   private final List<String> select = new ArrayList<>();
@@ -12,6 +13,8 @@ public class SimpleQueryBuilder {
   private final List<String> orderBy = new ArrayList<>();
   @Nullable private Integer limit = null;
   @Nullable private Long offset = null;
+
+  private final MapSqlParameterSource parameters = new MapSqlParameterSource();
 
   public SimpleQueryBuilder addSelect(String statement) {
     this.select.add(statement);
@@ -46,6 +49,15 @@ public class SimpleQueryBuilder {
   public SimpleQueryBuilder setOffset(long offset) {
     this.offset = offset;
     return this;
+  }
+
+  public SimpleQueryBuilder setParameter(String parameter, @Nullable Object value) {
+    this.parameters.addValue(parameter, value);
+    return this;
+  }
+
+  public MapSqlParameterSource getParameters() {
+    return this.parameters;
   }
 
   public String build() {

@@ -17,10 +17,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.util.ArrayList;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -35,10 +39,10 @@ public class GameControllerTest {
   @MockBean private UserService userService;
 
   private final String BASE_URL = "/game";
-  private final String ALL_URL = BASE_URL + "/all";
 
   @Test
   public void whenGetAllGames_thenReturns200() throws Exception {
+    String ALL_URL = BASE_URL + "/all";
     mockMvc
         .perform(MockMvcRequestBuilders.get(ALL_URL).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk());
@@ -48,7 +52,14 @@ public class GameControllerTest {
 
   @Test
   public void whenGetGameByPresentId_thenReturns200() throws Exception {
-    final String URL_WITH_PARAMS = BASE_URL + "?id=1";
+    final int id = 1;
+    final String URL_WITH_PARAMS = String.format("%s?id=%s", BASE_URL, 1);
+
+    when(gameService.searchGames(
+      PageRequest.of(0, 20),
+      null,
+      id
+    )).thenReturn(new PageImpl<>(new ArrayList<>()));
 
     mockMvc
         .perform(MockMvcRequestBuilders.get(URL_WITH_PARAMS).accept(MediaType.APPLICATION_JSON))
@@ -118,9 +129,18 @@ public class GameControllerTest {
 
   @Test
   public void whenProvideOneParam_thenReturnOk() throws Exception {
+    final int id = 1;
+    final String URL_WITH_PARAMS = String.format("%s?id=%s", BASE_URL, id);
+
+    when(gameService.searchGames(
+        PageRequest.of(0, 20),
+        null,
+        id
+    )).thenReturn(new PageImpl<>(new ArrayList<>()));
+
     mockMvc
         .perform(
-            MockMvcRequestBuilders.get(BASE_URL + "?id=1")
+            MockMvcRequestBuilders.get(URL_WITH_PARAMS)
                 .accept(MediaType.APPLICATION_PROBLEM_JSON))
         .andExpect(status().isOk());
   }

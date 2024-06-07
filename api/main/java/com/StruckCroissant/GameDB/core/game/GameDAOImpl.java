@@ -25,8 +25,7 @@ import org.springframework.stereotype.Service;
 public class GameDAOImpl implements GameDao {
   private final NamedParameterJdbcTemplate jdbcTemplate;
 
-  private static SimpleQueryBuilder getDefaultQueryBuilder() {
-    SimpleQueryBuilder builder = new SimpleQueryBuilder();
+  private static SimpleQueryBuilder setGameFormat(SimpleQueryBuilder builder) {
     return builder
         .addSelect("game.gid")
         .addSelect("game.gname")
@@ -63,7 +62,7 @@ public class GameDAOImpl implements GameDao {
    */
   @Override
   public List<Game> selectAllGames() {
-    final String sql = getDefaultQueryBuilder().build();
+    final String sql = setGameFormat(new SimpleQueryBuilder()).build();
     return this.jdbcTemplate.query(
         sql,
         new SQLGameAccessor()
@@ -78,7 +77,10 @@ public class GameDAOImpl implements GameDao {
    */
   @Override
   public Optional<Game> selectGameById(int id) {
-    final String sql = getDefaultQueryBuilder().addWhere("game.gid = :id").setLimit(1).build();
+    final String sql = setGameFormat(new SimpleQueryBuilder())
+        .addWhere("game.gid = :id")
+        .setLimit(1)
+        .build();
     final List<Game> result = this.jdbcTemplate.query(
         sql,
         new MapSqlParameterSource().addValue("id", id),
@@ -90,7 +92,7 @@ public class GameDAOImpl implements GameDao {
   @Override
   public List<Game> selectRelatedGames(int id) {
     final String SQL =
-        getDefaultQueryBuilder()
+        setGameFormat(new SimpleQueryBuilder())
             .addFrom(
                 "INNER JOIN gamegenre game_genre2 ON game_genre.genre_id = game_genre2.genre_id AND"
                     + " game_genre.gid <> game_genre2.gid")
@@ -106,46 +108,30 @@ public class GameDAOImpl implements GameDao {
     );
   }
 
-  private static SimpleQueryBuilder getSearchGamesBuilder() {
-    return getDefaultQueryBuilder()
-            .addWhere("game.gname LIKE CONCAT(:gname, '%')")
-            .addWhere("OR game.gid = :gid");
-  }
-
-  public List<Game> searchGames(@Nullable String name, @Nullable Integer id) {
-    final String SQL = getSearchGamesBuilder().build();
-
-    return jdbcTemplate.query(
-        SQL,
-        new MapSqlParameterSource()
-            .addValue("gname", name)
-            .addValue("gid", name),
-        new SQLGameAccessor()
-    );
+  private static SimpleQueryBuilder getSearchGamesBuilder(@Nullable String name, @Nullable Integer id) {
+    return (new SimpleQueryBuilder())
+        .addFrom("game")
+        .addWhere("game.gname LIKE CONCAT(:gname, '%')")
+        .addWhere("OR game.gid = :gid")
+        .setParameter("gname", name)
+        .setParameter("gid", id);
   }
 
   public Page<Game> searchGamesPaginated(Pageable pageable, @Nullable String name, @Nullable Integer id) {
-    final String totalSql = (new SimpleQueryBuilder())
-        .addSelect("TRUNCATE(COUNT(*) / :pageSize, 0) + 1 as COUNT")
-        .addFrom("game")
-        .build();
+    final SimpleQueryBuilder countBuilder = getSearchGamesBuilder(name, id)
+        .addSelect("count(*) as count");
+    final SimpleQueryBuilder gameBuilder = setGameFormat(getSearchGamesBuilder(name, id))
+        .setLimit(pageable.getPageSize())
+        .setOffset(pageable.getOffset());
 
-    final int total = (int) jdbcTemplate.queryForList(
-        totalSql,
-        new MapSqlParameterSource()
-            .addValue("pageSize", pageable.getPageSize())
+    final long total = (long) jdbcTemplate.queryForList(
+        countBuilder.build(),
+        countBuilder.getParameters()
     ).get(0).get("count");
 
-    final String gameSql = getSearchGamesBuilder()
-        .setLimit(pageable.getPageSize())
-        .setOffset(pageable.getOffset())
-        .build();
-
     final List<Game> games = jdbcTemplate.query(
-        gameSql,
-        new MapSqlParameterSource()
-            .addValue("name", name)
-            .addValue("id", id),
+        gameBuilder.build(),
+        gameBuilder.getParameters(),
         new SQLGameAccessor()
     );
 
