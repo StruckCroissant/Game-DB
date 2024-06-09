@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.StruckCroissant.GameDB.core.game.GameController;
 import com.StruckCroissant.GameDB.core.game.GameService;
 import com.StruckCroissant.GameDB.core.user.UserDAOImpl;
+import com.StruckCroissant.GameDB.core.web.advice.ApplicationExceptionHandler;
 import config.TestDbConfig;
 import java.lang.reflect.Field;
 import java.util.*;
